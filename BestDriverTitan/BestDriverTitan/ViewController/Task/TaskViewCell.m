@@ -8,6 +8,7 @@
 
 #import "TaskViewCell.h"
 #import "UIArrowView.h"
+#import "RoundRectNode.h"
 
 #define HTML_TO_TEXT(htmlString) [[NSAttributedString alloc] initWithData:[htmlString dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
 
@@ -15,6 +16,7 @@
 
 @property (nonatomic,retain) ASTextNode* codeText;//运单号
 @property (nonatomic,retain) ASTextNode* licencePlateText;//车牌号
+@property (nonatomic,retain) RoundRectNode* licencePlateView;//车牌背景图
 @property (nonatomic,retain) ASTextNode* shipUintCountText;//货量
 @property (nonatomic,retain) ASTextNode* soCountText;//so个数
 @property (nonatomic,retain) ASTextNode* costHourText;//配送时间花费
@@ -30,6 +32,14 @@
 
 @implementation TaskViewCell
 
+
+-(RoundRectNode *)licencePlateView{
+    if(!_licencePlateView){
+        _licencePlateView = [[RoundRectNode alloc]init];
+        [self.contentView.layer addSublayer:_licencePlateView.layer];
+    }
+    return _licencePlateView;
+}
 
 -(ASTextNode *)iconText{
     if(!_iconText){
@@ -63,6 +73,15 @@
     return _rightArrow;
 }
 
+-(ASTextNode *)soCountText{
+    if(!_soCountText){
+        _soCountText = [[ASTextNode alloc]init];
+        _soCountText.layerBacked = YES;
+        [self.contentView.layer addSublayer:_soCountText.layer];
+    }
+    return _soCountText;
+}
+
 -(ASTextNode *)codeText{
     if(!_codeText){
         _codeText = [[ASTextNode alloc]init];
@@ -86,6 +105,7 @@
 
 -(ASTextNode *)licencePlateText{
     if(!_licencePlateText){
+        _licencePlateText = [[ASTextNode alloc]init];
         _licencePlateText.layerBacked = YES;
         [self.contentView.layer addSublayer:_licencePlateText.layer];
     }
@@ -108,11 +128,11 @@
     self.backgroundColor = [UIColor whiteColor];
     
     CGFloat leftpadding = 10;
-    CGFloat gap1 = 5;
+    CGFloat gap = 1;
 //    CGFloat gap2 = 0;
     CGFloat cellWidth = self.contentView.bounds.size.width;
     CGFloat cellHeight = self.contentView.bounds.size.height;
-    CGFloat textWidth = cellWidth - leftpadding * 2;
+//    CGFloat textWidth = cellWidth - leftpadding * 2;
     
 //    NSLog(@"颜色 %@",[TaskViewCell hexFromUIColor:[UIColor greenColor]]);
     
@@ -126,53 +146,52 @@
         iconName = ICON_DAI_WAN_CHENG;
     }
     
-    self.iconText.attributedText = HTML_TO_TEXT(ConcatStrings(@"<font size='14' color='",[iconColor hexFromUIColor],@"' face='",ICON_FONT_NAME,@"'>",iconName,@"</font>"));
+    self.iconText.attributedString = HTML_TO_TEXT(ConcatStrings(@"<font size='14' color='",[iconColor hexFromUIColor],@"' face='",ICON_FONT_NAME,@"'>",iconName,@"</font>"));
     CGSize iconSize = [self.iconText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
-    NSString* codeInfo = @"TO1251616161       浙A199T19";
-    NSMutableAttributedString* codeString =[[NSMutableAttributedString alloc]initWithString:codeInfo];
-    [codeString addAttribute:NSForegroundColorAttributeName value:[UIColor flatBlackColor] range:NSMakeRange(0, codeInfo.length)];
-    [codeString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(0, codeInfo.length)];
     
-    self.codeText.attributedText = codeString;
-    
-    CGSize codeSize = [self.codeText measure:CGSizeMake(textWidth, FLT_MAX)];
+    self.codeText.attributedString = HTML_TO_TEXT(ConcatStrings(@"<font size='4' color='",[iconColor hexFromUIColor],@"' >",@"TO1251616161",@"</font>"));
+    CGSize codeSize = [self.codeText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
 //    CGFloat desHeight = codeSize.height;
     
-    NSString* countInfo = @"货量50箱       SO13个";
-    NSMutableAttributedString* countString =[[NSMutableAttributedString alloc]initWithString:countInfo];
-    [countString addAttribute:NSForegroundColorAttributeName value:[UIColor flatBlackColor] range:NSMakeRange(0, countInfo.length)];
-    [countString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(0, countInfo.length)];
+    self.licencePlateText.attributedString = HTML_TO_TEXT(ConcatStrings(@"<font size='4' color='#FFF' >",@"浙A8888888",@"</font>"));
+    self.licencePlateText.backgroundColor = [UIColor flatBlueColor];
+//    self.licencePlateText.layer.cornerRadius = 5;
+//    self.licencePlateText.layer.masksToBounds = YES;
+    CGSize liceneSize = [self.licencePlateText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
-    self.shipUintCountText.attributedText = countString;
-    CGSize countSize = [self.shipUintCountText measure:CGSizeMake(textWidth, FLT_MAX)];
+    self.shipUintCountText.attributedString = HTML_TO_TEXT(ConcatStrings(@"<font size='4' color='",[iconColor hexFromUIColor],@"' >",@"货量50箱",@"</font>"));
+    CGSize countSize = [self.shipUintCountText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
+    self.soCountText.attributedString = HTML_TO_TEXT(ConcatStrings(@"<font size='4' color='",[iconColor hexFromUIColor],@"' >",@"SO100个",@"</font>"));
+    CGSize soSize = [self.soCountText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
-//    NSString * htmlString = ConcatStrings(@"<font size='6' color='black' face='",ICON_FONT_NAME,@"'>",ICON_SHI_JIAN,@"</font><font color='blue' size='4'>1h</font>");
     NSAttributedString * costString = [self generateCostString:@"18" hour:@"2.5" expense:@"320"];//HTML_TO_TEXT(htmlString);
-    
-//    NSString* costInfo = @"'图标'18km '图标'2.5h '图标'320";
-//    NSMutableAttributedString* costString =[[NSMutableAttributedString alloc]initWithString:costInfo];
-//    [costString addAttribute:NSForegroundColorAttributeName value:[UIColor flatBlackColor] range:NSMakeRange(0, costInfo.length)];
-//    [costString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(0, costInfo.length)];
-    self.costHourText.attributedText = costString;
+    self.costHourText.attributedString = costString;
 //    self.costHourText.backgroundColor = [UIColor flatBrownColor];
     CGSize costSize = [self.costHourText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
     
     self.iconText.frame = (CGRect){ CGPointMake(leftpadding,(cellHeight - iconSize.height) / 2.),iconSize};
     
-    CGFloat textLeftpadding = leftpadding + iconSize.width + gap1;
-    CGFloat textToppadding = (cellHeight - codeSize.height - gap1 - countSize.height) / 2.;
+    CGFloat textLeftpadding = leftpadding + iconSize.width + 5;
+    CGFloat textToppadding = (cellHeight - codeSize.height - countSize.height - soSize.height  - gap * 2) / 2.;
     
     self.codeText.frame = (CGRect){ CGPointMake(textLeftpadding, textToppadding), codeSize };
-    self.shipUintCountText.frame = (CGRect){ CGPointMake(textLeftpadding, textToppadding + codeSize.height + gap1), countSize };
+    self.licencePlateText.frame = (CGRect){ CGPointMake(textLeftpadding + self.codeText.frame.size.width + 10, textToppadding + (self.codeText.frame.size.height - liceneSize.height ) / 2), liceneSize };
     
-    self.costHourText.frame = (CGRect){CGPointMake(cellWidth - leftpadding - costSize.width, (cellHeight - costSize.height) / 2.), costSize };
+    self.shipUintCountText.frame = (CGRect){ CGPointMake(textLeftpadding, textToppadding + codeSize.height + gap), countSize };
+    self.soCountText.frame = (CGRect){ CGPointMake(textLeftpadding, self.shipUintCountText.frame.origin.y + countSize.height + gap), soSize };
+    
+    self.costHourText.frame = (CGRect){CGPointMake(cellWidth - leftpadding - costSize.width, self.soCountText.frame.origin.y + countSize.height - costSize.height), costSize };
     
 //    self.rightArrow.frame = (CGRect){
 //        CGPointMake(cellWidth - leftpadding - self.rightArrow.bounds.size.width,(cellHeight - self.rightArrow.bounds.size.height) / 2.),self.rightArrow.frame.size
 //    };
+    
+    self.licencePlateView.frame = CGRectMake(100, 10, 50, 20);
+    self.licencePlateView.fillColor = [UIColor flatBlueColor];
+//    self.licencePlateView.cornerRadius = 5;
     
     if (!self.isFirst) {//顶部加一根线
         self.lineNode.frame = CGRectMake(leftpadding, 0, cellWidth - leftpadding * 2, LINE_WIDTH);
@@ -180,7 +199,7 @@
 }
 
 -(NSAttributedString *)generateCostString:(NSString*)distance hour:(NSString*)hour expense:(NSString*)expense{
-    return HTML_TO_TEXT(ConcatStrings(@"<font size='5' color='",[[UIColor flatGrayColor] hexFromUIColor],@"' face='",ICON_FONT_NAME,@"'>",ICON_JU_LI,@"</font><font color='",[[UIColor flatOrangeColor] hexFromUIColor],@"' size='4'>",distance,@"</font><font size='4' color='black'>Km</font></br><font size='5' color='",[[UIColor flatGrayColor] hexFromUIColor],@"' face='",ICON_FONT_NAME,@"'>",ICON_SHI_JIAN,@"</font><font color='",[[UIColor flatOrangeColor] hexFromUIColor],@"' size='4'>",hour,@"</font><font size='4' color='black'>h</font></br><font size='5' color='",[[UIColor flatGrayColor] hexFromUIColor],@"' face='",ICON_FONT_NAME,@"'>",ICON_JIN_QIAN,@"</font><font color='",[[UIColor flatOrangeColor] hexFromUIColor],@"' size='4'>",expense,@"</font>"));
+    return HTML_TO_TEXT(ConcatStrings(@"<font size='5' color='",[[UIColor flatGrayColor] hexFromUIColor],@"' face='",ICON_FONT_NAME,@"'>",ICON_JU_LI,@"</font><font color='",[[UIColor flatOrangeColor] hexFromUIColor],@"' size='4'>",distance,@"</font><font size='4' color='black'>Km</font>&nbsp&nbsp<font size='5' color='",[[UIColor flatGrayColor] hexFromUIColor],@"' face='",ICON_FONT_NAME,@"'>",ICON_SHI_JIAN,@"</font><font color='",[[UIColor flatOrangeColor] hexFromUIColor],@"' size='4'>",hour,@"</font><font size='4' color='black'>h</font>&nbsp&nbsp<font size='5' color='",[[UIColor flatGrayColor] hexFromUIColor],@"' face='",ICON_FONT_NAME,@"'>",ICON_JIN_QIAN,@"</font><font color='",[[UIColor flatOrangeColor] hexFromUIColor],@"' size='4'>",expense,@"</font>"));
 }
 
 @end

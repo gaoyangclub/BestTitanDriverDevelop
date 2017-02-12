@@ -20,7 +20,7 @@ typedef void (^FailureBlock)();
 #define DDLog(xx, ...)  NSLog(@"%s(%d): " xx, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
-#define DRIVER_URL @"http://t8test.800best.com/ti-rest-war/api/"
+#define DRIVER_URL @"http://t8.800best.com/ti-rest-war/api/"
 
 
 #define AUTH_CODE_URL(phone) ConcatStrings(DRIVER_URL,@"token/driver/",phone)

@@ -117,6 +117,9 @@
         viewModel.returnBlock = ^(id returnValue){
             willFinishHandler();//成功后关闭
         };
+        viewModel.failureBlock = ^(){
+             willFinishHandler();//失败也关闭
+        };
         [viewModel fetchUpdateVersion];
     }
      ];
