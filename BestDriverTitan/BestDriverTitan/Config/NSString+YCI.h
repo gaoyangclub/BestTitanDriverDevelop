@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 
 #define ConcatStrings(firstStr,...) [NSString joinedWithSubStrings:firstStr,__VA_ARGS__,nil]
+#define HtmlToText(htmlString) [[NSAttributedString alloc] initWithData:[htmlString dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+
+#define SimpleHtmlText(color,size,context) HtmlToText(ConcatStrings(@"<font size='",size,@"' color='",[color hexFromUIColor],@"' >",context,@"</font>"))
+#define SimpleHtmlTextFace(face,color,size,context) HtmlToText(ConcatStrings(@"<font size='",size,@"' color='",[color hexFromUIColor],@"' face='",face,@"'>",context,@"</font>"));
 
 @interface NSString (YCI)
 

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MJRefresh.h"
 #import "MJTableViewCell.h"
-#import "MJTableViewHeader.h"
+#import "MJTableViewSection.h"
 
 
 @class CellVo;

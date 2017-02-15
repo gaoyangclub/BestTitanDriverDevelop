@@ -284,11 +284,11 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     SourceVo* source = self.dataArray[section];
     Class headerClass = source.headerClass;
-    MJTableViewHeader* headerView;
+    MJTableViewSection* sectionView;
     if (headerClass != NULL) {
-        headerView = [[headerClass alloc]init];
-        headerView.itemIndex = section;
-        headerView.data = source.headerData;
+        sectionView = [[headerClass alloc]init];
+        sectionView.itemIndex = section;
+        sectionView.data = source.headerData;
     }
 //    var headerView = nsSectionDic[section]
 //    if headerView == nil{
@@ -297,7 +297,7 @@
 //            nsSectionDic.updateValue(headerView!, forKey: section)
 //        }
 //    }
-    return headerView;
+    return sectionView;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

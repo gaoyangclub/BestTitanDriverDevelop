@@ -13,6 +13,7 @@
 #import "TaskTripController.h"
 #import "ViewController.h"
 #import "TaskViewCell.h"
+#import "TaskViewSection.h"
 
 @interface TestTableViewCell : MJTableViewCell
 
@@ -83,7 +84,7 @@
             [sourceData addObject:
              [CellVo initWithParams:70 cellClass:[TaskViewCell class] cellData:[NSString stringWithFormat:@"数据: %lu",i]]];
         }
-        [self.tableView addSource:[SourceVo initWithParams:sourceData headerHeight:0 headerClass:NULL headerData:NULL]];
+        [self.tableView addSource:[SourceVo initWithParams:sourceData headerHeight:30 headerClass:[TaskViewSection class] headerData:NULL]];
         
         handler(sourceData.count > 0);
     });

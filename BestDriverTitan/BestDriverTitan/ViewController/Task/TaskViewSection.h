@@ -1,5 +1,5 @@
 //
-//  MJTableViewHeader.h
+//  TaskViewSection.h
 //  BestDriverTitan
 //
 //  Created by admin on 17/2/15.
@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MJTableViewSection.h"
 
-@interface MJTableViewHeader : UIView
+@interface TaskViewSection : MJTableViewSection
 
 @end

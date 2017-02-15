@@ -9,14 +9,13 @@
 #import "TaskViewCell.h"
 #import "UIArrowView.h"
 #import "RoundRectNode.h"
-
-#define HTML_TO_TEXT(htmlString) [[NSAttributedString alloc] initWithData:[htmlString dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+#import "DiyLicensePlateNode.h"
 
 @interface TaskViewCell()
 
 @property (nonatomic,retain) ASTextNode* codeText;//运单号
 @property (nonatomic,retain) ASTextNode* licencePlateText;//车牌号
-@property (nonatomic,retain) RoundRectNode* licencePlateView;//车牌背景图
+@property (nonatomic,retain) DiyLicensePlateNode* licencePlateView;//车牌背景图
 @property (nonatomic,retain) ASTextNode* shipUintCountText;//货量
 @property (nonatomic,retain) ASTextNode* soCountText;//so个数
 @property (nonatomic,retain) ASTextNode* costHourText;//配送时间花费
@@ -33,9 +32,10 @@
 @implementation TaskViewCell
 
 
--(RoundRectNode *)licencePlateView{
+-(DiyLicensePlateNode *)licencePlateView{
     if(!_licencePlateView){
-        _licencePlateView = [[RoundRectNode alloc]init];
+        _licencePlateView = [[DiyLicensePlateNode alloc]init];
+        _licencePlateView.layerBacked = YES;
         [self.contentView.layer addSublayer:_licencePlateView.layer];
     }
     return _licencePlateView;
@@ -107,7 +107,8 @@
     if(!_licencePlateText){
         _licencePlateText = [[ASTextNode alloc]init];
         _licencePlateText.layerBacked = YES;
-        [self.contentView.layer addSublayer:_licencePlateText.layer];
+//        [self.contentView.layer addSublayer:_licencePlateText.layer];
+        [self.licencePlateView addSubnode:_licencePlateText];
     }
     return _licencePlateText;
 }
@@ -138,7 +139,10 @@
     
     UIColor* iconColor;
     NSString* iconName;
-    if (self.indexPath.row % 2 == 0) {
+    
+    int count = (arc4random() % 3); //生成0-2范围的随机数
+    if (count > 0) {
+//    if (self.indexPath.row % 2 == 0) {
         iconColor = COLOR_YI_WAN_CHENG;
         iconName = ICON_YI_WAN_CHENG;
     }else{
@@ -146,24 +150,25 @@
         iconName = ICON_DAI_WAN_CHENG;
     }
     
-    self.iconText.attributedString = HTML_TO_TEXT(ConcatStrings(@"<font size='14' color='",[iconColor hexFromUIColor],@"' face='",ICON_FONT_NAME,@"'>",iconName,@"</font>"));
+    self.iconText.attributedString = SimpleHtmlTextFace(ICON_FONT_NAME,iconColor,@"14",iconName);
+//    HTML_TO_TEXT(ConcatStrings(@"<font size='14' color='",[iconColor hexFromUIColor],@"' face='",ICON_FONT_NAME,@"'>",iconName,@"</font>"));
     CGSize iconSize = [self.iconText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
-    
-    self.codeText.attributedString = HTML_TO_TEXT(ConcatStrings(@"<font size='4' color='",[iconColor hexFromUIColor],@"' >",@"TO1251616161",@"</font>"));
+    self.codeText.attributedString = SimpleHtmlText([UIColor flatBlackColor], @"4", @"TO1251616161");
+//    HTML_TO_TEXT(ConcatStrings(@"<font size='4' color='",[[UIColor flatBlackColor] hexFromUIColor],@"' >",@"TO1251616161",@"</font>"));
     CGSize codeSize = [self.codeText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
 //    CGFloat desHeight = codeSize.height;
     
-    self.licencePlateText.attributedString = HTML_TO_TEXT(ConcatStrings(@"<font size='4' color='#FFF' >",@"浙A8888888",@"</font>"));
-    self.licencePlateText.backgroundColor = [UIColor flatBlueColor];
-//    self.licencePlateText.layer.cornerRadius = 5;
-//    self.licencePlateText.layer.masksToBounds = YES;
+    self.licencePlateText.attributedString = SimpleHtmlText([UIColor flatWhiteColor],@"4",@"浙A8888888");
+//    HTML_TO_TEXT(ConcatStrings(@"<font size='4' color='#FFF' >",@"浙A8888888",@"</font>"));
     CGSize liceneSize = [self.licencePlateText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
-    self.shipUintCountText.attributedString = HTML_TO_TEXT(ConcatStrings(@"<font size='4' color='",[iconColor hexFromUIColor],@"' >",@"货量50箱",@"</font>"));
+    self.shipUintCountText.attributedString = SimpleHtmlText([UIColor flatCoffeeColorDark],@"4",@"货量50箱");
+//    HTML_TO_TEXT(ConcatStrings(@"<font size='4' color='",[[UIColor flatCoffeeColorDark] hexFromUIColor],@"' >",@"货量50箱",@"</font>"));
     CGSize countSize = [self.shipUintCountText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
-    self.soCountText.attributedString = HTML_TO_TEXT(ConcatStrings(@"<font size='4' color='",[iconColor hexFromUIColor],@"' >",@"SO100个",@"</font>"));
+    self.soCountText.attributedString = SimpleHtmlText([UIColor flatGrayColorDark],@"4",@"SO100个");
+//    HTML_TO_TEXT(ConcatStrings(@"<font size='4' color='",[[UIColor flatGrayColorDark] hexFromUIColor],@"' >",@"SO100个",@"</font>"));
     CGSize soSize = [self.soCountText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
     NSAttributedString * costString = [self generateCostString:@"18" hour:@"2.5" expense:@"320"];//HTML_TO_TEXT(htmlString);
@@ -178,7 +183,7 @@
     CGFloat textToppadding = (cellHeight - codeSize.height - countSize.height - soSize.height  - gap * 2) / 2.;
     
     self.codeText.frame = (CGRect){ CGPointMake(textLeftpadding, textToppadding), codeSize };
-    self.licencePlateText.frame = (CGRect){ CGPointMake(textLeftpadding + self.codeText.frame.size.width + 10, textToppadding + (self.codeText.frame.size.height - liceneSize.height ) / 2), liceneSize };
+//    self.licencePlateText.frame = (CGRect){ CGPointMake(textLeftpadding + self.codeText.frame.size.width + 10, textToppadding + (self.codeText.frame.size.height - liceneSize.height ) / 2), liceneSize };
     
     self.shipUintCountText.frame = (CGRect){ CGPointMake(textLeftpadding, textToppadding + codeSize.height + gap), countSize };
     self.soCountText.frame = (CGRect){ CGPointMake(textLeftpadding, self.shipUintCountText.frame.origin.y + countSize.height + gap), soSize };
@@ -189,8 +194,17 @@
 //        CGPointMake(cellWidth - leftpadding - self.rightArrow.bounds.size.width,(cellHeight - self.rightArrow.bounds.size.height) / 2.),self.rightArrow.frame.size
 //    };
     
-    self.licencePlateView.frame = CGRectMake(100, 10, 50, 20);
-    self.licencePlateView.fillColor = [UIColor flatBlueColor];
+    CGFloat plateWidth = liceneSize.width + 25;
+    CGFloat plateHeight = liceneSize.height + 10;
+    
+    self.licencePlateView.frame = CGRectMake(cellWidth - leftpadding - plateWidth, textToppadding, plateWidth, plateHeight);
+    self.licencePlateView.fillColor = [UIColor flatSkyBlueColor];
+    
+    self.licencePlateText.frame = (CGRect){
+        CGPointMake((self.licencePlateView.frame.size.width - liceneSize.width) / 2., (self.licencePlateView.frame.size.height - liceneSize.height) / 2.),
+        liceneSize
+    };
+    
 //    self.licencePlateView.cornerRadius = 5;
     
     if (!self.isFirst) {//顶部加一根线
@@ -199,7 +213,7 @@
 }
 
 -(NSAttributedString *)generateCostString:(NSString*)distance hour:(NSString*)hour expense:(NSString*)expense{
-    return HTML_TO_TEXT(ConcatStrings(@"<font size='5' color='",[[UIColor flatGrayColor] hexFromUIColor],@"' face='",ICON_FONT_NAME,@"'>",ICON_JU_LI,@"</font><font color='",[[UIColor flatOrangeColor] hexFromUIColor],@"' size='4'>",distance,@"</font><font size='4' color='black'>Km</font>&nbsp&nbsp<font size='5' color='",[[UIColor flatGrayColor] hexFromUIColor],@"' face='",ICON_FONT_NAME,@"'>",ICON_SHI_JIAN,@"</font><font color='",[[UIColor flatOrangeColor] hexFromUIColor],@"' size='4'>",hour,@"</font><font size='4' color='black'>h</font>&nbsp&nbsp<font size='5' color='",[[UIColor flatGrayColor] hexFromUIColor],@"' face='",ICON_FONT_NAME,@"'>",ICON_JIN_QIAN,@"</font><font color='",[[UIColor flatOrangeColor] hexFromUIColor],@"' size='4'>",expense,@"</font>"));
+    return HtmlToText(ConcatStrings(@"<font size='5' color='",[[UIColor flatGrayColor] hexFromUIColor],@"' face='",ICON_FONT_NAME,@"'>",ICON_JU_LI,@"</font><font color='",[[UIColor flatOrangeColor] hexFromUIColor],@"' size='4'>",distance,@"</font><font size='4' color='black'>Km</font>&nbsp&nbsp<font size='5' color='",[[UIColor flatGrayColor] hexFromUIColor],@"' face='",ICON_FONT_NAME,@"'>",ICON_SHI_JIAN,@"</font><font color='",[[UIColor flatOrangeColor] hexFromUIColor],@"' size='4'>",hour,@"</font><font size='4' color='black'>h</font>&nbsp&nbsp<font size='5' color='",[[UIColor flatGrayColor] hexFromUIColor],@"' face='",ICON_FONT_NAME,@"'>",ICON_JIN_QIAN,@"</font><font color='",[[UIColor flatOrangeColor] hexFromUIColor],@"' size='4'>",expense,@"</font>"));
 }
 
 @end

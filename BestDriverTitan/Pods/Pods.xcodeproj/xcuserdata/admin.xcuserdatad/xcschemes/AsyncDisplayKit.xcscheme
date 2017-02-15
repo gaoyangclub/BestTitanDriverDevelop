@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'BB6CF55999ADECE96A33E8D0F501B830'
-               BlueprintName = 'SVProgressHUD'
+               BlueprintIdentifier = 'C1019E2FE3DD81FD1D817F2A2EC4EC7D'
+               BlueprintName = 'AsyncDisplayKit'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libSVProgressHUD.a'>
+               BuildableName = 'libAsyncDisplayKit.a'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>AsyncDisplayKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>ChameleonFramework.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -42,16 +47,6 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3207B07EC89B2416634294F7E4839336</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>44ABAE263A6FEC3959DE9184843D4788</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>550F7EEAEEA17E3F92C873912E23B01C</key>
 		<dict>
 			<key>primary</key>
@@ -63,6 +58,21 @@
 			<true/>
 		</dict>
 		<key>AE7848A9F304C3A03CFA004517196E25</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BB6CF55999ADECE96A33E8D0F501B830</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C1019E2FE3DD81FD1D817F2A2EC4EC7D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F3268B6CF0B1379ACBE686D3E4C85C57</key>
 		<dict>
 			<key>primary</key>
 			<true/>
