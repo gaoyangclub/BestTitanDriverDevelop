@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		48C78F532886E60D7270B621 /* libPods-BestDriverTitan.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B82BA2BBD9D253B54D8D7A26 /* libPods-BestDriverTitan.a */; };
+		2B98B8E7C1CAFE26EAFB68FD /* libPods-BestDriverTitan.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B82BA2BBD9D253B54D8D7A26 /* libPods-BestDriverTitan.a */; };
 		8402EC261DF93CE1002B78D9 /* UIControl+TouchEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 8402EC251DF93CE1002B78D9 /* UIControl+TouchEffect.m */; };
 		8402EC2A1DF94852002B78D9 /* TaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8402EC291DF94852002B78D9 /* TaskViewController.m */; };
 		8402EC7D1DF97D41002B78D9 /* TaskTripController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8402EC7C1DF97D41002B78D9 /* TaskTripController.m */; };
@@ -21,7 +21,6 @@
 		840DEF6E1DED6E3100963524 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 840DEF6D1DED6E3100963524 /* AppDelegate.m */; };
 		840DEF711DED6E3100963524 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 840DEF701DED6E3100963524 /* ViewController.m */; };
 		840DEF761DED6E3100963524 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 840DEF751DED6E3100963524 /* Assets.xcassets */; };
-		840DEF791DED6E3100963524 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 840DEF771DED6E3100963524 /* LaunchScreen.storyboard */; };
 		841299DB1E542D0D00151672 /* DiyLicensePlateNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 841299DA1E542D0D00151672 /* DiyLicensePlateNode.m */; };
 		841299DE1E542E4300151672 /* CircleNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 841299DD1E542E4300151672 /* CircleNode.m */; };
 		841299E21E54489000151672 /* TaskViewSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 841299E11E54489000151672 /* TaskViewSection.m */; };
@@ -49,6 +48,7 @@
 		84129A311E54579700151672 /* MJTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84129A171E54579700151672 /* MJTableViewCell.m */; };
 		84129A321E54579700151672 /* MJTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84129A191E54579700151672 /* MJTableViewController.m */; };
 		84129A331E54579700151672 /* MJTableViewSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 84129A1B1E54579700151672 /* MJTableViewSection.m */; };
+		84343C311E559D42000E26C2 /* libPods-BestDriverTitan.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84343C2B1E559D42000E26C2 /* libPods-BestDriverTitan.a */; };
 		84495C981DF113D90017D2CA /* NSString+YCI.m in Sources */ = {isa = PBXBuildFile; fileRef = 84495C901DF113D90017D2CA /* NSString+YCI.m */; };
 		84495CA41DF117E40017D2CA /* LCTabBarBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 84495C9C1DF117E40017D2CA /* LCTabBarBadge.m */; };
 		84495CA51DF117E40017D2CA /* GYTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84495C9F1DF117E40017D2CA /* GYTabBarController.m */; };
@@ -106,7 +106,6 @@
 		840DEF6F1DED6E3100963524 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		840DEF701DED6E3100963524 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		840DEF751DED6E3100963524 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		840DEF781DED6E3100963524 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		840DEF7A1DED6E3100963524 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		841299D91E542D0D00151672 /* DiyLicensePlateNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiyLicensePlateNode.h; sourceTree = "<group>"; };
 		841299DA1E542D0D00151672 /* DiyLicensePlateNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiyLicensePlateNode.m; sourceTree = "<group>"; };
@@ -162,6 +161,12 @@
 		84129A191E54579700151672 /* MJTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJTableViewController.m; sourceTree = "<group>"; };
 		84129A1A1E54579700151672 /* MJTableViewSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJTableViewSection.h; sourceTree = "<group>"; };
 		84129A1B1E54579700151672 /* MJTableViewSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJTableViewSection.m; sourceTree = "<group>"; };
+		84343C271E559D42000E26C2 /* libAFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAFNetworking.a; path = "Pods/../build/Debug-iphoneos/AFNetworking/libAFNetworking.a"; sourceTree = "<group>"; };
+		84343C281E559D42000E26C2 /* libAsyncDisplayKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAsyncDisplayKit.a; path = "Pods/../build/Debug-iphoneos/AsyncDisplayKit/libAsyncDisplayKit.a"; sourceTree = "<group>"; };
+		84343C291E559D42000E26C2 /* libChameleonFramework.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libChameleonFramework.a; path = "Pods/../build/Debug-iphoneos/ChameleonFramework/libChameleonFramework.a"; sourceTree = "<group>"; };
+		84343C2A1E559D42000E26C2 /* libMMDrawerController.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMMDrawerController.a; path = "Pods/../build/Debug-iphoneos/MMDrawerController/libMMDrawerController.a"; sourceTree = "<group>"; };
+		84343C2B1E559D42000E26C2 /* libPods-BestDriverTitan.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-BestDriverTitan.a"; path = "Pods/../build/Debug-iphoneos/libPods-BestDriverTitan.a"; sourceTree = "<group>"; };
+		84343C2C1E559D42000E26C2 /* libSVProgressHUD.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSVProgressHUD.a; path = "Pods/../build/Debug-iphoneos/SVProgressHUD/libSVProgressHUD.a"; sourceTree = "<group>"; };
 		84495C8E1DF113D90017D2CA /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		84495C8F1DF113D90017D2CA /* NSString+YCI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+YCI.h"; sourceTree = "<group>"; };
 		84495C901DF113D90017D2CA /* NSString+YCI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+YCI.m"; sourceTree = "<group>"; };
@@ -207,7 +212,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				48C78F532886E60D7270B621 /* libPods-BestDriverTitan.a in Frameworks */,
+				84343C311E559D42000E26C2 /* libPods-BestDriverTitan.a in Frameworks */,
+				2B98B8E7C1CAFE26EAFB68FD /* libPods-BestDriverTitan.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,6 +223,12 @@
 		37E69560C9226E0B3F831319 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84343C271E559D42000E26C2 /* libAFNetworking.a */,
+				84343C281E559D42000E26C2 /* libAsyncDisplayKit.a */,
+				84343C291E559D42000E26C2 /* libChameleonFramework.a */,
+				84343C2A1E559D42000E26C2 /* libMMDrawerController.a */,
+				84343C2B1E559D42000E26C2 /* libPods-BestDriverTitan.a */,
+				84343C2C1E559D42000E26C2 /* libSVProgressHUD.a */,
 				849161C31E34AA7E0063CD80 /* AsyncDisplayKit.framework */,
 				849161C11E34AA680063CD80 /* AsyncDisplayKit.framework */,
 				B82BA2BBD9D253B54D8D7A26 /* libPods-BestDriverTitan.a */,
@@ -301,7 +313,6 @@
 				840DEF6F1DED6E3100963524 /* ViewController.h */,
 				840DEF701DED6E3100963524 /* ViewController.m */,
 				840DEF751DED6E3100963524 /* Assets.xcassets */,
-				840DEF771DED6E3100963524 /* LaunchScreen.storyboard */,
 				840DEF7A1DED6E3100963524 /* Info.plist */,
 				840DEF691DED6E3100963524 /* Supporting Files */,
 			);
@@ -645,6 +656,7 @@
 				TargetAttributes = {
 					840DEF651DED6E3100963524 = {
 						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = GDF5YE97RF;
 					};
 				};
 			};
@@ -675,7 +687,6 @@
 				8407DF331DF1539300E47E73 /* application.png in Resources */,
 				84129A2A1E54579700151672 /* MJRefresh.bundle in Resources */,
 				8407DF351DF154CF00E47E73 /* splashLogo.png in Resources */,
-				840DEF791DED6E3100963524 /* LaunchScreen.storyboard in Resources */,
 				84495CAF1DF11F2D0017D2CA /* demo_unicode.html in Resources */,
 				840DEF761DED6E3100963524 /* Assets.xcassets in Resources */,
 			);
@@ -792,17 +803,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXVariantGroup section */
-		840DEF771DED6E3100963524 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				840DEF781DED6E3100963524 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		840DEF7B1DED6E3100963524 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -824,6 +824,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -868,6 +869,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -891,11 +893,23 @@
 			baseConfigurationReference = D98EC7D1583C1D4937BD4A28 /* Pods-BestDriverTitan.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				GCC_PREFIX_HEADER = BestDriverTitan/Config/PrefixHeader.pch;
 				INFOPLIST_FILE = BestDriverTitan/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.best.BestDriverTitan;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/AFNetworking",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/AsyncDisplayKit",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/ChameleonFramework",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/MMDrawerController",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SVProgressHUD",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.best.BestDriverTitan2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -904,11 +918,23 @@
 			baseConfigurationReference = 65C3945FDE96BB21B7C289B6 /* Pods-BestDriverTitan.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				GCC_PREFIX_HEADER = BestDriverTitan/Config/PrefixHeader.pch;
 				INFOPLIST_FILE = BestDriverTitan/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.best.BestDriverTitan;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/AFNetworking",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/AsyncDisplayKit",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/ChameleonFramework",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/MMDrawerController",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SVProgressHUD",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.best.BestDriverTitan2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

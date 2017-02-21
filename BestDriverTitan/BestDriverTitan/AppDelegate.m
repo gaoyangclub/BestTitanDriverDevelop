@@ -104,12 +104,6 @@
     self.window.rootViewController = drawerController;//[self createNormalTabBar];//可替换
     
     SplashSourceView* sourceView = [[SplashSourceDaDa alloc] init];
-    //    sourceView.backgroundColor = [UIColor orangeColor];
-//    [DIYSplashViewController initBySourceView:[[DIYSplashViewController alloc]init] andParent:self.window andSource:sourceView];
-//    [DIYSplashViewController initBySourceView:self.window andSource:sourceView];
-    //添加splash部分
-    
-//    SplashViewController *splashViewController =
     [SplashViewController initWithSourceView:sourceView superView:self.window waitingHandler:
 //     nil
      ^(SplashWillFinishHandler willFinishHandler) {
