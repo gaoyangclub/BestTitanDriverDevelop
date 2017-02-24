@@ -132,14 +132,16 @@
     CGFloat height = self.bounds.size.height;
     CGFloat lineGap = 1;
     
+    self.back1.cornerRadius = self.back2.cornerRadius = self.back3.cornerRadius = 5;
+    
     self.back1.frame = self.bounds;
     self.back1.fillColor = self.fillColor;
     
-    self.back2.frame = CGRectMake(lineGap, lineGap, width - lineGap * 2, height - lineGap * 2);
-    self.back2.fillColor = self.compleColor;
-    
-    self.back3.frame = CGRectMake(lineGap * 2, lineGap * 2, width - lineGap * 4, height - lineGap * 4);
-    self.back3.fillColor = self.fillColor;
+//    self.back2.frame = CGRectMake(lineGap, lineGap, width - lineGap * 2, height - lineGap * 2);
+//    self.back2.fillColor = self.compleColor;
+//    
+//    self.back3.frame = CGRectMake(lineGap * 2, lineGap * 2, width - lineGap * 4, height - lineGap * 4);
+//    self.back3.fillColor = self.fillColor;
     
     CGFloat nodeWidth = lineGap * 3;
     
@@ -155,6 +157,8 @@
     
     self.node4.frame = CGRectMake(width - lineGap * 8 - nodeWidth / 2., height - lineGap * 8 - nodeWidth / 2., nodeWidth, nodeWidth);
     self.node4.fillColor = self.compleColor;
+    
+    
     
 }
 

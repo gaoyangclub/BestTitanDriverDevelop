@@ -44,10 +44,10 @@
     self.view.backgroundColor = COLOR_BACKGROUND;
 }
 
--(CGRect)getTableViewFrame {
-    CGFloat padding = 5;
-    return CGRectMake(self.view.frame.origin.x + padding, self.view.frame.origin.y, CGRectGetWidth(self.view.frame) - padding * 2, CGRectGetHeight(self.view.frame));
-}
+//-(CGRect)getTableViewFrame {
+//    CGFloat padding = 5;
+//    return CGRectMake(self.view.frame.origin.x + padding, self.view.frame.origin.y, CGRectGetWidth(self.view.frame) - padding * 2, CGRectGetHeight(self.view.frame));
+//}
 
 -(UIView *)titleView{
     if (!_titleView) {
@@ -82,9 +82,9 @@
             //            [self.sourceData addObject:[NSString stringWithFormat:@"数据: %lu",i]];
             
             [sourceData addObject:
-             [CellVo initWithParams:70 cellClass:[TaskViewCell class] cellData:[NSString stringWithFormat:@"数据: %lu",i]]];
+             [CellVo initWithParams:TASK_VIEW_CELL_HEIGHT cellClass:[TaskViewCell class] cellData:[NSString stringWithFormat:@"数据: %lu",i]]];
         }
-        [self.tableView addSource:[SourceVo initWithParams:sourceData headerHeight:30 headerClass:[TaskViewSection class] headerData:NULL]];
+        [self.tableView addSource:[SourceVo initWithParams:sourceData headerHeight:TASK_VIEW_SECTION_HEIGHT headerClass:[TaskViewSection class] headerData:NULL]];
         
         handler(sourceData.count > 0);
     });
@@ -103,7 +103,7 @@
         NSUInteger startIndex = [svo getRealDataCount];
         for (NSUInteger i = 0; i < count; i++) {
             [sourceData addObject:
-             [CellVo initWithParams:70 cellClass:[TaskViewCell class] cellData:[NSString stringWithFormat:@"数据: %lu",startIndex + i]]];
+             [CellVo initWithParams:TASK_VIEW_CELL_HEIGHT cellClass:[TaskViewCell class] cellData:[NSString stringWithFormat:@"数据: %lu",startIndex + i]]];
         }
         handler(YES);
     });
