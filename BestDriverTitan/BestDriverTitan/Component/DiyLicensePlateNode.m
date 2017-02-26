@@ -18,10 +18,10 @@
 @property (nonatomic,retain)RoundRectNode* back2;
 @property (nonatomic,retain)RoundRectNode* back3;
 
-@property (nonatomic,retain)CircleNode* node1;
-@property (nonatomic,retain)CircleNode* node2;
-@property (nonatomic,retain)CircleNode* node3;
-@property (nonatomic,retain)CircleNode* node4;
+@property (nonatomic,retain)RoundRectNode* node1;
+@property (nonatomic,retain)RoundRectNode* node2;
+@property (nonatomic,retain)RoundRectNode* node3;
+@property (nonatomic,retain)RoundRectNode* node4;
 
 @end
 
@@ -92,33 +92,33 @@
     }
     return _back3;
 }
--(CircleNode *)node1{
+-(RoundRectNode *)node1{
     if (!_node1) {
-        _node1 = [[CircleNode alloc]init];
+        _node1 = [[RoundRectNode alloc]init];
         _node1.layerBacked = YES;
         [self addSubnode:_node1];
     }
     return _node1;
 }
--(CircleNode *)node2{
+-(RoundRectNode *)node2{
     if (!_node2) {
-        _node2 = [[CircleNode alloc]init];
+        _node2 = [[RoundRectNode alloc]init];
         _node2.layerBacked = YES;
         [self addSubnode:_node2];
     }
     return _node2;
 }
--(CircleNode *)node3{
+-(RoundRectNode *)node3{
     if (!_node3) {
-        _node3 = [[CircleNode alloc]init];
+        _node3 = [[RoundRectNode alloc]init];
         _node3.layerBacked = YES;
         [self addSubnode:_node3];
     }
     return _node3;
 }
--(CircleNode *)node4{
+-(RoundRectNode *)node4{
     if (!_node4) {
-        _node4 = [[CircleNode alloc]init];
+        _node4 = [[RoundRectNode alloc]init];
         _node4.layerBacked = YES;
         [self addSubnode:_node4];
     }
@@ -130,12 +130,14 @@
     
     CGFloat width = self.bounds.size.width;
     CGFloat height = self.bounds.size.height;
-    CGFloat lineGap = 1;
+//    CGFloat lineGap = 1;
     
-    self.back1.cornerRadius = self.back2.cornerRadius = self.back3.cornerRadius = 5;
+    self.back1.cornerRadius = 5;//self.back2.cornerRadius = self.back3.cornerRadius =
     
     self.back1.frame = self.bounds;
     self.back1.fillColor = self.fillColor;
+    self.back1.strokeColor = self.compleColor;
+    self.back1.strokeWidth = 1;
     
 //    self.back2.frame = CGRectMake(lineGap, lineGap, width - lineGap * 2, height - lineGap * 2);
 //    self.back2.fillColor = self.compleColor;
@@ -143,21 +145,27 @@
 //    self.back3.frame = CGRectMake(lineGap * 2, lineGap * 2, width - lineGap * 4, height - lineGap * 4);
 //    self.back3.fillColor = self.fillColor;
     
-    CGFloat nodeWidth = lineGap * 3;
     
-    self.node1.frame = CGRectMake(lineGap * 8 - nodeWidth / 2., lineGap * 8 - nodeWidth / 2., nodeWidth, nodeWidth);
-    self.node1.backgroundColor = [UIColor clearColor];
-    self.node1.fillColor = self.compleColor;
+    CGFloat topMargin = 4;
+    CGFloat leftMargin = 18;
     
-    self.node2.frame = CGRectMake(width - lineGap * 8 - nodeWidth / 2., lineGap * 8 - nodeWidth / 2., nodeWidth, nodeWidth);
-    self.node2.fillColor = self.compleColor;
+    CGFloat nodeWidth = 6;
+    CGFloat nodeHeight = 2;
     
-    self.node3.frame = CGRectMake(lineGap * 8 - nodeWidth / 2., height - lineGap * 8 - nodeWidth / 2., nodeWidth, nodeWidth);
-    self.node3.fillColor = self.compleColor;
+    UIColor* nodeColor = [UIColor whiteColor];
     
-    self.node4.frame = CGRectMake(width - lineGap * 8 - nodeWidth / 2., height - lineGap * 8 - nodeWidth / 2., nodeWidth, nodeWidth);
-    self.node4.fillColor = self.compleColor;
+    self.node1.frame = CGRectMake(leftMargin, topMargin, nodeWidth, nodeHeight);
+    self.node1.fillColor = nodeColor;
     
+    self.node2.frame = CGRectMake(width - leftMargin - nodeWidth, topMargin, nodeWidth, nodeHeight);
+    self.node2.fillColor = nodeColor;
+    
+    self.node3.frame = CGRectMake(leftMargin, height - topMargin - nodeHeight, nodeWidth, nodeHeight);
+    self.node3.fillColor = nodeColor;
+    
+    self.node4.frame = CGRectMake(width - leftMargin - nodeWidth, height - topMargin - nodeHeight, nodeWidth, nodeHeight);
+    self.node4.fillColor = nodeColor;
+    self.node1.cornerRadius = self.node2.cornerRadius = self.node3.cornerRadius = self.node4.cornerRadius = nodeHeight / 2.;
     
     
 }

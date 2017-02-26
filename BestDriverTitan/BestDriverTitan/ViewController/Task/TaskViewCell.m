@@ -10,10 +10,13 @@
 #import "UIArrowView.h"
 #import "RoundRectNode.h"
 #import "DiyLicensePlateNode.h"
+#import "CircleNode.h"
 
-@interface TaskViewCell()
+@interface TaskViewCell(){
+    BOOL isComplete;
+}
 
-@property (nonatomic,retain)RoundRectNode* backView;
+@property (nonatomic,retain) RoundRectNode* backView;
 
 @property (nonatomic,retain) ASTextNode* codeText;//运单号
 @property (nonatomic,retain) ASTextNode* licencePlateText;//车牌号
@@ -34,6 +37,10 @@
 @property (nonatomic,retain) ASTextNode* costHourLabel;//配送时间花费
 @property (nonatomic,retain) ASTextNode* distanceLabel;//配送里程花费
 @property (nonatomic,retain) ASTextNode* expenseLabel;//参考运费
+
+@property (nonatomic,retain) ASDisplayNode* buttonArea;//底部状态栏部分
+
+@property (nonatomic,retain) CircleNode* circleArea;
 
 @end
 
@@ -113,6 +120,17 @@
         [self.contentView.layer addSublayer:_licencePlateView.layer];
     }
     return _licencePlateView;
+}
+
+-(CircleNode *)circleArea{
+    if (!_circleArea) {
+        _circleArea = [[CircleNode alloc]init];
+        _circleArea.layerBacked = YES;
+        _circleArea.fillColor = [UIColor clearColor];
+        _circleArea.strokeWidth = 4;
+        [self.backView addSubnode:_circleArea];
+    }
+    return _circleArea;
 }
 
 //定义UI结构 利用AsyncDisplayKit的工具布局
@@ -216,6 +234,15 @@
     return _licencePlateText;
 }
 
+-(ASDisplayNode *)buttonArea{
+    if (!_buttonArea) {
+        _buttonArea = [[ASDisplayNode alloc]init];
+        _buttonArea.layerBacked = YES;
+        [self.backView addSubnode:_buttonArea];
+    }
+    return _buttonArea;
+}
+
 -(void)initTopArea:(CGFloat)topY topWidth:(CGFloat)topWidth topHeight:(CGFloat)topHeight{
     CGFloat topCenterY = topY + topHeight / 2.;
     CGFloat labelOffset = -20;
@@ -268,8 +295,7 @@
     CGFloat areaX1 = 0;
     
     UIColor* iconColor;
-    int count = (arc4random() % 3); //生成0-2范围的随机数
-    if (count > 0) {
+    if (isComplete) {
         //    if (self.indexPath.row % 2 == 0) {
         iconColor = COLOR_YI_WAN_CHENG;
     }else{
@@ -287,20 +313,133 @@
         CGPointMake(areaX1 + (areaWith - soSize.width) / 2., topCenterY + labelOffset),soSize
     };
     
+    int pickupCount = (arc4random() % 15); //生成0-15范围的随机数
+    int deliverCount = (arc4random() % 15); //生成0-15范围的随机数
+    
     CGFloat areaX2 = areaWith;
-    self.shipUintCountText.attributedString = [NSString simpleAttributedString:iconColor size:30 context:@"50"];
+    self.shipUintCountText.attributedString = [self generateShipUnitString:iconColor pickupCount:pickupCount deliverCount:deliverCount];
+    //[NSString simpleAttributedString:iconColor size:30 context:@"提50送50"];
     CGSize shipSize = [self.shipUintCountText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.shipUintCountText.frame = (CGRect){
         CGPointMake(areaX2 + (areaWith - shipSize.width) / 2., topCenterY + textOffset),shipSize
     };
-    self.shipUintCountLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColorDark] size:12 context:@"提送货量(箱)"];
+    self.shipUintCountLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColorDark] size:12 context:@"货量(箱)"];
     shipSize = [self.shipUintCountLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.shipUintCountLabel.frame = (CGRect){
         CGPointMake(areaX2 + (areaWith - shipSize.width) / 2., topCenterY + labelOffset),shipSize
     };
+    
+    self.circleArea.strokeColor = iconColor;
+    self.circleArea.frame = CGRectMake(0, centerY + 5, areaWith, centerHeight - 10);
+    
+//    CircleNode* circle2 = [[CircleNode alloc]init];
+//    circle2.layerBacked = YES;
+//    circle2.fillColor = [UIColor clearColor];
+//    circle2.strokeColor = iconColor;
+//    circle2.strokeWidth = 4;
+//    [self.backView addSubnode:circle2];
+//    circle2.frame = CGRectMake(areaX2, centerY + 5, areaWith, centerHeight - 10);
+}
+
+
+-(NSAttributedString *)generateShipUnitString:(UIColor*)color pickupCount:(int)pickupCount deliverCount:(int)deliverCount{
+    NSString* pickupString = NULL;
+    if (pickupCount) {
+        pickupString = ConcatStrings(@"提 ",[NSNumber numberWithInt:pickupCount],@" ");
+    }
+    NSString* deliverString = NULL;
+    if (deliverCount) {
+        deliverString = ConcatStrings(@"送 ",[NSNumber numberWithInt:deliverCount]);
+    }
+    NSString* context = ConcatStrings(pickupString ? pickupString : @"", deliverString ? deliverString : @"");
+    NSMutableAttributedString* attrString = [[NSMutableAttributedString alloc]initWithString:context];
+    [attrString addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(0, context.length)];
+    NSUInteger loc = 0;
+    if (pickupCount) {
+        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(loc, 2)];
+        loc += 2;
+        NSUInteger pickupLength = [NSString stringWithFormat:@"%i", pickupCount].length;
+        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:30] range:NSMakeRange(loc, pickupLength)];
+        loc += pickupLength + 1;
+    }
+    if (deliverCount) {
+        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(loc, 2)];
+        loc += 2;
+        NSUInteger deliverLength = [NSString stringWithFormat:@"%i", deliverCount].length;
+        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:30] range:NSMakeRange(loc, deliverLength)];
+//        loc += deliverLength;
+    }
+    return attrString;
+}
+
+-(void)initBottomArea:(CGFloat)bottomY bottomWidth:(CGFloat)bottomWidth bottomHeight:(CGFloat)bottomHeight{
+    self.buttonArea.frame = CGRectMake(0, bottomY, bottomWidth, bottomHeight);
+    for (ASDisplayNode* subNode in self.buttonArea.subnodes) {//先全部移除干净
+        [subNode removeFromSupernode];
+    }
+    
+    CGFloat baseX = 10;
+    int factor = (arc4random() % 3); //生成0-2范围的随机数
+    if(factor == 0){
+        ASDisplayNode* subNode1 = [self createStateNode:@"货量差异" color:FlatYellow offsetX:baseX bottomHeight:bottomHeight];
+        [self.buttonArea addSubnode:subNode1];
+        baseX += subNode1.frame.size.width + 5;
+    }
+    if (isComplete) {
+        ASDisplayNode* subNode2 = [self createStateNode:@"已完成" color:COLOR_YI_WAN_CHENG offsetX:baseX bottomHeight:bottomHeight];
+        [self.buttonArea addSubnode:subNode2];
+        baseX += subNode2.frame.size.width + 5;
+    }else{
+        int factor = (arc4random() % 3); //生成0-2范围的随机数
+        if (factor > 1) {
+            ASDisplayNode* subNode2 = [self createStateNode:@"待签收" color:COLOR_DAI_WAN_CHENG offsetX:baseX bottomHeight:bottomHeight];
+            [self.buttonArea addSubnode:subNode2];
+            baseX += subNode2.frame.size.width + 5;
+        }else if(factor > 0){
+            ASDisplayNode* subNode2 = [self createStateNode:@"待提货" color:COLOR_DAI_WAN_CHENG offsetX:baseX bottomHeight:bottomHeight];
+            [self.buttonArea addSubnode:subNode2];
+            baseX += subNode2.frame.size.width + 5;
+        }
+    }
+    factor = (arc4random() % 3); //生成0-2范围的随机数
+    if (factor > 0) {
+        ASDisplayNode* subNode1 = [self createStateNode:@"待收款" color:FlatOrange offsetX:baseX bottomHeight:bottomHeight];
+        [self.buttonArea addSubnode:subNode1];
+    }
+}
+
+-(ASDisplayNode*)createStateNode:(NSString*)context color:(UIColor*)color offsetX:(CGFloat)offsetX bottomHeight:(CGFloat)bottomHeight{
+    ASTextNode* textNode = [[ASTextNode alloc]init];
+    textNode.attributedString = [NSString simpleAttributedString:color size:12 context:context];
+    textNode.layerBacked = YES;
+    CGSize textSize = [textNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    CGFloat plateWidth = textSize.width + 10;
+    CGFloat plateHeight = textSize.height + 10;
+    
+    CGFloat offsetY = (bottomHeight - plateHeight) / 2.;
+    
+    RoundRectNode* roundNode = [[RoundRectNode alloc]init];
+    roundNode.frame = CGRectMake(offsetX, offsetY, plateWidth, plateHeight);
+    roundNode.layerBacked = YES;
+    roundNode.strokeColor = color;
+    roundNode.strokeWidth = 1;
+    roundNode.fillColor = [UIColor whiteColor];
+    roundNode.cornerRadius = 5;
+    [roundNode addSubnode:textNode];
+    
+    textNode.frame = (CGRect){
+        CGPointMake((roundNode.frame.size.width - textSize.width) / 2., (roundNode.frame.size.height - textSize.height) / 2.),
+        textSize
+    };
+    
+    return roundNode;
 }
 
 -(void)showSubviews{
+    
+    int count = (arc4random() % 3); //生成0-2范围的随机数
+    isComplete = count > 0;
+    
     self.backgroundColor = [UIColor clearColor];
     
     CGFloat cellHeight = self.contentView.bounds.size.height;
@@ -331,20 +470,29 @@
     
     self.lineCenterX.frame = CGRectMake((backWidth - LINE_WIDTH) / 2., centerY + padding, LINE_WIDTH, centerHeight - padding * 2);
     
+    CGFloat bottomY = centerY + centerHeight;
+    
     [self initTopArea:topY topWidth:backWidth topHeight:topHeight];
     [self initCenterArea:centerY centerWidth:backWidth centerHeight:centerHeight];
+    [self initBottomArea:bottomY bottomWidth:backWidth bottomHeight:bottomHeight];
     
-    self.codeText.attributedString = [NSString simpleAttributedString:[UIColor flatBlackColor] size:16 context:@"TO1251616161"];
+    NSString* context = @"TO1251616161";
+    NSMutableAttributedString* attrString =[[NSMutableAttributedString alloc]initWithString:context];
+    [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor flatBlackColor] range:NSMakeRange(0, context.length)];
+    [attrString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16] range:NSMakeRange(0, context.length)];
+    self.codeText.attributedString = attrString;
+//    [NSString simpleAttributedString:[UIColor flatBlackColor] size:16 context:@"TO1251616161"];
     CGSize codeSize = [self.codeText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.codeText.frame = (CGRect){ CGPointMake(padding * 2, padding), codeSize };
     
     self.licencePlateText.attributedString = [NSString simpleAttributedString:[UIColor flatBlackColor] size:14 context:@"浙A8888888"];
     CGSize liceneSize = [self.licencePlateText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    CGFloat plateWidth = liceneSize.width + 25;
+    CGFloat plateWidth = liceneSize.width + 10;
     CGFloat plateHeight = liceneSize.height + 10;
     self.licencePlateView.frame = CGRectMake(cellWidth - leftMargin - plateWidth, 0, plateWidth, plateHeight);
     self.licencePlateView.fillColor = [UIColor flatYellowColorDark];
-//    self.licencePlateView.compleColor = [UIColor flatBlackColor];
+    self.licencePlateView.compleColor = [UIColor flatBlackColor];
+//    self.licencePlateView.cornerRadius = 30;
     
     self.licencePlateText.frame = (CGRect){
         CGPointMake((self.licencePlateView.frame.size.width - liceneSize.width) / 2., (self.licencePlateView.frame.size.height - liceneSize.height) / 2.),

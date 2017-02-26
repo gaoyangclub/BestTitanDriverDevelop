@@ -12,5 +12,7 @@
 
 @property(nonatomic,retain) UIColor* fillColor;
 @property(nonatomic,assign) CGFloat cornerRadius;
+@property(nonatomic,retain) UIColor* strokeColor;
+@property(nonatomic,assign) CGFloat strokeWidth;
 
 @end

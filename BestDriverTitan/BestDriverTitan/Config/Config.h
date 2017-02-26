@@ -55,7 +55,7 @@ typedef void (^FailureBlock)();
 #define NAVIGATION_TITLE_TASK_TRIP @"我的行程"
 
 
-#define TASK_VIEW_CELL_HEIGHT 180
+#define TASK_VIEW_CELL_HEIGHT 200
 #define TASK_VIEW_SECTION_HEIGHT 50
 
 

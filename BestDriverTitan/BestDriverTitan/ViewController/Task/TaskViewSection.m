@@ -94,7 +94,7 @@
     CGSize titleSize = [self.title measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.title.frame = (CGRect){CGPointMake(self.iconText.frame.origin.x + self.iconText.frame.size.width + 5, sectionHeight / 2. - 15),titleSize};
     
-    self.desLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColor] size:12 context:@"调度单3个"];
+    self.desLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColor] size:12 context:@"运单3个"];
     CGSize desSize = [self.desLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.desLabel.frame = (CGRect){CGPointMake(self.iconText.frame.origin.x + self.iconText.frame.size.width + 5, sectionHeight / 2. + 2),desSize};
 }

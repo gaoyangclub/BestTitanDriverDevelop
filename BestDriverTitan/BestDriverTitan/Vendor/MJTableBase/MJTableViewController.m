@@ -37,9 +37,8 @@
 //        BOOL translucent = (self.tabBarController != NULL && self.tabBarController.navigationController != NULL && !self.tabBarController.navigationController.navigationBar.translucent);
         
         self.tableView = [[MJTableBaseView alloc]initWithFrameAndParams:self.view.frame showHeader:[self getShowHeader] showFooter:[self getShowFooter] useCellIdentifer:[self getUseCellIdentifer]
-                          
-//                                                         topEdgeDiverge:
-//                          (self.navigationController != NULL && !self.navigationController.navigationBar.translucent)
+                                                         topEdgeDiverge:
+                          (self.navigationController != NULL && !self.navigationController.navigationBar.translucent)
 //                          NO
                           ];
 //        self.tableView.alpha = 0.3;

@@ -26,6 +26,16 @@
     return self;
 }
 
+-(void)setStrokeColor:(UIColor *)strokeColor{
+    _strokeColor = strokeColor;
+    [self setNeedsDisplay];
+}
+
+-(void)setStrokeWidth:(CGFloat)strokeWidth{
+    _strokeWidth = strokeWidth;
+    [self setNeedsDisplay];
+}
+
 -(void)setFillColor:(UIColor *)fillColor{
     _fillColor = fillColor;
     [self setNeedsDisplay];
@@ -39,7 +49,11 @@
 }
 
 -(id<NSObject>)drawParametersForAsyncLayer:(_ASDisplayLayer *)layer{
-    NSDictionary * dictionary = [NSDictionary dictionaryWithObjectsAndKeys:self.fillColor,@"fillColor",nil];
+    NSDictionary * dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                 self.fillColor,@"fillColor",
+                                 self.strokeColor,@"strokeColor",
+                                 [NSNumber numberWithFloat:self.strokeWidth],@"strokeWidth",
+                                 nil];
     return dictionary;
 }
 
@@ -47,6 +61,7 @@
     
     NSDictionary * dictionary = (NSDictionary *)parameters;
     UIColor* color = [dictionary objectForKey:@"fillColor"];
+    NSNumber *strokeValue = [dictionary objectForKey:@"strokeWidth"];
     
     CGFloat width = bounds.size.width;
     CGFloat height = bounds.size.height;
@@ -56,13 +71,22 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     CGContextAddArc(context, width / 2., height / 2., radius, 0, M_PI * 2, 0);
-    
-    // 闭合路径
-    CGContextClosePath(context);
-    
     [color setFill];
-    
     CGContextDrawPath(context, kCGPathFill);
+    
+    if (strokeValue.floatValue) {
+        CGFloat strokeWidth = strokeValue.floatValue;
+        UIColor* strokeColor = [dictionary objectForKey:@"strokeColor"];
+        //    CGContextSetAllowsAntialiasing(context,NO);//关闭抗锯齿
+        CGContextSetLineWidth(context,strokeWidth);
+        CGContextSetStrokeColorWithColor(context,strokeColor.CGColor);//
+        
+        CGContextAddArc(context, width / 2., height / 2., radius - strokeWidth / 2., 0, M_PI * 2, 0);
+        // 闭合路径
+        //    CGContextClosePath(context);
+        //    [color setStroke];
+        CGContextStrokePath(context);
+    }
 }
 
 @end

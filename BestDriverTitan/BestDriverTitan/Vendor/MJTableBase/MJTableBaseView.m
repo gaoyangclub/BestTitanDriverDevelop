@@ -19,31 +19,31 @@
 /**
  *  是否设置顶部偏离 满足ViewController在自动测量导航栏高度占用的Insets偏移的补位
  */
-//@property (nonatomic,assign) BOOL topEdgeDiverge;
+@property (nonatomic,assign) BOOL topEdgeDiverge;
 
 @end
 
 @implementation MJTableBaseView
 
--(instancetype)initWithFrameAndParams:(CGRect)frame showHeader:(BOOL)showHeader showFooter:(BOOL)showFooter useCellIdentifer:(BOOL)useCellIdentifer{// topEdgeDiverge:(BOOL)topEdgeDiverge
+-(instancetype)initWithFrameAndParams:(CGRect)frame showHeader:(BOOL)showHeader showFooter:(BOOL)showFooter useCellIdentifer:(BOOL)useCellIdentifer topEdgeDiverge:(BOOL)topEdgeDiverge{//
     self = [super initWithFrame:frame];
     if (self) {
         self.useCellIdentifer = useCellIdentifer;
         self.showHeader = showHeader;
         self.showFooter = showFooter;
-//        self.topEdgeDiverge = topEdgeDiverge;
+        self.topEdgeDiverge = topEdgeDiverge;
         [self prepare];
     }
     return self;
 }
 
--(instancetype)initWithFrameAndParams:(CGRect)frame style:(UITableViewStyle)style showHeader:(BOOL)showHeader showFooter:(BOOL)showFooter useCellIdentifer:(BOOL)useCellIdentifer{//topEdgeDiverge:(BOOL)topEdgeDiverge
+-(instancetype)initWithFrameAndParams:(CGRect)frame style:(UITableViewStyle)style showHeader:(BOOL)showHeader showFooter:(BOOL)showFooter useCellIdentifer:(BOOL)useCellIdentifer topEdgeDiverge:(BOOL)topEdgeDiverge{//
     self = [super initWithFrame:frame style:style];
     if (self) {
         self.useCellIdentifer = useCellIdentifer;
         self.showHeader = showHeader;
         self.showFooter = showFooter;
-//        self.topEdgeDiverge = topEdgeDiverge;
+        self.topEdgeDiverge = topEdgeDiverge;
         [self prepare];
     }
     return self;
@@ -117,10 +117,10 @@
         self.backgroundColor = [UIColor clearColor];
         
         
-//        if (self.topEdgeDiverge) {
-//            self.contentInset = UIEdgeInsetsMake(0, 0, 64, 0);
-//        }
-        
+        if (self.topEdgeDiverge) {
+            self.contentInset = UIEdgeInsetsMake(0, 0, 64, 0);
+        }
+    
         if (self.showHeader) {
             MJRefreshNormalHeader* header = [[MJRefreshNormalHeader alloc]init]; //[MJRefreshNormalHeader headerWithRefreshingBlock:
             header.lastUpdatedTimeLabel.hidden = YES;//隐藏时间
