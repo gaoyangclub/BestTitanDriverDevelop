@@ -14,6 +14,7 @@
 
 @interface TaskViewCell(){
     BOOL isComplete;
+    UIControl* btnTest;
 }
 
 @property (nonatomic,retain) RoundRectNode* backView;
@@ -372,11 +373,14 @@
     return attrString;
 }
 
+
+
 -(void)initBottomArea:(CGFloat)bottomY bottomWidth:(CGFloat)bottomWidth bottomHeight:(CGFloat)bottomHeight{
     self.buttonArea.frame = CGRectMake(0, bottomY, bottomWidth, bottomHeight);
-    for (ASDisplayNode* subNode in self.buttonArea.subnodes) {//先全部移除干净
-        [subNode removeFromSupernode];
-    }
+    [self.buttonArea removeAllSubNodes];
+//    for (ASDisplayNode* subNode in self.buttonArea.subnodes) {//先全部移除干净
+//        [subNode removeFromSupernode];
+//    }
     
     CGFloat baseX = 10;
     int factor = (arc4random() % 3); //生成0-2范围的随机数
@@ -406,6 +410,43 @@
         ASDisplayNode* subNode1 = [self createStateNode:@"待收款" color:FlatOrange offsetX:baseX bottomHeight:bottomHeight];
         [self.buttonArea addSubnode:subNode1];
     }
+    
+//    UIButton* btn = [UIButton buttonWithType:UIButtonTypeSystem];
+    //    [btn setTitle:@"ceshiahgia" forState:UIControlStateNormal];
+    
+//    if (!btnTest) {
+//        UIControl* btn = self->btnTest = [[UIControl alloc]init];
+//        btn.frame = CGRectMake(0, 0, 100, 50);
+//        //    btn.userInteractionEnabled = NO;
+//        btn.backgroundColor = [UIColor brownColor];
+////            btn.opaque = YES;
+//        //    btn.alpha = 0.95;
+////        [btn addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
+//        [btn setShowTouch:YES];
+//        [self.contentView addSubview:btn];
+//        
+//            ASDisplayNode* btn2 = [[ASDisplayNode alloc]init];
+//            btn2.backgroundColor = [UIColor flatSkyBlueColor];
+//            btn2.frame = CGRectMake(10, 10, 50, 50);
+//        //    btn2.opaque = YES;
+//            btn2.layerBacked = YES;
+////            btn2.userInteractionEnabled = YES;
+////            [btn2 setShowTouch:YES];
+////            [btn2 addTarget:self action:@selector(btnClick) forControlEvents:ASControlNodeEventTouchUpInside];
+//            [btn.layer addSublayer:btn2.layer];
+////            [self.contentView.layer addSublayer:btn2.layer];
+//        
+//        UIView* aaa = [[UIView alloc]init];
+//        aaa.backgroundColor = [UIColor flatYellowColor];
+//        aaa.frame = CGRectMake(5, 20, 30, 30);
+//        aaa.userInteractionEnabled = false;
+//        [btn addSubview:aaa];
+//        
+//    }
+}
+
+-(void)btnClick{
+    NSLog(@"测试点击...");
 }
 
 -(ASDisplayNode*)createStateNode:(NSString*)context color:(UIColor*)color offsetX:(CGFloat)offsetX bottomHeight:(CGFloat)bottomHeight{
@@ -500,11 +541,6 @@
     };
     
 ////    NSLog(@"颜色 %@",[TaskViewCell hexFromUIColor:[UIColor greenColor]]);
-//    
-
-//    
-
-//    
 //    self.shipUintCountText.attributedString = [NSString simpleAttributedString:[UIColor flatCoffeeColorDark] size:14 context:@"货量50箱"];
 //    CGSize countSize = [self.shipUintCountText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
 //    

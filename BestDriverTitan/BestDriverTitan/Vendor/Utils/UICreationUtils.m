@@ -29,7 +29,8 @@
     ////        customView.fillColor = UIColor.blueColor()
     buttonItem.customView = customView;
     [customView addTarget:target action:action forControlEvents:(UIControlEventTouchUpInside)];
-    customView.showTouchEffect = YES;
+//    customView.showTouchEffect = YES;
+    [customView setShowTouch:YES];
     return buttonItem;
 }
 

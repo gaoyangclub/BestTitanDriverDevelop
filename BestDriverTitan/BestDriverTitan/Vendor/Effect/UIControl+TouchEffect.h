@@ -10,8 +10,10 @@
 
 @interface UIControl (TouchEffect)
 
-@property(nonatomic,assign)BOOL showTouchEffect;
+//@property(nonatomic,assign)BOOL showTouchEffect;
 
 //-(void)setTouchEffect:(BOOL)open;
+
+-(void)setShowTouch:(BOOL)value;
 
 @end

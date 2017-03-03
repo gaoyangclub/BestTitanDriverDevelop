@@ -42,6 +42,25 @@
     [super viewWillAppear:animated];
     [self initTitleArea];
     self.view.backgroundColor = COLOR_BACKGROUND;
+    
+//    UIControl* btn = [[UIControl alloc]init];
+//    btn.frame = CGRectMake(0, 100, 100, 50);
+//    //    btn.userInteractionEnabled = NO;
+//    btn.backgroundColor = [UIColor brownColor];
+//    btn.showTouchEffect = YES;
+////    [btn addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:btn];
+    
+//    UIControl* btn = [[UIControl alloc]init];
+//    btn.frame = CGRectMake(0, 100, 100, 50);
+//    //    btn.userInteractionEnabled = NO;
+//    btn.backgroundColor = [UIColor flatPowderBlueColor];
+//    //            btn.opaque = YES;
+//    //    btn.alpha = 0.95;
+//    //        [btn addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
+//    [btn setShowTouch:YES];
+//    [self.view addSubview:btn];
+
 }
 
 //-(CGRect)getTableViewFrame {

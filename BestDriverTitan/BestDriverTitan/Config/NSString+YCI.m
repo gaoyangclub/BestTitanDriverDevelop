@@ -37,17 +37,39 @@
 
 
 + (NSAttributedString *)simpleAttributedString:(UIColor*)color size:(CGFloat)size context:(NSString*)context{
-    NSMutableAttributedString* attrString =[[NSMutableAttributedString alloc]initWithString:context];
-    [attrString addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(0, context.length)];
-    [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:size] range:NSMakeRange(0, context.length)];
+    NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
+    style.alignment = NSTextAlignmentCenter;
+    
+    NSMutableAttributedString* attrString =
+    //[NSMutableAttributedString alloc]initWithString:context];
+        [[NSMutableAttributedString alloc]initWithString:context attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                color,NSForegroundColorAttributeName,
+                                                                [UIFont systemFontOfSize:size],NSFontAttributeName,
+                                                                             style,NSParagraphStyleAttributeName,
+                                                                             nil]];
+    
+//    [attrString addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(0, context.length)];
+//    [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:size] range:NSMakeRange(0, context.length)];
 //    [UIFont fontWithName:<#(nonnull NSString *)#> size:<#(CGFloat)#>]
      return attrString;
 }
 
 + (NSAttributedString *)simpleAttributedString:(NSString*)face color:(UIColor*)color size:(CGFloat)size context:(NSString*)context{
-    NSMutableAttributedString* attrString =[[NSMutableAttributedString alloc]initWithString:context];
-    [attrString addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(0, context.length)];
-    [attrString addAttribute:NSFontAttributeName value:[UIFont fontWithName:face size:size] range:NSMakeRange(0, context.length)];
+//    NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
+//    style.alignment = NSTextAlignmentCenter;
+    
+    NSMutableAttributedString* attrString =
+    [[NSMutableAttributedString alloc]initWithString:context attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                        [UIFont fontWithName:face size:size],NSFontAttributeName,
+                                                        color,NSForegroundColorAttributeName,
+                                                        [UIFont systemFontOfSize:size],NSFontAttributeName,
+//                                                        style,NSParagraphStyleAttributeName,
+                                                        nil]];
+//    [[NSMutableAttributedString alloc]initWithString:context];
+//    [attrString addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(0, context.length)];
+////    [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, context.length)];
+//    [attrString addAttribute:NSFontAttributeName value:[UIFont fontWithName:face size:size] range:NSMakeRange(0, context.length)]    ;
+//    attrString removeAttribute:NSForegroundColorAttributeName range:NSMakeRange(0, context.length)
     return attrString;
 }
      

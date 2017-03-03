@@ -43,6 +43,27 @@ typedef void (^FailureBlock)();
 #define ICON_SHI_JIAN @"\U0000e610"
 #define ICON_JU_LI @"\U0000e63c"
 #define ICON_JIN_QIAN @"\U0000e642"
+#define ICON_QI_DIAN @"\U0000e674"
+#define ICON_ZHONG_DIAN @"\U0000e673"
+
+#define ICON_TI_HUO @"\U0000e653"
+#define ICON_ZHUANG_CHE @"\U0000e662"
+#define ICON_XIE_HUO @"\U0000e62b"
+#define ICON_QIAN_SHOU @"\U0000e67e"
+#define ICON_HUI_DAN @"\U0000e623"
+#define ICON_SHOU_KUAN @"\U0000e624"
+
+#define ICON_DAI_SHANG_BAO @"\U0000e613"
+#define ICON_YI_SHANG_BAO @"\U0000e63b"
+#define ICON_JING_GAO @"\U0000e6d4"
+
+
+#define TABBAR_TITLE_TI_HUO @"提货"
+#define TABBAR_TITLE_ZHUANG_CHE @"装车"
+#define TABBAR_TITLE_XIE_HUO @"卸货"
+#define TABBAR_TITLE_QIAN_SHOU @"签收"
+#define TABBAR_TITLE_HUI_DAN @"回单"
+#define TABBAR_TITLE_SHOU_KUAN @"收款"
 
 #define TABBAR_TITLE_REN_WU @"任务"
 #define TABBAR_TITLE_DAI_FU_KUAN @"待付款"
@@ -57,6 +78,9 @@ typedef void (^FailureBlock)();
 
 #define TASK_VIEW_CELL_HEIGHT 200
 #define TASK_VIEW_SECTION_HEIGHT 50
+
+#define TASK_TRIP_CELL_HEIGHT 600
+#define TASK_TRIP_SECTION_HEIGHT 65
 
 
 

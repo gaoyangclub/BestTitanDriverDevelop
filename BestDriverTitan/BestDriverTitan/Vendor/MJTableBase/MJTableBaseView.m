@@ -275,6 +275,11 @@
     return cell;
 }
 
+//防止子类交互影响屏蔽父类
+-(BOOL)touchesShouldCancelInContentView:(UIView *)view{
+    return YES;
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     SourceVo* source = self.dataArray[indexPath.section];
     CellVo* cellVo = source.data[indexPath.row];
