@@ -15,7 +15,7 @@
 //站点信息按钮
 @interface StopButton:UIControl{
     NSInteger stopIndex;
-//    NSString* stopLabel;
+    NSString* stopLabel;
 }
 
 @property(nonatomic,retain)ASTextNode* stateNode;
@@ -27,6 +27,7 @@
 -(void)setComplete:(BOOL)isComplete;
 -(void)setIndex:(NSInteger)index;
 -(void)setLabel:(NSString*)label;
+-(NSString *)getLabel;
 
 -(void)setSelect:(BOOL)isSelect;
 
@@ -111,8 +112,12 @@
     };
 }
 
+-(NSString*)getLabel{
+    return self->stopLabel;
+}
+
 -(void)setLabel:(NSString*)label{
-//    self->stopLabel = label;
+    self->stopLabel = label;
     
     NSInteger charGap = 15;
     NSMutableArray* array = [NSMutableArray array];
@@ -300,6 +305,7 @@
 @property(nonatomic,retain) UIScrollView* bottomAreaView;
 
 @property(nonatomic,retain) RoundRectNode* bottomRouteLine;
+@property(nonatomic,retain) ASTextNode* carView;
 @property(nonatomic,retain) UIView* bottomRouteGroup;
 
 @end
@@ -324,6 +330,15 @@
         [self.bottomAreaView.layer addSublayer:_bottomRouteLine.layer];
     }
     return _bottomRouteLine;
+}
+
+-(ASTextNode *)carView{
+    if (!_carView) {
+        _carView = [[ASTextNode alloc]init];
+        _carView.layerBacked = YES;
+        [self.bottomAreaView.layer addSublayer:_carView.layer];
+    }
+    return _carView;
 }
 
 -(UIScrollView *)bottomAreaView{
@@ -445,12 +460,22 @@
     self.bottomRouteLine.fillColor = FlatGrayDark;
     [self.bottomRouteLine removeAllSubNodes];
     
+    int carIndex = (arc4random() % (count - 1)); //生成1-(count-1)范围的随机数
+    
+    self.carView.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatPowderBlueDark size:25 context:ICON_KA_CHE];
+    CGSize carSize = [self.carView measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    CGFloat carX = padding * 2 + carIndex * itemWidth + (itemWidth - carSize.width) / 2.;
+    self.carView.frame = (CGRect){
+        CGPointMake(carX, routeY - carSize.height),
+        carSize
+    };
     
     CGFloat groupHeight = scrollerHeight - routeY - routeH;
     self.bottomRouteGroup.frame = CGRectMake(0, 0, contentWidth, groupHeight);
     [self.bottomRouteGroup removeAllSubViews];
     
     CGFloat radius = routeH / 2. - 0.5;
+    StopButton* selectBtn;
     for (NSInteger i = 0; i < count; i ++) {//添加白点
         CircleNode* circle = [[CircleNode alloc]init];
         circle.layerBacked = YES;
@@ -472,11 +497,11 @@
         [btn setComplete:completeCount == 0];
         
         if (i == 0) {
-            [btn setSelect:YES];
+            selectBtn = btn;
         }
         [btn addTarget:self action:@selector(changeRouteButton:) forControlEvents:UIControlEventTouchUpInside];
     }
-    [self checkButtonStates];
+    [self changeRouteButton:selectBtn];
 }
 
 -(void)changeRouteButton:(StopButton*)clickBtn{
@@ -488,6 +513,26 @@
         }
     }
     [self checkButtonStates];
+    
+    [self moveRouteButton:clickBtn];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_ADDRESS_SELECT object:[clickBtn getLabel]];
+}
+
+-(void)moveRouteButton:(StopButton*)clickBtn{
+    CGRect btnToSelf = [self.bottomRouteGroup convertRect:clickBtn.frame toView:self];
+    CGFloat moveX = btnToSelf.origin.x - CGRectGetWidth(self.bounds) / 2. + btnToSelf.size.width / 2.;
+    CGPoint contentOffset = self.bottomAreaView.contentOffset;
+    //    self.bottomAreaView.contentSize.width
+    CGFloat maxOffsetX = self.bottomAreaView.contentSize.width - CGRectGetWidth(self.bottomAreaView.bounds);
+    maxOffsetX = maxOffsetX > 0 ? maxOffsetX : 0;
+    CGFloat moveOffsetX = contentOffset.x + moveX;
+    if (moveOffsetX < 0) {
+        moveOffsetX = 0;
+    }else if(moveOffsetX > maxOffsetX){
+        moveOffsetX = maxOffsetX;
+    }
+    [self.bottomAreaView setContentOffset:CGPointMake(moveOffsetX,contentOffset.y) animated:YES];
 }
 
 -(void)checkButtonStates{

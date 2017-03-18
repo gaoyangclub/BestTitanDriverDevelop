@@ -35,7 +35,7 @@
 -(UILabel *)nameLab{
     if (_nameLab == NULL) {
         _nameLab = [[UILabel alloc]init];
-        _nameLab.text = @"百事通";
+        _nameLab.text = @"百世通";
         _nameLab.font = [UIFont systemFontOfSize:40];
         _nameLab.textColor = [UIColor whiteColor];//[[UIColor alloc]initWithRed:58.0/255 green:139.0/255 blue:253.0/255 alpha:1];
         [_nameLab sizeToFit];

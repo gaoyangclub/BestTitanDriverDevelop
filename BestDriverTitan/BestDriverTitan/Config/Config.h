@@ -57,6 +57,9 @@ typedef void (^FailureBlock)();
 #define ICON_YI_SHANG_BAO @"\U0000e63b"
 #define ICON_JING_GAO @"\U0000e6d4"
 
+#define ICON_KA_CHE @"\U0000e606"
+
+
 
 #define TABBAR_TITLE_TI_HUO @"提货"
 #define TABBAR_TITLE_ZHUANG_CHE @"装车"
@@ -82,5 +85,7 @@ typedef void (^FailureBlock)();
 #define TASK_TRIP_CELL_HEIGHT 600
 #define TASK_TRIP_SECTION_HEIGHT 65
 
+
+#define EVENT_ADDRESS_SELECT @"EVENT_ADDRESS_SELECT"
 
 
