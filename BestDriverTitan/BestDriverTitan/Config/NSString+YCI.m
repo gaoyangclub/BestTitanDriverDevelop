@@ -36,13 +36,13 @@
 }
 
 
-+ (NSAttributedString *)simpleAttributedString:(UIColor*)color size:(CGFloat)size context:(NSString*)context{
++ (NSAttributedString *)simpleAttributedString:(UIColor*)color size:(CGFloat)size content:(NSString*)content{
     NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
     style.alignment = NSTextAlignmentCenter;
     
     NSMutableAttributedString* attrString =
     //[NSMutableAttributedString alloc]initWithString:context];
-        [[NSMutableAttributedString alloc]initWithString:context attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+        [[NSMutableAttributedString alloc]initWithString:content attributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                                 color,NSForegroundColorAttributeName,
                                                                 [UIFont systemFontOfSize:size],NSFontAttributeName,
                                                                              style,NSParagraphStyleAttributeName,
@@ -54,12 +54,12 @@
      return attrString;
 }
 
-+ (NSAttributedString *)simpleAttributedString:(NSString*)face color:(UIColor*)color size:(CGFloat)size context:(NSString*)context{
++ (NSAttributedString *)simpleAttributedString:(NSString*)face color:(UIColor*)color size:(CGFloat)size content:(NSString*)content{
 //    NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
 //    style.alignment = NSTextAlignmentCenter;
     
     NSMutableAttributedString* attrString =
-    [[NSMutableAttributedString alloc]initWithString:context attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+    [[NSMutableAttributedString alloc]initWithString:content attributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                         [UIFont fontWithName:face size:size],NSFontAttributeName,
                                                         color,NSForegroundColorAttributeName,
                                                         [UIFont systemFontOfSize:size],NSFontAttributeName,

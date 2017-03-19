@@ -25,8 +25,8 @@
 
 @interface NSString (YCI)
 
-+ (NSAttributedString *)simpleAttributedString:(UIColor*)color size:(CGFloat)size context:(NSString*)context;
-+ (NSAttributedString *)simpleAttributedString:(NSString*)face color:(UIColor*)color size:(CGFloat)size context:(NSString*)context;
++ (NSAttributedString *)simpleAttributedString:(UIColor*)color size:(CGFloat)size content:(NSString*)content;
++ (NSAttributedString *)simpleAttributedString:(NSString*)face color:(UIColor*)color size:(CGFloat)size content:(NSString*)content;
 + (NSString *)joinedWithSubStrings:(NSString *)firstStr,...NS_REQUIRES_NIL_TERMINATION;
 
 

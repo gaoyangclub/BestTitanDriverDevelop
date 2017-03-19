@@ -98,6 +98,14 @@
     [self.dataArray addObject:sourceVo];
 }
 
+-(SourceVo*)getSourceByIndex:(int)index{
+    return self.dataArray[index];
+}
+
+-(NSUInteger)getSourceCount{
+    return self.dataArray.count;
+}
+
 //-(void)setTopEdgeDiverge:(BOOL)topEdgeDiverge{
 ////    if (topEdgeDiverge) {
 //////        self.contentInset = UIEdgeInsetsMake(0, 0, 64, 0);
@@ -306,9 +314,10 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+//    MJTableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
 //    if (cell) {
-//        tableView
+////        tableView
+//        cell.needRefresh = NO; //不需要刷新
 //    }
     [tableView deselectRowAtIndexPath:indexPath animated: false];//反选
     if (self.refreshDelegate && [self.refreshDelegate respondsToSelector:@selector(didSelectRow:didSelectRowAtIndexPath:)]) {
@@ -377,14 +386,14 @@
 
 -(SourceVo*)getLastSource {
     if (self.dataArray.count > 0) {
-        return self.dataArray[self.dataArray.count - 1];
+        return self.dataArray.lastObject;
     }
     return NULL;
 }
 
 -(SourceVo*)getFirstSource {
     if (self.dataArray.count > 0) {
-        return self.dataArray[0];
+        return self.dataArray.firstObject;
     }
     return NULL;
 }

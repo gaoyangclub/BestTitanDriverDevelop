@@ -82,6 +82,9 @@ typedef void(^FooterLoadMoreHandler)(BOOL hasData);
 -(SourceVo*)getLastSource;
 -(SourceVo*)getFirstSource;
 
+-(SourceVo*)getSourceByIndex:(int)index;
+-(NSUInteger)getSourceCount;
+
 @end
 
 @interface SourceVo : NSObject
@@ -92,7 +95,7 @@ typedef void(^FooterLoadMoreHandler)(BOOL hasData);
 @property (nonatomic,retain)NSMutableArray<CellVo*>* data;//数据源
 @property (nonatomic,assign)CGFloat headerHeight;
 @property (nonatomic,retain)Class headerClass;
-@property (nonatomic,retain)NSObject* headerData;//section标题数据
+@property (nonatomic,retain)id headerData;//section标题数据
 @property (nonatomic,assign)BOOL isUnique;
 
 -(NSInteger)getRealDataCount;

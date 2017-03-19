@@ -117,12 +117,12 @@
     
     CGFloat leftpadding = 10;
     
-    NSMutableAttributedString* textString = (NSMutableAttributedString*)[NSString simpleAttributedString:FlatBlack size:14 context:address];
+    NSMutableAttributedString* textString = (NSMutableAttributedString*)[NSString simpleAttributedString:FlatBlack size:14 content:address];
     NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
     style.alignment = NSTextAlignmentLeft;
     [textString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, address.length)];
     
-    self.iconStart.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:30 context:ICON_JU_LI];
+    self.iconStart.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:30 content:ICON_JU_LI];
     CGSize iconStartSize = [self.iconStart measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.iconStart.frame = (CGRect){ CGPointMake(leftpadding,(squareHeight - iconStartSize.height) / 2.),iconStartSize};
     

@@ -8,6 +8,10 @@
 
 #import "TaskViewSection.h"
 
+@implementation TaskViewSectionVo
+
+@end
+
 @interface TaskViewSection(){
     
 }
@@ -62,6 +66,11 @@
 }
 
 -(void)layoutSubviews{
+    TaskViewSectionVo* hvo = self.data;
+    if(!hvo){
+        return;
+    }
+    
     self.backgroundColor = COLOR_BACKGROUND;
     
     CGFloat sectionWidth = self.bounds.size.width;
@@ -74,8 +83,8 @@
     UIColor* iconColor;
     NSString* iconName;
     
-    int count = (arc4random() % 3); //生成0-2范围的随机数
-    if (count > 0) {
+//    int count = (arc4random() % 3); //生成0-2范围的随机数
+    if (hvo.isComplete) {
         //    if (self.indexPath.row % 2 == 0) {
         iconColor = COLOR_YI_WAN_CHENG;
         iconName = ICON_YI_WAN_CHENG;
@@ -84,17 +93,31 @@
         iconName = ICON_DAI_WAN_CHENG;
     }
     
+    NSDate* dateNow = [[NSDate alloc]init];
+    NSString* timeContent = nil;
+    if (dateNow.timeIntervalSince1970 - hvo.dateTime.timeIntervalSince1970 < 24 * 3600) {
+        timeContent = @"今天";
+    }else if(dateNow.timeIntervalSince1970 - hvo.dateTime.timeIntervalSince1970 < 24 * 3600 * 2){
+        timeContent = @"昨天";
+    }else if(dateNow.timeIntervalSince1970 - hvo.dateTime.timeIntervalSince1970 < 24 * 3600 * 3){
+        timeContent = @"前天";
+    }else{
+        NSDateFormatter* dateFormatter = [[NSDateFormatter alloc]init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];//"yyyy-MM-dd HH:mm:ss"
+        timeContent = [dateFormatter stringFromDate:hvo.dateTime];
+    }
+    
     self.square.frame = CGRectMake(0,0, sectionWidth, squareHeight);
     
-    self.iconText.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:24 context:iconName];
+    self.iconText.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:24 content:iconName];
     CGSize iconSize = [self.iconText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.iconText.frame = (CGRect){ CGPointMake(leftpadding,(squareHeight - iconSize.height) / 2. + 2),iconSize};
     
-    self.title.attributedString = [NSString simpleAttributedString:[UIColor flatBlackColor] size:14 context:@"今天"];
+    self.title.attributedString = [NSString simpleAttributedString:[UIColor flatBlackColor] size:14 content:timeContent];
     CGSize titleSize = [self.title measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.title.frame = (CGRect){CGPointMake(self.iconText.frame.origin.x + self.iconText.frame.size.width + 5, sectionHeight / 2. - 15),titleSize};
     
-    self.desLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColor] size:12 context:@"运单3个"];
+    self.desLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColor] size:12 content:ConcatStrings(@"运单",[NSString stringWithFormat:@"%lu",(unsigned long)hvo.toCount],@"个")];
     CGSize desSize = [self.desLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.desLabel.frame = (CGRect){CGPointMake(self.iconText.frame.origin.x + self.iconText.frame.size.width + 5, sectionHeight / 2. + 2),desSize};
 }

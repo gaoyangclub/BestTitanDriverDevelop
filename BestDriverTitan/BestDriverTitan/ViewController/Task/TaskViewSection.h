@@ -9,6 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "MJTableViewSection.h"
 
+@interface TaskViewSectionVo : NSObject
+
+@property(nonatomic,assign)BOOL isComplete;
+@property(nonatomic,assign)NSUInteger toCount;
+@property(nonatomic,retain)NSDate* dateTime;
+
+@end
+
 @interface TaskViewSection : MJTableViewSection
 
 @end

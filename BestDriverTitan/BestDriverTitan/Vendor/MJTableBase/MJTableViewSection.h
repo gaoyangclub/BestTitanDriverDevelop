@@ -11,6 +11,6 @@
 @interface MJTableViewSection : UIControl
 
 @property(nonatomic,assign)NSInteger itemIndex;
-@property(nonatomic,retain)NSObject* data;
+@property(nonatomic,retain)id data;
 
 @end

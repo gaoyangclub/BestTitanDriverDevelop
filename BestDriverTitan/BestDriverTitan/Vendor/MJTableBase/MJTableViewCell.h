@@ -18,7 +18,7 @@
 @property(nonatomic,retain) UITableView *tableView;
 @property(nonatomic,retain) NSIndexPath *indexPath;
 @property(nonatomic,retain) CellVo *cellVo;
-@property(nonatomic,retain) NSObject *data;
+@property(nonatomic,retain) id data;
 
 -(void)showSubviews;
 

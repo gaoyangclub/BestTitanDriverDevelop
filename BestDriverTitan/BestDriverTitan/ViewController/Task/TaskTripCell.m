@@ -91,9 +91,9 @@
 
 -(void)setComplete:(BOOL)isComplete{
     if (isComplete) {
-        self.stateNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:20                         context:ICON_YI_SHANG_BAO];
+        self.stateNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:20                         content:ICON_YI_SHANG_BAO];
     }else{
-        self.stateNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_DAI_WAN_CHENG size:20                         context:ICON_DAI_SHANG_BAO];
+        self.stateNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_DAI_WAN_CHENG size:20                         content:ICON_DAI_SHANG_BAO];
     }
     CGSize stateSize = [self.stateNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
@@ -105,7 +105,7 @@
 
 -(void)setIndex:(NSInteger)index{
     self->stopIndex = index;
-    self.indexNode.attributedString = [NSString simpleAttributedString:FlatGrayDark size:14 context:[NSString stringWithFormat:@"%li",(long)index]];
+    self.indexNode.attributedString = [NSString simpleAttributedString:FlatGrayDark size:14 content:[NSString stringWithFormat:@"%li",(long)index]];
     CGSize indexSize = [self.indexNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.indexNode.frame = (CGRect){
         CGPointMake((CGRectGetWidth(self.bounds) - indexSize.width) / 2., 30),indexSize
@@ -159,7 +159,7 @@
         
 //        labelSubNode.layerBacked = YES;
         labelSubNode.name = substr;
-        labelSubNode.attributedString = [NSString simpleAttributedString:FlatGrayDark size:14 context:substr];
+        labelSubNode.attributedString = [NSString simpleAttributedString:FlatGrayDark size:14 content:substr];
 //        labelSubNode.backgroundColor = [UIColor flatPowderBlueColor];
 //        CGFloat labelHeight = CGRectGetHeight(self.bounds) - labelY;
         CGSize labelSize = [labelSubNode measure:CGSizeMake(labelW, FLT_MAX)];
@@ -185,17 +185,17 @@
 -(void)setSelect:(BOOL)isSelect{
     NSArray* nodes = @[self.labelNode1,self.labelNode2,self.labelNode3];
     if (isSelect) {
-        self.indexNode.attributedString = [NSString simpleAttributedString:FlatOrangeDark size:14 context:[NSString         stringWithFormat:@"%li",self->stopIndex]];
+        self.indexNode.attributedString = [NSString simpleAttributedString:FlatOrangeDark size:14 content:[NSString         stringWithFormat:@"%li",self->stopIndex]];
         for (ASTextNode* labelNode in nodes) {
             if (labelNode.name) {
-                labelNode.attributedString = [NSString simpleAttributedString:FlatOrangeDark size:14 context:labelNode.name];
+                labelNode.attributedString = [NSString simpleAttributedString:FlatOrangeDark size:14 content:labelNode.name];
             }
         }
     }else{
-        self.indexNode.attributedString = [NSString simpleAttributedString:FlatGrayDark size:14 context:[NSString         stringWithFormat:@"%li",self->stopIndex]];
+        self.indexNode.attributedString = [NSString simpleAttributedString:FlatGrayDark size:14 content:[NSString         stringWithFormat:@"%li",self->stopIndex]];
         for (ASTextNode* labelNode in nodes) {
             if (labelNode.name) {
-                labelNode.attributedString = [NSString simpleAttributedString:FlatGrayDark size:14 context:labelNode.name];
+                labelNode.attributedString = [NSString simpleAttributedString:FlatGrayDark size:14 content:labelNode.name];
             }
         }
     }
@@ -239,7 +239,7 @@
         
         ASTextNode* alertIcon = [[ASTextNode alloc]init];
         alertIcon.layerBacked = YES;
-        alertIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatYellow size:20 context:ICON_JING_GAO];
+        alertIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatYellow size:20 content:ICON_JING_GAO];
         CGSize alertSize = [alertIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
         CGFloat padding = 5;
         alertIcon.frame = (CGRect){
@@ -264,9 +264,9 @@
 
 -(void)setComplete:(BOOL)isComplete{
     if (isComplete) {
-        self.stateNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:20                         context:ICON_YI_SHANG_BAO];
+        self.stateNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:20                         content:ICON_YI_SHANG_BAO];
     }else{
-        self.stateNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_DAI_WAN_CHENG size:20                         context:ICON_DAI_SHANG_BAO];
+        self.stateNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_DAI_WAN_CHENG size:20                         content:ICON_DAI_SHANG_BAO];
     }
     CGSize stateSize = [self.stateNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     CGFloat padding = 5;
@@ -403,7 +403,7 @@
             iconNode.layerBacked = YES;
             iconNode.userInteractionEnabled = NO;
             [btn.layer addSublayer:iconNode.layer];
-            iconNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatPowderBlueDark size:30                         context:data.image];
+            iconNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatPowderBlueDark size:30                         content:data.image];
             CGSize iconSize = [iconNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
             iconNode.frame = (CGRect){CGPointMake((buttonWidth - iconSize.width) / 2., buttonHeight / 2. + iconOffset),iconSize};
             
@@ -411,7 +411,7 @@
             labelNode.layerBacked = YES;
             labelNode.userInteractionEnabled = NO;
             [btn.layer addSublayer:labelNode.layer];
-            labelNode.attributedString = [NSString simpleAttributedString:FlatGrayDark size:12 context:data.title];
+            labelNode.attributedString = [NSString simpleAttributedString:FlatGrayDark size:12 content:data.title];
             CGSize labelSize = [labelNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
             labelNode.frame = (CGRect){CGPointMake((buttonWidth - labelSize.width) / 2., buttonHeight / 2. + labelOffset),labelSize};
             
@@ -462,7 +462,7 @@
     
     int carIndex = (arc4random() % (count - 1)); //生成1-(count-1)范围的随机数
     
-    self.carView.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatPowderBlueDark size:25 context:ICON_KA_CHE];
+    self.carView.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatPowderBlueDark size:25 content:ICON_KA_CHE];
     CGSize carSize = [self.carView measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     CGFloat carX = padding * 2 + carIndex * itemWidth + (itemWidth - carSize.width) / 2.;
     self.carView.frame = (CGRect){
@@ -491,7 +491,7 @@
         btn.frame = CGRectMake(padding * 2 + i * itemWidth - btnWidth / 2., 0, btnWidth, groupHeight);
         btn.userInteractionEnabled = YES;
         [btn setIndex:i + 1];
-        [btn setLabel:@"上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库"];//😭
+        [btn setLabel:ConcatStrings(@"上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库",[NSString stringWithFormat:@"%li",(long)i])];//😭
         
         int completeCount = (arc4random() % 3);
         [btn setComplete:completeCount == 0];
