@@ -100,11 +100,11 @@
             dateGapPos ++;
         }else{
             dateGapPos = 0;
-            dateGap = (arc4random() % 10);//重新计算
+            dateGap = (arc4random() % 4);//重新计算
             startDate = [startDate dateByAddingTimeInterval:-24 * 3600];//-24小时
         }
         ShipmentBean* bean = [[ShipmentBean alloc]init];
-        bean.isComplete = (arc4random() % 3) > 0;
+        bean.isComplete = i == 0 ? NO : YES;//(arc4random() % 3) > 0;
         bean.pickupCount = (arc4random() % 15);
         bean.deliverCount = (arc4random() % 15);
         bean.factor1 = (arc4random() % 3);
@@ -119,7 +119,7 @@
 -(void)headerRefresh:(HeaderRefreshHandler)handler{
     int64_t delay = 1.0 * NSEC_PER_SEC;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), ^{//
-        int count = (arc4random() % 18) + 30; //生成3-10范围的随机数
+        int count = (arc4random() % 10) + 5; //生成3-10范围的随机数
         
         NSMutableArray* shipmentList = [self createShipmentList:count startDate:[NSDate date] dateGapPos:0];
         
@@ -215,6 +215,7 @@
             sourceData = [NSMutableArray<CellVo*> array];
             svo = [SourceVo initWithParams:sourceData headerHeight:TASK_VIEW_SECTION_HEIGHT headerClass:[TaskViewSection class] headerData:NULL];
             [self.tableView addSource:svo];
+            isSectionComplete = YES;//重新开始设置
         }
         if (!bean.isComplete) {//只要一个未完成就是未完成
             isSectionComplete = NO;
@@ -232,14 +233,13 @@
     TaskViewSectionVo* hvo;
     if (svo.headerData) {
         hvo = svo.headerData;
+        if (hvo.isComplete && !isComplete) {//有未完成的 设置为未完成
+            hvo.isComplete = NO;
+        }
     }else{
         hvo = [[TaskViewSectionVo alloc]init];
         hvo.dateTime = startDate;
-    }
-    if (hvo.isComplete && !isComplete) {//有未完成的 设置为未完成
-        hvo.isComplete = NO;
-    }else if(!hvo.isComplete && isComplete){
-        hvo.isComplete = YES;
+        hvo.isComplete = isComplete;
     }
     hvo.toCount = toCount;
     svo.headerData = hvo;
