@@ -106,6 +106,11 @@
     return self.dataArray.count;
 }
 
+-(void)setRefreshDelegate:(id<MJTableBaseViewDelegate>)refreshDelegate{
+    _refreshDelegate = refreshDelegate;
+    
+}
+
 //-(void)setTopEdgeDiverge:(BOOL)topEdgeDiverge{
 ////    if (topEdgeDiverge) {
 //////        self.contentInset = UIEdgeInsetsMake(0, 0, 64, 0);

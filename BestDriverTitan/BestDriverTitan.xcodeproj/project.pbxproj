@@ -48,6 +48,8 @@
 		84129A311E54579700151672 /* MJTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84129A171E54579700151672 /* MJTableViewCell.m */; };
 		84129A321E54579700151672 /* MJTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84129A191E54579700151672 /* MJTableViewController.m */; };
 		84129A331E54579700151672 /* MJTableViewSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 84129A1B1E54579700151672 /* MJTableViewSection.m */; };
+		84183F261E84F5A200E4BCCE /* CAPSPageMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 84183F251E84F5A200E4BCCE /* CAPSPageMenu.m */; };
+		84183F291E84F5D000E4BCCE /* TaskHomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84183F281E84F5D000E4BCCE /* TaskHomeController.m */; };
 		84343C311E559D42000E26C2 /* libPods-BestDriverTitan.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84343C2B1E559D42000E26C2 /* libPods-BestDriverTitan.a */; };
 		84495C981DF113D90017D2CA /* NSString+YCI.m in Sources */ = {isa = PBXBuildFile; fileRef = 84495C901DF113D90017D2CA /* NSString+YCI.m */; };
 		84495CA41DF117E40017D2CA /* LCTabBarBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 84495C9C1DF117E40017D2CA /* LCTabBarBadge.m */; };
@@ -166,6 +168,10 @@
 		84129A191E54579700151672 /* MJTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJTableViewController.m; sourceTree = "<group>"; };
 		84129A1A1E54579700151672 /* MJTableViewSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJTableViewSection.h; sourceTree = "<group>"; };
 		84129A1B1E54579700151672 /* MJTableViewSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJTableViewSection.m; sourceTree = "<group>"; };
+		84183F241E84F5A200E4BCCE /* CAPSPageMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAPSPageMenu.h; sourceTree = "<group>"; };
+		84183F251E84F5A200E4BCCE /* CAPSPageMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CAPSPageMenu.m; sourceTree = "<group>"; };
+		84183F271E84F5D000E4BCCE /* TaskHomeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskHomeController.h; sourceTree = "<group>"; };
+		84183F281E84F5D000E4BCCE /* TaskHomeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskHomeController.m; sourceTree = "<group>"; };
 		84343C271E559D42000E26C2 /* libAFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAFNetworking.a; path = "Pods/../build/Debug-iphoneos/AFNetworking/libAFNetworking.a"; sourceTree = "<group>"; };
 		84343C281E559D42000E26C2 /* libAsyncDisplayKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAsyncDisplayKit.a; path = "Pods/../build/Debug-iphoneos/AsyncDisplayKit/libAsyncDisplayKit.a"; sourceTree = "<group>"; };
 		84343C291E559D42000E26C2 /* libChameleonFramework.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libChameleonFramework.a; path = "Pods/../build/Debug-iphoneos/ChameleonFramework/libChameleonFramework.a"; sourceTree = "<group>"; };
@@ -263,6 +269,8 @@
 		8402EC271DF94837002B78D9 /* Task */ = {
 			isa = PBXGroup;
 			children = (
+				84183F271E84F5D000E4BCCE /* TaskHomeController.h */,
+				84183F281E84F5D000E4BCCE /* TaskHomeController.m */,
 				8402EC281DF94852002B78D9 /* TaskViewController.h */,
 				8402EC291DF94852002B78D9 /* TaskViewController.m */,
 				8402EC7B1DF97D41002B78D9 /* TaskTripController.h */,
@@ -457,6 +465,15 @@
 			path = Header;
 			sourceTree = "<group>";
 		};
+		84183F231E84F59200E4BCCE /* PageMenu */ = {
+			isa = PBXGroup;
+			children = (
+				84183F241E84F5A200E4BCCE /* CAPSPageMenu.h */,
+				84183F251E84F5A200E4BCCE /* CAPSPageMenu.m */,
+			);
+			path = PageMenu;
+			sourceTree = "<group>";
+		};
 		84495C8D1DF113D90017D2CA /* Config */ = {
 			isa = PBXGroup;
 			children = (
@@ -496,6 +513,7 @@
 		84495C951DF113D90017D2CA /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				84183F231E84F59200E4BCCE /* PageMenu */,
 				841299E41E54579700151672 /* MJTableBase */,
 				84812A3C1E4C848F00E382F1 /* Color */,
 				8402EC231DF93CE1002B78D9 /* Effect */,
@@ -774,6 +792,7 @@
 			files = (
 				8407DF2D1DF1523300E47E73 /* SplashSourceView.m in Sources */,
 				84129A301E54579700151672 /* MJTableBaseView.m in Sources */,
+				84183F261E84F5A200E4BCCE /* CAPSPageMenu.m in Sources */,
 				84129A211E54579700151672 /* MJRefreshAutoGifFooter.m in Sources */,
 				8478A2191E641F300076E8B4 /* TaskTripCell.m in Sources */,
 				84129A261E54579700151672 /* MJRefreshBackStateFooter.m in Sources */,
@@ -782,6 +801,7 @@
 				84495CA71DF117E40017D2CA /* GYTabBarView.m in Sources */,
 				84129A1C1E54579700151672 /* MJRefreshAutoFooter.m in Sources */,
 				840DEDB51DF6B12900F19412 /* RootNavigationController.m in Sources */,
+				84183F291E84F5D000E4BCCE /* TaskHomeController.m in Sources */,
 				84129A2F1E54579700151672 /* UIView+MJExtension.m in Sources */,
 				84D1F8681E6567DF007C1307 /* ASControlNode+GY.m in Sources */,
 				840DEF711DED6E3100963524 /* ViewController.m in Sources */,

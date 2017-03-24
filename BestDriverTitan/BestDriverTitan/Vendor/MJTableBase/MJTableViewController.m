@@ -42,8 +42,8 @@
 //                          NO
                           ];
 //        self.tableView.alpha = 0.3;
-        [self.view addSubview:self.tableView];
         self.tableView.refreshDelegate = self;
+        [self.view addSubview:self.tableView];
         MJRefreshHeader* header = [self getHeader];
         if (header) {
             self.tableView.header = header;
@@ -78,14 +78,14 @@
     }
 }
 #pragma 坑爹!!! 必须时时跟随主view的frame
-//-(void)viewDidLayoutSubviews{
-//    self.tableView.frame = [self getTableViewFrame];
-//    [super viewDidLayoutSubviews];
-//}
+-(void)viewDidLayoutSubviews{
+    self.tableView.frame = [self getTableViewFrame];
+    [super viewDidLayoutSubviews];
+}
 
 -(CGRect)getTableViewFrame {
 //    return CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, CGRectGetWidth(self.view.frame), 603 - 40);
-    return self.view.frame;
+    return self.view.bounds;
 }
 
 

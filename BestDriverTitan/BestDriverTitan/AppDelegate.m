@@ -15,6 +15,7 @@
 #import "DIYSplashViewModel.h"
 #import "RootNavigationController.h"
 #import "MMDrawerController.h"
+#import "TaskHomeController.h"
 #import "TaskViewController.h"
 
 @interface AppDelegate ()

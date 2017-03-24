@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "MJTableViewController.h"
 
-@interface TaskHomeController : MJTableViewController
+@interface TaskViewController : MJTableViewController
+
+@property(nonatomic,assign)BOOL hasHistory;//是否包含历史任务
 
 @end

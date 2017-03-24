@@ -28,7 +28,7 @@
 
 @end
 
-@interface TaskHomeController(){
+@interface TaskViewController(){
     NSInteger pushCount;
 }
 
@@ -36,14 +36,22 @@
 
 @end
 
-@implementation TaskHomeController
+@implementation TaskViewController
+
+//-(BOOL)getShowHeader{
+//    return NO;
+//}
+//
+-(BOOL)getShowFooter{
+    return self.hasHistory;//历史任务需要
+}
 
 -(void)viewWillAppear:(BOOL)animated{
     self.tableView.sectionGap = 5;
     
     [super viewWillAppear:animated];
-    [self initTitleArea];
-    self.view.backgroundColor = COLOR_BACKGROUND;
+//    [self initTitleArea];
+//    self.view.backgroundColor = COLOR_BACKGROUND;
     
 //    UIControl* btn = [[UIControl alloc]init];
 //    btn.frame = CGRectMake(0, 100, 100, 50);
@@ -95,10 +103,15 @@
 -(NSMutableArray*)createShipmentList:(int)count startDate:(NSDate*)startDate dateGapPos:(NSInteger)dateGapPos{
     NSMutableArray* shipmentList = [NSMutableArray array];
     int dateGap = (arc4random() % 4);
+    int change = 0;
     for (int i = 0; i < count; i++) {
         if (dateGapPos < dateGap) {
             dateGapPos ++;
         }else{
+            change ++;
+            if (!self.hasHistory && change > 2) {//非历史任务只显示3天
+                break;
+            }
             dateGapPos = 0;
             dateGap = (arc4random() % 4);//重新计算
             startDate = [startDate dateByAddingTimeInterval:-24 * 3600];//-24小时
@@ -121,18 +134,19 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), ^{//
         int count = (arc4random() % 10) + 5; //生成3-10范围的随机数
         
-        NSMutableArray* shipmentList = [self createShipmentList:count startDate:[NSDate date] dateGapPos:0];
+        NSDate* startDate = nil;
+        if (self.hasHistory) {
+            startDate = [NSDate dateWithTimeIntervalSinceNow:-3 * 24 * 3600];//3天前开始
+        }else{
+            startDate = [NSDate date];
+        }
+        
+        NSMutableArray* shipmentList = [self createShipmentList:count startDate:startDate dateGapPos:0];
         
         [self.tableView clearSource];
         
-        NSDate* startDate;
-//        NSDateFormatter* dateFormatter = [[NSDateFormatter alloc]init];
-//        [dateFormatter setDateFormat:@"yyyy-MM-dd"];//"yyyy-MM-dd HH:mm:ss"
-//        dateFormatter stringFromDate:<#(nonnull NSDate *)#>
-        NSMutableArray<CellVo*>* sourceData;
-        SourceVo* svo;
         
-        [self generateSourceDataByShipmentList:shipmentList svo:svo sourceData:sourceData startDate:startDate];
+        [self generateSourceDataByShipmentList:shipmentList svo:nil sourceData:nil startDate:nil];
         
 //        for (ShipmentBean* bean in shipmentList) {
 //            NSDate* beanDate = bean.dateTime;
