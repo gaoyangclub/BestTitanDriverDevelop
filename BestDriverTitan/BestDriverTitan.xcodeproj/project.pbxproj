@@ -73,6 +73,9 @@
 		84FF1A201DF7E3A2000AEBC0 /* UICreationUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FF1A1F1DF7E3A2000AEBC0 /* UICreationUtils.m */; };
 		84FF1A241DF7EADE000AEBC0 /* UIArrowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FF1A231DF7EADE000AEBC0 /* UIArrowView.m */; };
 		A9CF264A1E5071B100D11B59 /* RoundRectNode.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CF26491E5071B100D11B59 /* RoundRectNode.m */; };
+		A9D2CF431E87A786000E7F8A /* OrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D2CF421E87A786000E7F8A /* OrderViewController.m */; };
+		A9D2CF461E87AB08000E7F8A /* OrderTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D2CF451E87AB08000E7F8A /* OrderTabView.m */; };
+		A9D2CF491E87E9C2000E7F8A /* OrderViewSection.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D2CF481E87E9C2000E7F8A /* OrderViewSection.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -224,6 +227,12 @@
 		84FF1A231DF7EADE000AEBC0 /* UIArrowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIArrowView.m; sourceTree = "<group>"; };
 		A9CF26481E5071B100D11B59 /* RoundRectNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundRectNode.h; sourceTree = "<group>"; };
 		A9CF26491E5071B100D11B59 /* RoundRectNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundRectNode.m; sourceTree = "<group>"; };
+		A9D2CF411E87A786000E7F8A /* OrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderViewController.h; sourceTree = "<group>"; };
+		A9D2CF421E87A786000E7F8A /* OrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderViewController.m; sourceTree = "<group>"; };
+		A9D2CF441E87AB08000E7F8A /* OrderTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderTabView.h; sourceTree = "<group>"; };
+		A9D2CF451E87AB08000E7F8A /* OrderTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderTabView.m; sourceTree = "<group>"; };
+		A9D2CF471E87E9C2000E7F8A /* OrderViewSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderViewSection.h; sourceTree = "<group>"; };
+		A9D2CF481E87E9C2000E7F8A /* OrderViewSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderViewSection.m; sourceTree = "<group>"; };
 		B82BA2BBD9D253B54D8D7A26 /* libPods-BestDriverTitan.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BestDriverTitan.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D98EC7D1583C1D4937BD4A28 /* Pods-BestDriverTitan.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BestDriverTitan.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BestDriverTitan/Pods-BestDriverTitan.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -531,6 +540,7 @@
 		84495C961DF113D90017D2CA /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				A9D2CF401E87A74A000E7F8A /* Order */,
 				8402EC271DF94837002B78D9 /* Task */,
 				847278A91DF168B200C1BACB /* Splash */,
 			);
@@ -664,6 +674,19 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		A9D2CF401E87A74A000E7F8A /* Order */ = {
+			isa = PBXGroup;
+			children = (
+				A9D2CF411E87A786000E7F8A /* OrderViewController.h */,
+				A9D2CF421E87A786000E7F8A /* OrderViewController.m */,
+				A9D2CF441E87AB08000E7F8A /* OrderTabView.h */,
+				A9D2CF451E87AB08000E7F8A /* OrderTabView.m */,
+				A9D2CF471E87E9C2000E7F8A /* OrderViewSection.h */,
+				A9D2CF481E87E9C2000E7F8A /* OrderViewSection.m */,
+			);
+			path = Order;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -793,9 +816,11 @@
 				8407DF2D1DF1523300E47E73 /* SplashSourceView.m in Sources */,
 				84129A301E54579700151672 /* MJTableBaseView.m in Sources */,
 				84183F261E84F5A200E4BCCE /* CAPSPageMenu.m in Sources */,
+				A9D2CF461E87AB08000E7F8A /* OrderTabView.m in Sources */,
 				84129A211E54579700151672 /* MJRefreshAutoGifFooter.m in Sources */,
 				8478A2191E641F300076E8B4 /* TaskTripCell.m in Sources */,
 				84129A261E54579700151672 /* MJRefreshBackStateFooter.m in Sources */,
+				A9D2CF491E87E9C2000E7F8A /* OrderViewSection.m in Sources */,
 				84129A1F1E54579700151672 /* MJRefreshFooter.m in Sources */,
 				841299DE1E542E4300151672 /* CircleNode.m in Sources */,
 				84495CA71DF117E40017D2CA /* GYTabBarView.m in Sources */,
@@ -810,6 +835,7 @@
 				A9CF264A1E5071B100D11B59 /* RoundRectNode.m in Sources */,
 				8407DF311DF1527E00E47E73 /* SplashSourceDaDa.m in Sources */,
 				84495CAB1DF119DA0017D2CA /* DIYTabBarItem.m in Sources */,
+				A9D2CF431E87A786000E7F8A /* OrderViewController.m in Sources */,
 				84129A201E54579700151672 /* MJRefreshHeader.m in Sources */,
 				84495C981DF113D90017D2CA /* NSString+YCI.m in Sources */,
 				84129A2C1E54579700151672 /* NSBundle+MJRefresh.m in Sources */,

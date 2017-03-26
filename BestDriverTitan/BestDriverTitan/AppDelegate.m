@@ -30,7 +30,6 @@
 -(UITabBarController*)createNormalTabBar{
 //    [UIColor flatTealColor]
     
-    
     UIViewController* itemCtrl1 = [[TaskHomeController alloc] init];
     
     UIViewController* itemCtrl2 = [[ViewController alloc] init];
@@ -103,6 +102,9 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     self.window.rootViewController = drawerController;//[self createNormalTabBar];//可替换
+    
+    CGFloat scale = SYSTEM_SCALE_FACTOR;//([UIApplication sharedApplication].delegate).window.screen.scale;
+    
     
     SplashSourceView* sourceView = [[SplashSourceDaDa alloc] init];
     [SplashViewController initWithSourceView:sourceView superView:self.window waitingHandler:

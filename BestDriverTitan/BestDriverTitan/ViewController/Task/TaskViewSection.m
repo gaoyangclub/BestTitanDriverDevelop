@@ -21,7 +21,7 @@
 @property(nonatomic,retain)ASTextNode* title;
 @property(nonatomic,retain)ASTextNode* desLabel;
 
-@property (nonatomic,retain) ASTextNode* iconText;//未完成已完成状态图标
+@property (nonatomic,retain)ASTextNode* iconText;//未完成已完成状态图标
 
 @end
 

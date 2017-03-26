@@ -49,6 +49,7 @@
         _titleView = [[UIView alloc]init];
         
         titleLabel = [UICreationUtils createNavigationTitleLabel:20 color:[UIColor whiteColor] text:NAVIGATION_TITLE_TASK_TRIP superView:_titleView];
+//        _titleView.backgroundColor = [UIColor flatGrayColor];
     }
     return _titleView;
 }

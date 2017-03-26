@@ -9,7 +9,6 @@
 #import "TaskTripCell.h"
 #import "RoundRectNode.h"
 #import "GYTabBarView.h"
-#import "DIYTabBarItem.h"
 #import "CircleNode.h"
 
 //站点信息按钮
@@ -185,14 +184,14 @@
 -(void)setSelect:(BOOL)isSelect{
     NSArray* nodes = @[self.labelNode1,self.labelNode2,self.labelNode3];
     if (isSelect) {
-        self.indexNode.attributedString = [NSString simpleAttributedString:FlatOrangeDark size:14 content:[NSString         stringWithFormat:@"%li",self->stopIndex]];
+        self.indexNode.attributedString = [NSString simpleAttributedString:FlatOrangeDark size:14 content:[NSString         stringWithFormat:@"%li",(long)self->stopIndex]];
         for (ASTextNode* labelNode in nodes) {
             if (labelNode.name) {
                 labelNode.attributedString = [NSString simpleAttributedString:FlatOrangeDark size:14 content:labelNode.name];
             }
         }
     }else{
-        self.indexNode.attributedString = [NSString simpleAttributedString:FlatGrayDark size:14 content:[NSString         stringWithFormat:@"%li",self->stopIndex]];
+        self.indexNode.attributedString = [NSString simpleAttributedString:FlatGrayDark size:14 content:[NSString         stringWithFormat:@"%li",(long)self->stopIndex]];
         for (ASTextNode* labelNode in nodes) {
             if (labelNode.name) {
                 labelNode.attributedString = [NSString simpleAttributedString:FlatGrayDark size:14 content:labelNode.name];
@@ -204,104 +203,11 @@
 @end
 
 
-@interface ActivityButton:UIControl
-
-@property(nonatomic,retain)ASTextNode* iconNode;
-@property(nonatomic,retain)ASTextNode* labelNode;
-@property(nonatomic,retain)ASControlNode* alertNode;//警告货量差异
-@property(nonatomic,retain)ASTextNode* stateNode;//完成情况状态
-@property(nonatomic,retain)DIYBarData* data;//警告货量差异
-
--(void)showAlertNode;
--(void)hideAlertNode;
-
--(void)setComplete:(BOOL)isComplete;
-
-//-(void)updateIconColor:(UIColor*)iconColor;
-
-@end
-@implementation ActivityButton
-
-//- (instancetype)init
-//{
-//    self = [super init];
-//    if (self) {
-//        self.opaque = false;//坑爹 一定要关闭掉才有透明绘制和圆角
-//    }
-//    return self;
-//}
-
--(ASControlNode *)alertNode{
-    if (!_alertNode) {
-        _alertNode = [[ASControlNode alloc]init];
-        _alertNode.layerBacked = YES;
-        _alertNode.userInteractionEnabled = NO;
-        
-        ASTextNode* alertIcon = [[ASTextNode alloc]init];
-        alertIcon.layerBacked = YES;
-        alertIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatYellow size:20 content:ICON_JING_GAO];
-        CGSize alertSize = [alertIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-        CGFloat padding = 5;
-        alertIcon.frame = (CGRect){
-            CGPointMake(CGRectGetWidth(self.bounds) - alertSize.width - padding, CGRectGetHeight(self.bounds) - alertSize.height - padding),alertSize
-        };
-        [_alertNode addSubnode:alertIcon];
-        
-        [self.layer addSublayer:_alertNode.layer];
-    }
-    return _alertNode;
-}
-
--(ASTextNode *)stateNode{
-    if (!_stateNode) {
-        _stateNode = [[ASTextNode alloc]init];
-        _stateNode.layerBacked = YES;
-        _stateNode.userInteractionEnabled = NO;
-        [self.layer addSublayer:_stateNode.layer];
-    }
-    return _stateNode;
-}
-
--(void)setComplete:(BOOL)isComplete{
-    if (isComplete) {
-        self.stateNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:20                         content:ICON_YI_SHANG_BAO];
-    }else{
-        self.stateNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_DAI_WAN_CHENG size:20                         content:ICON_DAI_SHANG_BAO];
-    }
-    CGSize stateSize = [self.stateNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    CGFloat padding = 5;
-    self.stateNode.frame = (CGRect){
-        CGPointMake(CGRectGetWidth(self.bounds) - stateSize.width - padding, padding),stateSize
-    };
-}
-
-//-(void)updateIconColor:(UIColor*)iconColor{
-//    self.iconNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:30                         context:self.data.image];
-////    CGSize labelSize = [self.labelNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-////    self.labelNode.frame = (CGRect){CGPointMake((buttonWidth - labelSize.width) / 2., buttonHeight / 2. + labelOffset),labelSize};
-//}
-
--(void)showAlertNode{
-    self.alertNode.hidden = NO;
-    //加侦听器
-    //点击展开货量差异提示
-}
-
--(void)hideAlertNode{
-    self.alertNode.hidden = YES;
-//    self.alertNode removeTarget:<#(nullable id)#> action:<#(nullable SEL)#> forControlEvents:<#(ASControlNodeEvent)#>
-    //移除侦听器
-}
-
-@end
-
 
 @interface TaskTripCell(){
-    NSMutableDictionary* buttonDic;//活动上报按钮访问列表
+    
 }
 
-@property(nonatomic,retain) RoundRectNode* topAreaBack;
-@property(nonatomic,retain) UIView* topAreaView;
 @property(nonatomic,retain) UIScrollView* bottomAreaView;
 
 @property(nonatomic,retain) RoundRectNode* bottomRouteLine;
@@ -349,89 +255,6 @@
         [self.contentView addSubview:_bottomAreaView];
     }
     return _bottomAreaView;
-}
-
--(UIView *)topAreaView{
-    if (!_topAreaView) {
-        _topAreaView = [[UIView alloc]init];
-        [self.contentView addSubview:_topAreaView];
-    }
-    return _topAreaView;
-}
-
--(RoundRectNode *)topAreaBack{
-    if (!_topAreaBack) {
-        _topAreaBack = [[RoundRectNode alloc]init];
-        _topAreaBack.fillColor = [UIColor whiteColor];
-        _topAreaBack.cornerRadius = 5;
-        _topAreaBack.layerBacked = YES;
-        [self.topAreaView.layer addSublayer:_topAreaBack.layer];
-    }
-    return _topAreaBack;
-}
-
--(void)initTopArea:(CGFloat)backWidth{
-    if (!buttonDic) {
-        CGFloat buttonWidth = backWidth / 3.;
-        CGFloat buttonHeight = 65;
-        CGFloat padding = 5;//内边距
-        CGFloat iconOffset = -25;
-        CGFloat labelOffset = 10;
-        
-        buttonDic = [[NSMutableDictionary alloc]init];
-        
-        //6个活动上报按钮
-        NSArray<DIYBarData *>* dataArray = @[[DIYBarData initWithParams:TABBAR_TITLE_TI_HUO image:ICON_TI_HUO],
-                                             [DIYBarData initWithParams:TABBAR_TITLE_ZHUANG_CHE image:ICON_ZHUANG_CHE],
-                                             [DIYBarData initWithParams:TABBAR_TITLE_XIE_HUO image:ICON_XIE_HUO],
-                                             [DIYBarData initWithParams:TABBAR_TITLE_QIAN_SHOU image:ICON_QIAN_SHOU],
-                                             [DIYBarData initWithParams:TABBAR_TITLE_HUI_DAN image:ICON_HUI_DAN],
-                                             [DIYBarData initWithParams:TABBAR_TITLE_SHOU_KUAN image:ICON_SHOU_KUAN],
-                                          ];
-        //2行3列
-        for(int i = 0 ; i < dataArray.count ; i ++){
-            DIYBarData* data = dataArray[i];
-            
-            ActivityButton* btn = [[ActivityButton alloc]init];
-            [btn setShowTouch:YES];
-            btn.data = data;
-//            btn.layerBacked = YES;
-            [self.topAreaView addSubview:btn];
-            btn.frame = CGRectMake((i % 3) * buttonWidth, (i / 3) * buttonHeight, buttonWidth, buttonHeight);
-            
-            ASTextNode* iconNode = btn.iconNode = [[ASTextNode alloc]init];
-            iconNode.layerBacked = YES;
-            iconNode.userInteractionEnabled = NO;
-            [btn.layer addSublayer:iconNode.layer];
-            iconNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatPowderBlueDark size:30                         content:data.image];
-            CGSize iconSize = [iconNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-            iconNode.frame = (CGRect){CGPointMake((buttonWidth - iconSize.width) / 2., buttonHeight / 2. + iconOffset),iconSize};
-            
-            ASTextNode* labelNode = btn.labelNode = [[ASTextNode alloc]init];
-            labelNode.layerBacked = YES;
-            labelNode.userInteractionEnabled = NO;
-            [btn.layer addSublayer:labelNode.layer];
-            labelNode.attributedString = [NSString simpleAttributedString:FlatGrayDark size:12 content:data.title];
-            CGSize labelSize = [labelNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-            labelNode.frame = (CGRect){CGPointMake((buttonWidth - labelSize.width) / 2., buttonHeight / 2. + labelOffset),labelSize};
-            
-            [buttonDic setValue:btn forKey:data.title];
-            
-            if (i % 3 == 0) {//横向的线
-                ASDisplayNode* lineTopY = [[ASDisplayNode alloc]init];
-                lineTopY.backgroundColor = COLOR_LINE;
-                lineTopY.layerBacked = YES;
-                lineTopY.frame = CGRectMake(padding, (i / 3 + 1) * buttonHeight - LINE_WIDTH / 2., backWidth - padding * 2, LINE_WIDTH);
-                [self.topAreaBack addSubnode:lineTopY];
-            }else{
-                ASDisplayNode* lineTopX = [[ASDisplayNode alloc]init];
-                lineTopX.backgroundColor = COLOR_LINE;
-                lineTopX.layerBacked = YES;
-                lineTopX.frame = CGRectMake((i % 3) * buttonWidth - LINE_WIDTH / 2., (i / 3) * buttonHeight + padding, LINE_WIDTH , buttonHeight - padding * 2);
-                [self.topAreaBack addSubnode:lineTopX];
-            }
-        }
-    }
 }
 
 ////更新文字颜色
@@ -512,7 +335,6 @@
             [btn setSelect:YES];
         }
     }
-    [self checkButtonStates];
     
     [self moveRouteButton:clickBtn];
     
@@ -535,36 +357,6 @@
     [self.bottomAreaView setContentOffset:CGPointMake(moveOffsetX,contentOffset.y) animated:YES];
 }
 
--(void)checkButtonStates{
-    for (NSString *key in buttonDic) {
-        ActivityButton* btn = buttonDic[key];
-        int count = (arc4random() % 4); //生成0-2范围的随机数
-        if (count > 0) {
-            if (count > 1) {
-                //                [btn updateIconColor:COLOR_PRIMARY];
-                [btn setComplete:YES];
-                if (count > 2) {
-                    [btn showAlertNode];
-                }
-            }else{
-                //                [btn updateIconColor:COLOR_PRIMARY];
-                [btn setComplete:NO];
-            }
-            btn.stateNode.hidden = NO;
-            [btn setShowTouch:YES];
-            //            btn.userInteractionEnabled = YES;
-            btn.alpha = 1;
-        }else{
-            //            [btn updateIconColor:FlatGray];
-            btn.stateNode.hidden = YES;
-            [btn setShowTouch:NO];
-            //            btn.userInteractionEnabled = NO;//无法交互
-            btn.alpha = 0.3;
-            [btn hideAlertNode];
-        }
-    }
-}
-
 -(void)showSubviews{
     self.backgroundColor = [UIColor clearColor];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -572,18 +364,14 @@
     CGFloat cellHeight = self.contentView.bounds.size.height;
     CGFloat cellWidth = self.contentView.bounds.size.width;
     
-    CGFloat leftMargin = 10;
+//    CGFloat leftMargin = 10;
     CGFloat topMargin = 5;
     
-    CGFloat backWidth = cellWidth - leftMargin * 2;
-    CGFloat backHeight = 175;
+//    CGFloat backWidth = cellWidth - leftMargin * 2;
+//    CGFloat backHeight = 175;
     
-    self.topAreaView.frame = CGRectMake(leftMargin, topMargin, backWidth, backHeight);
-    self.topAreaBack.frame = self.topAreaView.bounds;
-    [self initTopArea:backWidth];
-    
-    CGFloat scrollerHeight = cellHeight - backHeight - topMargin;
-    self.bottomAreaView.frame = CGRectMake(0, topMargin + backHeight, cellWidth, scrollerHeight);
+    CGFloat scrollerHeight = cellHeight - topMargin;
+    self.bottomAreaView.frame = CGRectMake(0, topMargin, cellWidth, scrollerHeight);
 //    self.bottomAreaView.backgroundColor = [UIColor brownColor];
     
     [self initBottomArea:scrollerHeight];

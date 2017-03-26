@@ -55,7 +55,7 @@
     // Do any additional setup after loading the view.
     
     
-    if (!self->pageMenu) {
+//    if (!self->pageMenu) {
         NSArray* titleList = [NSArray arrayWithObjects:
                               [NSArray arrayWithObjects:@"最近三天",@(NO), nil],
                               [NSArray arrayWithObjects:@"历史任务",@(YES), nil],
@@ -97,7 +97,7 @@
         //    // Lastly add page menu as subview of base view controller view
         //    // or use pageMenu controller in you view hierachy as desired
         [self.view addSubview:pageMenu.view];
-    }
+//    }
     
     
 //    var controllerArray:[UIViewController] = []

@@ -100,7 +100,7 @@
     for (TabData* tabData in _dataArray) {
         [ctrls addObject:tabData.controller];
         tabData.controller.view.frame = bounds;
-        [tabData.controller viewDidLoad];
+//        [tabData.controller viewDidLoad];
     }
     [self setViewControllers:ctrls animated:YES];
 }

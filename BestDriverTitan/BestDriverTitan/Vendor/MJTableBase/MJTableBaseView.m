@@ -152,7 +152,7 @@
                     [strongSelf.refreshDelegate footerLoadMore:^(BOOL hasData){
                         if (hasData) {
                             [strongSelf checkGaps];
-                            
+                            self.refreshAll = NO;
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 [strongSelf reloadData];
                             });
@@ -186,7 +186,7 @@
             if (strongSelf.refreshDelegate && [strongSelf.refreshDelegate respondsToSelector:@selector(headerRefresh:)]) {
                 [strongSelf.refreshDelegate headerRefresh:^(BOOL hasData){
                     _hasFirstRefreshed = YES;
-                    
+                    self.refreshAll = YES;
                     [strongSelf checkGaps];
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [strongSelf reloadData];
@@ -327,6 +327,21 @@
     [tableView deselectRowAtIndexPath:indexPath animated: false];//反选
     if (self.refreshDelegate && [self.refreshDelegate respondsToSelector:@selector(didSelectRow:didSelectRowAtIndexPath:)]) {
         [self.refreshDelegate didSelectRow:tableView didSelectRowAtIndexPath:indexPath];
+    }
+}
+
+
+-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
+    if (self.refreshDelegate && [self.refreshDelegate respondsToSelector:@selector(didEndScrollingAnimation)]) {
+        [self.refreshDelegate didEndScrollingAnimation];
+    }
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (self.refreshDelegate && [self.refreshDelegate respondsToSelector:@selector(didScrollToRow:)]) {
+        NSIndexPath *path =  [self indexPathForRowAtPoint:CGPointMake(scrollView.contentOffset.x, scrollView.contentOffset.y)];
+//        NSLog(@"这是第%li栏目",(long)path.section);
+        [self.refreshDelegate didScrollToRow:path];
     }
 }
 

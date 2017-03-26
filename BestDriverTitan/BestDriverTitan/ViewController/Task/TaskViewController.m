@@ -74,8 +74,8 @@
 }
 
 //-(CGRect)getTableViewFrame {
-//    CGFloat padding = 5;
-//    return CGRectMake(self.view.frame.origin.x + padding, self.view.frame.origin.y, CGRectGetWidth(self.view.frame) - padding * 2, CGRectGetHeight(self.view.frame));
+//    CGFloat padding = 10;
+//    return CGRectMake(0, padding, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - padding);
 //}
 
 -(UIView *)titleView{
@@ -94,6 +94,11 @@
     
     self.tabBarController.navigationItem.titleView = self.titleView;
 }
+
+//-(void)testScrollToRow{
+//    NSIndexPath * dayOne = [NSIndexPath indexPathForRow:0 inSection:1];
+//    [self.tableView scrollToRowAtIndexPath:dayOne atScrollPosition:UITableViewScrollPositionTop animated:YES];
+//}
 
 -(void)rightItemClick{
     MMDrawerController* drawerController = (MMDrawerController*)((AppDelegate*)[UIApplication sharedApplication].delegate).window.rootViewController;

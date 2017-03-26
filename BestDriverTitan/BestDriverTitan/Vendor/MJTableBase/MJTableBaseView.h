@@ -26,7 +26,10 @@ typedef void(^FooterLoadMoreHandler)(BOOL hasData);
 -(void)footerLoadMore:(FooterLoadMoreHandler)handler;
 @optional
 -(void)didSelectRow:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
-
+@optional
+-(void)didScrollToRow:(NSIndexPath *)indexPath;
+@optional
+-(void)didEndScrollingAnimation;
 @end
 
 
