@@ -14,7 +14,9 @@
 
 +(UILabel*)createNavigationTitleLabel:(CGFloat)size color:(UIColor*)color text:(NSString*)text superView:(UIView*)superView{
     UILabel* uiLabel = [UICreationUtils createLabel:size color:color text:text sizeToFit:YES superView:superView];
-    uiLabel.center = superView.center;//手动对齐
+    if (superView) {
+        uiLabel.center = superView.center;//手动对齐
+    }
     return uiLabel;
 }
 

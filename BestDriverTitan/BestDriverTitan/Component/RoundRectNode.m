@@ -32,6 +32,23 @@
     [self setNeedsDisplay];
 }
 
+-(void)setTopLeftRadius:(CGFloat)topLeftRadius{
+    _topLeftRadius = topLeftRadius;
+    [self setNeedsDisplay];
+}
+-(void)setTopRightRadius:(CGFloat)topRightRadius{
+    _topRightRadius = topRightRadius;
+    [self setNeedsDisplay];
+}
+-(void)setBottomRightRadius:(CGFloat)bottomRightRadius{
+    _bottomRightRadius = bottomRightRadius;
+    [self setNeedsDisplay];
+}
+-(void)setBottomLeftRadius:(CGFloat)bottomLeftRadius{
+    _bottomLeftRadius = bottomLeftRadius;
+    [self setNeedsDisplay];
+}
+
 -(void)setFillColor:(UIColor *)fillColor{
     _fillColor = fillColor;
     [self setNeedsDisplay];
@@ -61,6 +78,10 @@
                                  [NSNumber numberWithFloat:self.cornerRadius],@"cornerRadius",
                                  self.strokeColor,@"strokeColor",
                                  [NSNumber numberWithFloat:self.strokeWidth],@"strokeWidth",
+                                 @(self.topLeftRadius),@"topLeftRadius",
+                                 @(self.topRightRadius),@"topRightRadius",
+                                 @(self.bottomRightRadius),@"bottomRightRadius",
+                                 @(self.bottomLeftRadius),@"bottomLeftRadius",
                                  nil];
     return dictionary;
 }
@@ -77,54 +98,110 @@
     CGFloat width = bounds.size.width;
     CGFloat height = bounds.size.height;
     // 简便起见，这里把圆角半径设置为长和宽平均值的1/10
-    CGFloat radius = (width + height) * 0.05;
+    CGFloat radius = 0;//(width + height) * 0.05;
     if (radiusValue.floatValue) {
         radius = radiusValue.floatValue;
     }
     
+    CGFloat topLeft = 0.0,topRight = 0.0,bottomRight = 0.0,bottomLeft = 0.0;
+    if (radius) {
+        topLeft = topRight = bottomRight = bottomLeft = radius;
+    }else{
+        NSNumber *topLeftRadius = [dictionary objectForKey:@"topLeftRadius"];
+        NSNumber *topRightRadius = [dictionary objectForKey:@"topRightRadius"];
+        NSNumber *bottomRightRadius = [dictionary objectForKey:@"bottomRightRadius"];
+        NSNumber *bottomLeftRadius = [dictionary objectForKey:@"bottomLeftRadius"];
+        if (topLeftRadius.floatValue) {
+            topLeft = topLeftRadius.floatValue;
+        }
+        if (topRightRadius.floatValue) {
+            topRight = topRightRadius.floatValue;
+        }
+        if (bottomRightRadius.floatValue) {
+            bottomRight = bottomRightRadius.floatValue;
+        }
+        if (bottomLeftRadius.floatValue) {
+            bottomLeft = bottomLeftRadius.floatValue;
+        }
+    }
     
     if (strokeValue.floatValue) {
         CGFloat strokeWidth = strokeValue.floatValue;
         UIColor* strokeColor = [dictionary objectForKey:@"strokeColor"];
-        [RoundRectNode drawFillPath:strokeColor width:width height:height radius:radius];
-        [RoundRectNode drawStrokePath:color width:width height:height radius:radius strokeWidth:strokeWidth];
+        [RoundRectNode drawFillPath:strokeColor width:width height:height topLeft:topLeft topRight:topRight bottomRight:bottomRight bottomLeft:bottomLeft];
+        [RoundRectNode drawStrokePath:color width:width height:height topLeft:topLeft topRight:topRight bottomRight:bottomRight bottomLeft:bottomLeft strokeWidth:strokeWidth];
     }else{
-        [RoundRectNode drawFillPath:color width:width height:height radius:radius];
+        [RoundRectNode drawFillPath:color width:width height:height topLeft:topLeft topRight:topRight bottomRight:bottomRight bottomLeft:bottomLeft];
     }
     
     
 }
 
-+(void)drawFillPath:(UIColor*)color  width:(CGFloat)width height:(CGFloat)height radius:(CGFloat)radius{
++(void)drawFillPath:(UIColor*)color  width:(CGFloat)width height:(CGFloat)height topLeft:(CGFloat)topLeft
+    topRight:(CGFloat)topRight bottomRight:(CGFloat)bottomRight bottomLeft:(CGFloat)bottomLeft{
     // 获取CGContext，注意UIKit里用的是一个专门的函数
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    CGContextAddArc(context, width - radius, radius, radius, -0.5 * M_PI, 0.0, 0);
-    // 绘制第2条线和第2个1/4圆弧
-    CGContextAddArc(context, width - radius, height - radius, radius, 0.0, 0.5 * M_PI, 0);
-    // 绘制第3条线和第3个1/4圆弧
-    CGContextAddArc(context, radius, height - radius, radius, 0.5 * M_PI, M_PI, 0);
-    // 绘制第4条线和第4个1/4圆弧
-    CGContextAddArc(context, radius, radius, radius, M_PI, 1.5 * M_PI, 0);
+    if (topLeft) {
+        // 绘制第4条线和第4个1/4圆弧
+        CGContextAddArc(context, topLeft, topLeft, topLeft, M_PI, 1.5 * M_PI, 0);//TOPLEFT
+    }else{
+        CGContextMoveToPoint(context, 0, 0);
+    }
+    if (topRight) {
+        CGContextAddArc(context, width - topRight, topRight, topRight, -0.5 * M_PI, 0.0, 0);//TOPRIGHT
+    }else{
+        CGContextAddLineToPoint(context, width, 0);
+    }
+    if (bottomRight) {
+        // 绘制第2条线和第2个1/4圆弧
+        CGContextAddArc(context, width - bottomRight, height - bottomRight, bottomRight, 0.0, 0.5 * M_PI, 0);//BOTTOMRIGHT
+    }else{
+        CGContextAddLineToPoint(context, width, height);
+    }
+    if (bottomLeft) {
+        // 绘制第3条线和第3个1/4圆弧
+        CGContextAddArc(context, bottomLeft, height - bottomLeft, bottomLeft, 0.5 * M_PI, M_PI, 0);//BOTTOMLEFT
+    }else{
+        CGContextAddLineToPoint(context, 0, height);
+    }
 //    CGContextClosePath(context);// 闭合路径
     [color setFill];//边框色
     //    [[UIColor blackColor] setStroke];
     CGContextDrawPath(context, kCGPathFill);
 }
 
-+(void)drawStrokePath:(UIColor*)color width:(CGFloat)width height:(CGFloat)height radius:(CGFloat)radius strokeWidth:(CGFloat)strokeWidth{
++(void)drawStrokePath:(UIColor*)color width:(CGFloat)width height:(CGFloat)height topLeft:(CGFloat)topLeft
+             topRight:(CGFloat)topRight bottomRight:(CGFloat)bottomRight bottomLeft:(CGFloat)bottomLeft strokeWidth:(CGFloat)strokeWidth
+{
     // 获取CGContext，注意UIKit里用的是一个专门的函数
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     CGContextSetFillColorWithColor(context, color.CGColor);
     
-    CGContextAddArc(context, width - radius, radius, radius - strokeWidth, -0.5 * M_PI, 0.0, 0);
-    // 绘制第2条线和第2个1/4圆弧
-    CGContextAddArc(context, width - radius, height - radius, radius - strokeWidth, 0.0, 0.5 * M_PI, 0);
-    // 绘制第3条线和第3个1/4圆弧
-    CGContextAddArc(context, radius, height - radius, radius - strokeWidth, 0.5 * M_PI, M_PI, 0);
-    // 绘制第4条线和第4个1/4圆弧
-    CGContextAddArc(context, radius, radius, radius - strokeWidth, M_PI, 1.5 * M_PI, 0);
+    if (topLeft) {
+        // 绘制第4条线和第4个1/4圆弧
+        CGContextAddArc(context, topLeft, topLeft, topLeft - strokeWidth, M_PI, 1.5 * M_PI, 0);
+    }else{
+        CGContextMoveToPoint(context, strokeWidth, strokeWidth);
+    }
+    if (topRight) {
+        // 绘制第2条线和第2个1/4圆弧
+        CGContextAddArc(context, width - topRight, topRight, topRight - strokeWidth, -0.5 * M_PI, 0.0, 0);
+    }else{
+        CGContextAddLineToPoint(context, width - strokeWidth, strokeWidth);
+    }
+    if (bottomRight) {
+        CGContextAddArc(context, width - bottomRight, height - bottomRight, bottomRight - strokeWidth, 0.0, 0.5 * M_PI, 0);
+    }else{
+        CGContextAddLineToPoint(context, width - strokeWidth, height - strokeWidth);
+    }
+    if (bottomLeft) {
+        // 绘制第3条线和第3个1/4圆弧
+        CGContextAddArc(context, bottomLeft, height - bottomLeft, bottomLeft - strokeWidth, 0.5 * M_PI, M_PI, 0);
+    }else{
+        CGContextAddLineToPoint(context, strokeWidth, height - strokeWidth);
+    }
 //    CGContextClosePath(context);// 闭合路径
 //    [color setFill];//边框色
     //    [[UIColor blackColor] setStroke];

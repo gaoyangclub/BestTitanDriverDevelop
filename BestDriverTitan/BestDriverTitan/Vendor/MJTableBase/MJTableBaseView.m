@@ -270,12 +270,17 @@
 //        cell.selectionStyle = UITableViewCellSelectionStyleGray;//UITableViewCellSelectionStyleNone;
         cell.backgroundColor = [UIColor clearColor];//无色
     }
-    if(!self.refreshAll && !isCreate){//上啦刷新且非创建阶段
-        cell.needRefresh = NO; //不需要刷新
-        return cell; //直接返回无需设置
-    }else{
+    if (isCreate || cell.cellVo != cellVo) {
         cell.needRefresh = YES; //需要刷新
+    }else{
+        cell.needRefresh = NO; //不需要刷新
     }
+//    if(!self.refreshAll && !isCreate)){//上啦加载且非创建阶段
+//        cell.needRefresh = NO; //不需要刷新
+//        return cell; //直接返回无需设置
+//    }else{
+//        cell.needRefresh = YES; //需要刷新
+//    }
     NSObject* data = cellVo.cellData;
     cell.isFirst = cellVo.cellTag == CELL_TAG_FIRST;
     if(source.data != NULL){

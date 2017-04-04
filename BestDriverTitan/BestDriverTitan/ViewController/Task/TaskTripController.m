@@ -25,9 +25,10 @@
 @end
 
 @interface TaskTripController (){
-    UILabel* titleLabel;
+//    UILabel* titleLabel;
 }
-@property(nonatomic,retain)UIView* titleView;
+//@property(nonatomic,retain)UIView* titleView;
+@property(nonatomic,retain)UILabel* titleLabel;
 
 @end
 
@@ -44,14 +45,21 @@
 }
 
 
--(UIView *)titleView{
-    if (!_titleView) {
-        _titleView = [[UIView alloc]init];
-        
-        titleLabel = [UICreationUtils createNavigationTitleLabel:20 color:[UIColor whiteColor] text:NAVIGATION_TITLE_TASK_TRIP superView:_titleView];
-//        _titleView.backgroundColor = [UIColor flatGrayColor];
+//-(UIView *)titleView{
+//    if (!_titleView) {
+//        _titleView = [[UIView alloc]init];
+//        
+//        titleLabel = [UICreationUtils createNavigationTitleLabel:20 color:[UIColor whiteColor] text:NAVIGATION_TITLE_TASK_TRIP superView:_titleView];
+////        _titleView.backgroundColor = [UIColor flatGrayColor];
+//    }
+//    return _titleView;
+//}
+
+-(UILabel *)titleLabel{
+    if (!_titleLabel) {
+        _titleLabel = [UICreationUtils createNavigationTitleLabel:20 color:[UIColor whiteColor] text:NAVIGATION_TITLE_TASK_TRIP superView:nil];
     }
-    return _titleView;
+    return _titleLabel;
 }
 
 -(void)initTitleArea{
@@ -59,11 +67,13 @@
     
 //    self.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:[UIColor whiteColor] font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SHE_ZHI target:self action:@selector(rightItemClick)];
     
-    self.navigationItem.titleView = self.titleView;
+    self.titleLabel.text = @"TO12451516161";//标题显示TO号
+    [self.titleLabel sizeToFit];
+//    self.titleView.bounds = titleLabel.bounds;
+    self.navigationItem.titleView = self.titleLabel;//self.titleView;
     
-    titleLabel.text = @"TO12451516161";//标题显示TO号
-    [titleLabel sizeToFit];
-    titleLabel.center = self.titleView.center;
+//    titleLabel.center = self.titleView.center;
+    
 }
 
 //返回上层

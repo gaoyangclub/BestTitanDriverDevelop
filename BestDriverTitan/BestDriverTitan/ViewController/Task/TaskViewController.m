@@ -73,10 +73,10 @@
 
 }
 
-//-(CGRect)getTableViewFrame {
-//    CGFloat padding = 10;
-//    return CGRectMake(0, padding, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - padding);
-//}
+-(CGRect)getTableViewFrame {
+    CGFloat padding = 5;
+    return CGRectMake(0, padding, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - padding);
+}
 
 -(UIView *)titleView{
     if (!_titleView) {
@@ -122,7 +122,7 @@
             startDate = [startDate dateByAddingTimeInterval:-24 * 3600];//-24小时
         }
         ShipmentBean* bean = [[ShipmentBean alloc]init];
-        bean.isComplete = i == 0 ? NO : YES;//(arc4random() % 3) > 0;
+        bean.isComplete = (arc4random() % 3) > 0 ? NO : YES;//;
         bean.pickupCount = (arc4random() % 15);
         bean.deliverCount = (arc4random() % 15);
         bean.factor1 = (arc4random() % 3);

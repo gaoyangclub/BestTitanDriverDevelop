@@ -133,7 +133,8 @@
 //    CGFloat lineGap = 1;
     
     self.back1.cornerRadius = 5;//self.back2.cornerRadius = self.back3.cornerRadius =
-    
+//    self.back1.topRightRadius = 5;
+//    self.back1.bottomLeftRadius = 5;
     self.back1.frame = self.bounds;
     self.back1.fillColor = self.fillColor;
     self.back1.strokeColor = self.compleColor;
