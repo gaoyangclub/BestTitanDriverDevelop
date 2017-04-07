@@ -267,7 +267,11 @@
     }
     
     if(isCreate){ //创建阶段设置
-//        cell.selectionStyle = UITableViewCellSelectionStyleGray;//UITableViewCellSelectionStyleNone;
+        if([cell showSelectionStyle]){
+            cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        }else{
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
         cell.backgroundColor = [UIColor clearColor];//无色
     }
     if (isCreate || cell.cellVo != cellVo) {

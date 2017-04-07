@@ -68,6 +68,8 @@
 		84812A3F1E4C84C500E382F1 /* UIColor+HexExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = 84812A3E1E4C84C500E382F1 /* UIColor+HexExchange.m */; };
 		849161CC1E34B10B0063CD80 /* TaskViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 849161CB1E34B10B0063CD80 /* TaskViewCell.m */; };
 		849161CF1E34B1C00063CD80 /* ShipmentBean.m in Sources */ = {isa = PBXBuildFile; fileRef = 849161CE1E34B1C00063CD80 /* ShipmentBean.m */; };
+		84AF24991E94CE3C00AF200D /* DiyNumberAddView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AF24981E94CE3C00AF200D /* DiyNumberAddView.m */; };
+		84AF249C1E94D88E00AF200D /* OrderNormalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AF249B1E94D88E00AF200D /* OrderNormalCell.m */; };
 		84D1F8651E655E95007C1307 /* ASDisplayNode+GY.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D1F8641E655E95007C1307 /* ASDisplayNode+GY.m */; };
 		84D1F8681E6567DF007C1307 /* ASControlNode+GY.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D1F8671E6567DF007C1307 /* ASControlNode+GY.m */; };
 		84FF1A201DF7E3A2000AEBC0 /* UICreationUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FF1A1F1DF7E3A2000AEBC0 /* UICreationUtils.m */; };
@@ -217,6 +219,10 @@
 		849161CB1E34B10B0063CD80 /* TaskViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskViewCell.m; sourceTree = "<group>"; };
 		849161CD1E34B1C00063CD80 /* ShipmentBean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShipmentBean.h; sourceTree = "<group>"; };
 		849161CE1E34B1C00063CD80 /* ShipmentBean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShipmentBean.m; sourceTree = "<group>"; };
+		84AF24971E94CE3C00AF200D /* DiyNumberAddView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiyNumberAddView.h; sourceTree = "<group>"; };
+		84AF24981E94CE3C00AF200D /* DiyNumberAddView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiyNumberAddView.m; sourceTree = "<group>"; };
+		84AF249A1E94D88E00AF200D /* OrderNormalCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderNormalCell.h; sourceTree = "<group>"; };
+		84AF249B1E94D88E00AF200D /* OrderNormalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderNormalCell.m; sourceTree = "<group>"; };
 		84D1F8631E655E95007C1307 /* ASDisplayNode+GY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ASDisplayNode+GY.h"; sourceTree = "<group>"; };
 		84D1F8641E655E95007C1307 /* ASDisplayNode+GY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ASDisplayNode+GY.m"; sourceTree = "<group>"; };
 		84D1F8661E6567DF007C1307 /* ASControlNode+GY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ASControlNode+GY.h"; sourceTree = "<group>"; };
@@ -600,6 +606,8 @@
 				84495CAA1DF119DA0017D2CA /* DIYTabBarItem.m */,
 				A9CF26481E5071B100D11B59 /* RoundRectNode.h */,
 				A9CF26491E5071B100D11B59 /* RoundRectNode.m */,
+				84AF24971E94CE3C00AF200D /* DiyNumberAddView.h */,
+				84AF24981E94CE3C00AF200D /* DiyNumberAddView.m */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -683,6 +691,8 @@
 				A9D2CF451E87AB08000E7F8A /* OrderTabView.m */,
 				A9D2CF471E87E9C2000E7F8A /* OrderViewSection.h */,
 				A9D2CF481E87E9C2000E7F8A /* OrderViewSection.m */,
+				84AF249A1E94D88E00AF200D /* OrderNormalCell.h */,
+				84AF249B1E94D88E00AF200D /* OrderNormalCell.m */,
 			);
 			path = Order;
 			sourceTree = "<group>";
@@ -865,8 +875,10 @@
 				8402EC2A1DF94852002B78D9 /* TaskViewController.m in Sources */,
 				8402EC7D1DF97D41002B78D9 /* TaskTripController.m in Sources */,
 				84FF1A201DF7E3A2000AEBC0 /* UICreationUtils.m in Sources */,
+				84AF24991E94CE3C00AF200D /* DiyNumberAddView.m in Sources */,
 				8478A2161E6407260076E8B4 /* TaskTripSection.m in Sources */,
 				84129A291E54579700151672 /* MJRefreshStateHeader.m in Sources */,
+				84AF249C1E94D88E00AF200D /* OrderNormalCell.m in Sources */,
 				84129A311E54579700151672 /* MJTableViewCell.m in Sources */,
 				84495CA51DF117E40017D2CA /* GYTabBarController.m in Sources */,
 				84129A2B1E54579700151672 /* MJRefreshConst.m in Sources */,

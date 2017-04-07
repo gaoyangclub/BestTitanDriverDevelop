@@ -542,7 +542,7 @@
     CGFloat topMargin = 5;
     
     CGFloat backWidth = cellWidth - leftMargin * 2;
-    CGFloat backHeight = cellHeight - topMargin * 2;
+    CGFloat backHeight = cellHeight - topMargin;// * 2;
     
     CGFloat padding = 5;//内边距10
     
@@ -554,7 +554,7 @@
     
     CGFloat centerHeight = backHeight - topY - topHeight - bottomHeight;
     
-    self.backNode.frame = CGRectMake(leftMargin, topMargin, backWidth, backHeight);
+    self.backNode.frame = CGRectMake(leftMargin, 0, backWidth, backHeight);
     
     self.normalBackView.backNode.frame = self.selectBackView.backNode.frame = self.backNode.frame;
     

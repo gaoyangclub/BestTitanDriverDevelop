@@ -47,7 +47,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    self.tableView.sectionGap = 5;
+    
     
     [super viewWillAppear:animated];
 //    [self initTitleArea];
@@ -75,6 +75,7 @@
 
 -(CGRect)getTableViewFrame {
     CGFloat padding = 5;
+//    self.tableView.sectionGap = 5;
     return CGRectMake(0, padding, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - padding);
 }
 

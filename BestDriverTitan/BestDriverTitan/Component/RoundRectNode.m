@@ -179,24 +179,24 @@
     
     CGContextSetFillColorWithColor(context, color.CGColor);
     
-    if (topLeft) {
+    if (topLeft && topLeft > strokeWidth) {
         // 绘制第4条线和第4个1/4圆弧
         CGContextAddArc(context, topLeft, topLeft, topLeft - strokeWidth, M_PI, 1.5 * M_PI, 0);
     }else{
         CGContextMoveToPoint(context, strokeWidth, strokeWidth);
     }
-    if (topRight) {
+    if (topRight && topRight > strokeWidth) {
         // 绘制第2条线和第2个1/4圆弧
         CGContextAddArc(context, width - topRight, topRight, topRight - strokeWidth, -0.5 * M_PI, 0.0, 0);
     }else{
         CGContextAddLineToPoint(context, width - strokeWidth, strokeWidth);
     }
-    if (bottomRight) {
+    if (bottomRight && bottomRight > strokeWidth) {
         CGContextAddArc(context, width - bottomRight, height - bottomRight, bottomRight - strokeWidth, 0.0, 0.5 * M_PI, 0);
     }else{
         CGContextAddLineToPoint(context, width - strokeWidth, height - strokeWidth);
     }
-    if (bottomLeft) {
+    if (bottomLeft && bottomLeft > strokeWidth) {
         // 绘制第3条线和第3个1/4圆弧
         CGContextAddArc(context, bottomLeft, height - bottomLeft, bottomLeft - strokeWidth, 0.5 * M_PI, M_PI, 0);
     }else{

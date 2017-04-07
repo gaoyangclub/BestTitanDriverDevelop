@@ -75,8 +75,8 @@
     
     CGFloat sectionWidth = self.bounds.size.width;
     CGFloat sectionHeight = self.bounds.size.height;
-    
-    CGFloat squareHeight = sectionHeight - 5;
+    CGFloat topMargin = 5;
+    CGFloat squareHeight = sectionHeight - topMargin;
     
     CGFloat leftpadding = 10;
     

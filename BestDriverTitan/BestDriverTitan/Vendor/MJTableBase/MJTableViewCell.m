@@ -59,4 +59,8 @@
 	
 }
 
+-(BOOL)showSelectionStyle{
+    return YES;
+}
+
 @end

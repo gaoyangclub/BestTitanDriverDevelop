@@ -9,6 +9,7 @@
 #import "OrderViewController.h"
 #import "OrderViewSection.h"
 #import "OrderTabView.h"
+#import "OrderNormalCell.h"
 
 @interface TestTableViewCell3 : MJTableViewCell
 
@@ -169,7 +170,7 @@
         
         for (NSInteger i = 0; i < count; i++) {
             NSMutableArray* sourceData = [NSMutableArray<CellVo*> array];
-            [sourceData addObject:[CellVo initWithParams:TASK_VIEW_CELL_HEIGHT cellClass:[TestTableViewCell3 class] cellData:@"数据"]];
+            [sourceData addObject:[CellVo initWithParams:TASK_VIEW_CELL_HEIGHT cellClass:[OrderNormalCell class] cellData:@"数据"]];
             
             SourceVo* svo = [SourceVo initWithParams:sourceData headerHeight:TASK_VIEW_SECTION_HEIGHT headerClass:[OrderViewSection class] headerData:NULL];
             [self.tableView addSource:svo];

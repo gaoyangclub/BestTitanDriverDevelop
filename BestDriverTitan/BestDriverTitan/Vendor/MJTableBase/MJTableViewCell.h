@@ -22,4 +22,6 @@
 
 -(void)showSubviews;
 
+-(BOOL)showSelectionStyle;
+
 @end
