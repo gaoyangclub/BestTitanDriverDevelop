@@ -11,6 +11,7 @@
 @interface DiyNumberAddView : UIView
 
 @property(nonatomic,assign) CGFloat totalCount;
+@property(nonatomic,assign) NSInteger minCount;
 @property(nonatomic,assign) CGFloat cornerRadius;
 @property(nonatomic,retain) UIColor* fillColor;
 @property(nonatomic,retain) UIColor* strokeColor;

@@ -283,11 +283,18 @@
     self.bottomRouteLine.fillColor = FlatGrayDark;
     [self.bottomRouteLine removeAllSubNodes];
     
-    int carIndex = (arc4random() % (count - 1)); //生成1-(count-1)范围的随机数
+    int selectIndex = arc4random() % count;
+//    int carIndex = selectIndex - 1;//> 0 ? selectIndex - 1 : 0; //生成1-(count-1)范围的随机数
     
     self.carView.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatPowderBlueDark size:25 content:ICON_KA_CHE];
     CGSize carSize = [self.carView measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    CGFloat carX = padding * 2 + carIndex * itemWidth + (itemWidth - carSize.width) / 2.;
+    CGFloat carX;
+    if (selectIndex > 0) {
+        carX = padding * 2 + (selectIndex - 1) * itemWidth + (itemWidth - carSize.width) / 2.;
+    }else{
+        carX = (padding * 2 - carSize.width) / 2.;
+    }
+    
     self.carView.frame = (CGRect){
         CGPointMake(carX, routeY - carSize.height),
         carSize
@@ -319,7 +326,7 @@
         int completeCount = (arc4random() % 3);
         [btn setComplete:completeCount == 0];
         
-        if (i == 0) {
+        if (i == selectIndex) {
             selectBtn = btn;
         }
         [btn addTarget:self action:@selector(changeRouteButton:) forControlEvents:UIControlEventTouchUpInside];

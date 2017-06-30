@@ -74,6 +74,9 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+//    
+//    NSNumber* aStr = @0x0135315;
+//    NSLog(@"aStr指针内存地址：%x",&aStr);
     
     double version = [UIDevice currentDevice].systemVersion.doubleValue;
     if (version >= 8.0) { //添加通知图标等信任设置

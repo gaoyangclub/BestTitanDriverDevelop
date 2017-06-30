@@ -58,7 +58,7 @@
 @end
 
 
-@interface DiyNumberAddView()
+@interface DiyNumberAddView()<UITextFieldDelegate>
 
 @property(nonatomic,retain) RoundRectNode* backReduce;
 @property(nonatomic,retain) RoundRectNode* backIncrease;
@@ -138,9 +138,15 @@
         _editText.textAlignment = NSTextAlignmentCenter;
         _editText.adjustsFontSizeToFitWidth = YES;
         _editText.minimumFontSize = 6;
+        _editText.delegate = self;
         [self addSubview:_editText];
     }
     return _editText;
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 -(void)layoutSubviews{
@@ -180,6 +186,9 @@
         self.totalCount ++;
     }else{
         self.totalCount --;
+        if (self.totalCount < self.minCount) {
+            self.totalCount = self.minCount;
+        }
     }
     [self showEditCount];
 }
