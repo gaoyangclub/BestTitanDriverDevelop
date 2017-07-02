@@ -2,6 +2,8 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '7.0'
 target “BestDriverTitan” do
 
+pod 'IQKeyboardManager'
+
 pod 'ChameleonFramework'
 pod 'SVProgressHUD', '1.0'
 pod 'AFNetworking', '~> 3.0'

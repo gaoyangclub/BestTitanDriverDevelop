@@ -17,6 +17,7 @@
 #import "MMDrawerController.h"
 #import "TaskHomeController.h"
 #import "TaskViewController.h"
+#import "IQKeyboardManager.h"
 
 @interface AppDelegate ()
 
@@ -56,10 +57,10 @@
     
     GYTabBarController* tabBarCtl = [[GYTabBarController alloc] init];
     tabBarCtl.itemClass = [DIYTabBarItem class];
-    tabBarCtl.dataArray = @[[TabData initWithParams:[DIYBarData initWithParams:TABBAR_TITLE_REN_WU image:ICON_DING_DAN] controller:itemCtrl1],
-                            [TabData initWithParams:[DIYBarData initWithParams:TABBAR_TITLE_DAI_FU_KUAN image:ICON_DAI_FU_KUAN] controller:itemCtrl2],
-                            [TabData initWithParams:[DIYBarData initWithParams:TABBAR_TITLE_XIAO_XI image:ICON_XIAO_XI] controller:itemCtrl3],
-                            [TabData initWithParams:[DIYBarData initWithParams:TABBAR_TITLE_WO image:ICON_WO_DE] controller:itemCtrl4],
+    tabBarCtl.dataArray = @[[TabData initWithParams:[DIYBarData initWithParams:TABBAR_TITLE_REN_WU image:ICON_DING_DAN selectedImage:ICON_DING_DAN_SELECTED] controller:itemCtrl1],
+                            [TabData initWithParams:[DIYBarData initWithParams:TABBAR_TITLE_DAI_FU_KUAN image:ICON_DAI_FU_KUAN selectedImage:ICON_DAI_FU_KUAN_SELECTED] controller:itemCtrl2],
+                            [TabData initWithParams:[DIYBarData initWithParams:TABBAR_TITLE_XIAO_XI image:ICON_XIAO_XI selectedImage:ICON_XIAO_XI_SELECTED] controller:itemCtrl3],
+                            [TabData initWithParams:[DIYBarData initWithParams:TABBAR_TITLE_WO image:ICON_WO_DE selectedImage:ICON_WO_DE_SELECTED] controller:itemCtrl4],
                             ];
     //    tabBarCtl.view.backgroundColor = [UIColor yellowColor];
     
@@ -77,6 +78,8 @@
 //    
 //    NSNumber* aStr = @0x0135315;
 //    NSLog(@"aStr指针内存地址：%x",&aStr);
+    
+    [IQKeyboardManager sharedManager].enable = YES;
     
     double version = [UIDevice currentDevice].systemVersion.doubleValue;
     if (version >= 8.0) { //添加通知图标等信任设置

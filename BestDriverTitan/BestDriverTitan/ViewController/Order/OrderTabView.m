@@ -105,6 +105,9 @@
         [btn addTarget:self action:@selector(clickTabButton:) forControlEvents:UIControlEventTouchUpInside];
     }
     [self changeTabButton:selectBtn isClick:NO];
+    
+//    self.canCancelContentTouches = NO;
+    self.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 }
 
 -(void)clickTabButton:(TabButton*)clickBtn{
@@ -145,5 +148,48 @@
     [self setContentOffset:CGPointMake(contentOffset.x,moveOffsetY) animated:YES];
 }
 
+//- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+//    
+//    static UIEvent *e = nil;
+//    
+//    if (e != nil && e == event) {
+//        e = nil;
+//        return [super hitTest:point withEvent:event];
+//    }
+//    
+//    e = event;
+//    
+//    if (event.type == UIEventTypeTouches) {
+//        NSSet *touches = [event touchesForView:self];
+//        UITouch *touch = [touches anyObject];
+//        if (touch.phase == UITouchPhaseBegan) {
+//            NSLog(@"Touches began");
+//            [self touchesBegan:touches withEvent:event];
+//        }else if(touch.phase == UITouchPhaseEnded){
+//            NSLog(@"Touches Ended");
+//            
+//        }else if(touch.phase == UITouchPhaseCancelled){
+//            NSLog(@"Touches Cancelled");
+//            
+//        }else if (touch.phase == UITouchPhaseMoved){
+//            NSLog(@"Touches Moved");
+//            
+//        }
+//    }
+//    return [super hitTest:point withEvent:event];
+//}
+//
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self endEditing:YES];
+    if (![self isMemberOfClass:[UIScrollView class]]) {
+        
+    } else {
+        [[self nextResponder] touchesBegan:touches withEvent:event];
+        if ([super respondsToSelector:@selector(touchesBegan:withEvent:)]) {
+            [super touchesBegan:touches withEvent:event];
+        }
+    }
+    
+}
 
 @end

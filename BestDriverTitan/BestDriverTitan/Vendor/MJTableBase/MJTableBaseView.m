@@ -123,6 +123,9 @@
 -(void)prepare{
 //    dispatch_once_t onceToken;
 //    dispatch_once(&onceToken, ^{
+    
+        self.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;//默认自动回弹键盘
+    
         self.delegate = self;
         self.dataSource = self;
         

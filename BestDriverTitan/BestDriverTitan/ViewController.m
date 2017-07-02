@@ -42,7 +42,7 @@
     
     UIView* subView = [[UIView alloc]init];
     [self.view addSubview:subView];
-    subView.backgroundColor = [UIColor orangeColor];
+    subView.backgroundColor = COLOR_PRIMARY;//[UIColor orangeColor];
     
     subView.frame = self.view.frame;//CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - 64 - 50);
     

@@ -14,9 +14,11 @@
 
 @interface  DIYBarData: NSObject
 
-+(instancetype)initWithParams:(NSString*)title image:(NSString*)image;
++(instancetype)initWithParams:(NSString *)title image:(NSString *)image;
++(instancetype)initWithParams:(NSString*)title image:(NSString*)image selectedImage:(NSString*)selectedImage;
 
 @property(nonatomic,copy) NSString* title;
 @property(nonatomic,copy) NSString* image;
+@property(nonatomic,copy) NSString* selectedImage;
 
 @end

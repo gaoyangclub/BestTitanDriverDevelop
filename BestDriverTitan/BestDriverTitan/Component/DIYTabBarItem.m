@@ -97,10 +97,12 @@
     if (self.selected) {
         self.titleLabel.textColor = selectColor;
         self.imageLabel.textColor = selectColor;
+        self.imageLabel.text = tabData.selectedImage;
 //        self.backgroundColor = [UIColor darkGrayColor];
     }else{
         self.titleLabel.textColor = normalColor;
         self.imageLabel.textColor = normalColor;
+        self.imageLabel.text = tabData.image;
 //        self.backgroundColor = [UIColor lightGrayColor];
     }
     
@@ -148,6 +150,11 @@
 @implementation DIYBarData
 
 +(instancetype)initWithParams:(NSString *)title image:(NSString *)image{
+
+    return [self initWithParams:title image:image selectedImage:nil];
+}
+
++(instancetype)initWithParams:(NSString *)title image:(NSString *)image selectedImage:(NSString*)selectedImage;{
     DIYBarData *instance;
     @synchronized (self)    {
         if (instance == nil)
@@ -155,6 +162,7 @@
             instance = [[self alloc] init];
             instance.title = title;
             instance.image = image;
+            instance.selectedImage = selectedImage;
         }
     }
     return instance;

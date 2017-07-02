@@ -24,6 +24,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>IQKeyboardManager.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>MMDrawerController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -42,12 +47,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0E44717E0BD8FDC2D8BFA4C4E4AECCDA</key>
+		<key>0659B71386995AC7EE2A305F0A360EB1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>550F7EEAEEA17E3F92C873912E23B01C</key>
+		<key>13804C50C72531CDFA693B38CD8574A6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -57,7 +62,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>928353533005A4198EBDA5B700D37B64</key>
+		<key>8A44B6C6B20A4F19F036D39CB8834C13</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -72,42 +77,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>AE7848A9F304C3A03CFA004517196E25</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>BB6CF55999ADECE96A33E8D0F501B830</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>BF279C308DA0DA32EDBCC4BC85E6C8D6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C1019E2FE3DD81FD1D817F2A2EC4EC7D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>D17FC09A002BBA332269D8B17A04BEEB</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>DDB16A19D1FAE339AB58EDA5C75DDFDE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>F3268B6CF0B1379ACBE686D3E4C85C57</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>F86A330C225D805DCB8D91706BCE9C63</key>
 		<dict>
 			<key>primary</key>
 			<true/>
