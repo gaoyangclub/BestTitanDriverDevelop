@@ -12,6 +12,11 @@
 @interface SplashSourceDaDa (){
     BOOL isAnimation;//
 }
+
+@property(nonatomic,retain) UIImageView* logoImg;
+@property(nonatomic,retain) UILabel* nameLab;// 达达
+@property(nonatomic,retain) UILabel* desLab;
+
 @end
 
 @implementation SplashSourceDaDa

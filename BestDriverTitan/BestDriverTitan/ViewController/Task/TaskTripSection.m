@@ -190,6 +190,7 @@
 -(UIView *)topAreaView{
     if (!_topAreaView) {
         _topAreaView = [[UIView alloc]init];
+        _topAreaView.backgroundColor = [UIColor whiteColor];
         [self addSubview:_topAreaView];
     }
     return _topAreaView;
@@ -254,17 +255,16 @@
     CGSize textStartSize = [self.textStart measure:CGSizeMake(maxStartWidth, FLT_MAX)];
     self.textStart.frame = (CGRect){ CGPointMake(leftpadding + iconStartSize.width + leftpadding / 2.,(squareHeight - textStartSize.height) / 2.),textStartSize};
     
-    CGFloat leftMargin = 10;
+    CGFloat leftMargin = 0;//10;
     CGFloat topMargin = 5;
     
     CGFloat backWidth = sectionWidth - leftMargin * 2;
-    CGFloat backHeight = sectionHeight - squareHeight - topMargin;
+    CGFloat backHeight = sectionHeight - squareHeight - topMargin * 2;
     
     self.topAreaView.frame = CGRectMake(leftMargin, squareHeight + topMargin, backWidth, backHeight);
-    self.topAreaBack.frame = self.topAreaView.bounds;
-    [self initTopArea:backWidth];
-    
-    [self checkButtonStates];
+//    self.topAreaBack.frame = self.topAreaView.bounds;
+//    [self initTopArea:backWidth];
+//    [self checkButtonStates];
 }
 
 -(void)initTopArea:(CGFloat)backWidth{

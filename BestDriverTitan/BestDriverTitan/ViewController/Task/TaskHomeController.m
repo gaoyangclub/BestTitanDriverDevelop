@@ -59,6 +59,13 @@
         NSArray* titleList = [NSArray arrayWithObjects:
                               [NSArray arrayWithObjects:@"最近三天",@(NO), nil],
                               [NSArray arrayWithObjects:@"历史任务",@(YES), nil],
+//                              [NSArray arrayWithObjects:@"历史任务",@(YES), nil],
+//                              [NSArray arrayWithObjects:@"历史任务",@(YES), nil],
+//                              [NSArray arrayWithObjects:@"历史任务",@(YES), nil],
+//                              [NSArray arrayWithObjects:@"历史任务",@(YES), nil],
+//                              [NSArray arrayWithObjects:@"历史任务",@(YES), nil],
+//                              [NSArray arrayWithObjects:@"历史任务",@(YES), nil],
+                              [NSArray arrayWithObjects:@"收藏夹",@(YES), nil],
                               nil];
         
         NSMutableArray<UIViewController*>* controllerArray = [NSMutableArray<UIViewController*> array];
@@ -76,9 +83,13 @@
             [controllerArray addObject:controller];
         }
         
-        CGFloat itemWidth = CGRectGetWidth(self.view.bounds) / 2. - 10;
+        CGFloat itemWidth = (CGRectGetWidth(self.view.bounds) - 10.0) / titleList.count;
+        CGFloat minItemWidth = 90;
+        if (itemWidth < minItemWidth) {
+            itemWidth = minItemWidth;
+        }
         NSDictionary *parameters = @{
-                                     CAPSPageMenuOptionMenuHeight:@(45),
+                                     CAPSPageMenuOptionMenuHeight:@(PAGE_MENU_HEIGHT),
                                      CAPSPageMenuOptionMenuItemWidth:@(itemWidth),
                                      CAPSPageMenuOptionMenuMargin:@(0),
                                      CAPSPageMenuOptionScrollMenuBackgroundColor:[UIColor whiteColor],

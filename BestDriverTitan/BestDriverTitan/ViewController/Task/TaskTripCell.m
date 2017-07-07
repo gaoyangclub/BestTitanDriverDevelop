@@ -250,6 +250,7 @@
 -(UIScrollView *)bottomAreaView{
     if (!_bottomAreaView) {
         _bottomAreaView = [[UIScrollView alloc]init];
+        _bottomAreaView.backgroundColor = [UIColor whiteColor];
 //        _bottomAreaView.layerBacked = YES;
 //        [self.contentView.layer addSublayer:_bottomAreaView.layer];
         [self.contentView addSubview:_bottomAreaView];

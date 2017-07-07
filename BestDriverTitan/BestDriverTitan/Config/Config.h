@@ -11,10 +11,10 @@ typedef void (^FailureBlock)();
 
 
 #define COLOR_PRIMARY [UIColor flatSkyBlueColor]//COLOR_YI_WAN_CHENG//[UIColor flatMintColor]//rgba(23,182,46,1)
-#define COLOR_BACKGROUND rgba(246,246,246,1)
+#define COLOR_BACKGROUND rgba(226,226,226,1)
 #define COLOR_LINE rgba(218,218,218,1)
 #define COLOR_YI_WAN_CHENG rgb(67,152,216)//rgba(21,178,168,1)
-#define COLOR_DAI_WAN_CHENG rgb(250,83,44)//rgba(240,129,69,1)
+#define COLOR_DAI_WAN_CHENG [UIColor flatSandColorDark]//rgb(250,83,44)//rgba(240,129,69,1)
 #define LINE_WIDTH 0.5
 
 #define DDLog(xx, ...)  NSLog(@"%s(%d): " xx, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
@@ -33,6 +33,8 @@ typedef void (^FailureBlock)();
 
 
 #define ICON_SHE_ZHI @"\U0000e628"
+
+#define ICON_LOGO_SPLASH @"\U0000e7a9"
 
 #define ICON_DING_DAN @"\U0000e60b"
 #define ICON_DING_DAN_SELECTED @"\U0000e63d"
@@ -64,7 +66,12 @@ typedef void (^FailureBlock)();
 
 #define ICON_KA_CHE @"\U0000e606"
 
+#define ICON_BAO_ZHUANG @"\U0000e60f"
+#define ICON_ZHONG_LIANG @"\U0000e61b"
+#define ICON_TI_JI @"\U0000e633"
+#define ICON_JIAN_SHU @"\U0000e654"
 
+#define ICON_GUAN_ZHU @"\U0000e6e2"
 
 #define TABBAR_TITLE_TI_HUO @"提货"
 #define TABBAR_TITLE_ZHUANG_CHE @"装车"
@@ -87,14 +94,23 @@ typedef void (^FailureBlock)();
 
 #define SYSTEM_SCALE_FACTOR (SYSTEM_SCALE > 2 ? SYSTEM_SCALE / 2.5 : SYSTEM_SCALE / 2)
 
+#define PAGE_MENU_HEIGHT 45
+
+#define MORE_BUTTON_RADIUS 20
+
+#define SUBMIT_BUTTON_HEIGHT 50
+
 #define TASK_VIEW_CELL_HEIGHT 200
 #define TASK_VIEW_SECTION_HEIGHT 50
 
-#define TASK_TRIP_CELL_HEIGHT 600 - 175
+#define TASK_TRIP_AREA_HEIGHT 100
+
+#define TASK_TRIP_CELL_HEIGHT 600 - TASK_TRIP_AREA_HEIGHT
 #define TASK_TRIP_SECTION_TOP_HEIGHT 65
-#define TASK_TRIP_SECTION_HEIGHT TASK_TRIP_SECTION_TOP_HEIGHT + SYSTEM_SCALE_FACTOR * 175
+#define TASK_TRIP_SECTION_HEIGHT TASK_TRIP_SECTION_TOP_HEIGHT + TASK_TRIP_AREA_HEIGHT
 
 #define ORDER_TAB_WIDTH 80
+#define ORDER_VIEW_CELL_HEIGHT 150
 
 #define EVENT_ADDRESS_SELECT @"EVENT_ADDRESS_SELECT"
 

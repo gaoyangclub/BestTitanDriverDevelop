@@ -18,6 +18,7 @@
 #import "TaskHomeController.h"
 #import "TaskViewController.h"
 #import "IQKeyboardManager.h"
+#import "YYFPSLabel.h"
 
 @interface AppDelegate ()
 
@@ -92,9 +93,13 @@
     navigationController.navigationColor = COLOR_PRIMARY;
     [navigationController setViewControllers:@[[self createNormalTabBar]]];
     
+    ViewController* rightViewController = [[ViewController alloc]init];//AccountSideHomeController()
+    [rightViewController showSwitchArea];
+    
     MMDrawerController* drawerController = [[MMDrawerController alloc]init];
     drawerController.centerViewController = navigationController;
-    drawerController.rightDrawerViewController = [[ViewController alloc]init];//AccountSideHomeController()
+    drawerController.rightDrawerViewController = rightViewController;
+    
     
     drawerController.showsShadow = YES;
     drawerController.maximumRightDrawerWidth = DRAWER_WIDTH;
@@ -111,6 +116,12 @@
     
     CGFloat scale = SYSTEM_SCALE_FACTOR;//([UIApplication sharedApplication].delegate).window.screen.scale;
     
+    YYFPSLabel* _fpsLabel = [YYFPSLabel sharedInstance];
+//    _fpsLabel.frame = CGRectMake(200, 200, 50, 30);
+    _fpsLabel.center = self.window.center;
+    [_fpsLabel sizeToFit];
+    _fpsLabel.hidden = YES;
+    [drawerController.view addSubview:_fpsLabel];
     
     SplashSourceView* sourceView = [[SplashSourceDaDa alloc] init];
     [SplashViewController initWithSourceView:sourceView superView:self.window waitingHandler:

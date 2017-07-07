@@ -66,5 +66,93 @@
     return uiLabel;
 }
 
++(CAShapeLayer*)createRangeLayer:(CGFloat)radius textColor:(UIColor*)textColor backgroundColor:(UIColor*)backgroundColor{
+    return [UICreationUtils createRangeLayer:radius textColor:textColor backgroundColor:backgroundColor isAdd:YES];
+}
+
++(CAShapeLayer*)createRangeLayer:(CGFloat)radius textColor:(UIColor*)textColor backgroundColor:(UIColor*)backgroundColor isAdd:(BOOL)isAdd{
+    CAShapeLayer* layer = [[CAShapeLayer alloc]init];
+    CGRect rect = CGRectMake(0, 0, radius * 2, radius * 2);
+    layer.frame = rect;
+    
+    UIBezierPath* path = [UIBezierPath bezierPathWithOvalInRect:rect];
+    layer.fillColor = backgroundColor.CGColor;
+    layer.path = path.CGPath;
+    
+    CGFloat plusWidth = rect.size.width / 2;
+    
+    UIBezierPath* plusPath = [UIBezierPath bezierPath];
+    [plusPath moveToPoint:CGPointMake(rect.size.width / 2. - plusWidth / 2. + 0.5,rect.size.height / 2. + 0.5)];
+    [plusPath addLineToPoint:CGPointMake(rect.size.width / 2. + plusWidth / 2. + 0.5,rect.size.height / 2. + 0.5)];
+    
+    if(isAdd){
+        [plusPath moveToPoint:CGPointMake(rect.size.width / 2. + 0.5,rect.size.height / 2. - plusWidth / 2. + 0.5)];
+        [plusPath addLineToPoint:CGPointMake(rect.size.width / 2. + 0.5,rect.size.height / 2. + plusWidth / 2. + 0.5)];
+    }
+    
+    CAShapeLayer* pluslayer = [[CAShapeLayer alloc]init];
+    pluslayer.strokeColor = textColor.CGColor;
+    pluslayer.lineWidth = 2;
+    pluslayer.path = plusPath.CGPath;
+    pluslayer.frame = rect;
+    [layer addSublayer:pluslayer];
+    
+    return layer;
+}
+
++(void)autoEnsureViewsWidth:(CGFloat)baseX totolWidth:(CGFloat)totolWidth views:(NSArray*)views viewWidths:(NSArray*)viewWidths padding:(CGFloat)padding{
+    //当view隐藏的时候 后面的view自动往前移动
+//    NSMutableArray* displayViews = [NSMutableArray array];
+    CGFloat restWidth = totolWidth;
+    
+    CGFloat displayCount = 0;
+    
+    CGFloat totalPercent = 0;
+    
+    NSInteger tCount = views.count;
+    for (NSInteger i = 0; i < tCount; i++) {
+        UIView* view = views[i];
+        if (!view.hidden) {
+            displayCount++;
+            
+            NSObject* viewWidth = viewWidths[i];
+            if ([viewWidth isKindOfClass:[NSNumber class]]) {
+                restWidth -= ((NSNumber*)viewWidth).floatValue;//去掉固定值
+            }else if([viewWidth isKindOfClass:[NSString class]]){
+                NSString* string = (NSString*)viewWidth;
+                string = [string substringToIndex:string.length - 1];//倒数第二个索引往前截取出来
+                totalPercent += [string floatValue];
+            }
+        }
+    }
+
+//    NSInteger viewCount = displayViews.count;
+    restWidth -= (displayCount + 1) * padding;//去掉gap
+    
+    CGFloat prevRight = 0;
+    for (NSInteger i = 0; i < tCount; i++) {
+        UIView* view = views[i];
+        if (!view.hidden) {
+            CGFloat vWidth = 0;
+            NSObject* viewWidth = viewWidths[i];
+            if ([viewWidth isKindOfClass:[NSNumber class]]) {
+                vWidth = ((NSNumber*)viewWidth).floatValue;
+            }else if([viewWidth isKindOfClass:[NSString class]]){
+                NSString* string = (NSString*)viewWidth;
+                string = [string substringToIndex:string.length - 1];//倒数第二个索引往前截取出来
+                vWidth = [string floatValue] / totalPercent * restWidth;
+            }
+            CGFloat viewX = baseX + prevRight + padding;
+            
+            CGRect viewFrame = view.frame;
+            viewFrame.origin.x = viewX;
+            viewFrame.size.width = vWidth;
+            view.frame = viewFrame;
+            
+            prevRight = viewX + vWidth;
+        }
+    }
+    
+}
 
 @end

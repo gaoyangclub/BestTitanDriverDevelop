@@ -16,6 +16,7 @@
 @property(nonatomic,assign)int pickupCount;
 @property(nonatomic,assign)int deliverCount;
 @property(nonatomic,assign)BOOL isComplete;
+@property(nonatomic,assign)BOOL isFollow;
 @property(nonatomic,retain)NSDate* dateTime;
 
 

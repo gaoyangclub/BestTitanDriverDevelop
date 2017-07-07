@@ -9,6 +9,8 @@
 #import "TaskTripController.h"
 #import "TaskTripSection.h"
 #import "TaskTripCell.h"
+#import "OrderViewController.h"
+#import "RootNavigationController.h"
 
 @interface TestTableViewCell2 : MJTableViewCell
 
@@ -30,6 +32,12 @@
 //@property(nonatomic,retain)UIView* titleView;
 @property(nonatomic,retain)UILabel* titleLabel;
 
+@property(nonatomic,retain)UIButton* submitButton;
+
+@property(nonatomic,retain)UIButton* attachmentButton;
+
+@property(nonatomic,retain)UIControl* moreButton;
+
 @end
 
 @implementation TaskTripController
@@ -41,7 +49,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self initTitleArea];
-    self.view.backgroundColor = COLOR_BACKGROUND;
+    self.view.backgroundColor = [UIColor whiteColor];//COLOR_BACKGROUND;
 }
 
 
@@ -118,5 +126,110 @@
 //        handler(YES);
 //    });
 //}
+
+-(CGRect)getTableViewFrame{
+    CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
+    CGFloat viewHeight = CGRectGetHeight(self.view.bounds);
+    
+    CGFloat padding = 5;
+    CGFloat tableHeight = viewHeight - SUBMIT_BUTTON_HEIGHT - padding * 2;
+    
+    return CGRectMake(0, 0, viewWidth, tableHeight);
+}
+
+
+-(void)viewDidLoad{
+    [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(eventOccurred:)
+                                                 name:EVENT_ADDRESS_SELECT
+                                               object:nil];
+}
+
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_ADDRESS_SELECT object:nil];
+}
+
+- (void)eventOccurred:(NSNotification*)eventData{
+    NSInteger activityCount = arc4random() % 3 + 1;
+    BOOL showAttach = arc4random() % 2;
+    if (showAttach) {
+        activityCount -= 1;
+    }
+    self.attachmentButton.hidden = !showAttach;
+    self.moreButton.hidden = !(activityCount >= 2);
+    
+    CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
+    CGFloat viewHeight = CGRectGetHeight(self.view.bounds);
+    CGFloat padding = 5;
+    CGFloat tableHeight = viewHeight - SUBMIT_BUTTON_HEIGHT - padding * 2;
+    CGFloat mWidth = MORE_BUTTON_RADIUS * 2;
+
+    if (!self.moreButton.hidden) {
+        self.moreButton.frame = CGRectMake(0, tableHeight + padding + (SUBMIT_BUTTON_HEIGHT - mWidth) / 2., mWidth, mWidth);
+    }
+    if (!self.attachmentButton.hidden) {
+        self.attachmentButton.frame = CGRectMake(0, tableHeight + padding, 0, SUBMIT_BUTTON_HEIGHT);
+    }
+//    if (!self.submitButton.hidden) {
+        self.submitButton.frame = CGRectMake(0, tableHeight + padding, 0, SUBMIT_BUTTON_HEIGHT);
+//    }
+    [UICreationUtils autoEnsureViewsWidth:0 totolWidth:viewWidth views:@[self.moreButton,self.attachmentButton,self.submitButton] viewWidths:@[[NSNumber numberWithFloat:mWidth],@"40%",@"60%"] padding:padding];
+}
+
+-(UIButton *)submitButton{
+    if (!_submitButton) {
+        _submitButton = [UIButton buttonWithType:UIButtonTypeSystem];
+//        [_submitButton setShowTouch:YES];
+        
+        _submitButton.backgroundColor = COLOR_PRIMARY;
+        [_submitButton setTitle:ConcatStrings(ICON_QIAN_SHOU,@"  ",@"签收") forState:UIControlStateNormal];
+        [_submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        
+        _submitButton.titleLabel.font = [UIFont fontWithName:ICON_FONT_NAME size:16];
+        
+        [self.view addSubview:_submitButton];
+        
+        [_submitButton addTarget:self action:@selector(clickSubmitButton:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _submitButton;
+}
+
+-(void)clickSubmitButton:(UIButton*)btn{
+    UIViewController* controller = [[OrderViewController alloc]init];
+    [[RootNavigationController sharedInstance] pushViewController:controller animated:YES];
+}
+
+-(UIButton *)attachmentButton{
+    if (!_attachmentButton) {
+        _attachmentButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        //        [_submitButton setShowTouch:YES];
+        
+        _attachmentButton.backgroundColor = [UIColor whiteColor];
+        [_attachmentButton setTitle:ConcatStrings(ICON_HUI_DAN,@"  ",@"回单") forState:UIControlStateNormal];
+        [_attachmentButton setTitleColor:COLOR_PRIMARY forState:UIControlStateNormal];
+        
+        _attachmentButton.layer.borderColor = COLOR_PRIMARY.CGColor;
+        _attachmentButton.layer.borderWidth = 1;
+        
+        _attachmentButton.titleLabel.font = [UIFont fontWithName:ICON_FONT_NAME size:16];
+        
+        [self.view addSubview:_attachmentButton];
+    }
+    return _attachmentButton;
+}
+
+-(UIControl *)moreButton{
+    if (!_moreButton) {
+        _moreButton = [[UIControl alloc]init];
+        [_moreButton setShowTouch:YES];
+        
+        [_moreButton.layer addSublayer:[UICreationUtils createRangeLayer:MORE_BUTTON_RADIUS textColor:[UIColor whiteColor]
+                                                                        backgroundColor:COLOR_PRIMARY]];
+        [self.view addSubview:_moreButton];
+    }
+    return _moreButton;
+}
+
 
 @end

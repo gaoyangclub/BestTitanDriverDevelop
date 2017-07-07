@@ -34,6 +34,7 @@ PODS:
     - MMDrawerController/Core
   - MMDrawerController/Subclass (0.5.7):
     - MMDrawerController/Core
+  - pop (1.0.9)
   - SVProgressHUD (1.0)
 
 DEPENDENCIES:
@@ -43,6 +44,7 @@ DEPENDENCIES:
   - HYBUnicodeReadable
   - IQKeyboardManager
   - MMDrawerController (~> 0.5.7)
+  - pop (~> 1.0)
   - SVProgressHUD (= 1.0)
 
 SPEC CHECKSUMS:
@@ -52,8 +54,9 @@ SPEC CHECKSUMS:
   HYBUnicodeReadable: ebffd6ee9a9eeb0e2a7788e45d3efe169340db45
   IQKeyboardManager: 249c3946acf61345c18b038eb50863fe2793e3a8
   MMDrawerController: 7a4cf8e25596bf2434e03ce50d22a8608ddee6a1
+  pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   SVProgressHUD: 46088807596a795cbcb4affd92cf3f13b6ab3dda
 
-PODFILE CHECKSUM: f9da3c970db6d47480993e567539d778970f9fd4
+PODFILE CHECKSUM: f2a734750a3bea2d52599b877e6d4005aac7eba9
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.1.1

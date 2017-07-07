@@ -11,6 +11,9 @@
 #import "RoundRectNode.h"
 #import "DiyLicensePlateNode.h"
 #import "CircleNode.h"
+#import "AppDelegate.h"
+#import "UICreationUtils.h"
+#import "FollowAnimateManager.h"
 
 @interface RoundBackView:UIView
 
@@ -56,6 +59,12 @@
 
 @property (nonatomic,retain) CircleNode* circleArea;
 
+@property (nonatomic,retain) UIControl* followButton;//关注
+
+@property (nonatomic,retain) ASTextNode* followIcon;
+@property (nonatomic,retain) ASTextNode* followLabel;
+
+
 @end
 
 
@@ -69,7 +78,7 @@
         
         RoundRectNode* back = _normalBackView.backNode = [[RoundRectNode alloc]init];
         back.fillColor = [UIColor whiteColor];
-        back.cornerRadius = 5;
+        back.cornerRadius = 0;//5;
         back.layerBacked = YES;
         [_normalBackView.layer addSublayer:back.layer];
     }
@@ -84,7 +93,7 @@
         
         RoundRectNode* back = _selectBackView.backNode = [[RoundRectNode alloc]init];
         back.fillColor = FlatWhite;
-        back.cornerRadius = 5;
+        back.cornerRadius = 0;//5;
         back.layerBacked = YES;
         [_selectBackView.layer addSublayer:back.layer];
     }
@@ -286,6 +295,35 @@
     return _buttonArea;
 }
 
+-(UIControl *)followButton{
+    if (!_followButton) {
+        _followButton = [[UIControl alloc]init];
+//        _followButton.backgroundColor = FlatBrownDark;
+        [_followButton setShowTouch:YES];
+        [self.contentView addSubview:_followButton];
+        [_followButton addTarget:self action:@selector(followClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _followButton;
+}
+
+-(ASTextNode *)followIcon{
+    if (!_followIcon) {
+        _followIcon = [[ASTextNode alloc]init];
+        _followIcon.layerBacked = YES;
+        [self.followButton.layer addSublayer:_followIcon.layer];
+    }
+    return _followIcon;
+}
+
+-(ASTextNode *)followLabel{
+    if (!_followLabel) {
+        _followLabel = [[ASTextNode alloc]init];
+        _followLabel.layerBacked = YES;
+        [self.followButton.layer addSublayer:_followLabel.layer];
+    }
+    return _followLabel;
+}
+
 -(void)initTopArea:(CGFloat)topY topWidth:(CGFloat)topWidth topHeight:(CGFloat)topHeight{
     CGFloat topCenterY = topY + topHeight / 2.;
     CGFloat labelOffset = -20;
@@ -327,6 +365,7 @@
     self.costHourText.frame = (CGRect){
         CGPointMake(areaX3 + (areaWith - hourSize.width) / 2., topCenterY + textOffset),hourSize
     };
+    
 }
 
 -(void)initCenterArea:(CGFloat)centerY centerWidth:(CGFloat)centerWidth centerHeight:(CGFloat)centerHeight{
@@ -417,11 +456,70 @@
     return attrString;
 }
 
+-(void)followClick:(UIControl*)sender{
+    ShipmentBean* bean = self.data;
+    bean.isFollow = !bean.isFollow;
+    [self showFollowArea];
+    
+    if(bean.isFollow){
+        
+        UIViewController* rootViewController = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.rootViewController;
+        
+        CGRect btnToSelf = [self.followButton convertRect:self.followIcon.frame toView:rootViewController.view];
+        
+        [[FollowAnimateManager sharedInstance] startAnimate:btnToSelf];
+        
+        
+        //frame变化
+//        POPSpringAnimation *spring = [POPSpringAnimation animationWithPropertyNamed:kPOPViewFrame];
+//        spring.toValue = [NSValue valueWithCGRect:CGRectMake(230, 40, 80, 40)];
+//        
+//        //设置振幅
+//        spring.springBounciness = 20;
+//        //振幅速度
+//        spring.springSpeed = 20;
+
+//        [iconTag pop_addAnimation:spring forKey:@"spring"];
+        
+    }
+}
 
 
--(void)initBottomArea:(CGFloat)bottomY bottomWidth:(CGFloat)bottomWidth bottomHeight:(CGFloat)bottomHeight{
+-(void)showFollowArea{
     
     ShipmentBean* bean = self.data;
+    
+    CGFloat areaHeight = CGRectGetHeight(self.followButton.bounds);
+    
+    if (bean.isFollow) {
+        self.followIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange  size:18 content:ICON_GUAN_ZHU];
+        self.followLabel.attributedString = [NSString simpleAttributedString:FlatOrange  size:14 content:@"取消收藏"];
+    }else{
+        self.followIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor]  size:18 content:ICON_GUAN_ZHU];
+        self.followLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColor]  size:14 content:@"加入收藏"];
+    }
+    CGSize iconSize = [self.followIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    self.followIcon.frame = (CGRect){CGPointMake(0, (areaHeight - iconSize.height) / 2.),iconSize};
+    CGFloat labelX = iconSize.width;
+    CGSize labelSize = [self.followLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    self.followLabel.frame = (CGRect){CGPointMake(labelX, (areaHeight - labelSize.height) / 2.),labelSize};
+    
+    CGRect followFrame = self.followButton.frame;
+    followFrame.size.width = labelX + labelSize.width;
+    followFrame.origin.x = self.backNode.frame.origin.x + self.backNode.frame.size.width - followFrame.size.width - 5;
+    
+    self.followButton.frame = followFrame;
+}
+
+-(void)initBottomArea:(CGFloat)bottomY bottomWidth:(CGFloat)bottomWidth bottomHeight:(CGFloat)bottomHeight{
+    ShipmentBean* bean = self.data;
+    
+    self.followButton.frame = CGRectMake(0, bottomY, 0, bottomHeight);
+    [self showFollowArea];
+    
+    if (true) {
+        return;
+    }
     
     self.buttonArea.frame = CGRectMake(0, bottomY, bottomWidth, bottomHeight);
     [self.buttonArea removeAllSubNodes];
@@ -538,7 +636,7 @@
     CGFloat cellWidth = self.contentView.bounds.size.width;
 //    CGFloat gap = 1;
     
-    CGFloat leftMargin = 10;
+    CGFloat leftMargin = 0;//10;
     CGFloat topMargin = 5;
     
     CGFloat backWidth = cellWidth - leftMargin * 2;
@@ -583,7 +681,7 @@
     CGSize liceneSize = [self.licencePlateText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     CGFloat plateWidth = liceneSize.width + 10;
     CGFloat plateHeight = liceneSize.height + 10;
-    self.licencePlateView.frame = CGRectMake(cellWidth - leftMargin - plateWidth, 0, plateWidth, plateHeight);
+    self.licencePlateView.frame = CGRectMake(cellWidth - leftMargin - plateWidth - 10, 0, plateWidth, plateHeight);
     self.licencePlateView.fillColor = [UIColor flatYellowColorDark];
     self.licencePlateView.compleColor = [UIColor flatBlackColor];
 //    self.licencePlateView.cornerRadius = 30;

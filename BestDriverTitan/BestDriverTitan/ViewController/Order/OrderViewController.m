@@ -120,7 +120,7 @@
     CGFloat tabHeight = CGRectGetHeight(self.view.bounds) - squareHeight;
     self.tabView.frame = CGRectMake(0, squareHeight + margin, ORDER_TAB_WIDTH, tabHeight - margin);
     
-    return CGRectMake(ORDER_TAB_WIDTH + margin, squareHeight + margin, CGRectGetWidth(self.view.bounds) - ORDER_TAB_WIDTH + margin * 2, tabHeight - margin);
+    return CGRectMake(ORDER_TAB_WIDTH + margin, squareHeight + margin, CGRectGetWidth(self.view.bounds) - ORDER_TAB_WIDTH - margin * 2, tabHeight - margin);
 }
 
 - (void)viewDidLoad {
@@ -190,7 +190,11 @@
         
         for (NSInteger i = 0; i < count; i++) {
             NSMutableArray* sourceData = [NSMutableArray<CellVo*> array];
-            [sourceData addObject:[CellVo initWithParams:TASK_VIEW_CELL_HEIGHT cellClass:[OrderNormalCell class] cellData:@"数据"]];
+            
+            int count2 = (arc4random() % 3) + 1; //生成1-3范围的随机数
+            for (NSInteger j = 0; j < count2; j++) {
+                [sourceData addObject:[CellVo initWithParams:ORDER_VIEW_CELL_HEIGHT cellClass:[OrderNormalCell class] cellData:@"数据"]];
+            }
             
             SourceVo* svo = [SourceVo initWithParams:sourceData headerHeight:TASK_VIEW_SECTION_HEIGHT headerClass:[OrderViewSection class] headerData:NULL];
             [self.tableView addSource:svo];
