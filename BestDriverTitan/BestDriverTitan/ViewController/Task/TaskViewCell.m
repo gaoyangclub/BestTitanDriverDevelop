@@ -48,6 +48,8 @@
 @property (nonatomic,retain) ASDisplayNode* lineBottomY;
 @property (nonatomic,retain) ASDisplayNode* lineCenterX;
 
+@property (nonatomic,retain) ASDisplayNode* lineFollowX;
+
 @property (nonatomic,retain) ASTextNode* costHourText;//配送时间花费
 @property (nonatomic,retain) ASTextNode* distanceText;//配送里程花费
 @property (nonatomic,retain) ASTextNode* expenseText;//参考运费
@@ -63,6 +65,12 @@
 
 @property (nonatomic,retain) ASTextNode* followIcon;
 @property (nonatomic,retain) ASTextNode* followLabel;
+
+
+@property (nonatomic,retain) ASTextNode* iconStart;//起点图标
+@property (nonatomic,retain) ASTextNode* iconEnd;//终点图标
+@property (nonatomic,retain) ASTextNode* textStart;//起点文字
+@property (nonatomic,retain) ASTextNode* textEnd;//终点文字
 
 
 @end
@@ -217,6 +225,16 @@
     return _lineCenterX;
 }
 
+-(ASDisplayNode *)lineFollowX{
+    if(!_lineFollowX){
+        _lineFollowX = [[ASDisplayNode alloc]init];
+        _lineFollowX.backgroundColor = COLOR_LINE;
+        _lineFollowX.layerBacked = YES;
+        [self.backNode addSubnode:_lineFollowX];
+    }
+    return _lineFollowX;
+}
+
 //-(UIArrowView *)rightArrow{
 //    if(!_rightArrow){
 //        _rightArrow = [[UIArrowView alloc]initWithFrame:CGRectMake(0, 0, 10, 22)];
@@ -293,6 +311,46 @@
         [self.backNode addSubnode:_buttonArea];
     }
     return _buttonArea;
+}
+
+-(ASTextNode *)iconStart{
+    if (!_iconStart) {
+        _iconStart = [[ASTextNode alloc]init];
+        _iconStart.layerBacked = YES;
+        [self.buttonArea addSubnode:_iconStart];
+    }
+    return _iconStart;
+}
+
+-(ASTextNode *)iconEnd{
+    if (!_iconEnd) {
+        _iconEnd = [[ASTextNode alloc]init];
+        _iconEnd.layerBacked = YES;
+        [self.buttonArea addSubnode:_iconEnd];
+    }
+    return _iconEnd;
+}
+
+-(ASTextNode *)textStart{
+    if (!_textStart) {
+        _textStart = [[ASTextNode alloc]init];
+        _textStart.maximumNumberOfLines = 2;
+        _textStart.truncationMode = NSLineBreakByTruncatingTail;
+        _textStart.layerBacked = YES;
+        [self.buttonArea addSubnode:_textStart];
+    }
+    return _textStart;
+}
+
+-(ASTextNode *)textEnd{
+    if (!_textEnd) {
+        _textEnd = [[ASTextNode alloc]init];
+        _textEnd.maximumNumberOfLines = 2;
+        _textEnd.truncationMode = NSLineBreakByTruncatingTail;
+        _textEnd.layerBacked = YES;
+        [self.buttonArea addSubnode:_textEnd];
+    }
+    return _textEnd;
 }
 
 -(UIControl *)followButton{
@@ -461,6 +519,8 @@
     bean.isFollow = !bean.isFollow;
     [self showFollowArea];
     
+    [[PopAnimateManager sharedInstance]startClickAnimation:sender];
+    
     if(bean.isFollow){
         
         UIViewController* rootViewController = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.rootViewController;
@@ -492,36 +552,77 @@
     CGFloat areaHeight = CGRectGetHeight(self.followButton.bounds);
     
     if (bean.isFollow) {
-        self.followIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange  size:18 content:ICON_GUAN_ZHU];
-        self.followLabel.attributedString = [NSString simpleAttributedString:FlatOrange  size:14 content:@"取消收藏"];
+        self.followIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange  size:24 content:ICON_GUAN_ZHU];
+        self.followLabel.attributedString = [NSString simpleAttributedString:FlatOrange  size:12 content:@"收  藏"];
     }else{
-        self.followIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor]  size:18 content:ICON_GUAN_ZHU];
-        self.followLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColor]  size:14 content:@"加入收藏"];
+        self.followIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor]  size:24 content:ICON_GUAN_ZHU];
+        self.followLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColor]  size:12 content:@"收  藏"];
     }
+    
+    
     CGSize iconSize = [self.followIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.followIcon.frame = (CGRect){CGPointMake(0, (areaHeight - iconSize.height) / 2.),iconSize};
-    CGFloat labelX = iconSize.width;
     CGSize labelSize = [self.followLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.followLabel.frame = (CGRect){CGPointMake(labelX, (areaHeight - labelSize.height) / 2.),labelSize};
     
-    CGRect followFrame = self.followButton.frame;
-    followFrame.size.width = labelX + labelSize.width;
-    followFrame.origin.x = self.backNode.frame.origin.x + self.backNode.frame.size.width - followFrame.size.width - 5;
+    CGFloat iconGap = 0;
+    CGFloat iconY = (areaHeight - (iconSize.height + iconGap + labelSize.height)) / 2;
     
-    self.followButton.frame = followFrame;
+    self.followIcon.frame = (CGRect){CGPointMake((areaHeight - iconSize.width) / 2, iconY),iconSize};
+    
+    self.followLabel.frame = (CGRect){CGPointMake((areaHeight - labelSize.width) / 2, iconY + iconSize.height + iconGap),labelSize};
+    
+//    CGRect followFrame = self.followButton.frame;
+//    followFrame.size.width = labelX + labelSize.width;
+//    followFrame.origin.x = self.backNode.frame.origin.x + self.backNode.frame.size.width - followFrame.size.width - 5;
+//    self.followButton.frame = followFrame;
 }
 
 -(void)initBottomArea:(CGFloat)bottomY bottomWidth:(CGFloat)bottomWidth bottomHeight:(CGFloat)bottomHeight{
     ShipmentBean* bean = self.data;
     
-    self.followButton.frame = CGRectMake(0, bottomY, 0, bottomHeight);
+    self.followButton.frame = CGRectMake(bottomWidth - bottomHeight, bottomY, bottomHeight, bottomHeight);
     [self showFollowArea];
+    
+    self.buttonArea.frame = CGRectMake(0, bottomY, bottomWidth, bottomHeight);
+    
+    CGFloat leftpadding = 10;
+    
+    self.iconStart.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatGreenDark size:16 content:ICON_NODE];
+    CGSize iconStartSize = [self.iconStart measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    self.iconStart.frame = (CGRect){ CGPointMake(leftpadding,0 + (bottomHeight / 2. - iconStartSize.height) / 2.),iconStartSize};
+    
+    NSString* address = @"大港镇松镇公路1339号宝湾物流112号库";
+    NSMutableAttributedString* textString = (NSMutableAttributedString*)[NSString simpleAttributedString:FlatBlack size:12 content:address];
+    NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
+    style.alignment = NSTextAlignmentLeft;
+    [textString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, address.length)];
+    
+    self.textStart.attributedString = textString;
+    CGFloat maxStartWidth = bottomWidth - leftpadding - iconStartSize.width - self.followButton.frame.size.width;
+    
+    CGSize textStartSize = [self.textStart measure:CGSizeMake(maxStartWidth, FLT_MAX)];
+    self.textStart.frame = (CGRect){ CGPointMake(leftpadding + iconStartSize.width + leftpadding / 2.,0 + (bottomHeight / 2. - textStartSize.height) / 2.),textStartSize};
+    
+    self.iconEnd.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange size:16 content:ICON_NODE];
+    CGSize iconEndSize = [self.iconEnd measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    self.iconEnd.frame = (CGRect){ CGPointMake(leftpadding,bottomHeight / 2. + (bottomHeight / 2. - iconStartSize.height) / 2.),iconEndSize};
+    
+    NSString* address2 = @"终点大港镇松镇公路1339号宝湾物流112号库";
+    NSMutableAttributedString* textString2 = (NSMutableAttributedString*)[NSString simpleAttributedString:FlatBlack size:12 content:address2];
+//    NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
+//    style.alignment = NSTextAlignmentLeft;
+    [textString2 addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, address2.length)];
+    
+    self.textEnd.attributedString = textString2;
+    maxStartWidth = bottomWidth - leftpadding - iconEndSize.width - self.followButton.frame.size.width;
+    
+    CGSize textEndSize = [self.textEnd measure:CGSizeMake(maxStartWidth, FLT_MAX)];
+    self.textEnd.frame = (CGRect){ CGPointMake(leftpadding + iconEndSize.width + leftpadding / 2.,bottomHeight / 2. + (bottomHeight / 2. - textEndSize.height) / 2.),textEndSize};
+    
     
     if (true) {
         return;
     }
     
-    self.buttonArea.frame = CGRectMake(0, bottomY, bottomWidth, bottomHeight);
     [self.buttonArea removeAllSubNodes];
 //    for (ASDisplayNode* subNode in self.buttonArea.subnodes) {//先全部移除干净
 //        [subNode removeFromSupernode];
@@ -645,7 +746,7 @@
     CGFloat padding = 5;//内边距10
     
     CGFloat topHeight = 50;
-    CGFloat bottomHeight = 30;
+    CGFloat bottomHeight = 60;
     
     CGFloat topY = 25;
     CGFloat centerY = topY + topHeight;
@@ -662,7 +763,10 @@
     
     self.lineCenterX.frame = CGRectMake((backWidth - LINE_WIDTH) / 2., centerY + padding, LINE_WIDTH, centerHeight - padding * 2);
     
+    
     CGFloat bottomY = centerY + centerHeight;
+    
+    self.lineFollowX.frame = CGRectMake(backWidth - bottomHeight - LINE_WIDTH / 2., bottomY + padding, LINE_WIDTH, bottomHeight - padding * 2);
     
     [self initTopArea:topY topWidth:backWidth topHeight:topHeight];
     [self initCenterArea:centerY centerWidth:backWidth centerHeight:centerHeight];

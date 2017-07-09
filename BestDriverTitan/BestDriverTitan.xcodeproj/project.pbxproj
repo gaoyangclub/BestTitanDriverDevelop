@@ -81,6 +81,9 @@
 		A9D2CF431E87A786000E7F8A /* OrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D2CF421E87A786000E7F8A /* OrderViewController.m */; };
 		A9D2CF461E87AB08000E7F8A /* OrderTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D2CF451E87AB08000E7F8A /* OrderTabView.m */; };
 		A9D2CF491E87E9C2000E7F8A /* OrderViewSection.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D2CF481E87E9C2000E7F8A /* OrderViewSection.m */; };
+		A9D9F49B1F11EC38000536F0 /* PopAnimateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D9F49A1F11EC38000536F0 /* PopAnimateManager.m */; };
+		A9D9F49E1F11F36C000536F0 /* UIButton+Style.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D9F49D1F11F36C000536F0 /* UIButton+Style.m */; };
+		A9D9F4A11F11FC19000536F0 /* NSObject+MethodSwizzlingCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D9F4A01F11FC19000536F0 /* NSObject+MethodSwizzlingCategory.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -248,6 +251,12 @@
 		A9D2CF451E87AB08000E7F8A /* OrderTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderTabView.m; sourceTree = "<group>"; };
 		A9D2CF471E87E9C2000E7F8A /* OrderViewSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderViewSection.h; sourceTree = "<group>"; };
 		A9D2CF481E87E9C2000E7F8A /* OrderViewSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderViewSection.m; sourceTree = "<group>"; };
+		A9D9F4991F11EC37000536F0 /* PopAnimateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopAnimateManager.h; sourceTree = "<group>"; };
+		A9D9F49A1F11EC38000536F0 /* PopAnimateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopAnimateManager.m; sourceTree = "<group>"; };
+		A9D9F49C1F11F36C000536F0 /* UIButton+Style.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Style.h"; sourceTree = "<group>"; };
+		A9D9F49D1F11F36C000536F0 /* UIButton+Style.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Style.m"; sourceTree = "<group>"; };
+		A9D9F49F1F11FC19000536F0 /* NSObject+MethodSwizzlingCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MethodSwizzlingCategory.h"; sourceTree = "<group>"; };
+		A9D9F4A01F11FC19000536F0 /* NSObject+MethodSwizzlingCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MethodSwizzlingCategory.m"; sourceTree = "<group>"; };
 		B82BA2BBD9D253B54D8D7A26 /* libPods-BestDriverTitan.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BestDriverTitan.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D98EC7D1583C1D4937BD4A28 /* Pods-BestDriverTitan.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BestDriverTitan.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BestDriverTitan/Pods-BestDriverTitan.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -286,6 +295,8 @@
 			children = (
 				8402EC241DF93CE1002B78D9 /* UIControl+TouchEffect.h */,
 				8402EC251DF93CE1002B78D9 /* UIControl+TouchEffect.m */,
+				A9D9F49C1F11F36C000536F0 /* UIButton+Style.h */,
+				A9D9F49D1F11F36C000536F0 /* UIButton+Style.m */,
 			);
 			path = Effect;
 			sourceTree = "<group>";
@@ -504,6 +515,8 @@
 			children = (
 				843589261F0DE14800135991 /* FollowAnimateManager.h */,
 				843589271F0DE14800135991 /* FollowAnimateManager..m */,
+				A9D9F4991F11EC37000536F0 /* PopAnimateManager.h */,
+				A9D9F49A1F11EC38000536F0 /* PopAnimateManager.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -691,6 +704,8 @@
 			children = (
 				84FF1A1E1DF7E3A2000AEBC0 /* UICreationUtils.h */,
 				84FF1A1F1DF7E3A2000AEBC0 /* UICreationUtils.m */,
+				A9D9F49F1F11FC19000536F0 /* NSObject+MethodSwizzlingCategory.h */,
+				A9D9F4A01F11FC19000536F0 /* NSObject+MethodSwizzlingCategory.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -855,11 +870,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				8407DF2D1DF1523300E47E73 /* SplashSourceView.m in Sources */,
+				A9D9F49E1F11F36C000536F0 /* UIButton+Style.m in Sources */,
 				84129A301E54579700151672 /* MJTableBaseView.m in Sources */,
 				84183F261E84F5A200E4BCCE /* CAPSPageMenu.m in Sources */,
 				A9D2CF461E87AB08000E7F8A /* OrderTabView.m in Sources */,
 				84129A211E54579700151672 /* MJRefreshAutoGifFooter.m in Sources */,
 				8478A2191E641F300076E8B4 /* TaskTripCell.m in Sources */,
+				A9D9F49B1F11EC38000536F0 /* PopAnimateManager.m in Sources */,
 				84129A261E54579700151672 /* MJRefreshBackStateFooter.m in Sources */,
 				A9D2CF491E87E9C2000E7F8A /* OrderViewSection.m in Sources */,
 				84129A1F1E54579700151672 /* MJRefreshFooter.m in Sources */,
@@ -898,6 +915,7 @@
 				841299E21E54489000151672 /* TaskViewSection.m in Sources */,
 				84812A3F1E4C84C500E382F1 /* UIColor+HexExchange.m in Sources */,
 				84495CA41DF117E40017D2CA /* LCTabBarBadge.m in Sources */,
+				A9D9F4A11F11FC19000536F0 /* NSObject+MethodSwizzlingCategory.m in Sources */,
 				843589281F0DE14800135991 /* FollowAnimateManager..m in Sources */,
 				84129A271E54579700151672 /* MJRefreshGifHeader.m in Sources */,
 				840DEF6B1DED6E3100963524 /* main.m in Sources */,

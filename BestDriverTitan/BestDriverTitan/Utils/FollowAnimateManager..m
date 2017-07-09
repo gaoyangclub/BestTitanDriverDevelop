@@ -80,7 +80,7 @@ static FollowAnimateManager* instance;
 -(UILabel *)iconTag{
     if (!_iconTag) {
         _iconTag = [[UILabel alloc]init];
-        _iconTag.font = [UIFont fontWithName:ICON_FONT_NAME size:18];
+        _iconTag.font = [UIFont fontWithName:ICON_FONT_NAME size:24];
         _iconTag.text = ICON_GUAN_ZHU;
         _iconTag.textColor = FlatOrange;
         
@@ -105,7 +105,7 @@ static FollowAnimateManager* instance;
     UIBezierPath *path = [UIBezierPath bezierPath];
     [path moveToPoint:self.iconTag.center];
     
-    CGFloat rightX = window.bounds.size.width - 30;
+    CGFloat rightX = window.bounds.size.width * 0.95;
     
     CGFloat naviHeight = 64;//导航栏高度
     

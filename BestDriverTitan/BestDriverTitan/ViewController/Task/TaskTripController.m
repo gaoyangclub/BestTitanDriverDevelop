@@ -151,7 +151,7 @@
 }
 
 - (void)eventOccurred:(NSNotification*)eventData{
-    NSInteger activityCount = arc4random() % 3 + 1;
+    NSInteger activityCount = arc4random() % 20000 + 1;
     BOOL showAttach = arc4random() % 2;
     if (showAttach) {
         activityCount -= 1;
@@ -165,6 +165,8 @@
     CGFloat tableHeight = viewHeight - SUBMIT_BUTTON_HEIGHT - padding * 2;
     CGFloat mWidth = MORE_BUTTON_RADIUS * 2;
 
+//    [self.submitButton setTitle:ConcatStrings(ICON_QIAN_SHOU,@"  ",@"签收",[NSNumber numberWithInteger:activityCount]) forState:UIControlStateNormal];
+    
     if (!self.moreButton.hidden) {
         self.moreButton.frame = CGRectMake(0, tableHeight + padding + (SUBMIT_BUTTON_HEIGHT - mWidth) / 2., mWidth, mWidth);
     }
@@ -179,7 +181,7 @@
 
 -(UIButton *)submitButton{
     if (!_submitButton) {
-        _submitButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        _submitButton = [UIButton buttonWithType:UIButtonTypeCustom];
 //        [_submitButton setShowTouch:YES];
         
         _submitButton.backgroundColor = COLOR_PRIMARY;
@@ -187,15 +189,21 @@
         [_submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
         _submitButton.titleLabel.font = [UIFont fontWithName:ICON_FONT_NAME size:16];
+//        _submitButton.titleLabel.attributedText = 
+        
+        _submitButton.underlineNone = YES;
         
         [self.view addSubview:_submitButton];
+        
+        [_submitButton setShowTouch:YES];
+        
         
         [_submitButton addTarget:self action:@selector(clickSubmitButton:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _submitButton;
 }
 
--(void)clickSubmitButton:(UIButton*)btn{
+-(void)clickSubmitButton:(UIButton*)sender{
     UIViewController* controller = [[OrderViewController alloc]init];
     [[RootNavigationController sharedInstance] pushViewController:controller animated:YES];
 }
@@ -208,6 +216,8 @@
         _attachmentButton.backgroundColor = [UIColor whiteColor];
         [_attachmentButton setTitle:ConcatStrings(ICON_HUI_DAN,@"  ",@"回单") forState:UIControlStateNormal];
         [_attachmentButton setTitleColor:COLOR_PRIMARY forState:UIControlStateNormal];
+        
+        _attachmentButton.underlineNone = YES;
         
         _attachmentButton.layer.borderColor = COLOR_PRIMARY.CGColor;
         _attachmentButton.layer.borderWidth = 1;
@@ -227,8 +237,15 @@
         [_moreButton.layer addSublayer:[UICreationUtils createRangeLayer:MORE_BUTTON_RADIUS textColor:[UIColor whiteColor]
                                                                         backgroundColor:COLOR_PRIMARY]];
         [self.view addSubview:_moreButton];
+        
+        [_moreButton addTarget:self action:@selector(clickMoreButton:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _moreButton;
+}
+
+-(void)clickMoreButton:(UIView*)sender{
+    [[PopAnimateManager sharedInstance]startClickAnimation:sender];
+    
 }
 
 

@@ -14,7 +14,7 @@ typedef void (^FailureBlock)();
 #define COLOR_BACKGROUND rgba(226,226,226,1)
 #define COLOR_LINE rgba(218,218,218,1)
 #define COLOR_YI_WAN_CHENG rgb(67,152,216)//rgba(21,178,168,1)
-#define COLOR_DAI_WAN_CHENG [UIColor flatSandColorDark]//rgb(250,83,44)//rgba(240,129,69,1)
+#define COLOR_DAI_WAN_CHENG FlatWatermelon//[UIColor flatSandColorDark]//rgb(250,83,44)//rgba(240,129,69,1)
 #define LINE_WIDTH 0.5
 
 #define DDLog(xx, ...)  NSLog(@"%s(%d): " xx, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
@@ -34,7 +34,9 @@ typedef void (^FailureBlock)();
 
 #define ICON_SHE_ZHI @"\U0000e628"
 
-#define ICON_LOGO_SPLASH @"\U0000e7a9"
+//#define ICON_LOGO_SPLASH @"\U0000e7a9"
+
+#define ICON_NODE @"\U0000e64e"
 
 #define ICON_DING_DAN @"\U0000e60b"
 #define ICON_DING_DAN_SELECTED @"\U0000e63d"
@@ -73,6 +75,10 @@ typedef void (^FailureBlock)();
 
 #define ICON_GUAN_ZHU @"\U0000e6e2"
 
+#define ICON_QI_DIAN @"\U0000e674"
+#define ICON_ZHONG_DIAN @"\U0000e673"
+
+
 #define TABBAR_TITLE_TI_HUO @"提货"
 #define TABBAR_TITLE_ZHUANG_CHE @"装车"
 #define TABBAR_TITLE_XIE_HUO @"卸货"
@@ -100,7 +106,7 @@ typedef void (^FailureBlock)();
 
 #define SUBMIT_BUTTON_HEIGHT 50
 
-#define TASK_VIEW_CELL_HEIGHT 200
+#define TASK_VIEW_CELL_HEIGHT 230
 #define TASK_VIEW_SECTION_HEIGHT 50
 
 #define TASK_TRIP_AREA_HEIGHT 100
