@@ -151,7 +151,7 @@
 }
 
 - (void)eventOccurred:(NSNotification*)eventData{
-    NSInteger activityCount = arc4random() % 20000 + 1;
+    NSInteger activityCount = arc4random() % 3 + 1;
     BOOL showAttach = arc4random() % 2;
     if (showAttach) {
         activityCount -= 1;
