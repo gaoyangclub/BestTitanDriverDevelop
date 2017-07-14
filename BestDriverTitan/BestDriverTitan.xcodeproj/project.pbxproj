@@ -60,15 +60,26 @@
 		84495CAB1DF119DA0017D2CA /* DIYTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 84495CAA1DF119DA0017D2CA /* DIYTabBarItem.m */; };
 		84495CAF1DF11F2D0017D2CA /* demo_unicode.html in Resources */ = {isa = PBXBuildFile; fileRef = 84495CAD1DF11F2D0017D2CA /* demo_unicode.html */; };
 		84495CB01DF11F2D0017D2CA /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84495CAE1DF11F2D0017D2CA /* iconfont.ttf */; };
+		846217C41F15BCC100B2C46B /* TaskActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 846217C31F15BCC100B2C46B /* TaskActivityView.m */; };
+		846217C91F15CB7300B2C46B /* CustomPresentingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 846217C81F15CB7300B2C46B /* CustomPresentingController.m */; };
+		846217CC1F15CBDD00B2C46B /* CustomDismissingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 846217CB1F15CBDD00B2C46B /* CustomDismissingController.m */; };
+		846217CF1F15CC5A00B2C46B /* CustomModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 846217CE1F15CC5A00B2C46B /* CustomModalViewController.m */; };
+		846217D21F15F10000B2C46B /* CustomPopModelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 846217D11F15F10000B2C46B /* CustomPopModelView.m */; };
+		846217D51F161DE000B2C46B /* ShipmentActivityBean.m in Sources */ = {isa = PBXBuildFile; fileRef = 846217D41F161DE000B2C46B /* ShipmentActivityBean.m */; };
+		846217D71F1629C500B2C46B /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = 846217D61F1629C500B2C46B /* Config.m */; };
 		846E88211E66ED7800A6C9B0 /* UIView+GY.m in Sources */ = {isa = PBXBuildFile; fileRef = 846E88201E66ED7800A6C9B0 /* UIView+GY.m */; };
 		847278B01DF1715A00C1BACB /* DIYSplashViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 847278AF1DF1715A00C1BACB /* DIYSplashViewModel.m */; };
 		847278B41DF1763A00C1BACB /* NetRequestClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 847278B31DF1763A00C1BACB /* NetRequestClass.m */; };
 		847278B71DF1767300C1BACB /* ViewModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 847278B61DF1767300C1BACB /* ViewModelClass.m */; };
 		8478A2161E6407260076E8B4 /* TaskTripSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8478A2151E6407260076E8B4 /* TaskTripSection.m */; };
 		8478A2191E641F300076E8B4 /* TaskTripCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8478A2181E641F300076E8B4 /* TaskTripCell.m */; };
+		847D666E1F179CD700BA28D4 /* Default-568h@2x.png.png in Resources */ = {isa = PBXBuildFile; fileRef = 847D666B1F179CD700BA28D4 /* Default-568h@2x.png.png */; };
+		847D666F1F179CD700BA28D4 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 847D666C1F179CD700BA28D4 /* Default.png */; };
+		847D66701F179CD700BA28D4 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 847D666D1F179CD700BA28D4 /* Default@2x.png */; };
 		84812A3F1E4C84C500E382F1 /* UIColor+HexExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = 84812A3E1E4C84C500E382F1 /* UIColor+HexExchange.m */; };
 		849161CC1E34B10B0063CD80 /* TaskViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 849161CB1E34B10B0063CD80 /* TaskViewCell.m */; };
 		849161CF1E34B1C00063CD80 /* ShipmentBean.m in Sources */ = {isa = PBXBuildFile; fileRef = 849161CE1E34B1C00063CD80 /* ShipmentBean.m */; };
+		84963C8E1F14CF0F00AA4617 /* ShipmentStopBean.m in Sources */ = {isa = PBXBuildFile; fileRef = 84963C8D1F14CF0F00AA4617 /* ShipmentStopBean.m */; };
 		849740A91F0A459A008D3030 /* YYFPSLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 849740A61F0A459A008D3030 /* YYFPSLabel.m */; };
 		849740AA1F0A459A008D3030 /* YYWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 849740A81F0A459A008D3030 /* YYWeakProxy.m */; };
 		84AF24991E94CE3C00AF200D /* DiyNumberAddView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AF24981E94CE3C00AF200D /* DiyNumberAddView.m */; };
@@ -207,6 +218,19 @@
 		84495CAA1DF119DA0017D2CA /* DIYTabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIYTabBarItem.m; sourceTree = "<group>"; };
 		84495CAD1DF11F2D0017D2CA /* demo_unicode.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = demo_unicode.html; sourceTree = "<group>"; };
 		84495CAE1DF11F2D0017D2CA /* iconfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.ttf; sourceTree = "<group>"; };
+		846217C21F15BCC100B2C46B /* TaskActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskActivityView.h; sourceTree = "<group>"; };
+		846217C31F15BCC100B2C46B /* TaskActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskActivityView.m; sourceTree = "<group>"; };
+		846217C71F15CB7300B2C46B /* CustomPresentingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPresentingController.h; sourceTree = "<group>"; };
+		846217C81F15CB7300B2C46B /* CustomPresentingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPresentingController.m; sourceTree = "<group>"; };
+		846217CA1F15CBDD00B2C46B /* CustomDismissingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomDismissingController.h; sourceTree = "<group>"; };
+		846217CB1F15CBDD00B2C46B /* CustomDismissingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomDismissingController.m; sourceTree = "<group>"; };
+		846217CD1F15CC5A00B2C46B /* CustomModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomModalViewController.h; sourceTree = "<group>"; };
+		846217CE1F15CC5A00B2C46B /* CustomModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomModalViewController.m; sourceTree = "<group>"; };
+		846217D01F15F10000B2C46B /* CustomPopModelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPopModelView.h; sourceTree = "<group>"; };
+		846217D11F15F10000B2C46B /* CustomPopModelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPopModelView.m; sourceTree = "<group>"; };
+		846217D31F161DE000B2C46B /* ShipmentActivityBean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShipmentActivityBean.h; sourceTree = "<group>"; };
+		846217D41F161DE000B2C46B /* ShipmentActivityBean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShipmentActivityBean.m; sourceTree = "<group>"; };
+		846217D61F1629C500B2C46B /* Config.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Config.m; sourceTree = "<group>"; };
 		846E881F1E66ED7800A6C9B0 /* UIView+GY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+GY.h"; sourceTree = "<group>"; };
 		846E88201E66ED7800A6C9B0 /* UIView+GY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+GY.m"; sourceTree = "<group>"; };
 		847278AE1DF1715A00C1BACB /* DIYSplashViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIYSplashViewModel.h; sourceTree = "<group>"; };
@@ -219,6 +243,9 @@
 		8478A2151E6407260076E8B4 /* TaskTripSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskTripSection.m; sourceTree = "<group>"; };
 		8478A2171E641F300076E8B4 /* TaskTripCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskTripCell.h; sourceTree = "<group>"; };
 		8478A2181E641F300076E8B4 /* TaskTripCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskTripCell.m; sourceTree = "<group>"; };
+		847D666B1F179CD700BA28D4 /* Default-568h@2x.png.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png.png"; sourceTree = "<group>"; };
+		847D666C1F179CD700BA28D4 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		847D666D1F179CD700BA28D4 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		84812A3D1E4C84C500E382F1 /* UIColor+HexExchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexExchange.h"; sourceTree = "<group>"; };
 		84812A3E1E4C84C500E382F1 /* UIColor+HexExchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexExchange.m"; sourceTree = "<group>"; };
 		849161C11E34AA680063CD80 /* AsyncDisplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AsyncDisplayKit.framework; path = "../../AsyncDisplayKit-master/build/Debug-iphoneos/AsyncDisplayKit.framework"; sourceTree = "<group>"; };
@@ -227,6 +254,8 @@
 		849161CB1E34B10B0063CD80 /* TaskViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskViewCell.m; sourceTree = "<group>"; };
 		849161CD1E34B1C00063CD80 /* ShipmentBean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShipmentBean.h; sourceTree = "<group>"; };
 		849161CE1E34B1C00063CD80 /* ShipmentBean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShipmentBean.m; sourceTree = "<group>"; };
+		84963C8C1F14CF0F00AA4617 /* ShipmentStopBean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShipmentStopBean.h; sourceTree = "<group>"; };
+		84963C8D1F14CF0F00AA4617 /* ShipmentStopBean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShipmentStopBean.m; sourceTree = "<group>"; };
 		849740A51F0A459A008D3030 /* YYFPSLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYFPSLabel.h; sourceTree = "<group>"; };
 		849740A61F0A459A008D3030 /* YYFPSLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYFPSLabel.m; sourceTree = "<group>"; };
 		849740A71F0A459A008D3030 /* YYWeakProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYWeakProxy.h; sourceTree = "<group>"; };
@@ -318,6 +347,8 @@
 				8478A2181E641F300076E8B4 /* TaskTripCell.m */,
 				8478A2141E6407260076E8B4 /* TaskTripSection.h */,
 				8478A2151E6407260076E8B4 /* TaskTripSection.m */,
+				846217C21F15BCC100B2C46B /* TaskActivityView.h */,
+				846217C31F15BCC100B2C46B /* TaskActivityView.m */,
 			);
 			path = Task;
 			sourceTree = "<group>";
@@ -525,6 +556,7 @@
 			isa = PBXGroup;
 			children = (
 				84495C8E1DF113D90017D2CA /* Config.h */,
+				846217D61F1629C500B2C46B /* Config.m */,
 				84495C8F1DF113D90017D2CA /* NSString+YCI.h */,
 				84495C901DF113D90017D2CA /* NSString+YCI.m */,
 				84495C911DF113D90017D2CA /* PrefixHeader.pch */,
@@ -543,6 +575,10 @@
 			children = (
 				849161CD1E34B1C00063CD80 /* ShipmentBean.h */,
 				849161CE1E34B1C00063CD80 /* ShipmentBean.m */,
+				84963C8C1F14CF0F00AA4617 /* ShipmentStopBean.h */,
+				84963C8D1F14CF0F00AA4617 /* ShipmentStopBean.m */,
+				846217D31F161DE000B2C46B /* ShipmentActivityBean.h */,
+				846217D41F161DE000B2C46B /* ShipmentActivityBean.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -550,6 +586,9 @@
 		84495C931DF113D90017D2CA /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				847D666B1F179CD700BA28D4 /* Default-568h@2x.png.png */,
+				847D666C1F179CD700BA28D4 /* Default.png */,
+				847D666D1F179CD700BA28D4 /* Default@2x.png */,
 				8407DF341DF154CF00E47E73 /* splashLogo.png */,
 				8407DF321DF1539300E47E73 /* application.png */,
 				84495CAC1DF11F2D0017D2CA /* iconfont */,
@@ -629,6 +668,7 @@
 		84495CA81DF119CB0017D2CA /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				846217C61F15CB4100B2C46B /* Presenting */,
 				841299DC1E542E4300151672 /* CircleNode.h */,
 				841299DD1E542E4300151672 /* CircleNode.m */,
 				841299D91E542D0D00151672 /* DiyLicensePlateNode.h */,
@@ -652,6 +692,21 @@
 				84495CAE1DF11F2D0017D2CA /* iconfont.ttf */,
 			);
 			path = iconfont;
+			sourceTree = "<group>";
+		};
+		846217C61F15CB4100B2C46B /* Presenting */ = {
+			isa = PBXGroup;
+			children = (
+				846217C71F15CB7300B2C46B /* CustomPresentingController.h */,
+				846217C81F15CB7300B2C46B /* CustomPresentingController.m */,
+				846217CA1F15CBDD00B2C46B /* CustomDismissingController.h */,
+				846217CB1F15CBDD00B2C46B /* CustomDismissingController.m */,
+				846217CD1F15CC5A00B2C46B /* CustomModalViewController.h */,
+				846217CE1F15CC5A00B2C46B /* CustomModalViewController.m */,
+				846217D01F15F10000B2C46B /* CustomPopModelView.h */,
+				846217D11F15F10000B2C46B /* CustomPopModelView.m */,
+			);
+			path = Presenting;
 			sourceTree = "<group>";
 		};
 		847278A91DF168B200C1BACB /* Splash */ = {
@@ -778,7 +833,7 @@
 				TargetAttributes = {
 					840DEF651DED6E3100963524 = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = GDF5YE97RF;
+						DevelopmentTeam = XZATG76F8M;
 					};
 				};
 			};
@@ -808,9 +863,12 @@
 				84495CB01DF11F2D0017D2CA /* iconfont.ttf in Resources */,
 				8407DF331DF1539300E47E73 /* application.png in Resources */,
 				84129A2A1E54579700151672 /* MJRefresh.bundle in Resources */,
+				847D66701F179CD700BA28D4 /* Default@2x.png in Resources */,
+				847D666F1F179CD700BA28D4 /* Default.png in Resources */,
 				8407DF351DF154CF00E47E73 /* splashLogo.png in Resources */,
 				84495CAF1DF11F2D0017D2CA /* demo_unicode.html in Resources */,
 				840DEF761DED6E3100963524 /* Assets.xcassets in Resources */,
+				847D666E1F179CD700BA28D4 /* Default-568h@2x.png.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -874,6 +932,7 @@
 				84129A301E54579700151672 /* MJTableBaseView.m in Sources */,
 				84183F261E84F5A200E4BCCE /* CAPSPageMenu.m in Sources */,
 				A9D2CF461E87AB08000E7F8A /* OrderTabView.m in Sources */,
+				846217C91F15CB7300B2C46B /* CustomPresentingController.m in Sources */,
 				84129A211E54579700151672 /* MJRefreshAutoGifFooter.m in Sources */,
 				8478A2191E641F300076E8B4 /* TaskTripCell.m in Sources */,
 				A9D9F49B1F11EC38000536F0 /* PopAnimateManager.m in Sources */,
@@ -888,8 +947,10 @@
 				84129A2F1E54579700151672 /* UIView+MJExtension.m in Sources */,
 				84D1F8681E6567DF007C1307 /* ASControlNode+GY.m in Sources */,
 				840DEF711DED6E3100963524 /* ViewController.m in Sources */,
+				84963C8E1F14CF0F00AA4617 /* ShipmentStopBean.m in Sources */,
 				84129A2D1E54579700151672 /* UIScrollView+MJExtension.m in Sources */,
 				84129A231E54579700151672 /* MJRefreshAutoStateFooter.m in Sources */,
+				846217C41F15BCC100B2C46B /* TaskActivityView.m in Sources */,
 				A9CF264A1E5071B100D11B59 /* RoundRectNode.m in Sources */,
 				8407DF311DF1527E00E47E73 /* SplashSourceDaDa.m in Sources */,
 				84495CAB1DF119DA0017D2CA /* DIYTabBarItem.m in Sources */,
@@ -910,9 +971,11 @@
 				849161CC1E34B10B0063CD80 /* TaskViewCell.m in Sources */,
 				84129A251E54579700151672 /* MJRefreshBackNormalFooter.m in Sources */,
 				84495CA61DF117E40017D2CA /* GYTabBarItem.m in Sources */,
+				846217D51F161DE000B2C46B /* ShipmentActivityBean.m in Sources */,
 				84129A1D1E54579700151672 /* MJRefreshBackFooter.m in Sources */,
 				84D1F8651E655E95007C1307 /* ASDisplayNode+GY.m in Sources */,
 				841299E21E54489000151672 /* TaskViewSection.m in Sources */,
+				846217D21F15F10000B2C46B /* CustomPopModelView.m in Sources */,
 				84812A3F1E4C84C500E382F1 /* UIColor+HexExchange.m in Sources */,
 				84495CA41DF117E40017D2CA /* LCTabBarBadge.m in Sources */,
 				A9D9F4A11F11FC19000536F0 /* NSObject+MethodSwizzlingCategory.m in Sources */,
@@ -924,8 +987,10 @@
 				847278B71DF1767300C1BACB /* ViewModelClass.m in Sources */,
 				841299DB1E542D0D00151672 /* DiyLicensePlateNode.m in Sources */,
 				8402EC2A1DF94852002B78D9 /* TaskViewController.m in Sources */,
+				846217CC1F15CBDD00B2C46B /* CustomDismissingController.m in Sources */,
 				8402EC7D1DF97D41002B78D9 /* TaskTripController.m in Sources */,
 				84FF1A201DF7E3A2000AEBC0 /* UICreationUtils.m in Sources */,
+				846217D71F1629C500B2C46B /* Config.m in Sources */,
 				84AF24991E94CE3C00AF200D /* DiyNumberAddView.m in Sources */,
 				8478A2161E6407260076E8B4 /* TaskTripSection.m in Sources */,
 				84129A291E54579700151672 /* MJRefreshStateHeader.m in Sources */,
@@ -938,6 +1003,7 @@
 				84129A281E54579700151672 /* MJRefreshNormalHeader.m in Sources */,
 				84129A331E54579700151672 /* MJTableViewSection.m in Sources */,
 				84129A1E1E54579700151672 /* MJRefreshComponent.m in Sources */,
+				846217CF1F15CC5A00B2C46B /* CustomModalViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1033,6 +1099,7 @@
 			baseConfigurationReference = D98EC7D1583C1D4937BD4A28 /* Pods-BestDriverTitan.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				GCC_PREFIX_HEADER = BestDriverTitan/Config/PrefixHeader.pch;
@@ -1047,7 +1114,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/SVProgressHUD",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.best.BestDriverTitan2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.best.ios.drivertitan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1058,6 +1125,7 @@
 			baseConfigurationReference = 65C3945FDE96BB21B7C289B6 /* Pods-BestDriverTitan.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				GCC_PREFIX_HEADER = BestDriverTitan/Config/PrefixHeader.pch;
@@ -1072,7 +1140,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/SVProgressHUD",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.best.BestDriverTitan2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.best.ios.drivertitan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

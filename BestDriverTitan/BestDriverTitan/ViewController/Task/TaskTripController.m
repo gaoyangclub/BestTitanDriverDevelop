@@ -11,6 +11,8 @@
 #import "TaskTripCell.h"
 #import "OrderViewController.h"
 #import "RootNavigationController.h"
+#import "ShipmentStopBean.h"
+#import "TaskActivityView.h"
 
 @interface TestTableViewCell2 : MJTableViewCell
 
@@ -26,7 +28,7 @@
 
 @end
 
-@interface TaskTripController (){
+@interface TaskTripController()<TaskActivityViewDelegate>{
 //    UILabel* titleLabel;
 }
 //@property(nonatomic,retain)UIView* titleView;
@@ -92,6 +94,20 @@
 -(void)headerRefresh:(HeaderRefreshHandler)handler{
     int64_t delay = 1.0 * NSEC_PER_SEC;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), ^{//
+        
+        NSMutableArray<ShipmentStopBean*>* stopArr = [NSMutableArray<ShipmentStopBean*> array];
+        int stopCount = (arc4random() % 10) + 2;
+        for (NSUInteger i = 0; i < stopCount; i++) {
+            ShipmentStopBean* bean = [[ShipmentStopBean alloc]init];
+            bean.isComplete = (arc4random() % 3) > 0 ? NO : YES;//;
+            bean.shortAddress = ConcatStrings(@"横港路李宁店",[NSNumber numberWithInteger:i + 1],@"号店");
+            bean.stopName = ConcatStrings(@"上海上海市松江区上海上海市松江区",bean.shortAddress,@"18弄63号");
+            
+            bean.pickupCount = (arc4random() % 15);
+            bean.deliverCount = (arc4random() % 15);
+            bean.orderCount = (arc4random() % 10) + 1;
+            [stopArr addObject:bean];
+        }
         [self.tableView clearSource];
         
         NSMutableArray<CellVo*>* sourceData = [NSMutableArray<CellVo*> array];
@@ -100,7 +116,7 @@
             //            [self.sourceData addObject:[NSString stringWithFormat:@"数据: %lu",i]];
             
             [sourceData addObject:
-             [CellVo initWithParams:TASK_TRIP_CELL_HEIGHT cellClass:[TaskTripCell class] cellData:[NSString stringWithFormat:@"测试数据: %lu",i]]];
+             [CellVo initWithParams:TASK_TRIP_CELL_HEIGHT cellClass:[TaskTripCell class] cellData:stopArr]];
         }
         [self.tableView addSource:[SourceVo initWithParams:sourceData headerHeight:TASK_TRIP_SECTION_HEIGHT headerClass:[TaskTripSection class] headerData:NULL]];
         handler(sourceData.count > 0);
@@ -151,6 +167,9 @@
 }
 
 - (void)eventOccurred:(NSNotification*)eventData{
+    
+    ShipmentStopBean* bean = eventData.object;
+    
     NSInteger activityCount = arc4random() % 3 + 1;
     BOOL showAttach = arc4random() % 2;
     if (showAttach) {
@@ -204,13 +223,17 @@
 }
 
 -(void)clickSubmitButton:(UIButton*)sender{
+    [self jumpOrderViewController:nil];
+}
+
+-(void)jumpOrderViewController:(ShipmentActivityBean*)activityBean{
     UIViewController* controller = [[OrderViewController alloc]init];
     [[RootNavigationController sharedInstance] pushViewController:controller animated:YES];
 }
 
 -(UIButton *)attachmentButton{
     if (!_attachmentButton) {
-        _attachmentButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        _attachmentButton = [UIButton buttonWithType:UIButtonTypeCustom];
         //        [_submitButton setShowTouch:YES];
         
         _attachmentButton.backgroundColor = [UIColor whiteColor];
@@ -225,6 +248,8 @@
         _attachmentButton.titleLabel.font = [UIFont fontWithName:ICON_FONT_NAME size:16];
         
         [self.view addSubview:_attachmentButton];
+        
+        [_attachmentButton setShowTouch:YES];
     }
     return _attachmentButton;
 }
@@ -246,6 +271,35 @@
 -(void)clickMoreButton:(UIView*)sender{
     [[PopAnimateManager sharedInstance]startClickAnimation:sender];
     
+    NSMutableArray<NSString*>* codeArr = [NSMutableArray<NSString*> arrayWithObjects:ACTIVITY_CODE_PICKUP_HANDOVER,ACTIVITY_CODE_LOAD,ACTIVITY_CODE_UNLOAD,ACTIVITY_CODE_SIGN_FOR_RECEIPT,ACTIVITY_CODE_DELIVERY_RECEIPT,ACTIVITY_CODE_COD, nil];
+//  @[ACTIVITY_CODE_PICKUP_HANDOVER,ACTIVITY_CODE_LOAD,ACTIVITY_CODE_UNLOAD,ACTIVITY_CODE_SIGN_FOR_RECEIPT,ACTIVITY_CODE_DELIVERY_RECEIPT,ACTIVITY_CODE_COD
+//                                    ];
+    NSInteger removeCount = arc4random() % codeArr.count;
+    for(NSInteger i = 0 ; i < removeCount ; i ++){
+        NSInteger removeIndex = arc4random() % codeArr.count;
+        [codeArr removeObjectAtIndex:removeIndex];
+    }
+    
+    NSMutableArray<ShipmentActivityBean*>* activityBeans = [NSMutableArray<ShipmentActivityBean*> array];
+    for (NSString* code in codeArr) {
+        ShipmentActivityBean* bean = [[ShipmentActivityBean alloc]init];
+        bean.activityDefinitionCode = code;
+        [activityBeans addObject:bean];
+    }
+
+    TaskActivityView* activityView = [[TaskActivityView alloc]init];
+    activityView.activityBeans = activityBeans;
+    activityView.taskActivityDelegate = self;
+    [activityView show];
+    
+//    activityController.transitioningDelegate = activityController;
+//    activityController.modalPresentationStyle = UIModalPresentationCustom;
+    
+//    [self presentViewController:activityController animated:YES completion:nil];
+}
+
+-(void)activitySelected:(ShipmentActivityBean *)activityBean{
+    [self jumpOrderViewController:activityBean];
 }
 
 

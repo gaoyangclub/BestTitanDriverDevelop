@@ -10,6 +10,7 @@
 #import "RoundRectNode.h"
 #import "GYTabBarView.h"
 #import "CircleNode.h"
+#import "ShipmentStopBean.h"
 
 //站点信息按钮
 @interface StopButton:UIControl{
@@ -250,7 +251,7 @@
 -(UIScrollView *)bottomAreaView{
     if (!_bottomAreaView) {
         _bottomAreaView = [[UIScrollView alloc]init];
-        _bottomAreaView.backgroundColor = [UIColor whiteColor];
+//        _bottomAreaView.backgroundColor = [UIColor grayColor];
 //        _bottomAreaView.layerBacked = YES;
 //        [self.contentView.layer addSublayer:_bottomAreaView.layer];
         [self.contentView addSubview:_bottomAreaView];
@@ -273,7 +274,10 @@
     CGFloat itemWidth = 80;
     CGFloat btnWidth = itemWidth - 30;
     //绘制背景长条
-    int count = (arc4random() % 10) + 2; //生成0-2范围的随机数
+    
+    NSMutableArray<ShipmentStopBean*>* stopArr = self.data;
+    
+    NSInteger count = stopArr.count;
     
     CGFloat contentWidth = itemWidth * (count - 1) + padding * 4;
     
@@ -287,8 +291,8 @@
     int selectIndex = arc4random() % count;
 //    int carIndex = selectIndex - 1;//> 0 ? selectIndex - 1 : 0; //生成1-(count-1)范围的随机数
     
-    self.carView.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatPowderBlueDark size:25 content:ICON_KA_CHE];
-    CGSize carSize = [self.carView measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    self.carView.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_PRIMARY size:25 content:ICON_KA_CHE];
+    CGSize carSize = [self.carView measure:CGSizeMake(FLT_MAX, FLT_MAX)];//FlatPowderBlueDark
     CGFloat carX;
     if (selectIndex > 0) {
         carX = padding * 2 + (selectIndex - 1) * itemWidth + (itemWidth - carSize.width) / 2.;
@@ -308,6 +312,8 @@
     CGFloat radius = routeH / 2. - 0.5;
     StopButton* selectBtn;
     for (NSInteger i = 0; i < count; i ++) {//添加白点
+        ShipmentStopBean* bean = stopArr[i];
+        
         CircleNode* circle = [[CircleNode alloc]init];
         circle.layerBacked = YES;
         circle.fillColor = [UIColor flatWhiteColor];
@@ -315,17 +321,18 @@
         circle.frame = CGRectMake(padding + i * itemWidth - radius, (routeH - radius * 2) / 2., radius * 2, radius * 2);
         [self.bottomRouteLine addSubnode:circle];
         
-        
         StopButton* btn = [[StopButton alloc]init];
         [self.bottomRouteGroup addSubview:btn];
 //        btn.backgroundColor = [UIColor brownColor];
         btn.frame = CGRectMake(padding * 2 + i * itemWidth - btnWidth / 2., 0, btnWidth, groupHeight);
         btn.userInteractionEnabled = YES;
         [btn setIndex:i + 1];
-        [btn setLabel:ConcatStrings(@"上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库",[NSString stringWithFormat:@"%li",(long)i])];//😭
+        [btn setLabel:bean.shortAddress];
+//        [btn setLabel:ConcatStrings(@"上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库",[NSString stringWithFormat:@"%li",(long)i])];//😭
         
-        int completeCount = (arc4random() % 3);
-        [btn setComplete:completeCount == 0];
+//        int completeCount = (arc4random() % 3);
+        [btn setComplete:bean.isComplete];
+        btn.tag = i;
         
         if (i == selectIndex) {
             selectBtn = btn;
@@ -346,7 +353,9 @@
     
     [self moveRouteButton:clickBtn];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_ADDRESS_SELECT object:[clickBtn getLabel]];
+    NSMutableArray<ShipmentStopBean*>* stopArr = self.data;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_ADDRESS_SELECT object:stopArr[clickBtn.tag]];
 }
 
 -(void)moveRouteButton:(StopButton*)clickBtn{

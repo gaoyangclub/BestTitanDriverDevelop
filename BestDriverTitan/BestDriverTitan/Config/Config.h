@@ -78,8 +78,12 @@ typedef void (^FailureBlock)();
 #define ICON_QI_DIAN @"\U0000e674"
 #define ICON_ZHONG_DIAN @"\U0000e673"
 
+#define ICON_DIAN_HUA @"\U0000e61c"
+#define ICON_DAO_HANG @"\U0000e600"
 
-#define TABBAR_TITLE_TI_HUO @"提货"
+#define ICON_CLOSE @"\U0000e6a0"
+
+#define TABBAR_TITLE_TI_HUO @"揽收"
 #define TABBAR_TITLE_ZHUANG_CHE @"装车"
 #define TABBAR_TITLE_XIE_HUO @"卸货"
 #define TABBAR_TITLE_QIAN_SHOU @"签收"
@@ -106,12 +110,12 @@ typedef void (^FailureBlock)();
 
 #define SUBMIT_BUTTON_HEIGHT 50
 
-#define TASK_VIEW_CELL_HEIGHT 230
+#define TASK_VIEW_CELL_HEIGHT 145 //240
 #define TASK_VIEW_SECTION_HEIGHT 50
 
-#define TASK_TRIP_AREA_HEIGHT 100
+#define TASK_TRIP_AREA_HEIGHT 140
 
-#define TASK_TRIP_CELL_HEIGHT 600 - TASK_TRIP_AREA_HEIGHT
+#define TASK_TRIP_CELL_HEIGHT 460 - TASK_TRIP_AREA_HEIGHT
 #define TASK_TRIP_SECTION_TOP_HEIGHT 65
 #define TASK_TRIP_SECTION_HEIGHT TASK_TRIP_SECTION_TOP_HEIGHT + TASK_TRIP_AREA_HEIGHT
 
@@ -119,5 +123,21 @@ typedef void (^FailureBlock)();
 #define ORDER_VIEW_CELL_HEIGHT 150
 
 #define EVENT_ADDRESS_SELECT @"EVENT_ADDRESS_SELECT"
+
+#define ACTIVITY_CODE_PICKUP_HANDOVER @"PICKUP_HANDOVER" //揽收
+#define ACTIVITY_CODE_LOAD @"LOAD" //装车
+#define ACTIVITY_CODE_UNLOAD @"UNLOAD" //卸货
+#define ACTIVITY_CODE_SIGN_FOR_RECEIPT @"SIGN_FOR_RECEIPT" //签收
+#define ACTIVITY_CODE_DELIVERY_RECEIPT @"DELIVERY_RECEIPT" //回单
+#define ACTIVITY_CODE_COD @"COD" //收款
+
+
+@interface Config : NSObject
+
++(NSString*)getActivityIconByCode:(NSString*)code;
++(NSString*)getActivityLabelByCode:(NSString*)code;
+
+@end
+
 
 

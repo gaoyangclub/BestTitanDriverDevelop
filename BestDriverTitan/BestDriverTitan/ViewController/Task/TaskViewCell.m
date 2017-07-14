@@ -36,6 +36,9 @@
 @property (nonatomic,retain) ASDisplayNode* backNode;
 
 @property (nonatomic,retain) ASTextNode* codeText;//运单号
+@property (nonatomic,retain) RoundRectNode* stateArea;//未完成
+@property (nonatomic,retain) ASTextNode* stateText;//未完成
+
 @property (nonatomic,retain) ASTextNode* licencePlateText;//车牌号
 @property (nonatomic,retain) DiyLicensePlateNode* licencePlateView;//车牌背景图
 @property (nonatomic,retain) ASTextNode* shipUintCountText;//货量
@@ -274,6 +277,26 @@
         [self.backNode addSubnode:_codeText];
     }
     return _codeText;
+}
+
+-(RoundRectNode *)stateArea{
+    if (!_stateArea) {
+        _stateArea = [[RoundRectNode alloc]init];
+        _stateArea.layerBacked = YES;
+        _stateArea.cornerRadius = 3;
+        _stateArea.fillColor = COLOR_DAI_WAN_CHENG;
+        [self.backNode addSubnode:_stateArea];
+    }
+    return _stateArea;
+}
+
+-(ASTextNode *)stateText{
+    if(!_stateText){
+        _stateText = [[ASTextNode alloc]init];
+        _stateText.layerBacked = YES;
+        [self.stateArea addSubnode:_stateText];
+    }
+    return _stateText;
 }
 
 -(ASTextNode *)shipUintCountText{
@@ -606,7 +629,7 @@
     CGSize iconEndSize = [self.iconEnd measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.iconEnd.frame = (CGRect){ CGPointMake(leftpadding,bottomHeight / 2. + (bottomHeight / 2. - iconStartSize.height) / 2.),iconEndSize};
     
-    NSString* address2 = @"终点大港镇松镇公路1339号宝湾物流112号库";
+    NSString* address2 = @"青浦工业园区新团路518号（二期）";
     NSMutableAttributedString* textString2 = (NSMutableAttributedString*)[NSString simpleAttributedString:FlatBlack size:12 content:address2];
 //    NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
 //    style.alignment = NSTextAlignmentLeft;
@@ -751,35 +774,45 @@
     CGFloat topY = 25;
     CGFloat centerY = topY + topHeight;
     
-    CGFloat centerHeight = backHeight - topY - topHeight - bottomHeight;
+    CGFloat centerHeight = 0;//backHeight - topY - topHeight - bottomHeight;
     
     self.backNode.frame = CGRectMake(leftMargin, 0, backWidth, backHeight);
     
     self.normalBackView.backNode.frame = self.selectBackView.backNode.frame = self.backNode.frame;
     
     self.lineTopY.frame = CGRectMake(padding, topY + topHeight, backWidth - padding * 2, LINE_WIDTH);
-    self.lineBottomY.frame = CGRectMake(padding, topY + topHeight + centerHeight, backWidth - padding * 2, LINE_WIDTH);
-    
-    
-    self.lineCenterX.frame = CGRectMake((backWidth - LINE_WIDTH) / 2., centerY + padding, LINE_WIDTH, centerHeight - padding * 2);
-    
+//    self.lineBottomY.frame = CGRectMake(padding, topY + topHeight + centerHeight, backWidth - padding * 2, LINE_WIDTH);
+//    self.lineCenterX.frame = CGRectMake((backWidth - LINE_WIDTH) / 2., centerY + padding, LINE_WIDTH, centerHeight - padding * 2);
     
     CGFloat bottomY = centerY + centerHeight;
     
     self.lineFollowX.frame = CGRectMake(backWidth - bottomHeight - LINE_WIDTH / 2., bottomY + padding, LINE_WIDTH, bottomHeight - padding * 2);
     
     [self initTopArea:topY topWidth:backWidth topHeight:topHeight];
-    [self initCenterArea:centerY centerWidth:backWidth centerHeight:centerHeight];
+//    [self initCenterArea:centerY centerWidth:backWidth centerHeight:centerHeight];
     [self initBottomArea:bottomY bottomWidth:backWidth bottomHeight:bottomHeight];
     
     NSString* context = @"TO1251616161";
-    NSMutableAttributedString* attrString =[[NSMutableAttributedString alloc]initWithString:context];
-    [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor flatBlackColor] range:NSMakeRange(0, context.length)];
-    [attrString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16] range:NSMakeRange(0, context.length)];
-    self.codeText.attributedString = attrString;
+//    NSMutableAttributedString* attrString = [[NSMutableAttributedString alloc]initWithString:context];
+//    [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor flatBlackColor] range:NSMakeRange(0, context.length)];
+//    [attrString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16] range:NSMakeRange(0, context.length)];
+    self.codeText.attributedString = [NSString simpleAttributedString:[UIColor flatBlackColor] size:16 content:context];
 //    [NSString simpleAttributedString:[UIColor flatBlackColor] size:16 context:@"TO1251616161"];
     CGSize codeSize = [self.codeText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.codeText.frame = (CGRect){ CGPointMake(padding * 2, padding), codeSize };
+    
+    
+    ShipmentBean* bean = self.data;
+    if (!bean.isComplete) {
+        self.stateText.attributedString = [NSString simpleAttributedString:[UIColor whiteColor] size:12 content:@"未完成"];
+        CGSize stateSize = [self.stateText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+        self.stateText.frame = (CGRect){ CGPointMake(padding, padding / 2.), stateSize };
+        
+        CGFloat stateHeight = stateSize.height + padding;
+        
+        self.stateArea.frame = CGRectMake(CGRectGetMinX(self.codeText.frame) + codeSize.width + padding, padding + (CGRectGetHeight(self.codeText.bounds) - stateHeight) / 2., stateSize.width + padding * 2, stateHeight);
+    }
+    self.stateArea.hidden = bean.isComplete;
     
     self.licencePlateText.attributedString = [NSString simpleAttributedString:[UIColor flatBlackColor] size:14 content:@"浙A8888888"];
     CGSize liceneSize = [self.licencePlateText measure:CGSizeMake(FLT_MAX, FLT_MAX)];

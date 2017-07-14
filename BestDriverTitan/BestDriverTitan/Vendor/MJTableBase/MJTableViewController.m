@@ -38,8 +38,8 @@
         
         self.tableView = [[MJTableBaseView alloc]initWithFrameAndParams:self.view.frame showHeader:[self getShowHeader] showFooter:[self getShowFooter] useCellIdentifer:[self getUseCellIdentifer]
                                                          topEdgeDiverge:
-                          (self.navigationController != NULL && !self.navigationController.navigationBar.translucent)
-//                          NO
+//                          (self.navigationController != NULL && !self.navigationController.navigationBar.translucent)
+                          NO
                           ];
 //        self.tableView.alpha = 0.3;
         self.tableView.refreshDelegate = self;
