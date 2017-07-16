@@ -65,10 +65,11 @@
 @property (nonatomic,retain) CircleNode* circleArea;
 
 @property (nonatomic,retain) UIControl* followButton;//关注
-
 @property (nonatomic,retain) ASTextNode* followIcon;
-@property (nonatomic,retain) ASTextNode* followLabel;
+//@property (nonatomic,retain) ASTextNode* followLabel;
 
+@property (nonatomic,retain) UIControl* planButton;//规划站点
+@property (nonatomic,retain) ASTextNode* planIcon;
 
 @property (nonatomic,retain) ASTextNode* iconStart;//起点图标
 @property (nonatomic,retain) ASTextNode* iconEnd;//终点图标
@@ -396,22 +397,50 @@
     return _followIcon;
 }
 
--(ASTextNode *)followLabel{
-    if (!_followLabel) {
-        _followLabel = [[ASTextNode alloc]init];
-        _followLabel.layerBacked = YES;
-        [self.followButton.layer addSublayer:_followLabel.layer];
+-(UIControl *)planButton{
+    if (!_planButton) {
+        _planButton = [[UIControl alloc]init];
+//        _planButton.backgroundColor = FlatBrownDark;
+        [_planButton setShowTouch:YES];
+        [self.contentView addSubview:_planButton];
+        [_planButton addTarget:self action:@selector(planClick:) forControlEvents:UIControlEventTouchUpInside];
     }
-    return _followLabel;
+    return _planButton;
 }
+
+-(ASTextNode *)planIcon{
+    if (!_planIcon) {
+        _planIcon = [[ASTextNode alloc]init];
+        _planIcon.layerBacked = YES;
+        [self.planButton.layer addSublayer:_planIcon.layer];
+    }
+    return _planIcon;
+}
+
+//-(ASTextNode *)followLabel{
+//    if (!_followLabel) {
+//        _followLabel = [[ASTextNode alloc]init];
+//        _followLabel.layerBacked = YES;
+//        [self.followButton.layer addSublayer:_followLabel.layer];
+//    }
+//    return _followLabel;
+//}
 
 -(void)initTopArea:(CGFloat)topY topWidth:(CGFloat)topWidth topHeight:(CGFloat)topHeight{
     CGFloat topCenterY = topY + topHeight / 2.;
     CGFloat labelOffset = -20;
     CGFloat textOffset = 0;
-    CGFloat areaWith = topWidth / 3.;
     
-    CGFloat areaX1 = 0;
+    CGFloat followWidth = 40;
+    
+    CGFloat marginLeft = followWidth / 2.;
+    
+    CGFloat areaWith = (topWidth - marginLeft) / 3.;
+    
+    self.followButton.frame = CGRectMake(0, topY + (topHeight - followWidth) / 2., followWidth, followWidth);
+    [self showFollowArea];
+    
+    CGFloat areaX1 = marginLeft;
     self.expenseLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColorDark] size:12 content:ConcatStrings(ICON_JIN_QIAN,@"预计收入")];
     CGSize expenseSize = [self.expenseLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.expenseLabel.frame = (CGRect){
@@ -423,7 +452,7 @@
         CGPointMake(areaX1 + (areaWith - expenseSize.width) / 2., topCenterY + textOffset),expenseSize
     };
     
-    CGFloat areaX2 = areaWith;
+    CGFloat areaX2 = marginLeft + areaWith;
     self.distanceLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColorDark]     size:12 content:ConcatStrings(ICON_JU_LI,@"预计距离")];
     CGSize distanceSize = [self.distanceLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.distanceLabel.frame = (CGRect){
@@ -435,7 +464,7 @@
         CGPointMake(areaX2 + (areaWith - distanceSize.width) / 2., topCenterY + textOffset),distanceSize
     };
     
-    CGFloat areaX3 = areaWith * 2;
+    CGFloat areaX3 = marginLeft + areaWith * 2;
     self.costHourLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColorDark]     size:12 content:ConcatStrings(ICON_SHI_JIAN,@"预计时间")];
     CGSize hourSize = [self.costHourLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.costHourLabel.frame = (CGRect){
@@ -537,6 +566,10 @@
     return attrString;
 }
 
+-(void)planClick:(UIControl*)sender{
+    [[PopAnimateManager sharedInstance]startClickAnimation:sender];
+}
+
 -(void)followClick:(UIControl*)sender{
     ShipmentBean* bean = self.data;
     bean.isFollow = !bean.isFollow;
@@ -576,22 +609,20 @@
     
     if (bean.isFollow) {
         self.followIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange  size:24 content:ICON_GUAN_ZHU];
-        self.followLabel.attributedString = [NSString simpleAttributedString:FlatOrange  size:12 content:@"收  藏"];
+//        self.followLabel.attributedString = [NSString simpleAttributedString:FlatOrange  size:12 content:@"收  藏"];
     }else{
         self.followIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor]  size:24 content:ICON_GUAN_ZHU];
-        self.followLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColor]  size:12 content:@"收  藏"];
+//        self.followLabel.attributedString = [NSString simpleAttri÷butedString:[UIColor flatGrayColor]  size:12 content:@"收  藏"];
     }
     
-    
     CGSize iconSize = [self.followIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    CGSize labelSize = [self.followLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+//    CGSize labelSize = [self.followLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+//    CGFloat iconGap = 0;
+//    CGFloat iconY = (areaHeight - (iconSize.height + iconGap + labelSize.height)) / 2;
     
-    CGFloat iconGap = 0;
-    CGFloat iconY = (areaHeight - (iconSize.height + iconGap + labelSize.height)) / 2;
+    self.followIcon.frame = (CGRect){CGPointMake((areaHeight - iconSize.width) / 2., (areaHeight - iconSize.height) / 2.),iconSize};
     
-    self.followIcon.frame = (CGRect){CGPointMake((areaHeight - iconSize.width) / 2, iconY),iconSize};
-    
-    self.followLabel.frame = (CGRect){CGPointMake((areaHeight - labelSize.width) / 2, iconY + iconSize.height + iconGap),labelSize};
+//    self.followLabel.frame = (CGRect){CGPointMake((areaHeight - labelSize.width) / 2, iconY + iconSize.height + iconGap),labelSize};
     
 //    CGRect followFrame = self.followButton.frame;
 //    followFrame.size.width = labelX + labelSize.width;
@@ -599,11 +630,23 @@
 //    self.followButton.frame = followFrame;
 }
 
+
+-(void)showPlanArea{
+    CGFloat areaHeight = CGRectGetHeight(self.planButton.bounds);
+    CGFloat areaWidth = CGRectGetWidth(self.planButton.bounds);
+    self.planIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_PRIMARY  size:36 content:ICON_GUI_HUA];
+    CGSize iconSize = [self.planIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    self.planIcon.frame = (CGRect){CGPointMake((areaWidth - iconSize.width) / 2., (areaHeight - iconSize.height) / 2.),iconSize};
+}
+
+
 -(void)initBottomArea:(CGFloat)bottomY bottomWidth:(CGFloat)bottomWidth bottomHeight:(CGFloat)bottomHeight{
-    ShipmentBean* bean = self.data;
     
-    self.followButton.frame = CGRectMake(bottomWidth - bottomHeight, bottomY, bottomHeight, bottomHeight);
-    [self showFollowArea];
+    CGFloat planButtonWidth = bottomHeight - 10;
+    self.planButton.frame = CGRectMake(bottomWidth - planButtonWidth, bottomY , planButtonWidth, bottomHeight);
+    [self showPlanArea];
+    
+    ShipmentBean* bean = self.data;
     
     self.buttonArea.frame = CGRectMake(0, bottomY, bottomWidth, bottomHeight);
     
@@ -620,7 +663,7 @@
     [textString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, address.length)];
     
     self.textStart.attributedString = textString;
-    CGFloat maxStartWidth = bottomWidth - leftpadding - iconStartSize.width - self.followButton.frame.size.width;
+    CGFloat maxStartWidth = bottomWidth - leftpadding - iconStartSize.width - planButtonWidth;
     
     CGSize textStartSize = [self.textStart measure:CGSizeMake(maxStartWidth, FLT_MAX)];
     self.textStart.frame = (CGRect){ CGPointMake(leftpadding + iconStartSize.width + leftpadding / 2.,0 + (bottomHeight / 2. - textStartSize.height) / 2.),textStartSize};
@@ -636,7 +679,7 @@
     [textString2 addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, address2.length)];
     
     self.textEnd.attributedString = textString2;
-    maxStartWidth = bottomWidth - leftpadding - iconEndSize.width - self.followButton.frame.size.width;
+    maxStartWidth = bottomWidth - leftpadding - iconEndSize.width - planButtonWidth;
     
     CGSize textEndSize = [self.textEnd measure:CGSizeMake(maxStartWidth, FLT_MAX)];
     self.textEnd.frame = (CGRect){ CGPointMake(leftpadding + iconEndSize.width + leftpadding / 2.,bottomHeight / 2. + (bottomHeight / 2. - textEndSize.height) / 2.),textEndSize};
@@ -786,47 +829,14 @@
     
     CGFloat bottomY = centerY + centerHeight;
     
-    self.lineFollowX.frame = CGRectMake(backWidth - bottomHeight - LINE_WIDTH / 2., bottomY + padding, LINE_WIDTH, bottomHeight - padding * 2);
+    self.lineFollowX.frame = CGRectMake(backWidth - bottomHeight - LINE_WIDTH / 2. + 10, bottomY + padding, LINE_WIDTH, bottomHeight -padding * 2);
+    
+    [self initTitleArea:cellWidth];
     
     [self initTopArea:topY topWidth:backWidth topHeight:topHeight];
 //    [self initCenterArea:centerY centerWidth:backWidth centerHeight:centerHeight];
     [self initBottomArea:bottomY bottomWidth:backWidth bottomHeight:bottomHeight];
     
-    NSString* context = @"TO1251616161";
-//    NSMutableAttributedString* attrString = [[NSMutableAttributedString alloc]initWithString:context];
-//    [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor flatBlackColor] range:NSMakeRange(0, context.length)];
-//    [attrString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16] range:NSMakeRange(0, context.length)];
-    self.codeText.attributedString = [NSString simpleAttributedString:[UIColor flatBlackColor] size:16 content:context];
-//    [NSString simpleAttributedString:[UIColor flatBlackColor] size:16 context:@"TO1251616161"];
-    CGSize codeSize = [self.codeText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.codeText.frame = (CGRect){ CGPointMake(padding * 2, padding), codeSize };
-    
-    
-    ShipmentBean* bean = self.data;
-    if (!bean.isComplete) {
-        self.stateText.attributedString = [NSString simpleAttributedString:[UIColor whiteColor] size:12 content:@"未完成"];
-        CGSize stateSize = [self.stateText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-        self.stateText.frame = (CGRect){ CGPointMake(padding, padding / 2.), stateSize };
-        
-        CGFloat stateHeight = stateSize.height + padding;
-        
-        self.stateArea.frame = CGRectMake(CGRectGetMinX(self.codeText.frame) + codeSize.width + padding, padding + (CGRectGetHeight(self.codeText.bounds) - stateHeight) / 2., stateSize.width + padding * 2, stateHeight);
-    }
-    self.stateArea.hidden = bean.isComplete;
-    
-    self.licencePlateText.attributedString = [NSString simpleAttributedString:[UIColor flatBlackColor] size:14 content:@"浙A8888888"];
-    CGSize liceneSize = [self.licencePlateText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    CGFloat plateWidth = liceneSize.width + 10;
-    CGFloat plateHeight = liceneSize.height + 10;
-    self.licencePlateView.frame = CGRectMake(cellWidth - leftMargin - plateWidth - 10, 0, plateWidth, plateHeight);
-    self.licencePlateView.fillColor = [UIColor flatYellowColorDark];
-    self.licencePlateView.compleColor = [UIColor flatBlackColor];
-//    self.licencePlateView.cornerRadius = 30;
-    
-    self.licencePlateText.frame = (CGRect){
-        CGPointMake((self.licencePlateView.frame.size.width - liceneSize.width) / 2., (self.licencePlateView.frame.size.height - liceneSize.height) / 2.),
-        liceneSize
-    };
     
 ////    NSLog(@"颜色 %@",[TaskViewCell hexFromUIColor:[UIColor greenColor]]);
 //    self.shipUintCountText.attributedString = [NSString simpleAttributedString:[UIColor flatCoffeeColorDark] size:14 context:@"货量50箱"];
@@ -866,6 +876,46 @@
 ////    if (!self.isFirst) {//顶部加一根线
 //        self.lineNode.frame = CGRectMake(leftpadding, cellHeight - LINE_WIDTH, cellWidth - leftpadding * 2, LINE_WIDTH);
 ////    }
+}
+
+-(void)initTitleArea:(CGFloat)cellWidth{//顶部上方标题栏部分
+    
+    CGFloat padding = 5;//内边距10
+    
+    NSString* context = @"TO1251616161";
+    //    NSMutableAttributedString* attrString = [[NSMutableAttributedString alloc]initWithString:context];
+    //    [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor flatBlackColor] range:NSMakeRange(0, context.length)];
+    //    [attrString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16] range:NSMakeRange(0, context.length)];
+    self.codeText.attributedString = [NSString simpleAttributedString:[UIColor flatBlackColor] size:16 content:context];
+    //    [NSString simpleAttributedString:[UIColor flatBlackColor] size:16 context:@"TO1251616161"];
+    CGSize codeSize = [self.codeText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    self.codeText.frame = (CGRect){ CGPointMake(padding * 2, padding), codeSize };
+    
+    ShipmentBean* bean = self.data;
+    if (!bean.isComplete) {
+        self.stateText.attributedString = [NSString simpleAttributedString:[UIColor whiteColor] size:12 content:@"未完成"];
+        CGSize stateSize = [self.stateText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+        self.stateText.frame = (CGRect){ CGPointMake(padding, padding / 2.), stateSize };
+        
+        CGFloat stateHeight = stateSize.height + padding;
+        
+        self.stateArea.frame = CGRectMake(CGRectGetMinX(self.codeText.frame) + codeSize.width + padding, padding + (CGRectGetHeight(self.codeText.bounds) - stateHeight) / 2., stateSize.width + padding * 2, stateHeight);
+    }
+    self.stateArea.hidden = bean.isComplete;
+    
+    self.licencePlateText.attributedString = [NSString simpleAttributedString:[UIColor flatBlackColor] size:14 content:@"浙A8888888"];
+    CGSize liceneSize = [self.licencePlateText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    CGFloat plateWidth = liceneSize.width + 10;
+    CGFloat plateHeight = liceneSize.height + 10;
+    self.licencePlateView.frame = CGRectMake(cellWidth - plateWidth - padding, 0, plateWidth, plateHeight);
+    self.licencePlateView.fillColor = [UIColor flatYellowColorDark];
+    self.licencePlateView.compleColor = [UIColor flatBlackColor];
+    //    self.licencePlateView.cornerRadius = 30;
+    
+    self.licencePlateText.frame = (CGRect){
+        CGPointMake((self.licencePlateView.frame.size.width - liceneSize.width) / 2., (self.licencePlateView.frame.size.height - liceneSize.height) / 2.),
+        liceneSize
+    };
 }
 
 -(NSAttributedString *)generateCostString:(NSString*)distance hour:(NSString*)hour expense:(NSString*)expense{

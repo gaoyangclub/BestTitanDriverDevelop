@@ -83,6 +83,8 @@ typedef void (^FailureBlock)();
 
 #define ICON_CLOSE @"\U0000e6a0"
 
+#define ICON_GUI_HUA @"\U0000e601"
+
 #define TABBAR_TITLE_TI_HUO @"揽收"
 #define TABBAR_TITLE_ZHUANG_CHE @"装车"
 #define TABBAR_TITLE_XIE_HUO @"卸货"
