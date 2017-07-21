@@ -120,11 +120,12 @@
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"警告" message:@"是否现在退出登录？" preferredStyle:UIAlertControllerStyleAlert];
     [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    
+    __weak __typeof(self) weakSelf = self;
     [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 //        NSLog(@"点击确认");
         [UserDefaultsUtils removeObject:USER_KEY];//清除数据
         [[OwnerViewController sharedInstance]popLoginview:YES completion:^{
-            __weak __typeof(self) weakSelf = self;
             [(GYTabBarController*)weakSelf.tabBarController valueCommit:0];//自动回到主页
         }];
     }]];
