@@ -19,6 +19,9 @@
 #import "TaskViewController.h"
 #import "IQKeyboardManager.h"
 #import "YYFPSLabel.h"
+#import "HudManager.h"
+#import "OwnerViewController.h"
+#import "UserHomeController.h"
 
 @interface AppDelegate ()
 
@@ -40,7 +43,7 @@
     UIViewController* itemCtrl3 = [[ViewController alloc] init];
 //    itemCtrl3.view.backgroundColor = [UIColor greenColor];
     
-    UIViewController* itemCtrl4 = [[ViewController alloc] init];
+    UIViewController* itemCtrl4 = [[UserHomeController alloc] init];
 //    itemCtrl4.view.backgroundColor = [UIColor blueColor];
     
     //    UITabBarController* tabBarCtl = [[UITabBarController alloc] init];
@@ -88,7 +91,7 @@
         [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
     }
     
-    RootNavigationController* navigationController = [RootNavigationController sharedInstance];
+    OwnerViewController* navigationController = [OwnerViewController sharedInstance];
     navigationController.hairlineHidden = YES;
     navigationController.navigationColor = COLOR_PRIMARY;
     [navigationController setViewControllers:@[[self createNormalTabBar]]];
@@ -128,16 +131,20 @@
 //     nil
      ^(SplashWillFinishHandler willFinishHandler) {
         DIYSplashViewModel* viewModel = [[DIYSplashViewModel alloc] init];
-        viewModel.returnBlock = ^(id returnValue){
-            willFinishHandler();//成功后关闭
-        };
-        viewModel.failureBlock = ^(){
-             willFinishHandler();//失败也关闭
-        };
-        [viewModel fetchUpdateVersion];
-    }
-     ];
+         [viewModel fetchUpdateVersion:^(id returnValue) {
+              willFinishHandler();//成功后关闭
+             [navigationController checkPopLoginView];
+         } failureBlock:^(NSString *errorCode, NSString *errorMsg) {
+//              willFinishHandler();//成功后关闭
+             [HudManager showToast:errorMsg];
+         }];
+        }
+    ];
     return YES;
+}
+
+-(void)checlLogin{
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

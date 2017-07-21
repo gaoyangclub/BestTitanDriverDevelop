@@ -10,9 +10,9 @@
 #import "TaskTripSection.h"
 #import "TaskTripCell.h"
 #import "OrderViewController.h"
-#import "RootNavigationController.h"
 #import "ShipmentStopBean.h"
 #import "TaskActivityView.h"
+#import "OwnerViewController.h"
 
 @interface TestTableViewCell2 : MJTableViewCell
 
@@ -228,7 +228,7 @@
 
 -(void)jumpOrderViewController:(ShipmentActivityBean*)activityBean{
     UIViewController* controller = [[OrderViewController alloc]init];
-    [[RootNavigationController sharedInstance] pushViewController:controller animated:YES];
+    [[OwnerViewController sharedInstance] pushViewController:controller animated:YES];
 }
 
 -(UIButton *)attachmentButton{
@@ -269,7 +269,7 @@
 }
 
 -(void)clickMoreButton:(UIView*)sender{
-    [[PopAnimateManager sharedInstance]startClickAnimation:sender];
+    [PopAnimateManager startClickAnimation:sender];
     
     NSMutableArray<NSString*>* codeArr = [NSMutableArray<NSString*> arrayWithObjects:ACTIVITY_CODE_PICKUP_HANDOVER,ACTIVITY_CODE_LOAD,ACTIVITY_CODE_UNLOAD,ACTIVITY_CODE_SIGN_FOR_RECEIPT,ACTIVITY_CODE_DELIVERY_RECEIPT,ACTIVITY_CODE_COD, nil];
 //  @[ACTIVITY_CODE_PICKUP_HANDOVER,ACTIVITY_CODE_LOAD,ACTIVITY_CODE_UNLOAD,ACTIVITY_CODE_SIGN_FOR_RECEIPT,ACTIVITY_CODE_DELIVERY_RECEIPT,ACTIVITY_CODE_COD

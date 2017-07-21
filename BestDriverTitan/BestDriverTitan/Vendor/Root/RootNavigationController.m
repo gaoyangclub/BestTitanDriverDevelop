@@ -14,27 +14,19 @@
 
 @end
 
-static RootNavigationController* instance;
+//static RootNavigationController* instance;
 
 @implementation RootNavigationController
 
-+(instancetype)sharedInstance {
-    @synchronized (self)    {
-        if (instance == nil)
-        {
-            instance = [[self alloc] init];
-        }
-    }
-    return instance;
-    /**
-     替换方案:
-     static dispatch_once_t onceToken;
-     dispatch_once(&onceToken, ^{
-     instance = [[self alloc] init];
-     });
-     return instance;
-     */
-}
+//+(instancetype)sharedInstance {
+//    @synchronized (self)    {
+//        if (instance == nil)
+//        {
+//            instance = [[self alloc] init];
+//        }
+//    }
+//    return instance;
+//}
 
 //+(id)allocWithZone:(NSZone *)zone
 //{

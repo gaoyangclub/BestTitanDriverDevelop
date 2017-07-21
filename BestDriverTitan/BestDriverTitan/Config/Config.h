@@ -2,13 +2,8 @@
 //  Config.h
 //  Copyright (c) 2016年 admin. All rights reserved.
 //
-
-//定义返回请求数据的block类型
-typedef void (^ReturnValueBlock) (id returnValue);
-typedef void (^ErrorCodeBlock) (id errorCode);
-typedef void (^FailureBlock)();
-//typedef void (^NetWorkBlock)(BOOL netConnetState);
-
+#import "NetConfig.h"
+#import "User.h"
 
 #define COLOR_PRIMARY [UIColor flatSkyBlueColor]//COLOR_YI_WAN_CHENG//[UIColor flatMintColor]//rgba(23,182,46,1)
 #define COLOR_BACKGROUND rgba(226,226,226,1)
@@ -19,18 +14,12 @@ typedef void (^FailureBlock)();
 
 #define DDLog(xx, ...)  NSLog(@"%s(%d): " xx, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
-
-#define DRIVER_URL @"http://t8demo.800best.com/ti-rest-war/api/"
-
-
-#define AUTH_CODE_URL(phone) ConcatStrings(DRIVER_URL,@"token/driver/",phone)
-#define CHECK_VERSION_URL ConcatStrings(DRIVER_URL,@"version/detail/ios")
-//[DRIVER_URL stringByAppendingString:[NSString stringWithFormat:@"token/driver/%@",phone]]
-
-
 #define DRAWER_WIDTH 200
 #define ICON_FONT_NAME @"iconfont"
 
+#define BOOL_TO_STRING(bool) bool ? @"true" : @"false"
+
+#define AUTH_CODE_PREV @"abdfl23lklasdjfklflkasjf"
 
 #define ICON_SHE_ZHI @"\U0000e628"
 
@@ -73,7 +62,7 @@ typedef void (^FailureBlock)();
 #define ICON_TI_JI @"\U0000e633"
 #define ICON_JIAN_SHU @"\U0000e654"
 
-#define ICON_GUAN_ZHU @"\U0000e6e2"
+#define ICON_STAR @"\U0000e6e2"
 
 #define ICON_QI_DIAN @"\U0000e674"
 #define ICON_ZHONG_DIAN @"\U0000e673"
@@ -84,6 +73,12 @@ typedef void (^FailureBlock)();
 #define ICON_CLOSE @"\U0000e6a0"
 
 #define ICON_GUI_HUA @"\U0000e601"
+
+#define ICON_YAN_ZHENG_MA @"\U0000e60c"
+
+#define APPLICATION_NAME @"百世通"
+#define APPLICATION_NAME_EN @"BestTitan"
+
 
 #define TABBAR_TITLE_TI_HUO @"揽收"
 #define TABBAR_TITLE_ZHUANG_CHE @"装车"
@@ -101,6 +96,8 @@ typedef void (^FailureBlock)();
 #define NAVIGATION_TITLE_HOME @"主页"
 #define NAVIGATION_TITLE_TASK_HOME @"我的任务"
 #define NAVIGATION_TITLE_TASK_TRIP @"我的行程"
+
+#define NAVIGATION_TITLE_USER @"我的"
 
 #define SYSTEM_SCALE ([UIApplication sharedApplication].delegate).window.screen.scale
 
@@ -125,6 +122,7 @@ typedef void (^FailureBlock)();
 #define ORDER_VIEW_CELL_HEIGHT 150
 
 #define EVENT_ADDRESS_SELECT @"EVENT_ADDRESS_SELECT"
+#define EVENT_LOGIN_COMPLETE @"EVENT_LOGIN_COMPLETE"
 
 #define ACTIVITY_CODE_PICKUP_HANDOVER @"PICKUP_HANDOVER" //揽收
 #define ACTIVITY_CODE_LOAD @"LOAD" //装车
@@ -133,11 +131,31 @@ typedef void (^FailureBlock)();
 #define ACTIVITY_CODE_DELIVERY_RECEIPT @"DELIVERY_RECEIPT" //回单
 #define ACTIVITY_CODE_COD @"COD" //收款
 
+#define AUDIT_DENIED @"DENIED"//未通过审核
+#define AUDIT_ADMIT @"ADMIT"//通过审核
+#define AUDIT_NO_DATA @"NO_DATA"//还未提交
+#define AUDIT_PENDING @"PENDING_AUDIT"//审核中
+
+#define USER_KEY @"user_key"
+#define PHONE_KEY @"phone_key"
+
+static BOOL isUserProxyMode = NO;//是否监控模式
+static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不设置此值为YES无权提交和上传数据
+static NetModeType netMode = NetModeTypeDemo;//默认T8生产环境
+
+static User* userProxy;//被观察的用户临时信息
 
 @interface Config : NSObject
 
+
 +(NSString*)getActivityIconByCode:(NSString*)code;
 +(NSString*)getActivityLabelByCode:(NSString*)code;
+
+
++(void)setUser:(User*)value;
++(User*)getUser;
+
++(NSString*)getToken;
 
 @end
 

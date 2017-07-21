@@ -81,7 +81,7 @@ static FollowAnimateManager* instance;
     if (!_iconTag) {
         _iconTag = [[UILabel alloc]init];
         _iconTag.font = [UIFont fontWithName:ICON_FONT_NAME size:24];
-        _iconTag.text = ICON_GUAN_ZHU;
+        _iconTag.text = ICON_STAR;
         _iconTag.textColor = FlatOrange;
         
     }

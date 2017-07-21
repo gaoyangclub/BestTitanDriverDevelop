@@ -15,19 +15,19 @@
 @end
 
 
-static PopAnimateManager* instance;
+//static PopAnimateManager* instance;
 
 @implementation PopAnimateManager
 
-+(instancetype)sharedInstance {
-    @synchronized (self)    {
-        if (instance == nil)
-        {
-            instance = [[self alloc] init];
-        }
-    }
-    return instance;
-}
+//+(instancetype)sharedInstance {
+//    @synchronized (self)    {
+//        if (instance == nil)
+//        {
+//            instance = [[self alloc] init];
+//        }
+//    }
+//    return instance;
+//}
 
 //-(POPSpringAnimation *)buttonClickAnimation{
 //    if (!_buttonClickAnimation) {
@@ -39,12 +39,23 @@ static PopAnimateManager* instance;
 //    return _buttonClickAnimation;
 //}
 
--(void)startClickAnimation:(UIView*)sender{
++(void)startClickAnimation:(UIView*)sender{
     POPSpringAnimation* _buttonClickAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
     _buttonClickAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0, 1.0)];
     _buttonClickAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(3.0, 3.0)];
     _buttonClickAnimation.springBounciness = 18.0;
     [sender.layer pop_addAnimation:_buttonClickAnimation forKey:@"buttonClickAnimation"];
+}
+
++(void)startShakeAnimation:(UIView *)sender{
+    [self startShakeAnimation:sender bounciness:20];
+}
+
++(void)startShakeAnimation:(UIView *)sender bounciness:(CGFloat)bounciness{
+    POPSpringAnimation *shake = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+    shake.springBounciness = bounciness;
+    shake.velocity = @(1000);
+    [sender.layer pop_addAnimation:shake forKey:@"shakeAnimation"];
 }
 
 

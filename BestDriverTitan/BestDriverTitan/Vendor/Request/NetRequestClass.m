@@ -132,7 +132,7 @@
                        WithParameter: (NSDictionary *) parameter
                              headers: (NSDictionary <NSString *, NSString *> *) headers
                  WithReturnValeuBlock: (ReturnValueBlock) block
-                   WithErrorCodeBlock: (ErrorCodeBlock) errorBlock
+//                   WithErrorCodeBlock: (ErrorCodeBlock) errorBlock
                      WithFailureBlock: (FailureBlock) failureBlock
 {
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] init];
@@ -149,16 +149,19 @@
 //    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/plain", nil];
     
     [manager GET:requestURLString parameters:parameter progress:nil
-     
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
+//             DDLog(@"%@", responseObject);
+////        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
 //        NSString *result = [responseObject stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        DDLog(@"%@", responseObject);
-        block(responseObject);
+//        block(result);
+             
+             //        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
+             //        NSString *result = [responseObject stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+             DDLog(@"%@", responseObject);
+             block(responseObject);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        failureBlock();
+        [NetRequestClass onNetFailure:error failureBlock:failureBlock];
     }];
-    
 }
 
 + (void) NetRequestPOSTWithRequestURL: (NSString *) requestURLString
@@ -166,7 +169,7 @@
                               headers: (NSDictionary <NSString *, NSString *> *) headers
                                  body: (NSData*) body
                  WithReturnValeuBlock: (ReturnValueBlock) block
-                   WithErrorCodeBlock: (ErrorCodeBlock) errorBlock
+//                   WithErrorCodeBlock: (ErrorCodeBlock) errorBlock
                      WithFailureBlock: (FailureBlock) failureBlock
 {
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] init];
@@ -176,25 +179,22 @@
     //申明请求的数据是json类型
     manager.requestSerializer=[AFJSONRequestSerializer serializer];
     //如果报接受类型不一致请替换一致text/html或别的
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/plain", nil];
+//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/plain", nil];
     
     [manager POST:requestURLString parameters:parameter constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         [formData appendPartWithHeaders:headers body:body];
     } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
-        
-        DDLog(@"%@", dic);
-        
-        block(dic);
+//        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
+        DDLog(@"%@", responseObject);
+        block(responseObject);
         /***************************************
          在这做判断如果有dic里有errorCode
          调用errorBlock(dic)
-         没有errorCode则调用block(dic
+         没有errorCode则调用block(dic)
          ******************************/
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        failureBlock();
+        [NetRequestClass onNetFailure:error failureBlock:failureBlock];
     }];
-    
 //    AFHTTPRequestOperation *op = [manager POST:requestURLString parameters:parameter
 //    constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
 //        [formData appendPartWithHeaders:nil body:body];
@@ -219,7 +219,22 @@
     
 }
 
-
++(void)onNetFailure:(NSError * _Nonnull)error failureBlock:(FailureBlock) failureBlock{
+    NSData* result = [error.userInfo valueForKey:@"com.alamofire.serialization.response.error.data"];
+    if (result) {
+        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:result options:NSJSONReadingMutableLeaves error:nil];
+        //        NSString* detailMessage = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
+        //        DDLog(@"%@", jsonDict);
+        NSString* detailMessage = [jsonDict valueForKey:@"detailMessage"];
+        if (!detailMessage) {
+            detailMessage = [jsonDict valueForKey:@"message"];
+        }
+        NSString* code = [jsonDict valueForKey:@"code"];
+        failureBlock(code,detailMessage);
+    }else{
+        failureBlock(nil,@"网络错误,请检查网络情况");
+    }
+}
 
 
 @end

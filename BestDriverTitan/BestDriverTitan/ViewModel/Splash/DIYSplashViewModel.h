@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ViewModelClass.h"
+#import "BaseViewModel.h"
 
-@interface DIYSplashViewModel : ViewModelClass
+@interface DIYSplashViewModel : BaseViewModel
 
--(void) fetchUpdateVersion;
+-(void) fetchUpdateVersion:(ReturnValueBlock)returnBlock failureBlock:(FailureBlock)failureBlock;
 
 @end

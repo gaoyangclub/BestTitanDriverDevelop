@@ -13,7 +13,6 @@
 + (NSString *)joinedWithSubStrings:(NSString *)firstStr,...NS_REQUIRES_NIL_TERMINATION{
     
     if(firstStr){
-        
         NSMutableArray *array = [NSMutableArray array];
         
         va_list args;

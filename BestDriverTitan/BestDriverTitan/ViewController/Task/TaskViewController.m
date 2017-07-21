@@ -14,6 +14,7 @@
 #import "ViewController.h"
 #import "TaskViewCell.h"
 #import "TaskViewSection.h"
+#import "OwnerViewController.h"
 
 @interface TestTableViewCell : MJTableViewCell
 
@@ -270,7 +271,7 @@
     if (pushCount == 0) {
 //        controller = [[ViewController alloc]init];
         controller = [[TaskTripController alloc]init];
-        [[RootNavigationController sharedInstance] pushViewController:controller animated:YES];
+        [[OwnerViewController sharedInstance] pushViewController:controller animated:YES];
     }else{
         
     }

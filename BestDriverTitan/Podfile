@@ -5,7 +5,8 @@ target “BestDriverTitan” do
 pod 'IQKeyboardManager'
 
 pod 'ChameleonFramework'
-pod 'SVProgressHUD', '1.0'
+pod 'SVProgressHUD'
+pod 'MBProgressHUD'
 pod 'AFNetworking', '~> 3.0'
 pod 'HYBUnicodeReadable'
 pod 'MMDrawerController', '~> 0.5.7'
@@ -13,5 +14,8 @@ pod 'MMDrawerController', '~> 0.5.7'
 pod "AsyncDisplayKit", ’1.9.5’
 
 pod 'pop', '~> 1.0'
+pod 'MLeaksFinder'
+
+pod 'YYModel'
 
 end

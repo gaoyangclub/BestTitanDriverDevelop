@@ -84,9 +84,14 @@
 }
 
 -(void)tabSelectHandler:(GYTabBarItem*)itemView{
-    self.selectedIndex = itemView.itemIndex;
+    [self setSelectedIndex:itemView.itemIndex];
+}
+
+-(void)setSelectedIndex:(NSInteger)selectedIndex{
+    _selectedIndex = selectedIndex;
+    
     for (GYTabBarItem* itemView in self.subviews) {
-        itemView.selected = self.selectedIndex == itemView.itemIndex;//直接选中
+        itemView.selected = selectedIndex == itemView.itemIndex;//直接选中
     }
     if (self.delegate && [self.delegate respondsToSelector:@selector(didSelectItem:tabData:index:)]) {
         [self.delegate didSelectItem:self tabData:_dataArray[self.selectedIndex] index:self.selectedIndex];

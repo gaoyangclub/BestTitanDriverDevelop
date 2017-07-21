@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "TaskViewController.h"
 #import "CAPSPageMenu.h"
+#import "LoginViewController.h"
 
 @interface TaskHomeController (){
     CAPSPageMenu* pageMenu;
@@ -53,7 +54,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     
 //    if (!self->pageMenu) {
         NSArray* titleList = [NSArray arrayWithObjects:

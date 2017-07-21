@@ -524,10 +524,10 @@
     CGFloat areaHeight = CGRectGetHeight(self.followButton.bounds);
     
     if (bean.isFollow) {
-        self.followIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange  size:24 content:ICON_GUAN_ZHU];
+        self.followIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange  size:24 content:ICON_STAR];
 //        self.followLabel.attributedString = [NSString simpleAttributedString:FlatOrange  size:12 content:@"收  藏"];
     }else{
-        self.followIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor]  size:24 content:ICON_GUAN_ZHU];
+        self.followIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor]  size:24 content:ICON_STAR];
 //        self.followLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColor]  size:12 content:@"收  藏"];
     }
     

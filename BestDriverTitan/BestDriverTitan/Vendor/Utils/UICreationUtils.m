@@ -52,11 +52,23 @@
 }
 
 +(UILabel*)createLabel:(CGFloat)size color:(UIColor*)color text:(NSString*)text sizeToFit:(BOOL)sizeToFit superView:(UIView*)superView{
+    return [UICreationUtils createLabel:nil size:size color:color text:text sizeToFit:sizeToFit superView:superView];
+}
+
++(UILabel *)createLabel:(NSString *)fontName size:(CGFloat)size color:(UIColor *)color{
+    return [UICreationUtils createLabel:fontName size:size color:color text:@"" sizeToFit:NO superView:nil];
+}
+
++(UILabel *)createLabel:(NSString *)fontName size:(CGFloat)size color:(UIColor *)color text:(NSString *)text sizeToFit:(BOOL)sizeToFit superView:(UIView *)superView{
     UILabel* uiLabel = [[UILabel alloc]init];
+    if (fontName) {
+        uiLabel.font = [UIFont fontWithName:fontName size:size];
+    }else{
+        uiLabel.font = [UIFont systemFontOfSize:size];//UIFont(name: "Arial Rounded MT Bold", size: size)
+    }
     if(superView){
         [superView addSubview:uiLabel];
     }
-    uiLabel.font = [UIFont systemFontOfSize:size];//UIFont(name: "Arial Rounded MT Bold", size: size)
     uiLabel.textColor = color;
     uiLabel.text = text;
     uiLabel.userInteractionEnabled = false; //默认没有交互

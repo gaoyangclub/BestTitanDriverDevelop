@@ -7,6 +7,9 @@
 //
 
 #import "Config.h"
+#import "UserDefaultsUtils.h"
+
+static User* user;
 
 @implementation Config
 
@@ -43,5 +46,36 @@
     }
     return nil;
 }
+
++(void)setUser:(User *)value{
+    user = value;
+}
+
++(User *)getUser{
+    if (isUserProxyMode) {
+        return userProxy;
+    }
+    if (!user) {
+        id userObj = [UserDefaultsUtils getObject:USER_KEY];
+        if (userObj) {
+            user = [User yy_modelWithJSON:userObj];//记录userInfo
+        }
+    }
+    return user;
+}
+
++(NSString *)getToken{
+    if (isUserProxyMode) {
+        return userProxy.tiToken.tiToken;
+    }
+    User* value = [Config getUser];
+    if (value && value.tiToken) {
+        return value.tiToken.tiToken;
+    }
+    return nil;
+}
+
+
+
 
 @end

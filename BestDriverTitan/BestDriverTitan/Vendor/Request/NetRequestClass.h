@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void (^ReturnValueBlock) (id returnValue);
+typedef void (^FailureBlock) (NSString* errorCode,NSString* errorMsg);
+
 @interface NetRequestClass : NSObject
 
 #pragma 监测网络的可链接性
@@ -18,7 +21,7 @@
                        WithParameter: (NSDictionary *) parameter
                              headers: (NSDictionary <NSString *, NSString *> *) headers
                 WithReturnValeuBlock: (ReturnValueBlock) block
-                  WithErrorCodeBlock: (ErrorCodeBlock) errorBlock
+//                  WithErrorCodeBlock: (ErrorCodeBlock) errorBlock
                     WithFailureBlock: (FailureBlock) failureBlock;
 
 #pragma POST请求
@@ -27,7 +30,7 @@
                               headers: (NSDictionary <NSString *, NSString *> *) headers
                                  body: (NSData*) body
                  WithReturnValeuBlock: (ReturnValueBlock) block
-                   WithErrorCodeBlock: (ErrorCodeBlock) errorBlock
+//                   WithErrorCodeBlock: (ErrorCodeBlock) errorBlock
                      WithFailureBlock: (FailureBlock) failureBlock;
 
 @end

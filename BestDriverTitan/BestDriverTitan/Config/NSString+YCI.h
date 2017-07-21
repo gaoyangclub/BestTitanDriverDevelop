@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class NSString;
 
 #define ConcatStrings(firstStr,...) [NSString joinedWithSubStrings:firstStr,__VA_ARGS__,nil]
 /**

@@ -18,6 +18,7 @@
 
 #import "NetRequestClass.h"
 #import "SVProgressHUD.h"
+#import "MBProgressHUD.h"
 #import "NSString+YCI.h"
 #import "Chameleon.h"
 
@@ -27,6 +28,7 @@
 #import "ASDisplayNode+GY.h"
 #import "ASControlNode+GY.h"
 #import "UIVIew+GY.h"
+#import "NSObject+YYModel.h"
 //#import "AsyncDisplayKit.h"
 
 #import "PopAnimateManager.h"

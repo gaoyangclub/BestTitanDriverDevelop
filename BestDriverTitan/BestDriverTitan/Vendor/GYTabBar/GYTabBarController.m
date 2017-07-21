@@ -109,6 +109,15 @@
     self.selectedIndex = index;
 }
 
+-(void)valueCommit:(NSInteger)selectedIndex{
+    [self.tabBarView setSelectedIndex:selectedIndex];
+}
+
+//-(void)setSelectedIndex:(NSUInteger)selectedIndex{
+//    [super setSelectedIndex:selectedIndex];
+////    [self setNeedsStatusBarAppearanceUpdate];
+//}
+
 - (void)viewDidLoad {
 //    [self aaa];
     

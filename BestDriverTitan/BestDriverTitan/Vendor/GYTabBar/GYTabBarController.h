@@ -17,5 +17,6 @@
 @property(nonatomic,retain) NSArray<TabData *>* dataArray;
 
 -(void)setItemBadge:(NSInteger)badge atIndex:(NSInteger)index;
+-(void)valueCommit:(NSInteger)selectedIndex;//通过代码更改顺序
 
 @end

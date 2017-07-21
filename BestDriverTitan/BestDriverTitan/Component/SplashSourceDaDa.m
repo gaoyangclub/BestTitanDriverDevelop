@@ -13,6 +13,7 @@
     BOOL isAnimation;//
 }
 
+@property(nonatomic,retain) UIImageView* backImg;
 @property(nonatomic,retain) UIImageView* logoImg;
 @property(nonatomic,retain) UILabel* nameLab;// 达达
 @property(nonatomic,retain) UILabel* desLab;
@@ -21,6 +22,16 @@
 
 @implementation SplashSourceDaDa
 
+-(UIImageView *)backImg{
+    if (!_backImg) {
+        UIImage* image = [UIImage imageNamed:@"splashBackground.jpg"];
+        _backImg = [[UIImageView alloc]initWithImage:image];
+        _backImg.contentMode = UIViewContentModeScaleAspectFill;
+        
+        [self addSubview:_backImg];
+    }
+    return _backImg;
+}
 
 -(UIImageView *)logoImg{
     if (_logoImg == NULL) {
@@ -40,9 +51,9 @@
 -(UILabel *)nameLab{
     if (_nameLab == NULL) {
         _nameLab = [[UILabel alloc]init];
-        _nameLab.text = @"百世通";
-        _nameLab.font = [UIFont systemFontOfSize:40];
-        _nameLab.textColor = [UIColor whiteColor];//[[UIColor alloc]initWithRed:58.0/255 green:139.0/255 blue:253.0/255 alpha:1];
+        _nameLab.text = APPLICATION_NAME;
+        _nameLab.font = [UIFont systemFontOfSize:20];
+        _nameLab.textColor = FlatBlack;//[UIColor whiteColor];//[[UIColor alloc]initWithRed:58.0/255 green:139.0/255 blue:253.0/255 alpha:1];
         [_nameLab sizeToFit];
         [self addSubview:_nameLab];
     }
@@ -52,9 +63,9 @@
 -(UILabel *)desLab{
     if (!_desLab) {
         _desLab = [[UILabel alloc]init];
-        _desLab.font = [UIFont systemFontOfSize:25];
-        _desLab.textColor = [UIColor whiteColor];//[UIColor colorWithRed:58.0/255 green:139.0/255 blue:253.0/255 alpha:1];
-        _desLab.text = @"在路上一直伴您左右";
+        _desLab.font = [UIFont systemFontOfSize:16];
+        _desLab.textColor = self.nameLab.textColor;//[UIColor colorWithRed:58.0/255 green:139.0/255 blue:253.0/255 alpha:1];
+        _desLab.text = APPLICATION_NAME_EN;
         [_desLab sizeToFit];
         [self addSubview:_desLab];
     }
@@ -63,31 +74,68 @@
 
 -(void)display{
     
-    self.backgroundColor = COLOR_PRIMARY;
+    self.backgroundColor = [UIColor whiteColor];
     
     CGFloat screenWidth = self.frame.size.width;
     CGFloat screenHeight = self.frame.size.height;
     
-    CGFloat logoWidth = 150;
+    CGFloat blankHeight = 90;
     
-    CGFloat offset = -15;
-    
-    self.logoImg.frame = CGRectMake((screenWidth - logoWidth) / 2 + offset, (screenHeight - logoWidth) / 2 - 80 , logoWidth, logoWidth);
+    CGFloat offset = 3;
     
     CGFloat nameWidth = self.nameLab.frame.size.width;
     CGFloat nameHeight = self.nameLab.frame.size.height;
-    CGFloat nameY = (screenHeight - nameHeight) / 2 + 30;
-    self.nameLab.frame = CGRectMake((screenWidth - nameWidth) / 2, nameY, nameWidth, nameHeight);
     
     CGFloat desWidth = self.desLab.frame.size.width;
     CGFloat desHeight = self.desLab.frame.size.height;
-    self.desLab.frame = CGRectMake((screenWidth - desWidth) / 2,nameY + 65, desWidth, desHeight);
+    
+//    CGFloat namepadding = 30;
+    
+    CGFloat backHeight = screenHeight - blankHeight;
+    
+    self.backImg.frame = CGRectMake(0,0, screenWidth, backHeight);
+    
+    CGFloat logoWidth = blankHeight - 40;
+    CGFloat logoX = (screenWidth - logoWidth - offset - desWidth) / 2.;
+    
+    self.logoImg.frame = CGRectMake(logoX, backHeight + (blankHeight - logoWidth) / 2., logoWidth, logoWidth);
+    
+    CGFloat nameY = backHeight + (blankHeight - (nameHeight + desHeight)) / 2. + 3;
+    CGFloat nameX = offset + logoX + logoWidth;
+    
+    self.nameLab.frame = CGRectMake(nameX, nameY, nameWidth, nameHeight);
+
+    self.desLab.frame = CGRectMake(nameX, nameY + nameHeight, desWidth, desHeight);
     
     
-    [self animationDaDaLogo];
-    [self animationLabel];
+    [self animationDriverLogo];
+    
+//    [self animationDaDaLogo];
+//    [self animationLabel];
 }
 
+
+- (void) animationDriverLogo{
+    POPSpringAnimation* _buttonClickAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
+    _buttonClickAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0, 1.0)];
+    _buttonClickAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(3.0, 3.0)];
+    _buttonClickAnimation.springBounciness = 30.0;
+//    _buttonClickAnimation.repeatCount = NSIntegerMax;
+//    _buttonClickAnimation.repeatForever = YES;
+//    _buttonClickAnimation.autoreverses = YES;
+    [_buttonClickAnimation setCompletionBlock:^(POPAnimation * ani, BOOL isFinish) {
+        if(isFinish){
+            __weak __typeof(self) weakSelf = self;
+            double delayInSeconds = 1.0;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [weakSelf animationDriverLogo];
+            });
+        }
+    }
+     ];
+    [self.logoImg.layer pop_addAnimation:_buttonClickAnimation forKey:@"buttonClickAnimation"];
+}
 
 - (void) animationDaDaLogo
 {
@@ -168,9 +216,10 @@
 }
 
 -(void)removeFromSuperview{
-    [self.logoImg.layer removeAllAnimations];
-    [self.nameLab.layer removeAllAnimations];
-    [self.desLab.layer removeAllAnimations];
+    [self.logoImg.layer pop_removeAllAnimations];
+//    [self.logoImg.layer removeAllAnimations];
+//    [self.nameLab.layer removeAllAnimations];
+//    [self.desLab.layer removeAllAnimations];
     [super removeFromSuperview];
 }
 
