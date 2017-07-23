@@ -10,6 +10,7 @@
 #import "UserDefaultsUtils.h"
 #import "OwnerViewController.h"
 #import "GYTabBarController.h"
+#import "NormalSelectItem.h"
 
 @interface UserHomeController ()
 
@@ -17,10 +18,11 @@
 
 @property(nonatomic,retain)UIScrollView* scrollView;
 
-@property(nonatomic,retain)UIView* userBack;
+@property(nonatomic,retain)NormalSelectItem* userBack;
 @property(nonatomic,retain)UILabel* userLabel;
 @property(nonatomic,retain)UILabel* userPhone;
 @property(nonatomic,retain)UIView* userStarBack;
+//@property(nonatomic,retain)UIButton* userIcon;
 
 @property(nonatomic,retain)UIButton* logoutButton;
 
@@ -31,7 +33,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self initTitleArea];
-    self.view.backgroundColor = COLOR_BACKGROUND;
+    self.view.backgroundColor = FlatWhite;
     [self showUserInfo:[Config getUser]];
 }
 
@@ -62,10 +64,19 @@
     return _scrollView;
 }
 
--(UIView *)userBack{
+-(NormalSelectItem *)userBack{
     if (!_userBack) {
-        _userBack = [[UIView alloc]init];
+        _userBack = [[NormalSelectItem alloc]init];
         _userBack.backgroundColor = [UIColor whiteColor];
+        _userBack.strokeColor = COLOR_LINE;
+//        _userBack.arrowSize = CGSizeMake(10, 22);
+        _userBack.iconName = ICON_WO_DE_SELECTED;
+        _userBack.iconSize = 36;
+        _userBack.iconBackColor = COLOR_PRIMARY;
+        
+        _userBack.showLabel = NO;
+        
+        [_userBack setShowTouch:YES];
         [self.scrollView addSubview:_userBack];
     }
     return _userBack;
@@ -73,7 +84,7 @@
 
 -(UILabel *)userLabel{
     if (!_userLabel) {
-        _userLabel = [UICreationUtils createLabel:ICON_FONT_NAME size:16 color:COLOR_PRIMARY];
+        _userLabel = [UICreationUtils createLabel:ICON_FONT_NAME size:16 color:FlatBlack];
         [self.userBack addSubview:_userLabel];
     }
     return _userLabel;
@@ -81,7 +92,7 @@
 
 -(UILabel *)userPhone{
     if (!_userPhone) {
-        _userPhone = [UICreationUtils createLabel:ICON_FONT_NAME size:14 color:COLOR_PRIMARY];
+        _userPhone = [UICreationUtils createLabel:ICON_FONT_NAME size:16 color:FlatGray];
         [self.userBack addSubview:_userPhone];
     }
     return _userPhone;
@@ -95,6 +106,28 @@
     return _userStarBack;
 }
 
+//-(UIButton *)userIcon{
+//    if (!_userIcon) {
+//        _userIcon = [UIButton buttonWithType:UIButtonTypeCustom];
+////        _userIcon.backgroundColor = COLOR_PRIMARY;
+//        
+//        [_userIcon setTitle:ICON_WO_DE_SELECTED forState:UIControlStateNormal];
+//        [_userIcon setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//        _userIcon.titleLabel.font = [UIFont fontWithName:ICON_FONT_NAME size:36];
+//        
+//        _userIcon.underlineNone = YES;
+//        
+//        _userIcon.layer.cornerRadius = 5;
+//        _userIcon.layer.masksToBounds = YES;
+//        
+//        _userIcon.layer.borderColor = COLOR_LINE.CGColor;
+//        _userIcon.layer.borderWidth = 1;
+//        
+//        [self.userBack addSubview:_userIcon];
+//    }
+//    return _userIcon;
+//}
+
 -(UIButton *)logoutButton{
     if (!_logoutButton) {
         _logoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -104,7 +137,7 @@
         _logoutButton.titleLabel.font = [UIFont systemFontOfSize:20];
         
         _logoutButton.underlineNone = YES;
-        [self.view addSubview:_logoutButton];
+        [self.scrollView addSubview:_logoutButton];
         
         _logoutButton.layer.cornerRadius = 5;
         _logoutButton.layer.masksToBounds = YES;
@@ -138,18 +171,40 @@
     self.tabBarController.navigationItem.titleView = self.titleView;
 }
 
+#pragma 坑爹!!! 必须时时跟随主view的frame
+-(void)viewDidLayoutSubviews{
+    self.scrollView.frame = self.view.bounds;
+    [super viewDidLayoutSubviews];
+}
+
 -(void)measure{
     CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
-    
-    self.scrollView.frame = self.view.bounds;
+//    self.scrollView.frame = CGRectMake(0, 0, 100, 300);
+//    self.scrollView.backgroundColor = [UIColor brownColor];
 
-    CGFloat gap = 5;
+    CGFloat gap = 10;
     
     CGFloat bottomY = gap;
     bottomY = [self initUserItem:bottomY];
-    bottomY += gap * 4;
+    bottomY += gap;
+    //我的货量明细，我的收入，签到，分享，用户反馈，版本信息
+    bottomY = [self initNormalItem:bottomY icon:ICON_HUO_LIANG labal:@"货量" iconBackColor:FlatOrange handler:nil isTop:YES];
+    bottomY = [self initNormalItem:bottomY icon:ICON_SHOU_ZHI labal:@"收支" iconBackColor:COLOR_DAI_WAN_CHENG handler:nil];
+    bottomY = [self initNormalItem:bottomY icon:ICON_LI_CHENG labal:@"里程" iconBackColor:FlatYellowDark handler:nil];
+    bottomY = [self initNormalItem:bottomY icon:ICON_QIAN_DAO labal:@"签到" iconBackColor:COLOR_PRIMARY handler:nil];
+    
+    bottomY += gap;
+    
+    bottomY = [self initNormalItem:bottomY icon:ICON_FEN_XIANG labal:@"分享" iconBackColor:FlatPurple handler:nil];
+    bottomY = [self initNormalItem:bottomY icon:ICON_FAN_KUI labal:@"反馈" iconBackColor:FlatGreenDark handler:nil];
+    
+//    bottomY += gap;
+    bottomY = [self initNormalItem:bottomY icon:ICON_BAN_BEN labal:@"版本" iconBackColor:COLOR_PRIMARY handler:nil];
+    
+    bottomY += gap;
     bottomY = [self initLogoutButton:bottomY];
-    bottomY += gap * 2;
+    bottomY += gap;
+    
     
     self.scrollView.contentSize = CGSizeMake(viewWidth, bottomY);
 }
@@ -166,7 +221,7 @@
 }
 
 -(CGFloat)initUserItem:(CGFloat)bottomY{//用户数据条目
-    CGFloat backHeight = 70;
+    CGFloat backHeight = 80;
     self.userBack.frame = CGRectMake(0, bottomY, CGRectGetWidth(self.view.bounds), backHeight);
     
     return bottomY + backHeight;
@@ -174,14 +229,13 @@
 
 -(void)showUserInfo:(User*)user{
     if (user) {
-        
-        CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
+//        CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
         CGFloat backHeight = CGRectGetHeight(self.userBack.bounds);
         
-        self.userLabel.text = ConcatStrings(ICON_WO_DE_SELECTED,user.name);
+        self.userLabel.text = user.name;
         [self.userLabel sizeToFit];
         
-        self.userPhone.text = ConcatStrings(ICON_DIAN_HUA,user.telphone);
+        self.userPhone.text = user.telphone;
         [self.userPhone sizeToFit];
         
         user.stars = 3;
@@ -194,7 +248,9 @@
         
         [self.userStarBack removeAllSubViews];
         
-        for (NSInteger i = 4; i >= 0; i--) {
+        CGFloat starCount = 5;
+        
+        for (NSInteger i = starCount - 1; i >= 0; i--) {
             UILabel* starIcon = [[UILabel alloc]init];
             [self.userStarBack addSubview:starIcon];
             
@@ -217,20 +273,57 @@
         
         CGFloat gap = 5;
         
-        CGFloat totalStarWidth = starWidth * 5;
+        CGFloat totalStarWidth = starWidth * starCount;
         
         CGFloat baseY = (backHeight - (userSize.height + phoneSize.height + starHeight + gap * 2)) / 2.;
         
-        self.userLabel.frame = (CGRect){CGPointMake((viewWidth - userSize.width) / 2., baseY),userSize};
+        CGFloat iconMargin = self.userBack.iconMargin;
+        CGFloat iconHeight = backHeight - iconMargin * 2;
         
-        self.userPhone.frame = (CGRect){CGPointMake((viewWidth - phoneSize.width) / 2., baseY + userSize.height + gap),phoneSize};
+//        self.userIcon.backgroundColor = COLOR_PRIMARY;
+//        self.userIcon.frame = CGRectMake(iconMargin, iconMargin, iconHeight, iconHeight);
         
-        self.userStarBack.frame = CGRectMake((viewWidth - totalStarWidth) / 2., baseY + userSize.height + phoneSize.height + gap * 2, totalStarWidth, starHeight);
+        CGFloat leftLabelMargin = iconMargin * 2 + iconHeight;
         
+        self.userLabel.frame = (CGRect){CGPointMake(leftLabelMargin, baseY),userSize};
         
+        self.userPhone.frame = (CGRect){CGPointMake(leftLabelMargin, baseY + userSize.height + gap),phoneSize};
         
+        self.userStarBack.frame = CGRectMake(leftLabelMargin, baseY + userSize.height + phoneSize.height + gap * 2, totalStarWidth, starHeight);
     }
 }
 
+-(CGFloat)initNormalItem:(CGFloat)bottomY icon:(NSString*)icon labal:(NSString*)label iconBackColor:(UIColor*)iconBackColor handler:(SEL)handler isTop:(BOOL)isTop{//用户数据条目
+    CGFloat normalHeight = 40;
+    
+    NormalSelectItem* normalItem = [[NormalSelectItem alloc]init];
+    normalItem.backgroundColor = [UIColor whiteColor];
+    normalItem.strokeColor = COLOR_LINE;
+    //        _userBack.arrowSize = CGSizeMake(10, 22);
+    normalItem.iconName = icon;
+    normalItem.iconSize = 14;
+    normalItem.iconBackColor = iconBackColor;
+    normalItem.showIconLine = NO;
+    
+    normalItem.labelName = label;
+    normalItem.labelSize = 14;
+    normalItem.labelColor = FlatBlack;
+    
+//    normalItem.lineLeftMargin = 50;
+    normalItem.showTopLine = isTop;
+    
+    [normalItem setShowTouch:YES];
+    [self.scrollView addSubview:normalItem];
+    
+    normalItem.frame = CGRectMake(0, bottomY, CGRectGetWidth(self.view.bounds), normalHeight);
+    
+    [normalItem addTarget:self action:handler forControlEvents:UIControlEventTouchUpInside];
+    
+    return bottomY + normalHeight;
+}
+
+-(CGFloat)initNormalItem:(CGFloat)bottomY icon:(NSString*)icon labal:(NSString*)label iconBackColor:(UIColor*)iconBackColor handler:(SEL)handler{//用户数据条目
+    return [self initNormalItem:bottomY icon:icon labal:label iconBackColor:iconBackColor handler:handler isTop:NO];
+}
 
 @end

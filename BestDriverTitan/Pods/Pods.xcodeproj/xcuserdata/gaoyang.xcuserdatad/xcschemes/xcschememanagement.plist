@@ -25,6 +25,11 @@
 			<key>orderHint</key>
 			<integer>3</integer>
 		</dict>
+		<key>FBRetainCycleDetector.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>10</integer>
+		</dict>
 		<key>HYBUnicodeReadable.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -38,6 +43,16 @@
 			<false/>
 			<key>orderHint</key>
 			<integer>5</integer>
+		</dict>
+		<key>MBProgressHUD.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>11</integer>
+		</dict>
+		<key>MLeaksFinder.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
 		</dict>
 		<key>MMDrawerController.xcscheme</key>
 		<dict>
@@ -59,6 +74,11 @@
 			<false/>
 			<key>orderHint</key>
 			<integer>8</integer>
+		</dict>
+		<key>YYModel.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>13</integer>
 		</dict>
 		<key>pop.xcscheme</key>
 		<dict>
@@ -93,12 +113,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>35C713E247CEFC8D048D2D5D97208D1C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>401549B0736562B12960DB2EAF659C68</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>550F7EEAEEA17E3F92C873912E23B01C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>55DBDD8B7D446F1D618F303A9FB53209</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5F98AFEF0DB0595C031EB47E496F2A80</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -133,6 +168,16 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>B4ECF534E5CDCE84764A5E87C7DAC48F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B9C5D98D8ADD7148978F671F156051D3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>BF279C308DA0DA32EDBCC4BC85E6C8D6</key>
 		<dict>
 			<key>primary</key>
@@ -143,7 +188,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>D058B89EB3B3DF45457A2DCD3971AFFE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>D17FC09A002BBA332269D8B17A04BEEB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EDE8071810901AA84EB9A6FA95BF8CC0</key>
 		<dict>
 			<key>primary</key>
 			<true/>

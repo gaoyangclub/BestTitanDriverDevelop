@@ -76,6 +76,14 @@
 
 #define ICON_YAN_ZHENG_MA @"\U0000e60c"
 
+#define ICON_HUO_LIANG @"\U0000e644"
+#define ICON_SHOU_ZHI @"\U0000e63a"
+#define ICON_QIAN_DAO @"\U0000e608"
+#define ICON_LI_CHENG @"\U0000e687"
+#define ICON_FEN_XIANG @"\U0000e602"
+#define ICON_FAN_KUI @"\U0000e635"
+#define ICON_BAN_BEN @"\U0000e60e"
+
 #define APPLICATION_NAME @"百世通"
 #define APPLICATION_NAME_EN @"BestTitan"
 
