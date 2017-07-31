@@ -81,6 +81,10 @@
     return _dataArray;
 }
 
+-(NSMutableArray<SourceVo *> *)dataSourceArray{
+    return self.dataArray;
+}
+
 /** 重新刷新界面 */
 -(void)headerBeginRefresh {
     if (!self.mj_header.isRefreshing) {
@@ -91,6 +95,7 @@
 }
 
 -(void)clearSource {
+    _selectedIndexPath = nil;
     [self.dataArray removeAllObjects];
 }
 
@@ -155,9 +160,12 @@
                     [strongSelf.refreshDelegate footerLoadMore:^(BOOL hasData){
                         if (hasData) {
                             [strongSelf checkGaps];
-                            self.refreshAll = NO;
+                            strongSelf.refreshAll = NO;
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 [strongSelf reloadData];
+                                if (strongSelf.refreshDelegate && [strongSelf.refreshDelegate respondsToSelector:@selector(didLoadMoreComplete)]){
+                                    [strongSelf.refreshDelegate didLoadMoreComplete];
+                                }
                             });
                             [strongSelf.mj_footer endRefreshing];
                         }else{
@@ -189,10 +197,16 @@
             if (strongSelf.refreshDelegate && [strongSelf.refreshDelegate respondsToSelector:@selector(headerRefresh:)]) {
                 [strongSelf.refreshDelegate headerRefresh:^(BOOL hasData){
                     _hasFirstRefreshed = YES;
-                    self.refreshAll = YES;
+                    strongSelf.refreshAll = YES;
                     [strongSelf checkGaps];
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [strongSelf reloadData];
+                        if (strongSelf.refreshDelegate && [strongSelf.refreshDelegate respondsToSelector:@selector(didRefreshComplete)]){
+                            [strongSelf.refreshDelegate didRefreshComplete];
+                        }
+                        if (strongSelf.selectedIndexPath) {
+                            [strongSelf dispatchSelectRow:strongSelf.selectedIndexPath];
+                        }
                     });
                     [strongSelf.mj_header endRefreshing];// 结束刷新
                     if (hasData) {
@@ -297,6 +311,8 @@
     cell.tableView = tableView;
     cell.data = data;
     cell.cellVo = cellVo;
+    
+    cell.selected = [indexPath isEqual:self.selectedIndexPath];
     return cell;
 }
 
@@ -336,12 +352,38 @@
 ////        tableView
 //        cell.needRefresh = NO; //不需要刷新
 //    }
+//    SourceVo* source = self.dataArray[indexPath.section];
+//    CellVo* cellVo = source.data[indexPath.row];
+//    cellVo.isSelect = YES;
+    [self changeSelectIndexPath:indexPath];
+    
     [tableView deselectRowAtIndexPath:indexPath animated: false];//反选
+    [self dispatchSelectRow:indexPath];
+}
+
+-(void)dispatchSelectRow:(NSIndexPath *)indexPath{
     if (self.refreshDelegate && [self.refreshDelegate respondsToSelector:@selector(didSelectRow:didSelectRowAtIndexPath:)]) {
-        [self.refreshDelegate didSelectRow:tableView didSelectRowAtIndexPath:indexPath];
+        [self.refreshDelegate didSelectRow:self didSelectRowAtIndexPath:indexPath];
     }
 }
 
+-(void)setSelectedIndexPath:(NSIndexPath *)selectedIndexPath{
+    [self changeSelectIndexPath:selectedIndexPath];
+}
+
+-(void)changeSelectIndexPath:(NSIndexPath *)selectedIndexPath{
+    if (_selectedIndexPath) {
+        MJTableViewCell* prevCell = [self cellForRowAtIndexPath:_selectedIndexPath];
+        if (prevCell) {
+            prevCell.selected = NO;
+        }
+    }
+    _selectedIndexPath = selectedIndexPath;
+    MJTableViewCell* cell = [self cellForRowAtIndexPath:selectedIndexPath];
+    if (cell) {
+        cell.selected = YES;
+    }
+}
 
 -(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
     if (self.refreshDelegate && [self.refreshDelegate respondsToSelector:@selector(didEndScrollingAnimation)]) {

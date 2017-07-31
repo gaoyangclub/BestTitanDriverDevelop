@@ -22,6 +22,11 @@
 #import "HudManager.h"
 #import "OwnerViewController.h"
 #import "UserHomeController.h"
+#import "VersionManager.h"
+#import "LocalBundleManager.h"
+
+#import <PgySDK/PgyManager.h>
+#import <PgyUpdate/PgyUpdateManager.h>
 
 @interface AppDelegate ()
 
@@ -96,16 +101,17 @@
     navigationController.navigationColor = COLOR_PRIMARY;
     [navigationController setViewControllers:@[[self createNormalTabBar]]];
     
-    ViewController* rightViewController = [[ViewController alloc]init];//AccountSideHomeController()
-    [rightViewController showSwitchArea];
+    ViewController* leftViewController = [[ViewController alloc]init];//AccountSideHomeController()
+    [leftViewController showSwitchArea];
     
     MMDrawerController* drawerController = [[MMDrawerController alloc]init];
+    drawerController.leftDrawerViewController = leftViewController;
     drawerController.centerViewController = navigationController;
-    drawerController.rightDrawerViewController = rightViewController;
+//    drawerController.rightDrawerViewController = rightViewController;
     
     
     drawerController.showsShadow = YES;
-    drawerController.maximumRightDrawerWidth = DRAWER_WIDTH;
+    drawerController.maximumLeftDrawerWidth = drawerController.maximumRightDrawerWidth = DRAWER_WIDTH;
     drawerController.openDrawerGestureModeMask = MMOpenDrawerGestureModeNone;
     drawerController.closeDrawerGestureModeMask = MMCloseDrawerGestureModeAll;
     drawerController.centerHiddenInteractionMode = MMDrawerOpenCenterInteractionModeNone;
@@ -126,25 +132,16 @@
     _fpsLabel.hidden = YES;
     [drawerController.view addSubview:_fpsLabel];
     
-    SplashSourceView* sourceView = [[SplashSourceDaDa alloc] init];
-    [SplashViewController initWithSourceView:sourceView superView:self.window waitingHandler:
-//     nil
-     ^(SplashWillFinishHandler willFinishHandler) {
-        DIYSplashViewModel* viewModel = [[DIYSplashViewModel alloc] init];
-         [viewModel fetchUpdateVersion:^(id returnValue) {
-              willFinishHandler();//成功后关闭
-             [navigationController checkPopLoginView];
-         } failureBlock:^(NSString *errorCode, NSString *errorMsg) {
-//              willFinishHandler();//成功后关闭
-             [HudManager showToast:errorMsg];
-         }];
-        }
-    ];
-    return YES;
-}
-
--(void)checlLogin{
+    [navigationController showSplashView];
     
+    //启动基本SDK
+    [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPID];
+    //启动更新检查SDK
+    [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PGY_APPID];
+    
+//    [[PgyUpdateManager sharedPgyManager] checkUpdate];
+    
+    return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

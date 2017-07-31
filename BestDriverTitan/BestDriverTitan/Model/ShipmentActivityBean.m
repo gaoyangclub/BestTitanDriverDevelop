@@ -10,4 +10,8 @@
 
 @implementation ShipmentActivityBean
 
+-(BOOL)hasReport{
+    return self.status && ![self.status isEqualToString:ACTIVITY_STATUS_PENDING_REPORT];
+}
+
 @end

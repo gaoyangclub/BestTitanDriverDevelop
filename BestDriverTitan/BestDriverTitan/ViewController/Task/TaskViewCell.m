@@ -181,6 +181,8 @@
     if(!_licencePlateView){
         _licencePlateView = [[DiyLicensePlateNode alloc]init];
         _licencePlateView.layerBacked = YES;
+        _licencePlateView.fillColor = COLOR_LINE;
+        _licencePlateView.compleColor = [UIColor clearColor];
         [self.contentView.layer addSublayer:_licencePlateView.layer];
     }
     return _licencePlateView;
@@ -427,55 +429,63 @@
 //}
 
 -(void)initTopArea:(CGFloat)topY topWidth:(CGFloat)topWidth topHeight:(CGFloat)topHeight{
-    CGFloat topCenterY = topY + topHeight / 2.;
-    CGFloat labelOffset = -20;
-    CGFloat textOffset = 0;
+//    CGFloat topCenterY = topY + topHeight / 2.;
+//    CGFloat labelOffset = -20;
+//    CGFloat textOffset = 0;
     
-    CGFloat followWidth = 40;
+//    CGFloat followWidth = 40;
     
-    CGFloat marginLeft = followWidth / 2.;
+    CGFloat marginLeft = 0;//followWidth / 2.;
     
     CGFloat areaWith = (topWidth - marginLeft) / 3.;
     
-    self.followButton.frame = CGRectMake(0, topY + (topHeight - followWidth) / 2., followWidth, followWidth);
-    [self showFollowArea];
+//    self.followButton.frame = CGRectMake(0, topY + (topHeight - followWidth) / 2., followWidth, followWidth);
+//    [self showFollowArea];
     
     CGFloat areaX1 = marginLeft;
-    self.expenseLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColorDark] size:12 content:ConcatStrings(ICON_JIN_QIAN,@"预计收入")];
-    CGSize expenseSize = [self.expenseLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.expenseLabel.frame = (CGRect){
-        CGPointMake(areaX1 + (areaWith - expenseSize.width) / 2., topCenterY + labelOffset),expenseSize
-    };
+    self.expenseLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColorDark] size:16 content:ICON_JIN_QIAN];
+    CGSize expenseLabelSize = [self.expenseLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.expenseText.attributedString = [NSString simpleAttributedString:[UIColor flatOrangeColor] size:14 content:@"15元"];
-    expenseSize = [self.expenseText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    CGSize expenseTextSize = [self.expenseText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    
+    CGFloat expenseX = areaX1 + (areaWith - expenseLabelSize.width - expenseTextSize.width) / 2;
+    
+    self.expenseLabel.frame = (CGRect){
+        CGPointMake(expenseX, topY + (topHeight - expenseLabelSize.height) / 2.),expenseLabelSize
+    };
     self.expenseText.frame = (CGRect){
-        CGPointMake(areaX1 + (areaWith - expenseSize.width) / 2., topCenterY + textOffset),expenseSize
+        CGPointMake(expenseX + expenseLabelSize.width, topY + (topHeight - expenseTextSize.height) / 2.),expenseTextSize
     };
     
     CGFloat areaX2 = marginLeft + areaWith;
-    self.distanceLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColorDark]     size:12 content:ConcatStrings(ICON_JU_LI,@"预计距离")];
-    CGSize distanceSize = [self.distanceLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.distanceLabel.frame = (CGRect){
-        CGPointMake(areaX2 + (areaWith - distanceSize.width) / 2., topCenterY + labelOffset),distanceSize
-    };
+    self.distanceLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColorDark]     size:16 content:ICON_JU_LI];
+    CGSize distanceLabelSize = [self.distanceLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.distanceText.attributedString = [NSString simpleAttributedString:[UIColor flatBlackColor] size:14 content:@"1.7公里"];
-    distanceSize = [self.distanceText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    CGSize distanceTextSize = [self.distanceText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    
+    CGFloat distanceX = areaX2 + (areaWith - distanceLabelSize.width - distanceTextSize.width) / 2;
+    
+    self.distanceLabel.frame = (CGRect){
+        CGPointMake(distanceX, topY + (topHeight - distanceLabelSize.height) / 2.),distanceLabelSize
+    };
     self.distanceText.frame = (CGRect){
-        CGPointMake(areaX2 + (areaWith - distanceSize.width) / 2., topCenterY + textOffset),distanceSize
+        CGPointMake(distanceX + distanceLabelSize.width, topY + (topHeight - distanceTextSize.height) / 2.),distanceTextSize
     };
     
     CGFloat areaX3 = marginLeft + areaWith * 2;
-    self.costHourLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColorDark]     size:12 content:ConcatStrings(ICON_SHI_JIAN,@"预计时间")];
-    CGSize hourSize = [self.costHourLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.costHourLabel.frame = (CGRect){
-        CGPointMake(areaX3 + (areaWith - hourSize.width) / 2., topCenterY + labelOffset),hourSize
-    };
+    self.costHourLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColorDark]     size:16 content:ICON_SHI_JIAN];
+    CGSize hourLabelSize = [self.costHourLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.costHourText.attributedString = [NSString simpleAttributedString:[UIColor flatBlackColor] size:14 content:@"2.5小时"];
-    hourSize = [self.costHourText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.costHourText.frame = (CGRect){
-        CGPointMake(areaX3 + (areaWith - hourSize.width) / 2., topCenterY + textOffset),hourSize
-    };
+    CGSize hourTextSize = [self.costHourText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
+    CGFloat hourX = areaX3 + (areaWith - hourLabelSize.width - hourTextSize.width) / 2;
+    
+    self.costHourLabel.frame = (CGRect){
+        CGPointMake(hourX, topY + (topHeight - hourLabelSize.height) / 2.),hourLabelSize
+    };
+    self.costHourText.frame = (CGRect){
+        CGPointMake(hourX + hourLabelSize.width, topY + (topHeight - hourTextSize.height) / 2.),hourTextSize
+    };
 }
 
 -(void)initCenterArea:(CGFloat)centerY centerWidth:(CGFloat)centerWidth centerHeight:(CGFloat)centerHeight{
@@ -634,7 +644,7 @@
 -(void)showPlanArea{
     CGFloat areaHeight = CGRectGetHeight(self.planButton.bounds);
     CGFloat areaWidth = CGRectGetWidth(self.planButton.bounds);
-    self.planIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_PRIMARY  size:36 content:ICON_GUI_HUA];
+    self.planIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_PRIMARY  size:36 content:ICON_DAO_HANG];
     CGSize iconSize = [self.planIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.planIcon.frame = (CGRect){CGPointMake((areaWidth - iconSize.width) / 2., (areaHeight - iconSize.height) / 2.),iconSize};
 }
@@ -811,7 +821,7 @@
     
     CGFloat padding = 5;//内边距10
     
-    CGFloat topHeight = 50;
+    CGFloat topHeight = 40;
     CGFloat bottomHeight = 60;
     
     CGFloat topY = 25;
@@ -903,13 +913,11 @@
     }
     self.stateArea.hidden = bean.isComplete;
     
-    self.licencePlateText.attributedString = [NSString simpleAttributedString:[UIColor flatBlackColor] size:14 content:@"浙A8888888"];
+    self.licencePlateText.attributedString = [NSString simpleAttributedString:[UIColor flatBlackColor] size:14 content:@"浙A790GK"];
     CGSize liceneSize = [self.licencePlateText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     CGFloat plateWidth = liceneSize.width + 10;
     CGFloat plateHeight = liceneSize.height + 10;
-    self.licencePlateView.frame = CGRectMake(cellWidth - plateWidth - padding, 0, plateWidth, plateHeight);
-    self.licencePlateView.fillColor = [UIColor flatYellowColorDark];
-    self.licencePlateView.compleColor = [UIColor flatBlackColor];
+    self.licencePlateView.frame = CGRectMake(cellWidth - plateWidth - padding, 3, plateWidth, plateHeight);
     //    self.licencePlateView.cornerRadius = 30;
     
     self.licencePlateText.frame = (CGRect){

@@ -29,7 +29,7 @@
 +(void)showToast:(NSString *)value delay:(CGFloat)delay{
     UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
     // 添加到窗口
-    MBProgressHUD* hud = [[MBProgressHUD alloc]initWithView:window.subviews[0]];
+    MBProgressHUD* hud = [[MBProgressHUD alloc]initWithView:window];
     hud.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
     hud.userInteractionEnabled = NO;
     //        hud.backgroundColor = [UIColor blackColor];

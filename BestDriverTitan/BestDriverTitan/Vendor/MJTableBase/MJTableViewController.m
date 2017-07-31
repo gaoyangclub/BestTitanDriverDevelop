@@ -15,6 +15,10 @@
 
 @implementation MJTableViewController
 
+-(void)setSelectedIndexPath:(NSIndexPath *)selectedIndexPath{
+    self.tableView.selectedIndexPath = selectedIndexPath;
+}
+
 -(void)loadView{
     [super loadView];
     self.autoRefreshHeader = YES;

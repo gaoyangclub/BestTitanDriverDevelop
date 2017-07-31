@@ -7,6 +7,7 @@
 //
 
 #import "SplashSourceDaDa.h"
+#import "LocalBundleManager.h"
 //#import "CACircleLayer.h"
 
 @interface SplashSourceDaDa (){
@@ -17,6 +18,7 @@
 @property(nonatomic,retain) UIImageView* logoImg;
 @property(nonatomic,retain) UILabel* nameLab;// 达达
 @property(nonatomic,retain) UILabel* desLab;
+@property(nonatomic,retain) UILabel* versionLabel;
 
 @end
 
@@ -24,7 +26,7 @@
 
 -(UIImageView *)backImg{
     if (!_backImg) {
-        UIImage* image = [UIImage imageNamed:@"splashBackground.jpg"];
+        UIImage* image = [UIImage imageNamed:@"splashBackground"];
         _backImg = [[UIImageView alloc]initWithImage:image];
         _backImg.contentMode = UIViewContentModeScaleAspectFill;
         
@@ -72,6 +74,13 @@
     return _desLab;
 }
 
+-(UILabel *)versionLabel{
+    if (!_versionLabel) {
+        _versionLabel = [UICreationUtils createLabel:14 color:FlatGray text:[Config getAppVersionDescribe] sizeToFit:YES superView:self];
+    }
+    return _versionLabel;
+}
+
 -(void)display{
     
     self.backgroundColor = [UIColor whiteColor];
@@ -81,7 +90,7 @@
     
     CGFloat blankHeight = 90;
     
-    CGFloat offset = 3;
+    CGFloat offset = 5;
     
     CGFloat nameWidth = self.nameLab.frame.size.width;
     CGFloat nameHeight = self.nameLab.frame.size.height;
@@ -95,18 +104,21 @@
     
     self.backImg.frame = CGRectMake(0,0, screenWidth, backHeight);
     
-    CGFloat logoWidth = blankHeight - 40;
+    CGFloat logoWidth = blankHeight - 50;
     CGFloat logoX = (screenWidth - logoWidth - offset - desWidth) / 2.;
     
     self.logoImg.frame = CGRectMake(logoX, backHeight + (blankHeight - logoWidth) / 2., logoWidth, logoWidth);
     
-    CGFloat nameY = backHeight + (blankHeight - (nameHeight + desHeight)) / 2. + 3;
+    CGFloat nameY = backHeight + (blankHeight - (nameHeight + desHeight)) / 2.;
     CGFloat nameX = offset + logoX + logoWidth;
     
     self.nameLab.frame = CGRectMake(nameX, nameY, nameWidth, nameHeight);
 
     self.desLab.frame = CGRectMake(nameX, nameY + nameHeight, desWidth, desHeight);
     
+    CGSize versionSize = self.versionLabel.frame.size;
+    
+    self.versionLabel.frame = (CGRect){CGPointMake((screenWidth - versionSize.width) / 2., screenHeight - versionSize.height),versionSize};
     
     [self animationDriverLogo];
     

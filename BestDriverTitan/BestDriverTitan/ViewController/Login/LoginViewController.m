@@ -211,7 +211,7 @@
     
     CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
     
-    CGFloat logoMargin = 60;
+    CGFloat logoMargin = 75;
     
     CGFloat logoHeight = self.view.center.y - logoMargin * 2;
     
@@ -220,12 +220,14 @@
     CGFloat logoLabelHeight = CGRectGetHeight(self.logoLabel.bounds);
     CGFloat logoLabelWidth = CGRectGetWidth(self.logoLabel.bounds);
     
-    self.logoLabel.frame = CGRectMake((viewWidth - logoLabelWidth) / 2., logoMargin + logoHeight, logoLabelWidth, logoLabelHeight);
+    CGFloat logoLabelY = logoMargin + logoHeight + 10;
+    
+    self.logoLabel.frame = CGRectMake((viewWidth - logoLabelWidth) / 2., logoLabelY, logoLabelWidth, logoLabelHeight);
     
     CGFloat logoDesHeight = CGRectGetHeight(self.logoDes.bounds);
     CGFloat logoDesWidth = CGRectGetWidth(self.logoDes.bounds);
     
-    self.logoDes.frame = CGRectMake((viewWidth - logoDesWidth) / 2., logoMargin + logoHeight + logoLabelHeight, logoDesWidth, logoDesHeight);
+    self.logoDes.frame = CGRectMake((viewWidth - logoDesWidth) / 2., logoLabelY + logoLabelHeight, logoDesWidth, logoDesHeight);
 }
 
 -(void)initInputArea:(CGFloat)areaHeight{

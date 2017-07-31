@@ -60,11 +60,16 @@
     double delay = 0;//TODO 这里无限显示开启界面 实际是根据服务请求等待时间而定
     [UIView animateWithDuration:0.5 delay:delay options:UIViewAnimationOptionCurveEaseIn animations:^{
         //        [self setX:-kScreen_Width];
-        weakSelf.sourceView.alpha = 0;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        strongSelf.sourceView.alpha = 0;
+        if (strongSelf.willCompleteHandler) {
+            strongSelf.willCompleteHandler(self);
+        }
     } completion:^(BOOL finished) {
-        [weakSelf.view removeFromSuperview];
-        if (weakSelf.completeHandler) {
-            weakSelf.completeHandler(self);
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf.view removeFromSuperview];
+        if (strongSelf.didCompleteHandler) {
+            strongSelf.didCompleteHandler(self);
         }
     }];
 }

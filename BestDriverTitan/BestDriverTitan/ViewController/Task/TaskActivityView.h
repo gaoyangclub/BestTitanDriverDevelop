@@ -19,6 +19,6 @@
 @interface TaskActivityView : CustomPopModelView
 
 @property(nonatomic, weak) id<TaskActivityViewDelegate> taskActivityDelegate;
-@property(nonatomic,retain) NSMutableArray<ShipmentActivityBean*>* activityBeans;
+@property(nonatomic,retain)NSMutableArray<ShipmentActivityBean*>* activityBeans;
 
 @end

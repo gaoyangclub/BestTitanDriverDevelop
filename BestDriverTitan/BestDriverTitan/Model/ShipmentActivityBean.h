@@ -16,4 +16,6 @@
 
 @property(nonatomic,assign)BOOL* itemStatus;//是否货量有差异
 
+-(BOOL)hasReport;
+
 @end

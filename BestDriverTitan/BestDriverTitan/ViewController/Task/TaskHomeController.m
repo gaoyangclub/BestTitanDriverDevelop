@@ -39,16 +39,21 @@
 }
 
 -(void)initTitleArea{
-    self.tabBarController.navigationItem.leftBarButtonItem = [UICreationUtils createNavigationLeftButtonItem:[UIColor whiteColor] target:self action:@selector(rightItemClick)];
+    self.tabBarController.navigationItem.leftBarButtonItem =
+    [UICreationUtils createNavigationNormalButtonItem:[UIColor whiteColor] font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SHE_ZHI target:self action:@selector(leftItemClick)];
     
-    self.tabBarController.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:[UIColor whiteColor] font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SHE_ZHI target:self action:@selector(rightItemClick)];
+    self.tabBarController.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:[UIColor whiteColor] font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SAO_MIAO target:self action:@selector(rightItemClick)];
     
     self.tabBarController.navigationItem.titleView = self.titleView;
 }
 
--(void)rightItemClick{
+-(void)leftItemClick{
     MMDrawerController* drawerController = (MMDrawerController*)((AppDelegate*)[UIApplication sharedApplication].delegate).window.rootViewController;
-    [drawerController toggleDrawerSide:(MMDrawerSideRight) animated:YES completion:nil];
+    [drawerController toggleDrawerSide:(MMDrawerSideLeft) animated:YES completion:nil];
+}
+
+-(void)rightItemClick{
+    
 }
 
 - (void)viewDidLoad {
@@ -57,7 +62,7 @@
     
 //    if (!self->pageMenu) {
         NSArray* titleList = [NSArray arrayWithObjects:
-                              [NSArray arrayWithObjects:@"最近三天",@(NO), nil],
+                              [NSArray arrayWithObjects:@"最新任务",@(NO), nil],
                               [NSArray arrayWithObjects:@"历史任务",@(YES), nil],
 //                              [NSArray arrayWithObjects:@"历史任务",@(YES), nil],
 //                              [NSArray arrayWithObjects:@"历史任务",@(YES), nil],
@@ -65,7 +70,7 @@
 //                              [NSArray arrayWithObjects:@"历史任务",@(YES), nil],
 //                              [NSArray arrayWithObjects:@"历史任务",@(YES), nil],
 //                              [NSArray arrayWithObjects:@"历史任务",@(YES), nil],
-                              [NSArray arrayWithObjects:@"收藏夹",@(YES), nil],
+//                              [NSArray arrayWithObjects:@"收藏夹",@(YES), nil],
                               nil];
         
         NSMutableArray<UIViewController*>* controllerArray = [NSMutableArray<UIViewController*> array];

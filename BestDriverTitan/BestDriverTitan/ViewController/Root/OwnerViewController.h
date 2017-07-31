@@ -17,6 +17,8 @@
 
 +(instancetype)sharedInstance;
 
+-(void)showSplashView;
+
 -(void)checkPopLoginView;
 
 -(void)popLoginview:(BOOL)animated completion:(void (^)(void))completion;

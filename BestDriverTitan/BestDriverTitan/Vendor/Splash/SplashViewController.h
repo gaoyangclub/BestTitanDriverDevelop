@@ -20,7 +20,8 @@ typedef void(^SplashFinishHandler)(SplashViewController*);
 @interface SplashViewController : UIViewController
 
 @property(nonatomic,retain)SplashSourceView* sourceView;//显示内容区域
-@property(nonatomic,copy)SplashFinishHandler completeHandler;//完成后回调
+@property(nonatomic,copy)SplashFinishHandler willCompleteHandler;//将要完成 开始完成动画
+@property(nonatomic,copy)SplashFinishHandler didCompleteHandler;//完成后回调
 
 @property(nonatomic,copy)SplashWaitingHandler waitingHandler;//等待中
 //@property()

@@ -4,11 +4,12 @@
 //
 #import "NetConfig.h"
 #import "User.h"
+#import "AppVersion.h"
 
-#define COLOR_PRIMARY [UIColor flatSkyBlueColor]//COLOR_YI_WAN_CHENG//[UIColor flatMintColor]//rgba(23,182,46,1)
+#define COLOR_PRIMARY FlatMint//FlatSkyBlue//COLOR_YI_WAN_CHENG//rgba(23,182,46,1)
 #define COLOR_BACKGROUND rgba(226,226,226,1)
 #define COLOR_LINE rgba(218,218,218,1)
-#define COLOR_YI_WAN_CHENG rgb(67,152,216)//rgba(21,178,168,1)
+#define COLOR_YI_WAN_CHENG COLOR_PRIMARY //rgb(67,152,216)//rgba(21,178,168,1)
 #define COLOR_DAI_WAN_CHENG FlatWatermelon//[UIColor flatSandColorDark]//rgb(250,83,44)//rgba(240,129,69,1)
 #define LINE_WIDTH 0.5
 
@@ -21,7 +22,16 @@
 
 #define AUTH_CODE_PREV @"abdfl23lklasdjfklflkasjf"
 
+
+//蒲公英appId
+#define PGY_APPID @"dba51660a44c3e00888ce2a4b24af81a"
+
+
+
+#define ICON_FAN_HUI @"\U0000e614"
 #define ICON_SHE_ZHI @"\U0000e628"
+#define ICON_SAO_MIAO @"\U0000e8b3"
+#define ICON_DI_TU @"\U0000e603"
 
 //#define ICON_LOGO_SPLASH @"\U0000e7a9"
 
@@ -117,20 +127,22 @@
 
 #define SUBMIT_BUTTON_HEIGHT 50
 
-#define TASK_VIEW_CELL_HEIGHT 145 //240
-#define TASK_VIEW_SECTION_HEIGHT 50
+#define TASK_VIEW_CELL_HEIGHT 135 //240
+#define TASK_VIEW_SECTION_HEIGHT 30
 
-#define TASK_TRIP_AREA_HEIGHT 140
+//#define TASK_TRIP_AREA_HEIGHT 140
 
-#define TASK_TRIP_CELL_HEIGHT 460 - TASK_TRIP_AREA_HEIGHT
-#define TASK_TRIP_SECTION_TOP_HEIGHT 65
-#define TASK_TRIP_SECTION_HEIGHT TASK_TRIP_SECTION_TOP_HEIGHT + TASK_TRIP_AREA_HEIGHT
+#define TASK_TRIP_CELL_HEIGHT 80//460 - TASK_TRIP_AREA_HEIGHT
+#define TASK_TRIP_SECTION_TOP_HEIGHT 50
+#define TASK_TRIP_SECTION_HEIGHT TASK_TRIP_SECTION_TOP_HEIGHT// + TASK_TRIP_AREA_HEIGHT
 
-#define ORDER_TAB_WIDTH 80
+#define ORDER_TAB_WIDTH 100
+#define ORDER_TAB_HEIGHT 40
 #define ORDER_VIEW_CELL_HEIGHT 150
 
 #define EVENT_ADDRESS_SELECT @"EVENT_ADDRESS_SELECT"
 #define EVENT_LOGIN_COMPLETE @"EVENT_LOGIN_COMPLETE"
+#define EVENT_ACTIVITY_SELECT @"EVENT_ACTIVITY_SELECT"
 
 #define ACTIVITY_CODE_PICKUP_HANDOVER @"PICKUP_HANDOVER" //揽收
 #define ACTIVITY_CODE_LOAD @"LOAD" //装车
@@ -144,21 +156,30 @@
 #define AUDIT_NO_DATA @"NO_DATA"//还未提交
 #define AUDIT_PENDING @"PENDING_AUDIT"//审核中
 
+#define ACTIVITY_STATUS_PENDING_REPORT @"PENDING_REPORT"
+#define ACTIVITY_STATUS_REPORTING @"REPORTING"
+#define ACTIVITY_STATUS_REPORTED @"REPORTED"
+#define ACTIVITY_STATUS_CANCELED @"CANCELED"
+
 #define USER_KEY @"user_key"
 #define PHONE_KEY @"phone_key"
 
 static BOOL isUserProxyMode = NO;//是否监控模式
 static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不设置此值为YES无权提交和上传数据
-static NetModeType netMode = NetModeTypeDemo;//默认T8生产环境
+static NetModeType netMode = NetModeTypeRelease;//默认T8生产环境
 
 static User* userProxy;//被观察的用户临时信息
 
-@interface Config : NSObject
+static AppVersion* appVersion;
 
+@interface Config : NSObject
 
 +(NSString*)getActivityIconByCode:(NSString*)code;
 +(NSString*)getActivityLabelByCode:(NSString*)code;
 
++(NSString*)getActivityStatusLabel:(NSString*)status;
+
++(NSString*)getAppVersionDescribe;
 
 +(void)setUser:(User*)value;
 +(User*)getUser;

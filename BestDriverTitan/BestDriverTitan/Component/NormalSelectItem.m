@@ -131,10 +131,16 @@
     
     CGFloat iconHeight = viewHeight - self.iconMargin * 2;
     
-    self.iconArea.strokeColor = self.strokeColor;
-    self.iconArea.strokeWidth = self.strokeWidth;
+    if(self.showIconLine){
+        self.iconArea.strokeColor = self.strokeColor;
+        self.iconArea.strokeWidth = self.strokeWidth;
+    }else{
+        self.iconArea.strokeWidth = 0;
+        self.iconArea.strokeColor = [UIColor clearColor];
+    }
     self.iconArea.cornerRadius = self.iconCornerRadius;
     self.iconArea.fillColor = self.iconBackColor;
+    
     
     self.iconArea.frame = CGRectMake(self.iconMargin, self.iconMargin, iconHeight, iconHeight);
     

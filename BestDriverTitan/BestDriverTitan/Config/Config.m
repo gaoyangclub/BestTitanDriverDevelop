@@ -8,6 +8,7 @@
 
 #import "Config.h"
 #import "UserDefaultsUtils.h"
+#import "LocalBundleManager.h"
 
 static User* user;
 
@@ -45,6 +46,36 @@ static User* user;
         return TABBAR_TITLE_SHOU_KUAN;
     }
     return nil;
+}
+
++(NSString *)getActivityStatusLabel:(NSString *)status{
+    if ([ACTIVITY_STATUS_PENDING_REPORT isEqualToString:status]) {
+        return @"未上报";
+    }else if ([ACTIVITY_STATUS_REPORTING isEqualToString:status]
+              || [ACTIVITY_STATUS_REPORTED isEqualToString:status]) {
+        return @"已上报";
+    }else if ([ACTIVITY_STATUS_CANCELED isEqualToString:status]) {
+        return @"已取消";
+    }
+    return @"未知";
+}
+
++(NSString *)getAppVersionDescribe{
+    NSString* baseName = ConcatStrings(@"v",[LocalBundleManager getAppVersion],@"(",[LocalBundleManager getAppCode],@")");
+    switch (netMode) {
+        case NetModeTypePersonYan:return ConcatStrings(@"Ywj ",baseName);
+        case NetModeTypePersonZhou:return ConcatStrings(@"Zq ",baseName);
+        case NetModeTypePersonLiu:return ConcatStrings(@"Lz ",baseName);
+        case NetModeTypePersonWang:return ConcatStrings(@"Wsj ",baseName);
+        case NetModeTypePersonZhu:return ConcatStrings(@"Zjd ",baseName);
+        case NetModeTypePersonZheng:return ConcatStrings(@"Zxx ",baseName);
+        case NetModeTypeDemo:return ConcatStrings(@"Demo ",baseName);
+        case NetModeTypeTest:return ConcatStrings(@"Test ",baseName);
+        case NetModeTypeUat:return ConcatStrings(@"Uat ",baseName);
+        case NetModeTypeRelease:return baseName;
+        case NetModeTypeReleaseT9:return ConcatStrings(@"T9 ",baseName);;
+    }
+    return baseName;
 }
 
 +(void)setUser:(User *)value{

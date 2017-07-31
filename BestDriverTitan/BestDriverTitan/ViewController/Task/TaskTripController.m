@@ -73,9 +73,12 @@
 }
 
 -(void)initTitleArea{
-    self.navigationItem.leftBarButtonItem = [UICreationUtils createNavigationLeftButtonItem:[UIColor whiteColor] target:self action:@selector(leftClick)];
+    self.navigationItem.leftBarButtonItem =
+    [UICreationUtils createNavigationNormalButtonItem:[UIColor whiteColor] font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
     
-//    self.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:[UIColor whiteColor] font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SHE_ZHI target:self action:@selector(rightItemClick)];
+//    [UICreationUtils createNavigationLeftButtonItem:[UIColor whiteColor] target:self action:@selector(leftClick)];
+    
+    self.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:[UIColor whiteColor] font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_DI_TU target:self action:@selector(rightClick)];
     
     self.titleLabel.text = @"TO12451516161";//标题显示TO号
     [self.titleLabel sizeToFit];
@@ -83,6 +86,11 @@
     self.navigationItem.titleView = self.titleLabel;//self.titleView;
     
 //    titleLabel.center = self.titleView.center;
+    
+}
+
+//进入地图详情页
+-(void)rightClick{
     
 }
 
@@ -111,14 +119,13 @@
         [self.tableView clearSource];
         
         NSMutableArray<CellVo*>* sourceData = [NSMutableArray<CellVo*> array];
-        int count = 1;//(arc4random() % 18) + 30; //生成3-10范围的随机数
-        for (NSUInteger i = 0; i < count; i++) {
+//        int count = 1;//(arc4random() % 18) + 30; //生成3-10范围的随机数
+        for (NSUInteger i = 0; i < stopCount; i++) {
             //            [self.sourceData addObject:[NSString stringWithFormat:@"数据: %lu",i]];
-            
             [sourceData addObject:
-             [CellVo initWithParams:TASK_TRIP_CELL_HEIGHT cellClass:[TaskTripCell class] cellData:stopArr]];
+             [CellVo initWithParams:TASK_TRIP_CELL_HEIGHT cellClass:[TaskTripCell class] cellData:stopArr[i]]];
         }
-        [self.tableView addSource:[SourceVo initWithParams:sourceData headerHeight:TASK_TRIP_SECTION_HEIGHT headerClass:[TaskTripSection class] headerData:NULL]];
+        [self.tableView addSource:[SourceVo initWithParams:sourceData headerHeight:0 headerClass:nil headerData:NULL]];//[TaskTripSection class]
         handler(sourceData.count > 0);
     });
 //    handler(NO);
@@ -143,33 +150,47 @@
 //    });
 //}
 
--(CGRect)getTableViewFrame{
-    CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
-    CGFloat viewHeight = CGRectGetHeight(self.view.bounds);
-    
-    CGFloat padding = 5;
-    CGFloat tableHeight = viewHeight - SUBMIT_BUTTON_HEIGHT - padding * 2;
-    
-    return CGRectMake(0, 0, viewWidth, tableHeight);
-}
-
+//-(CGRect)getTableViewFrame{
+//    CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
+//    CGFloat viewHeight = CGRectGetHeight(self.view.bounds);
+//    
+//    CGFloat padding = 5;
+//    CGFloat tableHeight = viewHeight - SUBMIT_BUTTON_HEIGHT - padding * 2;
+//    
+//    return CGRectMake(0, 0, viewWidth, tableHeight);
+//}
 
 -(void)viewDidLoad{
     [super viewDidLoad];
+//    self.selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(eventOccurred:)
-                                                 name:EVENT_ADDRESS_SELECT
+                                             selector:@selector(eventOccurredActivity:)
+                                                 name:EVENT_ACTIVITY_SELECT
                                                object:nil];
 }
 
--(void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_ADDRESS_SELECT object:nil];
+-(void)didRefreshComplete{
+    SourceVo* sourceVo = self.tableView.dataSourceArray[0];
+    NSInteger selectIndex = (arc4random() % sourceVo.data.count);
+    self.selectedIndexPath = [NSIndexPath indexPathForRow:selectIndex inSection:0];
 }
 
-- (void)eventOccurred:(NSNotification*)eventData{
-    
-    ShipmentStopBean* bean = eventData.object;
-    
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_ACTIVITY_SELECT object:nil];
+}
+
+- (void)eventOccurredActivity:(NSNotification*)eventData{
+    [self jumpOrderViewController:nil];
+}
+
+//- (void)eventOccurred:(NSNotification*)eventData{
+//    
+//    ShipmentStopBean* bean = eventData.object;
+//    
+//    [self showStopActivity:bean];
+//}
+
+-(void)showStopActivity:(ShipmentStopBean*)bean{
     NSInteger activityCount = arc4random() % 3 + 1;
     BOOL showAttach = arc4random() % 2;
     if (showAttach) {
@@ -183,8 +204,8 @@
     CGFloat padding = 5;
     CGFloat tableHeight = viewHeight - SUBMIT_BUTTON_HEIGHT - padding * 2;
     CGFloat mWidth = MORE_BUTTON_RADIUS * 2;
-
-//    [self.submitButton setTitle:ConcatStrings(ICON_QIAN_SHOU,@"  ",@"签收",[NSNumber numberWithInteger:activityCount]) forState:UIControlStateNormal];
+    
+    //    [self.submitButton setTitle:ConcatStrings(ICON_QIAN_SHOU,@"  ",@"签收",[NSNumber numberWithInteger:activityCount]) forState:UIControlStateNormal];
     
     if (!self.moreButton.hidden) {
         self.moreButton.frame = CGRectMake(0, tableHeight + padding + (SUBMIT_BUTTON_HEIGHT - mWidth) / 2., mWidth, mWidth);
@@ -192,9 +213,9 @@
     if (!self.attachmentButton.hidden) {
         self.attachmentButton.frame = CGRectMake(0, tableHeight + padding, 0, SUBMIT_BUTTON_HEIGHT);
     }
-//    if (!self.submitButton.hidden) {
-        self.submitButton.frame = CGRectMake(0, tableHeight + padding, 0, SUBMIT_BUTTON_HEIGHT);
-//    }
+    //    if (!self.submitButton.hidden) {
+    self.submitButton.frame = CGRectMake(0, tableHeight + padding, 0, SUBMIT_BUTTON_HEIGHT);
+    //    }
     [UICreationUtils autoEnsureViewsWidth:0 totolWidth:viewWidth views:@[self.moreButton,self.attachmentButton,self.submitButton] viewWidths:@[[NSNumber numberWithFloat:mWidth],@"40%",@"60%"] padding:padding];
 }
 
@@ -300,6 +321,14 @@
 
 -(void)activitySelected:(ShipmentActivityBean *)activityBean{
     [self jumpOrderViewController:activityBean];
+}
+
+-(void)didSelectRow:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+//    MJTableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+//    [self showStopActivity:cell.data];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_ADDRESS_SELECT object:cell.data];
+    
+//    DDLog(@"didSelectRow:%@%@",@"收到选中行消息...",indexPath);
 }
 
 

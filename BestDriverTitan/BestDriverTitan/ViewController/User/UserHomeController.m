@@ -12,6 +12,13 @@
 #import "GYTabBarController.h"
 #import "NormalSelectItem.h"
 
+typedef NS_ENUM(NSInteger,ItemPostion){
+    ItemPostionNormal = 1,
+    ItemPostionTop,
+    ItemPostionBottom,
+    ItemPostionSingle,
+};
+
 @interface UserHomeController ()
 
 @property(nonatomic,retain)UIView* titleView;
@@ -188,18 +195,19 @@
     bottomY = [self initUserItem:bottomY];
     bottomY += gap;
     //我的货量明细，我的收入，签到，分享，用户反馈，版本信息
-    bottomY = [self initNormalItem:bottomY icon:ICON_HUO_LIANG labal:@"货量" iconBackColor:FlatOrange handler:nil isTop:YES];
-    bottomY = [self initNormalItem:bottomY icon:ICON_SHOU_ZHI labal:@"收支" iconBackColor:COLOR_DAI_WAN_CHENG handler:nil];
-    bottomY = [self initNormalItem:bottomY icon:ICON_LI_CHENG labal:@"里程" iconBackColor:FlatYellowDark handler:nil];
-    bottomY = [self initNormalItem:bottomY icon:ICON_QIAN_DAO labal:@"签到" iconBackColor:COLOR_PRIMARY handler:nil];
+    bottomY = [self initNormalItem:bottomY icon:ICON_SHOU_ZHI labal:@"收支" iconBackColor:COLOR_DAI_WAN_CHENG handler:nil itemPostion:ItemPostionTop];
+    bottomY = [self initNormalItem:bottomY icon:ICON_HUO_LIANG labal:@"货量" iconBackColor:FlatOrange handler:nil];
+//    bottomY = [self initNormalItem:bottomY icon:ICON_LI_CHENG labal:@"里程" iconBackColor:FlatYellowDark handler:nil];
+    bottomY = [self initNormalItem:bottomY icon:ICON_QIAN_DAO labal:@"签到" iconBackColor:FlatMintDark handler:nil itemPostion:ItemPostionBottom];
     
     bottomY += gap;
     
-    bottomY = [self initNormalItem:bottomY icon:ICON_FEN_XIANG labal:@"分享" iconBackColor:FlatPurple handler:nil];
-    bottomY = [self initNormalItem:bottomY icon:ICON_FAN_KUI labal:@"反馈" iconBackColor:FlatGreenDark handler:nil];
+    bottomY = [self initNormalItem:bottomY icon:ICON_FEN_XIANG labal:@"分享" iconBackColor:FlatYellowDark handler:nil itemPostion:ItemPostionTop];
+    bottomY = [self initNormalItem:bottomY icon:ICON_FAN_KUI labal:@"反馈" iconBackColor:FlatGreenDark handler:nil
+               itemPostion:ItemPostionBottom];
     
-//    bottomY += gap;
-    bottomY = [self initNormalItem:bottomY icon:ICON_BAN_BEN labal:@"版本" iconBackColor:COLOR_PRIMARY handler:nil];
+    bottomY += gap;
+    bottomY = [self initNormalItem:bottomY icon:ICON_BAN_BEN labal:ConcatStrings(@"版本 ",[Config getAppVersionDescribe]) iconBackColor:COLOR_PRIMARY handler:nil itemPostion:ItemPostionSingle];
     
     bottomY += gap;
     bottomY = [self initLogoutButton:bottomY];
@@ -293,8 +301,10 @@
     }
 }
 
--(CGFloat)initNormalItem:(CGFloat)bottomY icon:(NSString*)icon labal:(NSString*)label iconBackColor:(UIColor*)iconBackColor handler:(SEL)handler isTop:(BOOL)isTop{//用户数据条目
-    CGFloat normalHeight = 40;
+
+
+-(CGFloat)initNormalItem:(CGFloat)bottomY icon:(NSString*)icon labal:(NSString*)label iconBackColor:(UIColor*)iconBackColor handler:(SEL)handler itemPostion:(ItemPostion)itemPostion{//用户数据条目
+    CGFloat normalHeight = 45;
     
     NormalSelectItem* normalItem = [[NormalSelectItem alloc]init];
     normalItem.backgroundColor = [UIColor whiteColor];
@@ -310,7 +320,19 @@
     normalItem.labelColor = FlatBlack;
     
 //    normalItem.lineLeftMargin = 50;
-    normalItem.showTopLine = isTop;
+    if (itemPostion == ItemPostionTop) {
+        normalItem.showTopLine = YES;
+        normalItem.lineBottomLeftMargin = normalHeight;
+    }else if (itemPostion == ItemPostionBottom) {
+        normalItem.showTopLine = NO;
+        normalItem.lineBottomLeftMargin = 0;
+    }else if (itemPostion == ItemPostionNormal) {
+        normalItem.showTopLine = NO;
+        normalItem.lineBottomLeftMargin = normalHeight;
+    }else if (itemPostion == ItemPostionSingle) {
+        normalItem.showTopLine = YES;
+        normalItem.lineBottomLeftMargin = 0;
+    }
     
     [normalItem setShowTouch:YES];
     [self.scrollView addSubview:normalItem];
@@ -323,7 +345,7 @@
 }
 
 -(CGFloat)initNormalItem:(CGFloat)bottomY icon:(NSString*)icon labal:(NSString*)label iconBackColor:(UIColor*)iconBackColor handler:(SEL)handler{//用户数据条目
-    return [self initNormalItem:bottomY icon:icon labal:label iconBackColor:iconBackColor handler:handler isTop:NO];
+    return [self initNormalItem:bottomY icon:icon labal:label iconBackColor:iconBackColor handler:handler itemPostion:ItemPostionNormal];
 }
 
 @end

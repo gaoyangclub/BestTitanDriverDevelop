@@ -19,6 +19,7 @@
 @property(nonatomic,retain) NSIndexPath *indexPath;
 @property(nonatomic,retain) CellVo *cellVo;
 @property(nonatomic,retain) id data;
+//@property(nonatomic,assign) BOOL isSelected;
 
 -(void)showSubviews;
 

@@ -14,8 +14,12 @@ pod 'MMDrawerController', '~> 0.5.7'
 pod "AsyncDisplayKit", ’1.9.5’
 
 pod 'pop', '~> 1.0'
-pod 'MLeaksFinder'
+#pod 'MLeaksFinder'
 
 pod 'YYModel'
+
+#蒲公英开放平台
+pod 'Pgyer'
+pod 'PgyUpdate'
 
 end

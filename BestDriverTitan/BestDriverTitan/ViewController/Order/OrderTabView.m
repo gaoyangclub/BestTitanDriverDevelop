@@ -11,50 +11,105 @@
 @interface TabButton : UIControl{
 }
 
-@property(nonatomic,retain)ASTextNode* indexNode;
+@property(nonatomic,retain)ASTextNode* titleNode;
+@property(nonatomic,retain)ASTextNode* statusNode;
 @property(nonatomic,retain)ASDisplayNode* square;
 
--(void)setIndex:(NSInteger)index;
+
+//-(void)setIndex:(NSInteger)index;
+//-(void)setTitle:(NSString*)title;
 -(void)setSelect:(BOOL)isSelect;
+-(void)setActivity:(ShipmentActivityBean*)bean;
 
 @end
 
 @implementation TabButton
 
--(ASTextNode *)indexNode{
-    if (!_indexNode) {
-        _indexNode = [[ASTextNode alloc]init];
-        _indexNode.layerBacked = YES;
-        [self.layer addSublayer:_indexNode.layer];
+-(ASTextNode *)statusNode{
+    if (!_statusNode) {
+        _statusNode = [[ASTextNode alloc]init];
+        _statusNode.layerBacked = YES;
+        [self.layer addSublayer:_statusNode.layer];
     }
-    return _indexNode;
+    return _statusNode;
+}
+
+-(ASTextNode *)titleNode{
+    if (!_titleNode) {
+        _titleNode = [[ASTextNode alloc]init];
+        _titleNode.layerBacked = YES;
+        [self.layer addSublayer:_titleNode.layer];
+    }
+    return _titleNode;
 }
 
 -(ASDisplayNode *)square{
     if (!_square) {
         _square = [[ASDisplayNode alloc]init];
         _square.layerBacked = YES;
+        _square.backgroundColor = COLOR_LINE;
         [self.layer addSublayer:_square.layer];
     }
     return _square;
 }
 
--(void)setIndex:(NSInteger)index{
-    self.indexNode.attributedString = [NSString simpleAttributedString:FlatGrayDark size:20 content:[NSString stringWithFormat:@"%li",(long)index + 1]];
-    CGSize indexSize = [self.indexNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.indexNode.frame = (CGRect){
-        CGPointMake((CGRectGetWidth(self.bounds) - indexSize.width) / 2., (CGRectGetHeight(self.bounds) - indexSize.height) / 2.),indexSize
+//-(void)setIndex:(NSInteger)index{
+//    self.indexNode.attributedString = [NSString simpleAttributedString:FlatGrayDark size:18 content:[NSString stringWithFormat:@"%li",(long)index + 1]];
+//    CGSize indexSize = [self.indexNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+//    self.indexNode.frame = (CGRect){
+//        CGPointMake((CGRectGetWidth(self.bounds) - indexSize.width) / 2., (CGRectGetHeight(self.bounds) - indexSize.height) / 2.),indexSize
+//    };
+//}
+
+//-(void)setTitle:(NSString *)title{
+//    
+//    self.indexNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatGray size:14 content:title];
+//    CGSize indexSize = [self.indexNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+//    self.indexNode.frame = (CGRect){
+//        CGPointMake((CGRectGetWidth(self.bounds) - indexSize.width) / 2., (CGRectGetHeight(self.bounds) - indexSize.height) / 2.),indexSize
+//    };
+//}
+
+-(void)setActivity:(ShipmentActivityBean *)bean{
+    CGFloat viewWidth = CGRectGetWidth(self.bounds);
+    CGFloat viewHeight = CGRectGetHeight(self.bounds);
+    
+    NSString* content = [Config getActivityLabelByCode:bean.activityDefinitionCode];
+ 
+    self.titleNode.attributedString = [NSString simpleAttributedString:FlatBlack size:14 content:content];
+    CGSize titleSize = [self.titleNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    
+    UIColor* statusColor;
+    NSString* statusIcon;
+    if ([bean hasReport]) {
+        statusColor = COLOR_YI_WAN_CHENG;
+        statusIcon = ICON_YI_SHANG_BAO;
+    }else{
+        statusColor = COLOR_DAI_WAN_CHENG;
+        statusIcon = ICON_DAI_SHANG_BAO;
+    }
+    self.statusNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:statusColor size:20 content:statusIcon];
+    CGSize statusSize = [self.statusNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    
+    CGFloat gap = 5;
+    CGFloat baseX = (viewWidth - titleSize.width - statusSize.width - gap) / 2.;
+    
+    self.statusNode.frame = (CGRect){
+        CGPointMake(baseX, (viewHeight - statusSize.height) / 2.),statusSize
+    };
+    self.titleNode.frame = (CGRect){
+        CGPointMake(baseX + statusSize.width + gap, (viewHeight - titleSize.height) / 2.),titleSize
     };
 }
 
 -(void)setSelect:(BOOL)isSelect{
-    self.square.backgroundColor = FlatYellowDark;
+//    CGFloat viewWidth = CGRectGetWidth(self.bounds);
     if (isSelect) {
-        self.backgroundColor = [UIColor clearColor];
-        self.square.frame = CGRectMake(0, 0, 5, CGRectGetHeight(self.bounds));
+        self.backgroundColor = COLOR_BACKGROUND;
+//        self.square.frame = CGRectMake(0, 0, viewWidth, 5);
     }else{
         self.backgroundColor = [UIColor whiteColor];
-        self.square.frame = CGRectMake(0, 0, 2, CGRectGetHeight(self.bounds));
+//        self.square.frame = CGRectMake(0, 0, viewWidth, 2);
     }
 }
 
@@ -83,32 +138,79 @@
     }
 }
 
--(void)setTotalCount:(NSInteger)count{
+-(void)layoutSubviews{
+    CGFloat viewWidth = CGRectGetWidth(self.bounds);
+    CGFloat contentWidth = self.contentSize.width;
+    if (contentWidth < viewWidth) {
+        UIEdgeInsets contentInset = self.contentInset;
+        contentInset.left = (viewWidth - contentWidth) / 2;
+        self.contentInset = contentInset;
+    }
+}
+
+-(void)setActivityBeans:(NSMutableArray<ShipmentActivityBean *> *)activityBeans{
+    _activityBeans = activityBeans;
+    
     [self removeAllSubViews];
     
-    CGFloat tabHeight = 60;
+    self.showsHorizontalScrollIndicator = NO;
+    self.showsVerticalScrollIndicator = NO;
+    self.backgroundColor = [UIColor whiteColor];
+    
+    CGFloat tabHeight = ORDER_TAB_HEIGHT;
     CGFloat tabWidth = ORDER_TAB_WIDTH;
     
-    self.contentSize = CGSizeMake(tabWidth, count * tabHeight);
+    NSInteger count = activityBeans.count;
+    
+    CGFloat contentWidth = count * tabWidth;
+    
+    self.contentSize = CGSizeMake(contentWidth, tabHeight);
     
     TabButton* selectBtn;
     for (NSInteger i = 0; i < count; i++) {
+        ShipmentActivityBean* bean = activityBeans[i];
+        
         TabButton* btn = [[TabButton alloc]init];
-        btn.frame = CGRectMake(0, i * tabHeight, tabWidth, tabHeight);
+        btn.frame = CGRectMake(i * tabWidth, 0, tabWidth, tabHeight);
         btn.tag = i;
         [self addSubview:btn];
         
-        [btn setIndex:i];
+        [btn setActivity:bean];
         if (i == 0) {
             selectBtn = btn;
         }
         [btn addTarget:self action:@selector(clickTabButton:) forControlEvents:UIControlEventTouchUpInside];
     }
     [self changeTabButton:selectBtn isClick:NO];
-    
-//    self.canCancelContentTouches = NO;
     self.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 }
+
+//-(void)setTotalCount:(NSInteger)count{
+//    [self removeAllSubViews];
+//    
+//    CGFloat tabHeight = ORDER_TAB_HEIGHT;
+//    CGFloat tabWidth = ORDER_TAB_WIDTH;
+//    
+//    self.contentSize = CGSizeMake(count * tabWidth, tabHeight);
+//    
+//    TabButton* selectBtn;
+//    for (NSInteger i = 0; i < count; i++) {
+//        TabButton* btn = [[TabButton alloc]init];
+//        btn.frame = CGRectMake(i * tabWidth, 0, tabWidth, tabHeight);
+//        btn.tag = i;
+//        [self addSubview:btn];
+//        
+//        [btn setIndex:i];
+//        if (i == 0) {
+//            selectBtn = btn;
+//        }
+//        [btn addTarget:self action:@selector(clickTabButton:) forControlEvents:UIControlEventTouchUpInside];
+//    }
+//    [self changeTabButton:selectBtn isClick:NO];
+//    
+////    self.canCancelContentTouches = NO;
+//    self.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+//}
 
 -(void)clickTabButton:(TabButton*)clickBtn{
     [self changeTabButton:clickBtn isClick:YES];
@@ -125,10 +227,15 @@
             }
         }
     }
-    [self moveTabButton:clickBtn];
+//    [self moveTabButton:clickBtn];
 //    [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_ADDRESS_SELECT object:[clickBtn getLabel]];
-    if(isClick && self.tabDelegate && [self.tabDelegate respondsToSelector:@selector(didSelectIndex:)]){
-        [self.tabDelegate didSelectIndex:self->selectedIndex];
+    if(isClick && self.tabDelegate){
+        if ([self.tabDelegate respondsToSelector:@selector(didSelectIndex:)]) {
+            [self.tabDelegate didSelectIndex:self->selectedIndex];
+        }
+    }
+    if ([self.tabDelegate respondsToSelector:@selector(didSelectItem:)]) {
+        [self.tabDelegate didSelectItem:_activityBeans[self->selectedIndex]];
     }
 }
 

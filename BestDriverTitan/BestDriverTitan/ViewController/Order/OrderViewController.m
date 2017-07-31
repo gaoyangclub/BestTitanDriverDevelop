@@ -10,6 +10,8 @@
 #import "OrderViewSection.h"
 #import "OrderTabView.h"
 #import "OrderNormalCell.h"
+#import "ShipmentActivityBean.h"
+#import "FlatButton.h"
 
 @interface TestTableViewCell3 : MJTableViewCell
 
@@ -34,8 +36,11 @@
 
 //地址信息栏区域
 @property(nonatomic,retain)ASDisplayNode* addressView;
+//@property(nonatomic,retain)ASDisplayNode* addressLine;
 @property(nonatomic,retain)ASTextNode* iconAddress;//起点图标
 @property(nonatomic,retain)ASTextNode* textAddress;//起点图标
+
+@property(nonatomic,retain)FlatButton* submitButton;
 
 @end
 
@@ -50,6 +55,16 @@
     }
     return _addressView;
 }
+
+//-(ASDisplayNode *)addressLine{
+//    if (!_addressLine) {
+//        _addressLine = [[ASDisplayNode alloc]init];
+//        _addressLine.layerBacked = YES;
+//        _addressLine.backgroundColor = COLOR_LINE;
+//        [self.addressView addSubnode:_addressLine];
+//    }
+//    return _addressLine;
+//}
 
 -(ASTextNode *)iconAddress{
     if (!_iconAddress) {
@@ -71,6 +86,17 @@
     return _textAddress;
 }
 
+-(FlatButton *)submitButton{
+    if (!_submitButton) {
+        _submitButton = [[FlatButton alloc]init];
+        _submitButton.titleFontName = ICON_FONT_NAME;
+        _submitButton.fillColor = COLOR_PRIMARY;
+        _submitButton.titleSize = 18;
+        [self.view addSubview:_submitButton];
+    }
+    return _submitButton;
+}
+
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self initTitleArea];
@@ -87,7 +113,9 @@
 }
 
 -(void)initTitleArea{
-    self.navigationItem.leftBarButtonItem = [UICreationUtils createNavigationLeftButtonItem:[UIColor whiteColor] target:self action:@selector(leftClick)];
+    self.navigationItem.leftBarButtonItem =
+    [UICreationUtils createNavigationNormalButtonItem:[UIColor whiteColor] font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
+//    [UICreationUtils createNavigationLeftButtonItem:[UIColor whiteColor] target:self action:@selector(leftClick)];
     
     //    self.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:[UIColor whiteColor] font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SHE_ZHI target:self action:@selector(rightItemClick)];
     
@@ -112,15 +140,21 @@
 }
 
 -(CGRect)getTableViewFrame{
-    CGFloat margin = 5;
+    CGFloat margin = 4;
     CGFloat squareHeight = TASK_TRIP_SECTION_TOP_HEIGHT - margin;
     
-    self.addressView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), squareHeight);
+    CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
+    CGFloat viewHeight = CGRectGetHeight(self.view.bounds);
     
-    CGFloat tabHeight = CGRectGetHeight(self.view.bounds) - squareHeight;
-    self.tabView.frame = CGRectMake(0, squareHeight + margin, ORDER_TAB_WIDTH, tabHeight - margin);
+    self.addressView.frame = CGRectMake(0, 0, viewWidth, squareHeight);
+    self.tabView.frame = CGRectMake(0, squareHeight + margin, viewWidth, ORDER_TAB_HEIGHT);
     
-    return CGRectMake(ORDER_TAB_WIDTH + margin, squareHeight + margin, CGRectGetWidth(self.view.bounds) - ORDER_TAB_WIDTH - margin * 2, tabHeight - margin);
+    CGFloat buttonAreaHeight = 55;
+    
+    self.submitButton.frame = CGRectMake(margin, viewHeight - buttonAreaHeight + margin, viewWidth - margin * 2, buttonAreaHeight - margin * 2);
+    
+    CGFloat tabHeight = CGRectGetHeight(self.view.bounds) - squareHeight - ORDER_TAB_HEIGHT;
+    return CGRectMake(margin, squareHeight + margin * 2 + ORDER_TAB_HEIGHT, viewWidth - margin * 2, tabHeight - margin * 2 - buttonAreaHeight);
 }
 
 - (void)viewDidLoad {
@@ -129,7 +163,23 @@
     
     self.tableView.sectionGap = 5;
     self.tabView.tabDelegate = self;
-//    [self.tabView setTotalCount:15];
+    
+    NSMutableArray<NSString*>* codeArr = [NSMutableArray<NSString*> arrayWithObjects:ACTIVITY_CODE_PICKUP_HANDOVER,ACTIVITY_CODE_LOAD,ACTIVITY_CODE_UNLOAD,ACTIVITY_CODE_SIGN_FOR_RECEIPT,ACTIVITY_CODE_DELIVERY_RECEIPT,ACTIVITY_CODE_COD, nil];
+    //  @[ACTIVITY_CODE_PICKUP_HANDOVER,ACTIVITY_CODE_LOAD,ACTIVITY_CODE_UNLOAD,ACTIVITY_CODE_SIGN_FOR_RECEIPT,ACTIVITY_CODE_DELIVERY_RECEIPT,ACTIVITY_CODE_COD
+    //                                    ];
+    NSInteger removeCount = arc4random() % codeArr.count;
+    for(NSInteger i = 0 ; i < removeCount ; i ++){
+        NSInteger removeIndex = arc4random() % codeArr.count;
+        [codeArr removeObjectAtIndex:removeIndex];
+    }
+    NSMutableArray<ShipmentActivityBean*>* activityBeans = [NSMutableArray<ShipmentActivityBean*> array];
+    for (NSString* code in codeArr) {
+        ShipmentActivityBean* bean = [[ShipmentActivityBean alloc]init];
+        bean.activityDefinitionCode = code;
+        bean.status = arc4random() % 2 > 0 ? ACTIVITY_STATUS_REPORTED : ACTIVITY_STATUS_PENDING_REPORT;
+        [activityBeans addObject:bean];
+    }
+    [self.tabView setActivityBeans:activityBeans];
     
     CGFloat sectionWidth = self.view.bounds.size.width;
     CGFloat leftpadding = 10;
@@ -137,6 +187,8 @@
     self.iconAddress.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:30 content:ICON_JU_LI];
     CGSize iconStartSize = [self.iconAddress measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.iconAddress.frame = (CGRect){ CGPointMake(leftpadding,(squareHeight - iconStartSize.height) / 2.),iconStartSize};
+    
+//    self.addressLine.frame = CGRectMake(0, squareHeight - LINE_WIDTH * 4, sectionWidth, LINE_WIDTH * 4);
     
     NSString* address = @"上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库";
     NSMutableAttributedString* textString = (NSMutableAttributedString*)[NSString simpleAttributedString:FlatBlack size:14 content:address];
@@ -155,15 +207,12 @@
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fingerTapped:)];
     singleTap.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:singleTap];
-    
 }
 
 -(void)fingerTapped:(UITapGestureRecognizer *)gestureRecognizer
-
 {
     [self.view endEditing:YES];
 }
-
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.view endEditing:YES];
@@ -199,26 +248,42 @@
             SourceVo* svo = [SourceVo initWithParams:sourceData headerHeight:TASK_VIEW_SECTION_HEIGHT headerClass:[OrderViewSection class] headerData:NULL];
             [self.tableView addSource:svo];
         }
-        [self.tabView setTotalCount:count];
+//        [self.tabView setTotalCount:count];
         
         handler(count > 0);
     });
 }
 
--(void)didScrollToRow:(NSIndexPath *)indexPath{
-    if (!isClickTab) {//非点击左侧tab按钮才可以触发
-        [self.tabView setSelectedIndex:indexPath.section];
-    }
-}
+//-(void)didScrollToRow:(NSIndexPath *)indexPath{
+//    if (!isClickTab) {//非点击左侧tab按钮才可以触发
+//        [self.tabView setSelectedIndex:indexPath.section];
+//    }
+//}
 
 -(void)didEndScrollingAnimation{
     isClickTab = NO;
 }
 
--(void)didSelectIndex:(NSInteger)index{
-    isClickTab = YES;
-    NSIndexPath * indexPath = [NSIndexPath indexPathForRow:0 inSection:index];
-    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+//-(void)didSelectIndex:(NSInteger)index{
+//    isClickTab = YES;
+//    NSIndexPath * indexPath = [NSIndexPath indexPathForRow:0 inSection:index];
+//    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+//}
+
+-(BOOL)autoRefreshHeader{
+    return NO;
+}
+
+-(void)didSelectItem:(ShipmentActivityBean *)activityBean{
+    [self.tableView headerBeginRefresh];
+    UIColor* statusColor;
+    if ([activityBean hasReport]) {
+        statusColor = COLOR_YI_WAN_CHENG;
+    }else{
+        statusColor = COLOR_DAI_WAN_CHENG;
+    }
+    self.submitButton.fillColor = statusColor;
+    self.submitButton.title = ConcatStrings([Config getActivityIconByCode:activityBean.activityDefinitionCode],@"   ",[Config getActivityLabelByCode:activityBean.activityDefinitionCode],@"(",[Config getActivityStatusLabel:activityBean.status],@")");
 }
 
 /*

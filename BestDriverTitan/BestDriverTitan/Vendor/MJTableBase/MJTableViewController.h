@@ -15,6 +15,8 @@
 @property(nonatomic,assign)BOOL contentOffsetRest;
 @property(nonatomic,assign)BOOL autoRefreshHeader;
 
+@property(nonatomic,retain)NSIndexPath* selectedIndexPath;
+
 -(CGRect)getTableViewFrame;
 
 -(BOOL)getShowHeader;

@@ -30,6 +30,12 @@ typedef void(^FooterLoadMoreHandler)(BOOL hasData);
 -(void)didScrollToRow:(NSIndexPath *)indexPath;
 @optional
 -(void)didEndScrollingAnimation;
+
+@optional
+-(void)didRefreshComplete;
+@optional
+-(void)didLoadMoreComplete;
+
 @end
 
 
@@ -50,6 +56,8 @@ typedef void(^FooterLoadMoreHandler)(BOOL hasData);
 @property (nonatomic,assign) BOOL refreshAll;
 
 @property(nonatomic,retain) MJRefreshHeader* header;
+
+@property(nonatomic,retain) NSIndexPath* selectedIndexPath;
 
 //@property (nonatomic,assign) BOOL pureTable;
 /**
@@ -121,6 +129,7 @@ typedef void(^FooterLoadMoreHandler)(BOOL hasData);
 @property (nonatomic,retain)NSObject* cellData;
 @property (nonatomic,assign)NSInteger cellTag;
 @property (nonatomic,assign)BOOL isUnique;
+@property (nonatomic,assign)BOOL isSelect;
 
 -(BOOL)isRealCell;
 

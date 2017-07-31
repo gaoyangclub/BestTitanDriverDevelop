@@ -75,13 +75,13 @@
     self.backgroundColor = [UIColor clearColor];
     NSDictionary * dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                                  self.fillColor,@"fillColor",
-                                 [NSNumber numberWithFloat:self.cornerRadius],@"cornerRadius",
-                                 self.strokeColor,@"strokeColor",
-                                 [NSNumber numberWithFloat:self.strokeWidth],@"strokeWidth",
+                                 @(self.cornerRadius),@"cornerRadius",
                                  @(self.topLeftRadius),@"topLeftRadius",
                                  @(self.topRightRadius),@"topRightRadius",
                                  @(self.bottomRightRadius),@"bottomRightRadius",
                                  @(self.bottomLeftRadius),@"bottomLeftRadius",
+                                 self.strokeColor,@"strokeColor",
+                                 [NSNumber numberWithFloat:self.strokeWidth],@"strokeWidth",
                                  nil];
     return dictionary;
 }

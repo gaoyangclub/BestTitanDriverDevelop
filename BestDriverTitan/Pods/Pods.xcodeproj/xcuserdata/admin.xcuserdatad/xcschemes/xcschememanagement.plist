@@ -19,11 +19,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>FBRetainCycleDetector.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>HYBUnicodeReadable.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -35,11 +30,6 @@
 			<false/>
 		</dict>
 		<key>MBProgressHUD.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>MLeaksFinder.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -72,17 +62,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>0B900D53289DCE81273F94DC93F4B33B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>0E44717E0BD8FDC2D8BFA4C4E4AECCDA</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>35C713E247CEFC8D048D2D5D97208D1C</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>401549B0736562B12960DB2EAF659C68</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -97,7 +82,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5F98AFEF0DB0595C031EB47E496F2A80</key>
+		<key>8A41A43E4D4A27842D6C0075B83C99FA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -112,16 +97,6 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B4ECF534E5CDCE84764A5E87C7DAC48F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B9C5D98D8ADD7148978F671F156051D3</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>C1019E2FE3DD81FD1D817F2A2EC4EC7D</key>
 		<dict>
 			<key>primary</key>
@@ -132,7 +107,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EDE8071810901AA84EB9A6FA95BF8CC0</key>
+		<key>D0A4DEE1377F4F617CDD82290F4CA777</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E03C441EFC1D6C817F1363BB32099AB7</key>
 		<dict>
 			<key>primary</key>
 			<true/>

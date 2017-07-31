@@ -14,96 +14,96 @@
 #import "CircleNode.h"
 #import "ShipmentStopBean.h"
 
-@interface ActivityButton:UIControl
-
-@property(nonatomic,retain)ASTextNode* iconNode;
-@property(nonatomic,retain)ASTextNode* labelNode;
-@property(nonatomic,retain)ASControlNode* alertNode;//警告货量差异
-@property(nonatomic,retain)ASTextNode* stateNode;//完成情况状态
-@property(nonatomic,retain)DIYBarData* data;//警告货量差异
-
--(void)showAlertNode;
--(void)hideAlertNode;
-
--(void)setComplete:(BOOL)isComplete;
-
-//-(void)updateIconColor:(UIColor*)iconColor;
-
-@end
-@implementation ActivityButton
-
-//- (instancetype)init
-//{
-//    self = [super init];
-//    if (self) {
-//        self.opaque = false;//坑爹 一定要关闭掉才有透明绘制和圆角
+//@interface ActivityButton:UIControl
+//
+//@property(nonatomic,retain)ASTextNode* iconNode;
+//@property(nonatomic,retain)ASTextNode* labelNode;
+//@property(nonatomic,retain)ASControlNode* alertNode;//警告货量差异
+//@property(nonatomic,retain)ASTextNode* stateNode;//完成情况状态
+//@property(nonatomic,retain)DIYBarData* data;//警告货量差异
+//
+//-(void)showAlertNode;
+//-(void)hideAlertNode;
+//
+//-(void)setComplete:(BOOL)isComplete;
+//
+////-(void)updateIconColor:(UIColor*)iconColor;
+//
+//@end
+//@implementation ActivityButton
+//
+////- (instancetype)init
+////{
+////    self = [super init];
+////    if (self) {
+////        self.opaque = false;//坑爹 一定要关闭掉才有透明绘制和圆角
+////    }
+////    return self;
+////}
+//
+//-(ASControlNode *)alertNode{
+//    if (!_alertNode) {
+//        _alertNode = [[ASControlNode alloc]init];
+//        _alertNode.layerBacked = YES;
+//        _alertNode.userInteractionEnabled = NO;
+//        
+//        ASTextNode* alertIcon = [[ASTextNode alloc]init];
+//        alertIcon.layerBacked = YES;
+//        alertIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatYellow size:20 * SYSTEM_SCALE_FACTOR content:ICON_JING_GAO];
+//        CGSize alertSize = [alertIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+//        CGFloat padding = 5 * SYSTEM_SCALE_FACTOR;
+//        alertIcon.frame = (CGRect){
+//            CGPointMake(CGRectGetWidth(self.bounds) - alertSize.width - padding, CGRectGetHeight(self.bounds) - alertSize.height - padding),alertSize
+//        };
+//        [_alertNode addSubnode:alertIcon];
+//        
+//        [self.layer addSublayer:_alertNode.layer];
 //    }
-//    return self;
+//    return _alertNode;
 //}
-
--(ASControlNode *)alertNode{
-    if (!_alertNode) {
-        _alertNode = [[ASControlNode alloc]init];
-        _alertNode.layerBacked = YES;
-        _alertNode.userInteractionEnabled = NO;
-        
-        ASTextNode* alertIcon = [[ASTextNode alloc]init];
-        alertIcon.layerBacked = YES;
-        alertIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatYellow size:20 * SYSTEM_SCALE_FACTOR content:ICON_JING_GAO];
-        CGSize alertSize = [alertIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-        CGFloat padding = 5 * SYSTEM_SCALE_FACTOR;
-        alertIcon.frame = (CGRect){
-            CGPointMake(CGRectGetWidth(self.bounds) - alertSize.width - padding, CGRectGetHeight(self.bounds) - alertSize.height - padding),alertSize
-        };
-        [_alertNode addSubnode:alertIcon];
-        
-        [self.layer addSublayer:_alertNode.layer];
-    }
-    return _alertNode;
-}
-
--(ASTextNode *)stateNode{
-    if (!_stateNode) {
-        _stateNode = [[ASTextNode alloc]init];
-        _stateNode.layerBacked = YES;
-        _stateNode.userInteractionEnabled = NO;
-        [self.layer addSublayer:_stateNode.layer];
-    }
-    return _stateNode;
-}
-
--(void)setComplete:(BOOL)isComplete{
-    if (isComplete) {
-        self.stateNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:20 * SYSTEM_SCALE_FACTOR content:ICON_YI_SHANG_BAO];
-    }else{
-        self.stateNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_DAI_WAN_CHENG size:20 * SYSTEM_SCALE_FACTOR content:ICON_DAI_SHANG_BAO];
-    }
-    CGSize stateSize = [self.stateNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    CGFloat padding = 5 * SYSTEM_SCALE_FACTOR;
-    self.stateNode.frame = (CGRect){
-        CGPointMake(CGRectGetWidth(self.bounds) - stateSize.width - padding, padding),stateSize
-    };
-}
-
-//-(void)updateIconColor:(UIColor*)iconColor{
-//    self.iconNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:30                         context:self.data.image];
-////    CGSize labelSize = [self.labelNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-////    self.labelNode.frame = (CGRect){CGPointMake((buttonWidth - labelSize.width) / 2., buttonHeight / 2. + labelOffset),labelSize};
+//
+//-(ASTextNode *)stateNode{
+//    if (!_stateNode) {
+//        _stateNode = [[ASTextNode alloc]init];
+//        _stateNode.layerBacked = YES;
+//        _stateNode.userInteractionEnabled = NO;
+//        [self.layer addSublayer:_stateNode.layer];
+//    }
+//    return _stateNode;
 //}
-
--(void)showAlertNode{
-    self.alertNode.hidden = NO;
-    //加侦听器
-    //点击展开货量差异提示
-}
-
--(void)hideAlertNode{
-    self.alertNode.hidden = YES;
-    //    self.alertNode removeTarget:<#(nullable id)#> action:<#(nullable SEL)#> forControlEvents:<#(ASControlNodeEvent)#>
-    //移除侦听器
-}
-
-@end
+//
+//-(void)setComplete:(BOOL)isComplete{
+//    if (isComplete) {
+//        self.stateNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:20 * SYSTEM_SCALE_FACTOR content:ICON_YI_SHANG_BAO];
+//    }else{
+//        self.stateNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_DAI_WAN_CHENG size:20 * SYSTEM_SCALE_FACTOR content:ICON_DAI_SHANG_BAO];
+//    }
+//    CGSize stateSize = [self.stateNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+//    CGFloat padding = 5 * SYSTEM_SCALE_FACTOR;
+//    self.stateNode.frame = (CGRect){
+//        CGPointMake(CGRectGetWidth(self.bounds) - stateSize.width - padding, padding),stateSize
+//    };
+//}
+//
+////-(void)updateIconColor:(UIColor*)iconColor{
+////    self.iconNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:30                         context:self.data.image];
+//////    CGSize labelSize = [self.labelNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+//////    self.labelNode.frame = (CGRect){CGPointMake((buttonWidth - labelSize.width) / 2., buttonHeight / 2. + labelOffset),labelSize};
+////}
+//
+//-(void)showAlertNode{
+//    self.alertNode.hidden = NO;
+//    //加侦听器
+//    //点击展开货量差异提示
+//}
+//
+//-(void)hideAlertNode{
+//    self.alertNode.hidden = YES;
+//    //    self.alertNode removeTarget:<#(nullable id)#> action:<#(nullable SEL)#> forControlEvents:<#(ASControlNodeEvent)#>
+//    //移除侦听器
+//}
+//
+//@end
 
 @interface TaskTripSection(){
     NSMutableDictionary* buttonDic;//活动上报按钮访问列表
@@ -350,36 +350,41 @@
 - (void)eventOccurred:(NSNotification*)eventData{
     self.backgroundColor = COLOR_BACKGROUND;
     
+//    DDLog(@"eventOccurred:收到消息");
+    
     ShipmentStopBean* bean = eventData.object;
+    if (!bean) {//数据没有传递
+        return;
+    }
     
     CGFloat sectionWidth = self.bounds.size.width;
-    CGFloat sectionHeight = self.bounds.size.height;
+//    CGFloat sectionHeight = self.bounds.size.height;
     
-    CGFloat leftpadding = 10;
+//    CGFloat leftpadding = 10;
     
     CGFloat topHeight = TASK_TRIP_SECTION_TOP_HEIGHT - 5;
     
     self.topAreaBack.frame = CGRectMake(0, 0, sectionWidth, topHeight);
     
-    CGFloat leftMargin = 0;//10;
-    CGFloat topMargin = 5;
+//    CGFloat leftMargin = 0;//10;
+//    CGFloat topMargin = 5;
     
-    CGFloat centerWidth = sectionWidth - leftMargin * 2;
-    CGFloat centerHeight = sectionHeight - topHeight - topMargin * 2;
+//    CGFloat centerWidth = sectionWidth - leftMargin * 2;
+//    CGFloat centerHeight = sectionHeight - topHeight - topMargin * 2;
     
-    self.centerAreaView.frame = CGRectMake(leftMargin, topHeight + topMargin, centerWidth, centerHeight);
+//    self.centerAreaView.frame = CGRectMake(leftMargin, topHeight + topMargin, centerWidth, centerHeight);
     
-    CGFloat bottomHeight = 40;
+//    CGFloat bottomHeight = 40;
     
-    CGFloat bottomY = centerHeight - bottomHeight;
+//    CGFloat bottomY = centerHeight - bottomHeight;
     
-    self.lineBottomY.frame = CGRectMake(leftpadding, bottomY, centerWidth - leftpadding * 2, LINE_WIDTH);
+//    self.lineBottomY.frame = CGRectMake(leftpadding, bottomY, centerWidth - leftpadding * 2, LINE_WIDTH);
     
     [self initTopArea:bean topWidth:sectionWidth topHeight:topHeight];
     
-    [self initCenterArea:bean centerWidth:centerWidth centerHeight:bottomY];
+//    [self initCenterArea:bean centerWidth:centerWidth centerHeight:bottomY];
     
-    [self initBottomArea:bean bottomY:bottomY bottomWidth:centerWidth bottomHeight:bottomHeight];
+//    [self initBottomArea:bean bottomY:bottomY bottomWidth:centerWidth bottomHeight:bottomHeight];
     
 //    self.topAreaBack.frame = self.topAreaView.bounds;
 //    [self initTopArea:backWidth];
