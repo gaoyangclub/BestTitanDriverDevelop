@@ -11,6 +11,9 @@
 #import "LocalBundleManager.h"
 
 static User* user;
+static User* userProxy;//被观察的用户临时信息
+static BOOL isUserProxyMode = NO;//是否监控模式
+static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不设置此值为YES无权提交和上传数据
 
 @implementation Config
 
@@ -60,9 +63,18 @@ static User* user;
     return @"未知";
 }
 
-+(NSString *)getAppVersionDescribe{
-    NSString* baseName = ConcatStrings(@"v",[LocalBundleManager getAppVersion],@"(",[LocalBundleManager getAppCode],@")");
-    switch (netMode) {
++(NSString *)getVersionDescription{
+    NSString* mode = @"";
+    if (isUserProxyMode) {
+        mode = ConcatStrings(@"(监控模式",(hasPermission ? @"可上报" : @""),@")");
+    }
+    NSString* baseName;
+    if (DEBUG_MODE) {
+        baseName = ConcatStrings(@"v",[LocalBundleManager getAppVersion],@"(",@([LocalBundleManager getAppCode]),@")",mode);
+    }else{
+        baseName = ConcatStrings(@"v",[LocalBundleManager getAppVersion],mode);
+    }
+    switch ([NetConfig getCurrentNetMode]) {
         case NetModeTypePersonYan:return ConcatStrings(@"Ywj ",baseName);
         case NetModeTypePersonZhou:return ConcatStrings(@"Zq ",baseName);
         case NetModeTypePersonLiu:return ConcatStrings(@"Lz ",baseName);
@@ -76,6 +88,23 @@ static User* user;
         case NetModeTypeReleaseT9:return ConcatStrings(@"T9 ",baseName);;
     }
     return baseName;
+}
+
++(NSString *)getNetModelName:(NetModeType)mode{
+    switch (mode) {
+        case NetModeTypePersonYan:return @"颜斯基";
+        case NetModeTypePersonZhou:return @"周斯基";
+        case NetModeTypePersonLiu:return @"刘斯基";
+        case NetModeTypePersonWang:return @"王斯基";
+        case NetModeTypePersonZhu:return @"朱斯基";
+        case NetModeTypePersonZheng:return @"郑斯基";
+        case NetModeTypeDemo:return @"Demo环境";
+        case NetModeTypeTest:return @"Test环境";
+        case NetModeTypeUat:return @"Uat环境";
+        case NetModeTypeRelease:return @"生产环境";
+        case NetModeTypeReleaseT9:return @"T9生产环境";
+    }
+    return @"Test环境";
 }
 
 +(void)setUser:(User *)value{
@@ -95,6 +124,30 @@ static User* user;
     return user;
 }
 
++(void)setUserProxy:(User *)value{
+    userProxy = value;
+}
+
++(User *)getUserProxy{
+    return userProxy;
+}
+
++(void)setIsUserProxyMode:(BOOL)value{
+    isUserProxyMode = value;
+}
+
++(BOOL)getIsUserProxyMode{
+    return isUserProxyMode;
+}
+
++(void)setHasPermission:(BOOL)value{
+    hasPermission = value;
+}
+
++(BOOL)getHasPermission{
+    return hasPermission;
+}
+
 +(NSString *)getToken{
     if (isUserProxyMode) {
         return userProxy.tiToken.tiToken;
@@ -106,6 +159,25 @@ static User* user;
     return nil;
 }
 
++(UIColor *)getPrimaryColor{
+    if (isUserProxyMode) {
+        return COLOR_USER_PROXY;
+    }
+    return FlatMint;//FlatSkyBlue//COLOR_YI_WAN_CHENG//rgba(23,182,46,1)
+}
+
++(BOOL)isDebugMode{
+    NSString* identifier = [LocalBundleManager getBundleIdentifier];
+    NSString* lastTag = [identifier substringWithRange:NSMakeRange(identifier.length - 4, 4)];
+    return [lastTag isEqualToString:@"test"];
+}
+
++(NSString *)getPgyerAppID{
+    if (DEBUG_MODE) {
+        return @"0e8c9bf2a0d8fcbaf37a90353405c6c0";
+    }
+    return @"dba51660a44c3e00888ce2a4b24af81a";
+}
 
 
 

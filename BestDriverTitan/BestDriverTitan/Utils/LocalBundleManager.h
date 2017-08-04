@@ -12,7 +12,8 @@
 
 +(NSString*)getAppName;
 +(NSString*)getAppVersion;
-+(NSString*)getAppCode;
++(NSInteger)getAppCode;
++(NSString*)getBundleIdentifier;//CFBundleIdentifier
 +(NSString*)getBundleValue:(NSString*)key;
 
 @end

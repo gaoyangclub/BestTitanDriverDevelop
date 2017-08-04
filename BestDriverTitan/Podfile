@@ -11,6 +11,8 @@ pod 'AFNetworking', '~> 3.0'
 pod 'HYBUnicodeReadable'
 pod 'MMDrawerController', '~> 0.5.7'
 
+pod 'SDWebImage'
+
 pod "AsyncDisplayKit", ’1.9.5’
 
 pod 'pop', '~> 1.0'

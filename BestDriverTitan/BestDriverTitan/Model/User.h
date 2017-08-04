@@ -21,4 +21,6 @@
 
 -(BOOL)hasAudited;
 
+-(BOOL)isAdmin;
+
 @end

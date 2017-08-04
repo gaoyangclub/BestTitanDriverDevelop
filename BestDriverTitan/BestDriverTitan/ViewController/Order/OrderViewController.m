@@ -12,6 +12,7 @@
 #import "OrderNormalCell.h"
 #import "ShipmentActivityBean.h"
 #import "FlatButton.h"
+#import "HudManager.h"
 
 @interface TestTableViewCell3 : MJTableViewCell
 
@@ -207,7 +208,18 @@
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fingerTapped:)];
     singleTap.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:singleTap];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(eventOccurred:)
+                                                 name:EVENT_ORDER_PAGE_CHANGE
+                                               object:nil];
 }
+
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_ORDER_PAGE_CHANGE object:nil];
+}
+
 
 -(void)fingerTapped:(UITapGestureRecognizer *)gestureRecognizer
 {
@@ -233,7 +245,7 @@
 -(void)headerRefresh:(HeaderRefreshHandler)handler{
     int64_t delay = 1.0 * NSEC_PER_SEC;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), ^{//
-        int count = (arc4random() % 10) + 5; //生成3-10范围的随机数
+        int count = (arc4random() % 3) + 1; //生成3-10范围的随机数
     
         [self.tableView clearSource];
         
@@ -262,6 +274,24 @@
 
 -(void)didEndScrollingAnimation{
     isClickTab = NO;
+}
+
+- (void)eventOccurred:(NSNotification*)eventData{
+    //    DDLog(@"eventOccurred:收到消息");
+    NSNumber* pageIndexValue = eventData.object;
+    NSInteger pageIndex = [pageIndexValue integerValue];
+    NSIndexPath * indexPath;
+    NSInteger sourceCount = [self.tableView getSourceCount];
+    if (sourceCount <= 1) {
+        [HudManager showToast:@"没有下一个订单!"];
+        return;
+    }
+    if (pageIndex < sourceCount - 1) {//下一个
+        indexPath = [NSIndexPath indexPathForRow:0 inSection:pageIndex + 1];
+    }else{//置顶
+        indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    }
+    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 //-(void)didSelectIndex:(NSInteger)index{

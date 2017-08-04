@@ -182,7 +182,9 @@
 //    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/plain", nil];
     
     [manager POST:requestURLString parameters:parameter constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        [formData appendPartWithHeaders:headers body:body];
+        if (body) {
+            [formData appendPartWithHeaders:headers body:body];
+        }
     } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
 //        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
         DDLog(@"%@", responseObject);
@@ -230,9 +232,13 @@
             detailMessage = [jsonDict valueForKey:@"message"];
         }
         NSString* code = [jsonDict valueForKey:@"code"];
-        failureBlock(code,detailMessage);
+        if(failureBlock){
+            failureBlock(code,detailMessage);
+        }
     }else{
-        failureBlock(nil,@"网络错误,请检查网络情况");
+        if(failureBlock){
+            failureBlock(nil,@"网络错误,请检查网络情况");
+        }
     }
 }
 

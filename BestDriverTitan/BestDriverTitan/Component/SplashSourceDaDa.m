@@ -76,7 +76,9 @@
 
 -(UILabel *)versionLabel{
     if (!_versionLabel) {
-        _versionLabel = [UICreationUtils createLabel:14 color:FlatGray text:[Config getAppVersionDescribe] sizeToFit:YES superView:self];
+        _versionLabel = [UICreationUtils createLabel:14 color:FlatGray text:
+                         ConcatStrings([Config getVersionDescription],DEBUG_MODE ? @"调试版" : @"")
+                          sizeToFit:YES superView:self];
     }
     return _versionLabel;
 }
@@ -118,7 +120,7 @@
     
     CGSize versionSize = self.versionLabel.frame.size;
     
-    self.versionLabel.frame = (CGRect){CGPointMake((screenWidth - versionSize.width) / 2., screenHeight - versionSize.height),versionSize};
+    self.versionLabel.frame = (CGRect){CGPointMake((screenWidth - versionSize.width) / 2., CGRectGetMaxY(self.desLab.frame)),versionSize};
     
     [self animationDriverLogo];
     

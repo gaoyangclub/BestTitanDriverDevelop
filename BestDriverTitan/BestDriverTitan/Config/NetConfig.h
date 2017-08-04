@@ -23,13 +23,18 @@
 #define SERVER_URL_RELEASE @"http://t8.800best.com"//生产环境
 #define SERVER_URL_RELEASE_T9 @"http://t9.800best.com"//T9生产环境
 
-#define SERVER_DRIVER_URL [NetConfig getDriverNetUrl:netMode]
+#define NET_MODE [NetConfig getCurrentNetMode]
 
-#define SERVER_DOWNLOAD_URL [NetConfig getDownloadHtmlUrl:netMode]
+#define SERVER_DRIVER_URL [NetConfig getDriverNetUrl:NET_MODE]
+
+//#define SERVER_DOWNLOAD_URL [NetConfig getDownloadHtmlUrl:NET_MODE]
 
 #define AUTH_CODE_URL(phone,isadmin) ConcatStrings(SERVER_DRIVER_URL,@"token/driver/authcode/",phone,@"/",isadmin)
 #define CHECK_VERSION_URL ConcatStrings(SERVER_DRIVER_URL,@"version/detail/ios")
 #define LOGIN_URL(phone,authcode) ConcatStrings(SERVER_DRIVER_URL,@"token/driver/",phone,@"/",authcode)
+
+#define PGY_VERSION_GROUP_URL @"http://www.pgyer.com/apiv1/app/viewGroup"
+
 
 typedef NS_ENUM(NSInteger,NetModeType) {
     NetModeTypePersonYan = 1,
@@ -49,5 +54,10 @@ typedef NS_ENUM(NSInteger,NetModeType) {
 
 +(NSString*)getDriverNetUrl:(NetModeType)mode;
 +(NSString*)getDownloadHtmlUrl:(NetModeType)mode;
+
++(NSArray*)getNetModes;
+
++(NetModeType)getCurrentNetMode;
++(void)setCurrentNetMode:(NetModeType)mode;
 
 @end

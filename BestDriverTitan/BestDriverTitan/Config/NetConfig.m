@@ -10,6 +10,23 @@
 
 @implementation NetConfig
 
+static NetModeType netMode;// = NetModeTypeRelease;//默认T8生产环境
++(void)load{
+    if (DEBUG_MODE) {
+        netMode = NetModeTypeTest;
+    }else{
+        netMode = NetModeTypeRelease;
+    }
+}
+
++(NetModeType)getCurrentNetMode{
+    return netMode;
+}
+
++(void)setCurrentNetMode:(NetModeType)mode{
+    netMode = mode;
+}
+
 +(NSString*)getDriverNetUrl:(NetModeType)mode{
     switch (mode) {
         case NetModeTypePersonYan:return [SERVER_URL_PERSON_YAN stringByAppendingString:SERVER_REST_POSTFIX];
@@ -38,6 +55,14 @@
             break;
     }
     return [SERVER_URL_TEST stringByAppendingString:SERVER_DOWNLOAD_HTML];
+}
+
+static NSArray* netModes;
++(NSArray *)getNetModes{
+    if (!netModes) {
+        netModes = [NSArray arrayWithObjects:@(NetModeTypeTest),@(NetModeTypeDemo),@(NetModeTypeUat),@(NetModeTypeRelease),@(NetModeTypeReleaseT9),@(NetModeTypePersonLiu),@(NetModeTypePersonWang),@(NetModeTypePersonZheng),nil];
+    }
+    return netModes;
 }
 
 @end

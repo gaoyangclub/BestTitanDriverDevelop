@@ -5,8 +5,11 @@
 #import "NetConfig.h"
 #import "User.h"
 #import "AppVersion.h"
+#import "LocalBundleManager.h"
 
-#define COLOR_PRIMARY FlatMint//FlatSkyBlue//COLOR_YI_WAN_CHENG//rgba(23,182,46,1)
+#define COLOR_USER_PROXY FlatNavyBlue//监控模式下的色调
+
+#define COLOR_PRIMARY FlatMint//FlatSkyBlue//COLOR_YI_WAN_CHENG//rgba(23,182,46,1)//[Config getPrimaryColor]
 #define COLOR_BACKGROUND rgba(226,226,226,1)
 #define COLOR_LINE rgba(218,218,218,1)
 #define COLOR_YI_WAN_CHENG COLOR_PRIMARY //rgb(67,152,216)//rgba(21,178,168,1)
@@ -24,9 +27,11 @@
 
 
 //蒲公英appId
-#define PGY_APPID @"dba51660a44c3e00888ce2a4b24af81a"
+#define PGY_APPID [Config getPgyerAppID]
 
+#define PGY_APIKEY @"72fabb9ca801817be273e54018a6b42d"
 
+#define DEBUG_MODE [Config isDebugMode]
 
 #define ICON_FAN_HUI @"\U0000e614"
 #define ICON_SHE_ZHI @"\U0000e628"
@@ -94,9 +99,12 @@
 #define ICON_FAN_KUI @"\U0000e635"
 #define ICON_BAN_BEN @"\U0000e60e"
 
-#define APPLICATION_NAME @"百世通"
-#define APPLICATION_NAME_EN @"BestTitan"
+#define ICON_JIAN_KONG @"\U0000e72a"
+//#define ICON_JIAN_KONG @"\U0000e8ad"
+#define ICON_XIE_RU @"\U0000e6c9"
 
+#define APPLICATION_NAME [LocalBundleManager getAppName]//@"百世通"
+#define APPLICATION_NAME_EN @"BestTitan"
 
 #define TABBAR_TITLE_TI_HUO @"揽收"
 #define TABBAR_TITLE_ZHUANG_CHE @"装车"
@@ -114,6 +122,8 @@
 #define NAVIGATION_TITLE_HOME @"主页"
 #define NAVIGATION_TITLE_TASK_HOME @"我的任务"
 #define NAVIGATION_TITLE_TASK_TRIP @"我的行程"
+#define NAVIGATION_TITLE_VERSION @"版本信息"
+#define NAVIGATION_TITLE_ADMIN @"管理员大帝"
 
 #define NAVIGATION_TITLE_USER @"我的"
 
@@ -128,7 +138,7 @@
 #define SUBMIT_BUTTON_HEIGHT 50
 
 #define TASK_VIEW_CELL_HEIGHT 135 //240
-#define TASK_VIEW_SECTION_HEIGHT 30
+#define TASK_VIEW_SECTION_HEIGHT 40
 
 //#define TASK_TRIP_AREA_HEIGHT 140
 
@@ -143,6 +153,7 @@
 #define EVENT_ADDRESS_SELECT @"EVENT_ADDRESS_SELECT"
 #define EVENT_LOGIN_COMPLETE @"EVENT_LOGIN_COMPLETE"
 #define EVENT_ACTIVITY_SELECT @"EVENT_ACTIVITY_SELECT"
+#define EVENT_ORDER_PAGE_CHANGE @"EVENT_ORDER_PAGE_CHANGE"
 
 #define ACTIVITY_CODE_PICKUP_HANDOVER @"PICKUP_HANDOVER" //揽收
 #define ACTIVITY_CODE_LOAD @"LOAD" //装车
@@ -163,12 +174,7 @@
 
 #define USER_KEY @"user_key"
 #define PHONE_KEY @"phone_key"
-
-static BOOL isUserProxyMode = NO;//是否监控模式
-static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不设置此值为YES无权提交和上传数据
-static NetModeType netMode = NetModeTypeRelease;//默认T8生产环境
-
-static User* userProxy;//被观察的用户临时信息
+#define NET_MODE_KEY @"net_mode_key"
 
 static AppVersion* appVersion;
 
@@ -179,12 +185,29 @@ static AppVersion* appVersion;
 
 +(NSString*)getActivityStatusLabel:(NSString*)status;
 
-+(NSString*)getAppVersionDescribe;
++(NSString*)getVersionDescription;
+
++(NSString*)getNetModelName:(NetModeType)model;
 
 +(void)setUser:(User*)value;
 +(User*)getUser;
 
++(void)setUserProxy:(User*)value;
++(User*)getUserProxy;
+
++(void)setIsUserProxyMode:(BOOL)value;
++(BOOL)getIsUserProxyMode;
+
++(void)setHasPermission:(BOOL)value;
++(BOOL)getHasPermission;
+
 +(NSString*)getToken;
+
++(BOOL)isDebugMode;
+
++(NSString*)getPgyerAppID;
+
++(UIColor*)getPrimaryColor;
 
 @end
 

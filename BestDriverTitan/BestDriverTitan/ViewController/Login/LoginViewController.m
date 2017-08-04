@@ -11,8 +11,11 @@
 #import "HudManager.h"
 #import "User.h"
 #import "UserDefaultsUtils.h"
+#import "FlatButton.h"
+#import "CustomPopListView.h"
+#import "AuthCodeBean.h"
 
-@interface LoginViewController (){
+@interface LoginViewController()<CustomPopListViewDelegate>{
     NSTimer* timer;
     NSInteger countDownSecond;
 }
@@ -30,6 +33,10 @@
 @property(nonatomic,retain)UIImageView* logoImg;
 @property(nonatomic,retain)UILabel* logoLabel;
 @property(nonatomic,retain)UILabel* logoDes;
+@property(nonatomic,retain)UILabel* versionLabel;
+
+@property(nonatomic,retain)UILabel* operateLabeL;
+@property(nonatomic,retain)FlatButton* operateButton;
 
 @property(nonatomic,retain)LoginViewModel* loginViewModel;
 
@@ -66,6 +73,14 @@
         _logoDes = [UICreationUtils createLabel:16 color:FlatBlack text:APPLICATION_NAME_EN sizeToFit:YES superView:self.view];
     }
     return _logoDes;
+}
+
+-(UILabel *)versionLabel{
+    if (!_versionLabel) {
+        _versionLabel = [UICreationUtils createLabel:14 color:FlatGray];
+        [self.view addSubview:_versionLabel];
+    }
+    return _versionLabel;
 }
 
 -(UIView *)inputArea{
@@ -116,12 +131,7 @@
 
 -(UILabel *)authcodeIcon{
     if (!_authcodeIcon) {
-        _authcodeIcon = [[UILabel alloc]init];
-        _authcodeIcon.font = [UIFont fontWithName:ICON_FONT_NAME size:24];
-        _authcodeIcon.text = ICON_YAN_ZHENG_MA;
-        _authcodeIcon.textColor = COLOR_PRIMARY;
-        [_authcodeIcon sizeToFit];
-        [self.inputArea addSubview:_authcodeIcon];
+        _authcodeIcon = [UICreationUtils createLabel:ICON_FONT_NAME size:24 color:COLOR_PRIMARY text:ICON_YAN_ZHENG_MA sizeToFit:YES superView:self.inputArea];
     }
     return _authcodeIcon;
 }
@@ -182,6 +192,26 @@
     return _submitButton;
 }
 
+-(UILabel *)operateLabeL{
+    if (!_operateLabeL) {
+        _operateLabeL = [UICreationUtils createLabel:14 color:FlatGray text:@"切换线路" sizeToFit:YES superView:self.view];
+    }
+    return _operateLabeL;
+}
+
+-(FlatButton *)operateButton{
+    if(!_operateButton){
+        _operateButton = [[FlatButton alloc]init];
+        _operateButton.strokeWidth = 1;
+        _operateButton.strokeColor = COLOR_PRIMARY;
+        _operateButton.titleSize = 14;
+        _operateButton.titleColor = COLOR_PRIMARY;
+        _operateButton.fillColor = [UIColor whiteColor];
+        [_operateButton addTarget:self action:@selector(clickOperateButton) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_operateButton];
+    }
+    return _operateButton;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -190,7 +220,63 @@
     [self initLogoArea];
     [self initInputArea:100];
     
+    if (DEBUG_MODE) {
+        [self initOperateArea];
+    }else{
+        [self showVersionLabel];
+    }
+    
     [self initData];
+}
+
+-(void)initOperateArea{
+    NSNumber* modeValue =[UserDefaultsUtils getObject:NET_MODE_KEY];
+    if (modeValue) {
+        [NetConfig setCurrentNetMode:[modeValue integerValue]];
+        [self showVersionLabel];
+    }
+    
+    CGSize labelSize = self.operateLabeL.frame.size;
+    CGFloat labelX = CGRectGetMinX(self.submitButton.frame);
+    CGFloat labelY = CGRectGetMaxY(self.submitButton.frame) + 20;
+    
+    self.operateLabeL.frame = (CGRect){CGPointMake(labelX, labelY),labelSize};
+    
+    self.operateButton.title = [Config getNetModelName:NET_MODE];
+    
+    self.operateButton.frame = CGRectMake(labelX + labelSize.width + 10, 0, 100, 25);
+    
+    CGPoint buttonCenter = self.operateButton.center;
+    buttonCenter.y = self.operateLabeL.center.y;
+    self.operateButton.center = buttonCenter;
+}
+
+-(void)clickOperateButton{
+    CustomPopListView* popListView = [[CustomPopListView alloc]init];
+    
+    NSArray* netModes = [NetConfig getNetModes];
+    NSMutableArray* dataArray = [NSMutableArray array];
+    for (NSNumber* modeValue in netModes) {
+        [dataArray addObject:[Config getNetModelName:[modeValue integerValue]]];
+    }
+    popListView.dataArray = dataArray;
+    popListView.delegate = self;
+    
+    [popListView show];
+}
+
+-(void)onSelectedIndex:(CustomPopListView *)listView index:(NSInteger)index{
+    NSArray* netModes = [NetConfig getNetModes];
+    
+    NetModeType mode = [netModes[index] integerValue];
+    [NetConfig setCurrentNetMode:mode];
+    
+    [UserDefaultsUtils setObject:[NSNumber numberWithInteger:mode] forKey:NET_MODE_KEY];
+    
+    [self showVersionLabel];
+    
+    self.operateButton.title = [Config getNetModelName:NET_MODE];
+    [self endCountDown];
 }
 
 -(void)initData{
@@ -210,17 +296,17 @@
 -(void)initLogoArea{
     
     CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
+    CGFloat logoMarginTop = 50;
+    CGFloat logoMarginBottom = 95;
     
-    CGFloat logoMargin = 75;
+    CGFloat logoHeight = self.view.center.y - logoMarginTop - logoMarginBottom;
     
-    CGFloat logoHeight = self.view.center.y - logoMargin * 2;
-    
-    self.logoImg.frame = CGRectMake(0, logoMargin, viewWidth, logoHeight);
+    self.logoImg.frame = CGRectMake(0, logoMarginTop, viewWidth, logoHeight);
     
     CGFloat logoLabelHeight = CGRectGetHeight(self.logoLabel.bounds);
     CGFloat logoLabelWidth = CGRectGetWidth(self.logoLabel.bounds);
     
-    CGFloat logoLabelY = logoMargin + logoHeight + 10;
+    CGFloat logoLabelY = CGRectGetMaxY(self.logoImg.frame) + 10;
     
     self.logoLabel.frame = CGRectMake((viewWidth - logoLabelWidth) / 2., logoLabelY, logoLabelWidth, logoLabelHeight);
     
@@ -228,6 +314,19 @@
     CGFloat logoDesWidth = CGRectGetWidth(self.logoDes.bounds);
     
     self.logoDes.frame = CGRectMake((viewWidth - logoDesWidth) / 2., logoLabelY + logoLabelHeight, logoDesWidth, logoDesHeight);
+    
+    [self showVersionLabel];
+}
+
+-(void)showVersionLabel{
+    CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
+    
+    self.versionLabel.text = [Config getVersionDescription];
+    [self.versionLabel sizeToFit];
+    
+    CGSize versionSize = self.versionLabel.frame.size;
+    
+    self.versionLabel.frame = (CGRect){CGPointMake((viewWidth - versionSize.width) / 2., CGRectGetMaxY(self.logoDes.frame)),versionSize};
 }
 
 -(void)initInputArea:(CGFloat)areaHeight{
@@ -247,7 +346,6 @@
     self.usernameText.frame = CGRectMake(iconWidth + padding, 0, viewWidth - iconWidth - padding * 2, inputHeight);
     
     self.inputLineCenterY.frame = CGRectMake(0, inputHeight, viewWidth, LINE_WIDTH);
-    
     
     CGFloat authcodeIconHeight = CGRectGetHeight(self.authcodeIcon.bounds);
     CGFloat authcodeIconWidth = CGRectGetWidth(self.authcodeIcon.bounds);
@@ -287,9 +385,16 @@
 //    return;
     [self.loginViewModel logon:phone authcode:authcode returnBlock:^(id returnValue) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf analyzeLoginResult:returnValue canSave:YES];
+        User *user = [strongSelf analyzeLoginResult:returnValue canSave:YES];
         [SVProgressHUD dismiss];
-        [strongSelf dismissViewControllerAnimated:YES completion:nil];
+        if(strongSelf.delegate && [strongSelf.delegate respondsToSelector:@selector(loginWillDismiss:)]){
+            [strongSelf.delegate loginWillDismiss:user];
+        }
+        [strongSelf dismissViewControllerAnimated:YES completion:^{
+            if(strongSelf.delegate && [strongSelf.delegate respondsToSelector:@selector(loginDidDismiss:)]){
+                [strongSelf.delegate loginDidDismiss:user];
+            }
+        }];
     } failureBlock:^(NSString *errorCode, NSString *errorMsg) {
         [SVProgressHUD dismiss];
         
@@ -299,7 +404,7 @@
     }];
 }
 
--(void)analyzeLoginResult:(id)returnValue canSave:(BOOL)canSave{
+-(User*)analyzeLoginResult:(id)returnValue canSave:(BOOL)canSave{
     User *user = [User yy_modelWithJSON:returnValue];//记录userInfo
     DDLog(@"user:%@", user);
     
@@ -312,6 +417,7 @@
             [UserDefaultsUtils removeObject:USER_KEY];//审核未通过清除残留
         }
     }
+    return user;
 }
 
 -(void)clickAuthcodeButton:(UIView*)sender{
@@ -327,7 +433,11 @@
     [self startCountDown];
     
     [self.loginViewModel getAuthCode:phone returnBlock:^(id returnValue) {
-        DDLog(@"%@", returnValue);
+//        DDLog(@"%@", returnValue);
+        if(DEBUG_MODE){
+            AuthCodeBean* authCode = [AuthCodeBean yy_modelWithJSON:returnValue];//记录userInfo
+            [HudManager showToast:[authCode description]];
+        }
     } failureBlock:^(NSString *errorCode, NSString *errorMsg) {
         
     }];

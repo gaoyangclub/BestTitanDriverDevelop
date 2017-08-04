@@ -10,13 +10,15 @@
 
 @interface FlatButton : UIControl
 
-@property(nonatomic,assign)CGFloat cornerRadius;
-@property(nonatomic,copy)NSString* title;
-@property(nonatomic,retain)UIColor* titleColor;
-@property(nonatomic,retain)NSString* titleFontName;
-@property(nonatomic,assign)CGFloat titleSize;
+@property(nonatomic,assign) CGFloat cornerRadius;
+@property(nonatomic,copy) NSString* title;
+@property(nonatomic,retain) UIColor* titleColor;
+@property(nonatomic,retain) NSString* titleFontName;
+@property(nonatomic,assign) CGFloat titleSize;
 
-@property(nonatomic,retain)UIColor* fillColor;
+@property(nonatomic,retain) UIColor* fillColor;
+@property(nonatomic,retain) UIColor* strokeColor;
+@property(nonatomic,assign) CGFloat strokeWidth;
 
 
 @end

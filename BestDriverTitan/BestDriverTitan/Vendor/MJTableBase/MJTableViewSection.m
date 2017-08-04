@@ -33,5 +33,15 @@
     [self setNeedsLayout];
 }
 
+//-(void)setIsFirst:(BOOL)isFirst{
+//    _isFirst = isFirst;
+//    [self setNeedsLayout];
+//}
+//
+//-(void)setIsLast:(BOOL)isLast{
+//    _isLast = isLast;
+//    [self setNeedsLayout];
+//}
+
 
 @end

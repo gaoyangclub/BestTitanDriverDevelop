@@ -11,6 +11,8 @@
 #import "OwnerViewController.h"
 #import "GYTabBarController.h"
 #import "NormalSelectItem.h"
+#import "UpdateVersionManager.h"
+#import "VersionInfoController.h"
 
 typedef NS_ENUM(NSInteger,ItemPostion){
     ItemPostionNormal = 1,
@@ -33,6 +35,8 @@ typedef NS_ENUM(NSInteger,ItemPostion){
 
 @property(nonatomic,retain)UIButton* logoutButton;
 
+@property(nonatomic,retain)NormalSelectItem* versionItem;
+
 @end
 
 @implementation UserHomeController
@@ -42,6 +46,8 @@ typedef NS_ENUM(NSInteger,ItemPostion){
     [self initTitleArea];
     self.view.backgroundColor = FlatWhite;
     [self showUserInfo:[Config getUser]];
+    NSString* version = ConcatStrings(@"版本 ",[Config getVersionDescription]);
+    self.versionItem.labelName = version;
 }
 
 - (void)viewDidLoad {
@@ -163,9 +169,7 @@ typedef NS_ENUM(NSInteger,ItemPostion){
     
     __weak __typeof(self) weakSelf = self;
     [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//        NSLog(@"点击确认");
-        [UserDefaultsUtils removeObject:USER_KEY];//清除数据
-        [[OwnerViewController sharedInstance]popLoginview:YES completion:^{
+        [[OwnerViewController sharedInstance]logout:^{
             [(GYTabBarController*)weakSelf.tabBarController valueCommit:0];//自动回到主页
         }];
     }]];
@@ -207,14 +211,19 @@ typedef NS_ENUM(NSInteger,ItemPostion){
                itemPostion:ItemPostionBottom];
     
     bottomY += gap;
-    bottomY = [self initNormalItem:bottomY icon:ICON_BAN_BEN labal:ConcatStrings(@"版本 ",[Config getAppVersionDescribe]) iconBackColor:COLOR_PRIMARY handler:nil itemPostion:ItemPostionSingle];
+    bottomY = [self initNormalItem:bottomY icon:ICON_BAN_BEN labal:ConcatStrings(@"版本 ",[Config getVersionDescription]) iconBackColor:COLOR_PRIMARY handler:@selector(checkVersionHandler) itemPostion:ItemPostionSingle];
+    self.versionItem = self.scrollView.subviews.lastObject;
     
     bottomY += gap;
     bottomY = [self initLogoutButton:bottomY];
     bottomY += gap;
     
-    
     self.scrollView.contentSize = CGSizeMake(viewWidth, bottomY);
+}
+
+-(void)checkVersionHandler{
+    [[OwnerViewController sharedInstance] pushViewController:[[VersionInfoController alloc]init]
+                                                    animated:YES];
 }
 
 -(CGFloat)initLogoutButton:(CGFloat)bottomY{

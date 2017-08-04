@@ -8,10 +8,16 @@
 
 #import "User.h"
 
+#define ROLE_ADMIN 9
+
 @implementation User
 
 -(BOOL)hasAudited{
     return self.auditStatus && [self.auditStatus isEqualToString:AUDIT_ADMIT];
+}
+
+-(BOOL)isAdmin{
+    return self.role == ROLE_ADMIN;
 }
 
 @end

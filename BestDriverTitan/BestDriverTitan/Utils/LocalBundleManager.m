@@ -9,18 +9,39 @@
 
 #import "LocalBundleManager.h"
 
+static NSString* appNameCache;
+static NSString* appVersionCache;
+static NSString* appCodeCache;
+static NSString* bundleIdentifierCache;
+
 @implementation LocalBundleManager
 
 +(NSString *)getAppName{
-    return [LocalBundleManager getBundleValue:@"CFBundleName"];
+    if (!appNameCache) {
+        appNameCache = [LocalBundleManager getBundleValue:@"CFBundleName"];
+    }
+    return appNameCache;
 }
 
 +(NSString *)getAppVersion{
-    return [LocalBundleManager getBundleValue:@"CFBundleShortVersionString"];
+    if (!appVersionCache) {
+        appVersionCache = [LocalBundleManager getBundleValue:@"CFBundleShortVersionString"];
+    }
+    return appVersionCache;
 }
 
-+(NSString *)getAppCode{
-    return [LocalBundleManager getBundleValue:@"CFBundleVersion"];
++(NSInteger)getAppCode{
+    if (!appCodeCache) {
+        appCodeCache = [LocalBundleManager getBundleValue:@"CFBundleVersion"];;
+    }
+    return [appCodeCache integerValue];
+}
+
++(NSString *)getBundleIdentifier{
+    if (!bundleIdentifierCache) {
+        bundleIdentifierCache = [LocalBundleManager getBundleValue:@"CFBundleIdentifier"];
+    }
+    return bundleIdentifierCache;
 }
 
 +(NSString *)getBundleValue:(NSString *)key{

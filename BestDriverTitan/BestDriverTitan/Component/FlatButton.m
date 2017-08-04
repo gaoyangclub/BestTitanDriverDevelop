@@ -86,6 +86,8 @@
     CGFloat viewHeight = CGRectGetHeight(self.bounds);
     
     self.backArea.cornerRadius = self.cornerRadius;
+    self.backArea.strokeColor = self.strokeColor;
+    self.backArea.strokeWidth = self.strokeWidth;
     self.backArea.fillColor = self.fillColor;
     self.backArea.frame = self.bounds;
     

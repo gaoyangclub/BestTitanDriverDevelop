@@ -333,7 +333,10 @@
     MJTableViewSection* sectionView;
     if (headerClass != NULL) {
         sectionView = [[headerClass alloc]init];
+        sectionView.itemCount = [self getSourceCount];
         sectionView.itemIndex = section;
+        sectionView.isFirst = section == 0;
+        sectionView.isLast = section == self.dataArray.count - 1;
         sectionView.data = source.headerData;
     }
 //    var headerView = nsSectionDic[section]

@@ -16,12 +16,17 @@
 #import "LocalBundleManager.h"
 #import "VersionManager.h"
 #import "HudManager.h"
+#import "UpdateVersionManager.h"
+#import "AdminViewController.h"
 
-#import <PgyUpdate/PgyUpdateManager.h>
 
 static OwnerViewController* instance;
 
-@interface OwnerViewController ()<UIAlertViewDelegate>
+@interface OwnerViewController ()<UIAlertViewDelegate,LoginViewDelegate,AdminViewDelegate>{
+//    SplashWillFinishHandler splashWillFinishHandler;
+//    NSString* updateUrl;
+//    NSString* updateNote;
+}
 
 @end
 
@@ -39,14 +44,33 @@ static OwnerViewController* instance;
 
 -(void)showSplashView{
     SplashSourceView* sourceView = [[SplashSourceDaDa alloc] init];
-    
     __weak __typeof(self) weakSelf = self;
-    SplashViewController* splashController =
+//    SplashViewController* splashController =
     [SplashViewController initWithSourceView:sourceView superView:[[UIApplication sharedApplication].windows lastObject] waitingHandler:
-          nil
-//     ^(SplashWillFinishHandler willFinishHandler) {
-//         [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:weakSelf selector:@selector(updateMethod:)];
-//     }
+//          nil
+     ^(SplashWillFinishHandler willFinishHandler) {
+         if (DEBUG_MODE) {//调试版可以避免更新
+             [[UpdateVersionManager sharedInstance] checkVersionUpdate:^(NSDictionary * updateInfo) {
+                 if(!updateInfo){
+                     willFinishHandler();
+                     [weakSelf checkPopLoginView];
+                 }
+             } cancelHandler:^{
+                 willFinishHandler();
+                 [weakSelf checkPopLoginView];
+             }];
+         }else{//生产环境不能取消更新
+             [[UpdateVersionManager sharedInstance] checkVersionUpdate:YES resultHandler:^(NSDictionary * updateInfo) {
+                 if(!updateInfo){
+                     willFinishHandler();
+                     [weakSelf checkPopLoginView];
+                 }
+             } cancelHandler:nil];
+         }
+//         __strong typeof(weakSelf) strongSelf = weakSelf;
+//         strongSelf->splashWillFinishHandler = willFinishHandler;
+//         [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:strongSelf selector:@selector(updateMethod:)];
+     }
 //     ^(SplashWillFinishHandler willFinishHandler) {
 //         DIYSplashViewModel* viewModel = [[DIYSplashViewModel alloc] init];
 //         [viewModel fetchUpdateVersion:^(id returnValue) {
@@ -72,35 +96,17 @@ static OwnerViewController* instance;
 //         }];
 //     }
      ];
-    splashController.willCompleteHandler = ^(SplashViewController* splashController){
-        [weakSelf checkPopLoginView];
-    };
-}
-
--(void)updateMethod:(NSDictionary*)updateInfo{
-    if(updateInfo){
-        [self showUpdateAlert];
-    }else{//不需要更新
-        [self checkPopLoginView];
-    }
-}
-
--(void)showUpdateAlert{
-    UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"提醒" message:ConcatStrings([LocalBundleManager getAppName],@"有新版本，为了您能更好的使用请立即更新!") delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-    [alert show];
-}
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    //appVersion.downloadUrl
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:SERVER_DOWNLOAD_URL]];
-    [self showUpdateAlert];
+//    splashController.willCompleteHandler = ^(SplashViewController* splashController){
+//        [weakSelf checkPopLoginView];
+//    };
 }
 
 -(void)checkPopLoginView{
-    if (![UserDefaultsUtils getObject:USER_KEY]) {//没有有缓存数据跳出登录页
+    User* currentUser = [Config getUser];
+    if (!currentUser) {//没有有缓存数据跳出登录页
         [self popLoginview:NO completion:nil];
-    }else{//直接刷新页面
-        [self diapatchLoginComplete];
+    }else{
+        [self loginDidDismiss:currentUser];
 //        [self popLoginview:NO];
     }
 }
@@ -113,11 +119,61 @@ static OwnerViewController* instance;
 //        
 //    });
     LoginViewController* loginViewController = [[LoginViewController alloc]init];
+    loginViewController.delegate = self;
     [self presentViewController:loginViewController animated:animated completion:completion];
 }
 
+//-(void)loginWillDismiss:(User *)user{
+//    
+//}
+
+-(void)loginDidDismiss:(User *)user{
+    if ([user isAdmin]) {//管理员权限
+        [self popAdminView:YES completion:nil];
+    }else{//直接刷新界面
+        [self checkUserAudit:user];
+    }
+}
+
+-(void)popAdminView:(BOOL)animated completion:(void (^ __nullable)(void))completion{
+    [Config setIsUserProxyMode:NO];//还原普通模式
+    AdminViewController* adminViewController = [[AdminViewController alloc]init];
+    adminViewController.delegate = self;
+    [self presentViewController:adminViewController animated:animated completion:completion];
+}
+
+-(void)adminDidReturnBack{//继续返回登录界面
+    [self logout:nil];
+}
+
+-(void)adminLoginComplete:(User *)user{//直接刷新界面
+    [self checkUserAudit:user];
+}
+
+-(void)checkUserAudit:(User *)user{
+    if ([user hasAudited]) {
+        [self diapatchLoginComplete];
+    }else{
+//        [self pushViewController:<#(nonnull UIViewController *)#> animated:YES];//进入审核界面
+    }
+}
+
 -(void)diapatchLoginComplete{
+    if ([Config getIsUserProxyMode]) {
+        self.navigationColor = COLOR_USER_PROXY;
+    }else{
+        self.navigationColor = COLOR_PRIMARY;
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_LOGIN_COMPLETE object:nil];
+}
+
+-(void)logout:(void (^ __nullable)(void))completion{
+    if ([Config getIsUserProxyMode]) {
+        [self popAdminView:YES completion:completion];
+    }else{
+        [UserDefaultsUtils removeObject:USER_KEY];//清除数据
+        [self popLoginview:YES completion:completion];
+    }
 }
 
 @end

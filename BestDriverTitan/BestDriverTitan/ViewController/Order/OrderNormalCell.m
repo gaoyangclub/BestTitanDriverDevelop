@@ -153,13 +153,14 @@
     CGSize weightSize = [self.weightLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.weightLabel.frame = (CGRect){ CGPointMake(gapWidth * 0 + (gapWidth - weightSize.width) / 2., offsetY + gapHeight * 1 + (gapHeight / 2. - weightSize.height)), weightSize};
     
-    
     self.volumeLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:12 content:ConcatStrings(ICON_TI_JI,@"体积(m³)")];
     CGSize volumeSize = [self.volumeLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.volumeLabel.frame = (CGRect){ CGPointMake(gapWidth * 1 + (gapWidth - volumeSize.width) / 2., offsetY + gapHeight * 1 + (gapHeight / 2. - volumeSize.height)), volumeSize};
     
-    self.bottomLine.frame = CGRectMake(lefftpadding, titleHeight, viewWidth - lefftpadding * 2, 1);
-    
+    self.bottomLine.hidden = self.isFirst;
+    if (!self.isFirst) {
+        self.bottomLine.frame = CGRectMake(lefftpadding, 0, viewWidth - lefftpadding * 2, LINE_WIDTH);
+    }
 }
 
 -(BOOL)showSelectionStyle{

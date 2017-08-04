@@ -8,8 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol LoginViewDelegate <NSObject>
+@optional
+-(void)loginWillDismiss:(User*)user;//界面将要消失
+@optional
+-(void)loginDidDismiss:(User*)user;//界面完全消失
+@end
+
 #define MAX_COUNT_DOWN 30
 
 @interface LoginViewController : UIViewController
+
+@property (nonatomic, weak) id<LoginViewDelegate> delegate;
 
 @end

@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '8A41A43E4D4A27842D6C0075B83C99FA'
+               BlueprintIdentifier = '9AA4C3F989DE4835EF44685BF3B498C8'
                BlueprintName = 'Pods-BestDriverTitan'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libPods-BestDriverTitan.a'>

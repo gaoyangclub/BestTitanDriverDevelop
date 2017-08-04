@@ -106,6 +106,21 @@
     return _rightArrow;
 }
 
+-(void)setLabelName:(NSString *)labelName{
+    _labelName = labelName;
+    [self setNeedsLayout];
+}
+
+-(void)setLabelColor:(UIColor *)labelColor{
+    _labelColor = labelColor;
+    [self setNeedsLayout];
+}
+
+-(void)setLabelSize:(CGFloat)labelSize{
+    _labelSize = labelSize;
+    [self setNeedsLayout];
+}
+
 //-(void)setFrame:(CGRect)frame{
 //    [super setFrame:frame];
 //    //重新布局

@@ -10,7 +10,8 @@
 
 typedef NS_ENUM(NSInteger, CustomPopDirection) {
     CustomPopDirectionTop = 1,
-    CustomPopDirectionBottom = 2
+    CustomPopDirectionBottom,
+    CustomPopDirectionCenter
 };
 
 @interface CustomPopModelView : UIControl

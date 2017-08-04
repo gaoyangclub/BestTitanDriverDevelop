@@ -21,6 +21,8 @@
 
 -(void)checkPopLoginView;
 
--(void)popLoginview:(BOOL)animated completion:(void (^)(void))completion;
+//-(void)popLoginview:(BOOL)animated completion:(void (^)(void))completion;
+
+-(void)logout:(void (^ __nullable)(void))completion;
 
 @end
