@@ -13,6 +13,7 @@
 #import "HudManager.h"
 #import "LoginViewModel.h"
 #import "AuthCodeBean.h"
+#import "UserDefaultsUtils.h"
 
 @interface AdminViewController ()
 
@@ -222,6 +223,12 @@
     
     [self initLogoArea];
     [self initInputArea:100];
+    
+    [self initData];
+}
+
+-(void)initData{
+    [self.usernameText setText:[UserDefaultsUtils getObject:PROXY_PHONE_KEY]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -312,14 +319,16 @@
     }
     [SVProgressHUD showWithStatus:@"登陆中" maskType:SVProgressHUDMaskTypeBlack];
     __weak __typeof(self) weakSelf = self;
-    [self.loginViewModel getAuthCode:phone returnBlock:^(id returnValue) {
+    [self.loginViewModel getAuthCode:phone isAdmin:YES returnBlock:^(id returnValue) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        [SVProgressHUD dismiss];
         AuthCodeBean* authCode = [AuthCodeBean yy_modelWithJSON:returnValue];//记录userInfo
         [strongSelf.loginViewModel logon:phone authcode:authCode.authCode returnBlock:^(id returnValue) {
+            [SVProgressHUD dismiss];
             [strongSelf tryAnalyzeUserProxy:returnValue];
         } failureBlock:^(NSString *errorCode, NSString *errorMsg) {
             [SVProgressHUD dismiss];
+            [HudManager showToast:errorMsg];
+            [PopAnimateManager startShakeAnimation:sender];
         }];
     } failureBlock:^(NSString *errorCode, NSString *errorMsg) {
         [SVProgressHUD dismiss];
@@ -337,6 +346,8 @@
         [Config setUserProxy:user];
         [Config setIsUserProxyMode:YES];
         [Config setHasPermission:self.writableSwitch.selected];
+        
+        [UserDefaultsUtils setObject:user.telphone forKey:PROXY_PHONE_KEY];//记住监控手机
         
         [self dismissViewControllerAnimated:YES completion:nil];
         if (self.delegate && [self.delegate respondsToSelector:@selector(adminLoginComplete:)]) {

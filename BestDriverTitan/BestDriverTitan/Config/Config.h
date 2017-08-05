@@ -33,10 +33,10 @@
 
 #define DEBUG_MODE [Config isDebugMode]
 
-#define ICON_FAN_HUI @"\U0000e614"
+#define ICON_FAN_HUI @"\U0000e730"//@"\U0000e614"
 #define ICON_SHE_ZHI @"\U0000e628"
 #define ICON_SAO_MIAO @"\U0000e8b3"
-#define ICON_DI_TU @"\U0000e603"
+#define ICON_DI_TU @"\U0000e643"//@"\U0000e603"
 
 //#define ICON_LOGO_SPLASH @"\U0000e7a9"
 
@@ -53,7 +53,7 @@
 
 #define ICON_YI_WAN_CHENG @"\U0000e69a"
 #define ICON_DAI_WAN_CHENG @"\U0000e699"
-#define ICON_SHI_JIAN @"\U0000e610"
+#define ICON_SHI_JIAN ICON_DAI_SHANG_BAO //@"\U0000e610"
 #define ICON_JU_LI @"\U0000e63c"
 #define ICON_JIN_QIAN @"\U0000e642"
 #define ICON_QI_DIAN @"\U0000e674"
@@ -66,8 +66,8 @@
 #define ICON_HUI_DAN @"\U0000e623"
 #define ICON_SHOU_KUAN @"\U0000e624"
 
-#define ICON_DAI_SHANG_BAO @"\U0000e613"
-#define ICON_YI_SHANG_BAO @"\U0000e63b"
+#define ICON_DAI_SHANG_BAO @"\U0000e604"//@"\U0000e613"
+#define ICON_YI_SHANG_BAO @"\U0000e627"//@"\U0000e63b"
 #define ICON_JING_GAO @"\U0000e6d4"
 
 #define ICON_KA_CHE @"\U0000e606"
@@ -89,7 +89,7 @@
 
 #define ICON_GUI_HUA @"\U0000e601"
 
-#define ICON_YAN_ZHENG_MA @"\U0000e60c"
+#define ICON_YAN_ZHENG_MA @"\U0000e61f"//@"\U0000e60c"
 
 #define ICON_HUO_LIANG @"\U0000e644"
 #define ICON_SHOU_ZHI @"\U0000e63a"
@@ -99,9 +99,8 @@
 #define ICON_FAN_KUI @"\U0000e635"
 #define ICON_BAN_BEN @"\U0000e60e"
 
-#define ICON_JIAN_KONG @"\U0000e72a"
-//#define ICON_JIAN_KONG @"\U0000e8ad"
-#define ICON_XIE_RU @"\U0000e6c9"
+#define ICON_JIAN_KONG @"\U0000e8ad"
+#define ICON_XIE_RU @"\U0000e6db"
 
 #define APPLICATION_NAME [LocalBundleManager getAppName]//@"百世通"
 #define APPLICATION_NAME_EN @"BestTitan"
@@ -138,7 +137,7 @@
 #define SUBMIT_BUTTON_HEIGHT 50
 
 #define TASK_VIEW_CELL_HEIGHT 135 //240
-#define TASK_VIEW_SECTION_HEIGHT 40
+#define TASK_VIEW_SECTION_HEIGHT 25
 
 //#define TASK_TRIP_AREA_HEIGHT 140
 
@@ -149,6 +148,7 @@
 #define ORDER_TAB_WIDTH 100
 #define ORDER_TAB_HEIGHT 40
 #define ORDER_VIEW_CELL_HEIGHT 150
+#define ORDER_VIEW_SECTION_HEIGHT 40
 
 #define EVENT_ADDRESS_SELECT @"EVENT_ADDRESS_SELECT"
 #define EVENT_LOGIN_COMPLETE @"EVENT_LOGIN_COMPLETE"
@@ -175,6 +175,7 @@
 #define USER_KEY @"user_key"
 #define PHONE_KEY @"phone_key"
 #define NET_MODE_KEY @"net_mode_key"
+#define PROXY_PHONE_KEY @"proxy_phone_key"
 
 static AppVersion* appVersion;
 

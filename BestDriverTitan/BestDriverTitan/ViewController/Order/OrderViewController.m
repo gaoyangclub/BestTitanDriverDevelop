@@ -257,7 +257,7 @@
                 [sourceData addObject:[CellVo initWithParams:ORDER_VIEW_CELL_HEIGHT cellClass:[OrderNormalCell class] cellData:@"数据"]];
             }
             
-            SourceVo* svo = [SourceVo initWithParams:sourceData headerHeight:TASK_VIEW_SECTION_HEIGHT headerClass:[OrderViewSection class] headerData:NULL];
+            SourceVo* svo = [SourceVo initWithParams:sourceData headerHeight:ORDER_VIEW_SECTION_HEIGHT headerClass:[OrderViewSection class] headerData:NULL];
             [self.tableView addSource:svo];
         }
 //        [self.tabView setTotalCount:count];

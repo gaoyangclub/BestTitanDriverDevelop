@@ -68,6 +68,11 @@
 			<key>orderHint</key>
 			<integer>7</integer>
 		</dict>
+		<key>SDWebImage.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>14</integer>
+		</dict>
 		<key>SVProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -108,6 +113,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>22B74AACC083866ACB8322495621ED92</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>349F162B5B80041B73EEC043D701F8AF</key>
 		<dict>
 			<key>primary</key>
@@ -119,6 +129,11 @@
 			<true/>
 		</dict>
 		<key>401549B0736562B12960DB2EAF659C68</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>42F9F573E0C9817E1E4F5D653B1A5393</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -158,7 +173,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>9AA4C3F989DE4835EF44685BF3B498C8</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>9E033EDB5EC0819481B0546434FA577B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9FB9B37149DB179094FD2BFA4A7D98C1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -179,6 +204,11 @@
 			<true/>
 		</dict>
 		<key>BF279C308DA0DA32EDBCC4BC85E6C8D6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C03404150CBD263BDC973F1C40779A32</key>
 		<dict>
 			<key>primary</key>
 			<true/>

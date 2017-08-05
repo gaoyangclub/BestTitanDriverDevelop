@@ -163,7 +163,7 @@ static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不�
     if (isUserProxyMode) {
         return COLOR_USER_PROXY;
     }
-    return FlatMint;//FlatSkyBlue//COLOR_YI_WAN_CHENG//rgba(23,182,46,1)
+    return COLOR_PRIMARY;//FlatSkyBlue//COLOR_YI_WAN_CHENG//rgba(23,182,46,1)
 }
 
 +(BOOL)isDebugMode{
