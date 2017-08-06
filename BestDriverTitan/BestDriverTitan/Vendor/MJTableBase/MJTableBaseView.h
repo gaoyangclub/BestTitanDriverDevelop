@@ -61,6 +61,10 @@ typedef void(^FooterLoadMoreHandler)(BOOL hasData);
 
 //@property (nonatomic,assign) BOOL pureTable;
 /**
+ *  点中cell自动居中
+ */
+@property (nonatomic,assign) BOOL clickCellMoveToCenter;
+/**
  *  每一节间隔
  */
 @property (nonatomic,assign) CGFloat sectionGap;

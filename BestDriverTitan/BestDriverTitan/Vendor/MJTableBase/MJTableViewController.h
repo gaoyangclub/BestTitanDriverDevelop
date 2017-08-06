@@ -22,6 +22,7 @@
 -(BOOL)getShowHeader;
 -(BOOL)getShowFooter;
 -(BOOL)getUseCellIdentifer;
+-(BOOL)getNeedRestOffset;
 -(MJRefreshHeader*)getHeader;
 
 @end

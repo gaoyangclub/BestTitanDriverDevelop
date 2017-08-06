@@ -162,6 +162,7 @@
 
 -(void)viewDidLoad{
     [super viewDidLoad];
+    self.tableView.clickCellMoveToCenter = YES;
 //    self.selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(eventOccurredActivity:)

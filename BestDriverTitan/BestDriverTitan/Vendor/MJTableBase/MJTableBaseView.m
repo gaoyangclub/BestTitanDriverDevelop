@@ -221,6 +221,13 @@
                 }];
             }
         };
+        header.endRefreshingCompletionBlock = ^(){
+            if (self.clickCellMoveToCenter && _selectedIndexPath) {
+//                MJTableViewCell* cell = [self cellForRowAtIndexPath:_selectedIndexPath];
+//                DDLog(@"selectedIndexPath.row:%ld",(long)_selectedIndexPath.row);
+                [self moveCellToCenter:_selectedIndexPath];
+            }
+        };
         self.mj_header = header;
     }
 }
@@ -350,18 +357,39 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    MJTableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
-//    if (cell) {
+    if (self.clickCellMoveToCenter) {
+        [self moveCellToCenter:indexPath];
+    }
+    //    if (cell) {
 ////        tableView
 //        cell.needRefresh = NO; //不需要刷新
 //    }
 //    SourceVo* source = self.dataArray[indexPath.section];
 //    CellVo* cellVo = source.data[indexPath.row];
 //    cellVo.isSelect = YES;
+    
     [self changeSelectIndexPath:indexPath];
     
     [tableView deselectRowAtIndexPath:indexPath animated: false];//反选
     [self dispatchSelectRow:indexPath];
+}
+
+-(void)moveCellToCenter:(NSIndexPath *)indexPath{
+    CGRect rectInTableView = [self rectForRowAtIndexPath:indexPath];
+    CGRect btnToSelf = [self convertRect:rectInTableView toView:self.superview];
+//    CGRect btnToSelf = [self convertRect:clickCell.frame toView:self.superview];
+    CGFloat moveY = btnToSelf.origin.y - CGRectGetHeight(self.bounds) / 2. + btnToSelf.size.height / 2. - self.contentInset.top;
+    CGPoint contentOffset = self.contentOffset;
+    //    self.bottomAreaView.contentSize.width
+    CGFloat maxOffsetY = self.contentSize.height - CGRectGetHeight(self.bounds) - self.contentInset.top;
+    maxOffsetY = maxOffsetY > 0 ? maxOffsetY : 0;
+    CGFloat moveOffsetY = contentOffset.y + moveY;
+    if (moveOffsetY < 0) {
+        moveOffsetY = 0;
+    }else if(moveOffsetY > maxOffsetY){
+        moveOffsetY = maxOffsetY;
+    }
+    [self setContentOffset:CGPointMake(contentOffset.x,moveOffsetY) animated:YES];
 }
 
 -(void)dispatchSelectRow:(NSIndexPath *)indexPath{

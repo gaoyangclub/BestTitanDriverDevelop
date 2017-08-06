@@ -181,6 +181,7 @@
         [activityBeans addObject:bean];
     }
     [self.tabView setActivityBeans:activityBeans];
+    [self.tabView setSelectedIndex:arc4random() % activityBeans.count];
     
     CGFloat sectionWidth = self.view.bounds.size.width;
     CGFloat leftpadding = 10;

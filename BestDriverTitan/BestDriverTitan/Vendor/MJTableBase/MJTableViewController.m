@@ -57,7 +57,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    if(self.contentOffsetRest){
+    if([self getNeedRestOffset] && self.contentOffsetRest){
         CGPoint contentOffset = self.tableView.contentOffset;
         contentOffset.y = 0;//滚轮位置恢复
         self.tableView.contentOffset = contentOffset;
@@ -118,6 +118,10 @@
 
 -(BOOL)getUseCellIdentifer {
     return YES;
+}
+
+-(BOOL)getNeedRestOffset{
+    return NO;
 }
 
 -(MJRefreshHeader*)getHeader {

@@ -118,6 +118,7 @@
 
 @interface OrderTabView(){
     NSInteger selectedIndex;
+    BOOL needCheckMoveToCenter;
 }
 
 @end
@@ -130,6 +131,14 @@
     // Drawing code
 }
 */
+
+-(instancetype)init{
+    self = [super init];
+    if (self) {
+        self->selectedIndex = -1;//默认不选中
+    }
+    return self;
+}
 
 -(void)setSelectedIndex:(NSInteger)index{
     if (self->selectedIndex != index) {
@@ -145,6 +154,12 @@
         UIEdgeInsets contentInset = self.contentInset;
         contentInset.left = (viewWidth - contentWidth) / 2;
         self.contentInset = contentInset;
+    }else{
+        if (self->needCheckMoveToCenter && self->selectedIndex >= 0 && self->selectedIndex < self.subviews.count) {
+            self->needCheckMoveToCenter = NO;
+            UIView* clickBtn = self.subviews[self->selectedIndex];
+            [self moveTabButton:clickBtn];
+        }
     }
 }
 
@@ -217,6 +232,9 @@
 }
 
 -(void)changeTabButton:(TabButton*)clickBtn isClick:(BOOL)isClick{
+    if (self->selectedIndex == clickBtn.tag) {
+        return;//已经选中不需要在触发
+    }
     self->selectedIndex = clickBtn.tag;
     for (TabButton* btn in self.subviews) {
         if ([btn respondsToSelector:@selector(setSelect:)]) {
@@ -237,23 +255,42 @@
     if ([self.tabDelegate respondsToSelector:@selector(didSelectItem:)]) {
         [self.tabDelegate didSelectItem:_activityBeans[self->selectedIndex]];
     }
+    self->needCheckMoveToCenter = YES;
+    [self setNeedsLayout];
 }
 
--(void)moveTabButton:(TabButton*)clickBtn{
+-(void)moveTabButton:(UIView*)clickBtn{
+    CGFloat viewWidth = CGRectGetWidth(self.bounds);
     CGRect btnToSelf = [self convertRect:clickBtn.frame toView:self.superview];
-    CGFloat moveY = btnToSelf.origin.y - CGRectGetHeight(self.bounds) / 2. + btnToSelf.size.height / 2.;
+    CGFloat moveX = btnToSelf.origin.x - viewWidth / 2. + btnToSelf.size.width / 2.;
     CGPoint contentOffset = self.contentOffset;
     //    self.bottomAreaView.contentSize.width
-    CGFloat maxOffsetY = self.contentSize.height - CGRectGetHeight(self.bounds);
-    maxOffsetY = maxOffsetY > 0 ? maxOffsetY : 0;
-    CGFloat moveOffsetY = contentOffset.y + moveY;
-    if (moveOffsetY < 0) {
-        moveOffsetY = 0;
-    }else if(moveOffsetY > maxOffsetY){
-        moveOffsetY = maxOffsetY;
+    CGFloat maxOffsetX = self.contentSize.width - viewWidth;
+    maxOffsetX = maxOffsetX > 0 ? maxOffsetX : 0;
+    CGFloat moveOffsetX = contentOffset.x + moveX;
+    if (moveOffsetX < 0) {
+        moveOffsetX = 0;
+    }else if(moveOffsetX > maxOffsetX){
+        moveOffsetX = maxOffsetX;
     }
-    [self setContentOffset:CGPointMake(contentOffset.x,moveOffsetY) animated:YES];
+    [self setContentOffset:CGPointMake(moveOffsetX,contentOffset.y) animated:YES];
 }
+
+//-(void)moveTabButton:(TabButton*)clickBtn{
+//    CGRect btnToSelf = [self convertRect:clickBtn.frame toView:self.superview];
+//    CGFloat moveY = btnToSelf.origin.y - CGRectGetHeight(self.bounds) / 2. + btnToSelf.size.height / 2.;
+//    CGPoint contentOffset = self.contentOffset;
+//    //    self.bottomAreaView.contentSize.width
+//    CGFloat maxOffsetY = self.contentSize.height - CGRectGetHeight(self.bounds);
+//    maxOffsetY = maxOffsetY > 0 ? maxOffsetY : 0;
+//    CGFloat moveOffsetY = contentOffset.y + moveY;
+//    if (moveOffsetY < 0) {
+//        moveOffsetY = 0;
+//    }else if(moveOffsetY > maxOffsetY){
+//        moveOffsetY = maxOffsetY;
+//    }
+//    [self setContentOffset:CGPointMake(contentOffset.x,moveOffsetY) animated:YES];
+//}
 
 //- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
 //    
