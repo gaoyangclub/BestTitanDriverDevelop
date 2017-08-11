@@ -162,7 +162,7 @@ static OwnerViewController* instance;
     if ([Config getIsUserProxyMode]) {
         self.navigationColor = COLOR_USER_PROXY;
     }else{
-        self.navigationColor = COLOR_PRIMARY;
+        self.navigationColor = [UIColor whiteColor];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_LOGIN_COMPLETE object:nil];
 }

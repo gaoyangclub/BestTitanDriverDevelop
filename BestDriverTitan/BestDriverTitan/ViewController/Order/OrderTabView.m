@@ -7,19 +7,28 @@
 //
 
 #import "OrderTabView.h"
+#import "CircleNode.h"
+
+//#define TAB_SELECT_COLOR FlatOrange
 
 @interface TabButton : UIControl{
+    
 }
 
 @property(nonatomic,retain)ASTextNode* titleNode;
 @property(nonatomic,retain)ASTextNode* statusNode;
 @property(nonatomic,retain)ASDisplayNode* square;
+@property(nonatomic,retain)ShipmentActivityBean* activityBean;
+
+
+//@property(nonatomic,retain)CircleNode* leftLine;
+//@property(nonatomic,retain)CircleNode* rightLine;
 
 
 //-(void)setIndex:(NSInteger)index;
 //-(void)setTitle:(NSString*)title;
 -(void)setSelect:(BOOL)isSelect;
--(void)setActivity:(ShipmentActivityBean*)bean;
+//-(void)setActivity:(ShipmentActivityBean*)bean;
 
 @end
 
@@ -47,11 +56,31 @@
     if (!_square) {
         _square = [[ASDisplayNode alloc]init];
         _square.layerBacked = YES;
-        _square.backgroundColor = COLOR_LINE;
+        _square.backgroundColor = COLOR_BLACK_ORIGINAL;
         [self.layer addSublayer:_square.layer];
     }
     return _square;
 }
+
+//-(CircleNode *)leftLine{
+//    if (!_leftLine) {
+//        _leftLine = [[CircleNode alloc]init];
+//        _leftLine.layerBacked = YES;
+//        _leftLine.fillColor = COLOR_LINE;
+//        [self.layer addSublayer:_leftLine.layer];
+//    }
+//    return _leftLine;
+//}
+//
+//-(CircleNode *)rightLine{
+//    if (!_rightLine) {
+//        _rightLine = [[CircleNode alloc]init];
+//        _rightLine.layerBacked = YES;
+//        _rightLine.fillColor = COLOR_LINE;
+//        [self.layer addSublayer:_rightLine.layer];
+//    }
+//    return _rightLine;
+//}
 
 //-(void)setIndex:(NSInteger)index{
 //    self.indexNode.attributedString = [NSString simpleAttributedString:FlatGrayDark size:18 content:[NSString stringWithFormat:@"%li",(long)index + 1]];
@@ -70,18 +99,20 @@
 //    };
 //}
 
--(void)setActivity:(ShipmentActivityBean *)bean{
+-(void)setActivityBean:(ShipmentActivityBean *)activityBean{
+    _activityBean = activityBean;
+    
     CGFloat viewWidth = CGRectGetWidth(self.bounds);
     CGFloat viewHeight = CGRectGetHeight(self.bounds);
     
-    NSString* content = [Config getActivityLabelByCode:bean.activityDefinitionCode];
- 
-    self.titleNode.attributedString = [NSString simpleAttributedString:FlatBlack size:14 content:content];
+    NSString* content = [Config getActivityLabelByCode:activityBean.activityDefinitionCode];
+    
+    self.titleNode.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:content];
     CGSize titleSize = [self.titleNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
     UIColor* statusColor;
     NSString* statusIcon;
-    if ([bean hasReport]) {
+    if ([activityBean hasReport]) {
         statusColor = COLOR_YI_WAN_CHENG;
         statusIcon = ICON_YI_SHANG_BAO;
     }else{
@@ -100,17 +131,40 @@
     self.titleNode.frame = (CGRect){
         CGPointMake(baseX + statusSize.width + gap, (viewHeight - titleSize.height) / 2.),titleSize
     };
+    
+    self.backgroundColor = [UIColor whiteColor];
+    
+//    CGFloat radius = LINE_WIDTH * 4.;
+//    self.leftLine.cornerRadius = self.rightLine.cornerRadius = radius;
+//    self.leftLine.frame = CGRectMake(- radius, (viewHeight - radius * 2) / 2., radius * 2, radius * 2);
+//    self.rightLine.frame = CGRectMake(viewWidth - radius, (viewHeight - radius * 2) / 2., radius * 2, radius * 2);
 }
 
 -(void)setSelect:(BOOL)isSelect{
+//    UIColor* color;
+//    if (isSelect) {
+////        if ([self.activityBean hasReport]) {
+////            color = COLOR_YI_WAN_CHENG;
+////        }else{
+////            color = COLOR_DAI_WAN_CHENG;
+////        }
+//        color = FlatOrange;
+//    }else{
+//        color = COLOR_BLACK_ORIGINAL;
+//    }
+//    NSString* content = [Config getActivityLabelByCode:self.activityBean.activityDefinitionCode];
+//    self.titleNode.attributedString = [NSString simpleAttributedString:color size:14 content:content];
+    
 //    CGFloat viewWidth = CGRectGetWidth(self.bounds);
+//    CGFloat viewHeight = CGRectGetHeight(self.bounds);
     if (isSelect) {
         self.backgroundColor = COLOR_BACKGROUND;
-//        self.square.frame = CGRectMake(0, 0, viewWidth, 5);
+//        self.square.frame = CGRectMake(0, viewHeight - 2, viewWidth, 2);
     }else{
         self.backgroundColor = [UIColor whiteColor];
-//        self.square.frame = CGRectMake(0, 0, viewWidth, 2);
+//        self.square.frame = CGRectMake(0, 0, viewWidth, 0);
     }
+//    self.square.backgroundColor = color;
 }
 
 
@@ -190,7 +244,7 @@
         btn.tag = i;
         [self addSubview:btn];
         
-        [btn setActivity:bean];
+        btn.activityBean = bean;
         if (i == 0) {
             selectBtn = btn;
         }

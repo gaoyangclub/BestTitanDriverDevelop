@@ -9,11 +9,15 @@
 
 #define COLOR_USER_PROXY FlatNavyBlue//监控模式下的色调
 
+#define COLOR_BLACK_ORIGINAL rgba(95,95,95,1)
+#define COLOR_NAVI_TITLE COLOR_BLACK_ORIGINAL//FlatGrayDark
+
 #define COLOR_PRIMARY FlatMint//FlatSkyBlue//COLOR_YI_WAN_CHENG//rgba(23,182,46,1)//[Config getPrimaryColor]
-#define COLOR_BACKGROUND rgba(226,226,226,1)
+#define COLOR_ACCENT FlatGreen
+#define COLOR_BACKGROUND FlatWhite//rgba(226,226,226,1)
 #define COLOR_LINE rgba(218,218,218,1)
-#define COLOR_YI_WAN_CHENG COLOR_PRIMARY //rgb(67,152,216)//rgba(21,178,168,1)
-#define COLOR_DAI_WAN_CHENG FlatWatermelon//[UIColor flatSandColorDark]//rgb(250,83,44)//rgba(240,129,69,1)
+#define COLOR_YI_WAN_CHENG FlatGrayDark//COLOR_PRIMARY //rgb(67,152,216)//rgba(21,178,168,1)
+#define COLOR_DAI_WAN_CHENG COLOR_PRIMARY//FlatWatermelon//[UIColor flatSandColorDark]//rgb(250,83,44)//rgba(240,129,69,1)
 #define LINE_WIDTH 0.5
 
 #define DDLog(xx, ...)  NSLog(@"%s(%d): " xx, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
@@ -28,6 +32,8 @@
 
 //蒲公英appId
 #define PGY_APPID [Config getPgyerAppID]
+
+#define UM_APPID [Config getUMengAppID]
 
 #define PGY_APIKEY @"72fabb9ca801817be273e54018a6b42d"
 
@@ -102,6 +108,14 @@
 #define ICON_JIAN_KONG @"\U0000e8ad"
 #define ICON_XIE_RU @"\U0000e6db"
 
+#define ICON_DIAN_PU @"\U0000e615"
+
+#define ICON_BIAO_QIAN_UP @"\U0000e625"
+#define ICON_BIAO_QIAN_DOWN @"\U0000e616"
+#define ICON_BIAN_JI @"\U0000e609"
+
+#define ICON_FU_JIAN @"\U0000e62e"
+
 #define APPLICATION_NAME [LocalBundleManager getAppName]//@"百世通"
 #define APPLICATION_NAME_EN @"BestTitan"
 
@@ -141,14 +155,16 @@
 
 //#define TASK_TRIP_AREA_HEIGHT 140
 
-#define TASK_TRIP_CELL_HEIGHT 80//460 - TASK_TRIP_AREA_HEIGHT
-#define TASK_TRIP_SECTION_TOP_HEIGHT 50
-#define TASK_TRIP_SECTION_HEIGHT TASK_TRIP_SECTION_TOP_HEIGHT// + TASK_TRIP_AREA_HEIGHT
+#define TASK_TRIP_CELL_HEIGHT 120//460 - TASK_TRIP_AREA_HEIGHT
+#define TASK_TRIP_SECTION_TOP_HEIGHT 45
+#define TASK_TRIP_SECTION_HEIGHT 50// + TASK_TRIP_AREA_HEIGHT
 
-#define ORDER_TAB_WIDTH 100
+#define ORDER_TAB_WIDTH 130
 #define ORDER_TAB_HEIGHT 40
-#define ORDER_VIEW_CELL_HEIGHT 150
-#define ORDER_VIEW_SECTION_HEIGHT 40
+#define ORDER_VIEW_CELL_HEIGHT 40//150
+#define ORDER_VIEW_SECTION_HEIGHT 50
+
+#define ORDER_PHOTO_CELL_HEIGHT 100
 
 #define EVENT_ADDRESS_SELECT @"EVENT_ADDRESS_SELECT"
 #define EVENT_LOGIN_COMPLETE @"EVENT_LOGIN_COMPLETE"
@@ -207,6 +223,8 @@ static AppVersion* appVersion;
 +(BOOL)isDebugMode;
 
 +(NSString*)getPgyerAppID;
+
++(NSString*)getUMengAppID;
 
 +(UIColor*)getPrimaryColor;
 

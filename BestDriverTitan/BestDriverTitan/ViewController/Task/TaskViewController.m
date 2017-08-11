@@ -74,11 +74,11 @@
 
 }
 
--(CGRect)getTableViewFrame {
-    CGFloat padding = 5;
-//    self.tableView.sectionGap = 5;
-    return CGRectMake(0, padding, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - padding);
-}
+//-(CGRect)getTableViewFrame {
+//    CGFloat padding = 5;
+////    self.tableView.sectionGap = 5;
+//    return CGRectMake(0, padding, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - padding);
+//}
 
 -(UIView *)titleView{
     if (!_titleView) {
@@ -89,13 +89,13 @@
     return _titleView;
 }
 
--(void)initTitleArea{
-    self.tabBarController.navigationItem.leftBarButtonItem = [UICreationUtils createNavigationLeftButtonItem:[UIColor whiteColor] target:self action:@selector(rightItemClick)];
-    
-    self.tabBarController.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:[UIColor whiteColor] font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SHE_ZHI target:self action:@selector(rightItemClick)];
-    
-    self.tabBarController.navigationItem.titleView = self.titleView;
-}
+//-(void)initTitleArea{
+//    self.tabBarController.navigationItem.leftBarButtonItem = [UICreationUtils createNavigationLeftButtonItem:[UIColor whiteColor] target:self action:@selector(rightItemClick)];
+//    
+//    self.tabBarController.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:[UIColor whiteColor] font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SHE_ZHI target:self action:@selector(rightItemClick)];
+//    
+//    self.tabBarController.navigationItem.titleView = self.titleView;
+//}
 
 //-(void)testScrollToRow{
 //    NSIndexPath * dayOne = [NSIndexPath indexPathForRow:0 inSection:1];

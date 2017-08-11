@@ -63,14 +63,14 @@
 
 -(UILabel *)logoLabel{
     if (!_logoLabel) {
-        _logoLabel = [UICreationUtils createLabel:24 color:FlatBlack text:APPLICATION_NAME sizeToFit:YES superView:self.view];
+        _logoLabel = [UICreationUtils createLabel:24 color:COLOR_BLACK_ORIGINAL text:APPLICATION_NAME sizeToFit:YES superView:self.view];
     }
     return _logoLabel;
 }
 
 -(UILabel *)logoDes{
     if (!_logoDes) {
-        _logoDes = [UICreationUtils createLabel:16 color:FlatBlack text:APPLICATION_NAME_EN sizeToFit:YES superView:self.view];
+        _logoDes = [UICreationUtils createLabel:16 color:COLOR_BLACK_ORIGINAL text:APPLICATION_NAME_EN sizeToFit:YES superView:self.view];
     }
     return _logoDes;
 }
@@ -110,7 +110,7 @@
         _usernameText = [[UITextField alloc]init];
         _usernameText.clearButtonMode = UITextFieldViewModeWhileEditing;//输入的时候显示close按钮
         _usernameText.font = [UIFont systemFontOfSize:16];
-        _usernameText.textColor = FlatBlack;
+        _usernameText.textColor = COLOR_BLACK_ORIGINAL;
 //        _usernameText.delegate = self; //文本交互代理
         _usernameText.placeholder = @"请输入手机号";
         _usernameText.keyboardType = UIKeyboardTypePhonePad;
@@ -141,7 +141,7 @@
         _authcodeText = [[UITextField alloc]init];
         _authcodeText.clearButtonMode = UITextFieldViewModeWhileEditing;//输入的时候显示close按钮
         _authcodeText.font = [UIFont systemFontOfSize:16];
-        _authcodeText.textColor = FlatBlack;
+        _authcodeText.textColor = COLOR_BLACK_ORIGINAL;
         //        _authcodeText.delegate = self; //文本交互代理
         _authcodeText.placeholder = @"请输入验证码";
         _authcodeText.keyboardType = UIKeyboardTypeNumberPad;

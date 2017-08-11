@@ -57,7 +57,7 @@
         FlatButton* button = [[FlatButton alloc]init];
         
         button.title = title;
-        button.titleColor = FlatBlack;
+        button.titleColor = COLOR_BLACK_ORIGINAL;
         button.fillColor = [UIColor clearColor];
         
         button.frame = CGRectMake(0, i * buttonHeight, buttonWidth, buttonHeight);

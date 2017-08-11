@@ -13,6 +13,7 @@
 #import "ShipmentActivityBean.h"
 #import "FlatButton.h"
 #import "HudManager.h"
+#import "OrderPhotoCell.h"
 
 @interface TestTableViewCell3 : MJTableViewCell
 
@@ -28,13 +29,13 @@
 @end
 
 @interface OrderViewController()<OrderTabViewDelegate>{
-    UILabel* titleLabel;
     BOOL isClickTab;
 }
 
 @property(nonatomic,retain)OrderTabView* tabView;
-@property(nonatomic,retain)UIView* titleView;
+@property(nonatomic,retain)UILabel* titleLabel;
 
+@property (nonatomic,retain) ASDisplayNode* addressBottomY;
 //地址信息栏区域
 @property(nonatomic,retain)ASDisplayNode* addressView;
 //@property(nonatomic,retain)ASDisplayNode* addressLine;
@@ -87,6 +88,16 @@
     return _textAddress;
 }
 
+-(ASDisplayNode *)addressBottomY{
+    if(!_addressBottomY){
+        _addressBottomY = [[ASDisplayNode alloc]init];
+        _addressBottomY.backgroundColor = COLOR_LINE;
+        _addressBottomY.layerBacked = YES;
+        [self.addressView addSubnode:_addressBottomY];
+    }
+    return _addressBottomY;
+}
+
 -(FlatButton *)submitButton{
     if (!_submitButton) {
         _submitButton = [[FlatButton alloc]init];
@@ -104,27 +115,22 @@
     self.view.backgroundColor = COLOR_BACKGROUND;
 }
 
--(UIView *)titleView{
-    if (!_titleView) {
-        _titleView = [[UIView alloc]init];
-        
-        titleLabel = [UICreationUtils createNavigationTitleLabel:20 color:[UIColor whiteColor] text:NAVIGATION_TITLE_TASK_TRIP superView:_titleView];
+-(UILabel *)titleLabel{
+    if (!_titleLabel) {
+        _titleLabel = [UICreationUtils createNavigationTitleLabel:20 color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_TASK_TRIP superView:nil];
     }
-    return _titleView;
+    return _titleLabel;
 }
 
 -(void)initTitleArea{
     self.navigationItem.leftBarButtonItem =
-    [UICreationUtils createNavigationNormalButtonItem:[UIColor whiteColor] font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
+    [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
 //    [UICreationUtils createNavigationLeftButtonItem:[UIColor whiteColor] target:self action:@selector(leftClick)];
     
     //    self.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:[UIColor whiteColor] font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SHE_ZHI target:self action:@selector(rightItemClick)];
-    
-    self.navigationItem.titleView = self.titleView;
-    
-    titleLabel.text = @"TO12451516161AAA";//标题显示TO号
-    [titleLabel sizeToFit];
-    titleLabel.center = self.titleView.center;
+    self.titleLabel.text = @"TO12451516161AAA";//标题显示TO号
+    [self.titleLabel sizeToFit];
+    self.navigationItem.titleView = self.titleLabel;
 }
 
 //返回上层
@@ -142,20 +148,20 @@
 
 -(CGRect)getTableViewFrame{
     CGFloat margin = 4;
-    CGFloat squareHeight = TASK_TRIP_SECTION_TOP_HEIGHT - margin;
+    CGFloat squareHeight = TASK_TRIP_SECTION_TOP_HEIGHT;
     
     CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
     CGFloat viewHeight = CGRectGetHeight(self.view.bounds);
     
     self.addressView.frame = CGRectMake(0, 0, viewWidth, squareHeight);
-    self.tabView.frame = CGRectMake(0, squareHeight + margin, viewWidth, ORDER_TAB_HEIGHT);
+    self.tabView.frame = CGRectMake(0, squareHeight, viewWidth, ORDER_TAB_HEIGHT);
     
     CGFloat buttonAreaHeight = 55;
     
     self.submitButton.frame = CGRectMake(margin, viewHeight - buttonAreaHeight + margin, viewWidth - margin * 2, buttonAreaHeight - margin * 2);
     
     CGFloat tabHeight = CGRectGetHeight(self.view.bounds) - squareHeight - ORDER_TAB_HEIGHT;
-    return CGRectMake(margin, squareHeight + margin * 2 + ORDER_TAB_HEIGHT, viewWidth - margin * 2, tabHeight - margin * 2 - buttonAreaHeight);
+    return CGRectMake(margin, squareHeight + margin + ORDER_TAB_HEIGHT, viewWidth - margin * 2, tabHeight - margin - buttonAreaHeight);
 }
 
 - (void)viewDidLoad {
@@ -185,15 +191,15 @@
     
     CGFloat sectionWidth = self.view.bounds.size.width;
     CGFloat leftpadding = 10;
-    CGFloat squareHeight = TASK_TRIP_SECTION_TOP_HEIGHT - 5;
-    self.iconAddress.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:30 content:ICON_JU_LI];
+    CGFloat squareHeight = TASK_TRIP_SECTION_TOP_HEIGHT;
+    self.iconAddress.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_PRIMARY size:24 content:ICON_DIAN_PU];
     CGSize iconStartSize = [self.iconAddress measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.iconAddress.frame = (CGRect){ CGPointMake(leftpadding,(squareHeight - iconStartSize.height) / 2.),iconStartSize};
     
 //    self.addressLine.frame = CGRectMake(0, squareHeight - LINE_WIDTH * 4, sectionWidth, LINE_WIDTH * 4);
     
     NSString* address = @"上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库";
-    NSMutableAttributedString* textString = (NSMutableAttributedString*)[NSString simpleAttributedString:FlatBlack size:14 content:address];
+    NSMutableAttributedString* textString = (NSMutableAttributedString*)[NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:address];
     NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
     style.alignment = NSTextAlignmentLeft;
     [textString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, address.length)];
@@ -203,6 +209,7 @@
     CGSize textStartSize = [self.textAddress measure:CGSizeMake(maxStartWidth, FLT_MAX)];
     self.textAddress.frame = (CGRect){ CGPointMake(leftpadding + iconStartSize.width + leftpadding / 2.,(squareHeight - textStartSize.height) / 2.),textStartSize};
     
+    self.addressBottomY.frame = CGRectMake(0, squareHeight - LINE_WIDTH, sectionWidth, LINE_WIDTH);
     
 //    self.view.userInteractionEnabled = YES;
     
@@ -257,6 +264,7 @@
             for (NSInteger j = 0; j < count2; j++) {
                 [sourceData addObject:[CellVo initWithParams:ORDER_VIEW_CELL_HEIGHT cellClass:[OrderNormalCell class] cellData:@"数据"]];
             }
+            [sourceData addObject:[CellVo initWithParams:ORDER_PHOTO_CELL_HEIGHT cellClass:[OrderPhotoCell class] cellData:@"附件区域"]];
             
             SourceVo* svo = [SourceVo initWithParams:sourceData headerHeight:ORDER_VIEW_SECTION_HEIGHT headerClass:[OrderViewSection class] headerData:NULL];
             [self.tableView addSource:svo];
@@ -314,7 +322,7 @@
         statusColor = COLOR_DAI_WAN_CHENG;
     }
     self.submitButton.fillColor = statusColor;
-    self.submitButton.title = ConcatStrings([Config getActivityIconByCode:activityBean.activityDefinitionCode],@"   ",[Config getActivityLabelByCode:activityBean.activityDefinitionCode],@"(",[Config getActivityStatusLabel:activityBean.status],@")");
+    self.submitButton.title = ConcatStrings([Config getActivityIconByCode:activityBean.activityDefinitionCode],@"   确认",[Config getActivityLabelByCode:activityBean.activityDefinitionCode],@"(",[Config getActivityStatusLabel:activityBean.status],@")");
 }
 
 /*

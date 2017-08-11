@@ -12,6 +12,7 @@
 #import "CircleNode.h"
 #import "ShipmentStopBean.h"
 #import "FlatButton.h"
+#import "UIArrowView.h"
 
 @interface TaskTripCell(){
     
@@ -23,40 +24,91 @@
 //@property(nonatomic,retain) ASTextNode* carView;
 //@property(nonatomic,retain) UIView* bottomRouteGroup;
 
-@property(nonatomic,retain)ASTextNode* indexNode;
+//@property(nonatomic,retain)ASTextNode* indexNode;
+
 @property(nonatomic,retain)ASTextNode* titleNode;
+@property(nonatomic,retain)ASTextNode* orderCountNode;//订单数
+
+@property(nonatomic,retain)ASTextNode* addressNode;
+
 @property(nonatomic,retain)ASTextNode* stateNode;
 
 @property(nonatomic,retain)ASTextNode* shipUintCountText;
 
+@property(nonatomic,retain)ASTextNode* timeLabel;
+
 @property(nonatomic,retain)RoundRectNode* routeLine;
 @property(nonatomic,retain)CircleNode* routeCircle;
 
-@property (nonatomic,retain)UIControl* naviButton;//导航按钮
-@property (nonatomic,retain)ASTextNode* naviIcon;//导航图标
-@property (nonatomic,retain)ASTextNode* naviLabel;//去这里
+@property (nonatomic,retain)FlatButton* naviButton;//导航按钮
+//@property (nonatomic,retain)ASTextNode* naviIcon;//导航图标
+//@property (nonatomic,retain)ASTextNode* naviLabel;//去这里
+
+@property (nonatomic,retain)FlatButton* phoneButton;//联系电话
 
 @property (nonatomic,retain)FlatButton* activityButton;
+
+@property (nonatomic,retain)UIView* indicatorView;
 //@property (nonatomic,retain)RoundRectNode* activityBack;
 //@property (nonatomic,retain)ASTextNode* activityLabel;
 
 @end
 
-static CGFloat shipWidth = 80;
-static CGFloat naviWidth = 45;
-static CGFloat bottomAreaHeight = 30;
+static CGFloat topAreaHeight = 30;
+static CGFloat shipWidth = 60;
+static CGFloat naviWidth = 40;
+static CGFloat bottomAreaHeight = 45;
 
 @implementation TaskTripCell
 
--(ASTextNode *)indexNode{
-    if (!_indexNode) {
-        _indexNode = [[ASTextNode alloc]init];
-        _indexNode.layerBacked = YES;
-        _indexNode.userInteractionEnabled = NO;
-        [self.contentView.layer addSublayer:_indexNode.layer];
+//-(ASTextNode *)carView{
+//    if (!_carView) {
+//        _carView = [[ASTextNode alloc]init];
+//        _carView.layerBacked = YES;
+//        _carView.userInteractionEnabled = NO;
+//        [self.contentView.layer addSublayer:_carView.layer];
+//    }
+//    return _carView;
+//}
+
+-(UIView *)indicatorView{
+    if (!_indicatorView) {
+        _indicatorView = [[UIView alloc]init];
+        
+        CGFloat backWidth = 12;
+        CGFloat backHeight = 12;
+        CGFloat arrowWidth = 6;
+        
+        UIView* backNode = [[UIView alloc]init];
+        [_indicatorView addSubview:backNode];
+        backNode.backgroundColor = COLOR_LINE;
+        backNode.frame = CGRectMake(0, 0, backWidth, backHeight);
+        
+        UIArrowView* arrowNode = [[UIArrowView alloc]init];
+        [_indicatorView addSubview:arrowNode];
+        arrowNode.direction = ArrowDirectRight;
+        arrowNode.isClosed = YES;
+        arrowNode.fillColor = COLOR_LINE;
+        arrowNode.lineColor = COLOR_LINE;
+//        arrowNode.lineThinkness = 0;
+        arrowNode.frame = CGRectMake(backWidth, 0, arrowWidth, backHeight);
+        
+        [self.contentView addSubview:_indicatorView];
+        
+        _indicatorView.frame = CGRectMake(0, 0, backWidth + arrowWidth, backHeight);
     }
-    return _indexNode;
+    return _indicatorView;
 }
+
+//-(ASTextNode *)indexNode{
+//    if (!_indexNode) {
+//        _indexNode = [[ASTextNode alloc]init];
+//        _indexNode.layerBacked = YES;
+//        _indexNode.userInteractionEnabled = NO;
+//        [self.contentView.layer addSublayer:_indexNode.layer];
+//    }
+//    return _indexNode;
+//}
 
 -(ASTextNode *)titleNode{
     if (!_titleNode) {
@@ -65,6 +117,24 @@ static CGFloat bottomAreaHeight = 30;
         [self.contentView.layer addSublayer:_titleNode.layer];
     }
     return _titleNode;
+}
+
+-(ASTextNode *)orderCountNode{
+    if (!_orderCountNode) {
+        _orderCountNode = [[ASTextNode alloc]init];
+        _orderCountNode.layerBacked = YES;
+        [self.contentView.layer addSublayer:_orderCountNode.layer];
+    }
+    return _orderCountNode;
+}
+
+-(ASTextNode *)addressNode{
+    if (!_addressNode) {
+        _addressNode = [[ASTextNode alloc]init];
+        _addressNode.layerBacked = YES;
+        [self.contentView.layer addSublayer:_addressNode.layer];
+    }
+    return _addressNode;
 }
 
 -(ASTextNode *)stateNode{
@@ -81,7 +151,7 @@ static CGFloat bottomAreaHeight = 30;
     if (!_routeLine) {
         _routeLine = [[RoundRectNode alloc]init];
         _routeLine.layerBacked = YES;
-        _routeLine.fillColor = FlatGrayDark;
+        _routeLine.fillColor = COLOR_LINE;
         [self.contentView.layer addSublayer:_routeLine.layer];
     }
     return _routeLine;
@@ -91,7 +161,9 @@ static CGFloat bottomAreaHeight = 30;
     if (!_routeCircle) {
         _routeCircle = [[CircleNode alloc]init];
         _routeCircle.layerBacked = YES;
-        _routeCircle.fillColor = FlatWhite;
+        _routeCircle.fillColor = COLOR_LINE;//FlatWhite
+        _routeCircle.strokeColor = [UIColor whiteColor];
+        _routeCircle.strokeWidth = 2;
         [self.contentView.layer addSublayer:_routeCircle.layer];
     }
     return _routeCircle;
@@ -106,32 +178,68 @@ static CGFloat bottomAreaHeight = 30;
     return _shipUintCountText;
 }
 
--(UIControl *)naviButton{
+-(ASTextNode *)timeLabel{
+    if(!_timeLabel){
+        _timeLabel = [[ASTextNode alloc]init];
+        _timeLabel.layerBacked = YES;
+        [self.contentView.layer addSubnode:_timeLabel];
+    }
+    return _timeLabel;
+}
+
+//-(UIControl *)naviButton{
+//    if (!_naviButton) {
+//        _naviButton = [[UIControl alloc]init];
+//        [_naviButton setShowTouch:YES];
+//        [self addSubview:_naviButton];
+//    }
+//    return _naviButton;
+//}
+
+//-(ASTextNode *)naviIcon{
+//    if (!_naviIcon) {
+//        _naviIcon = [[ASTextNode alloc]init];
+//        _naviIcon.layerBacked = YES;
+//        [self.contentView.layer addSublayer:_naviIcon.layer];
+//    }
+//    return _naviIcon;
+//}
+
+-(FlatButton *)naviButton{
     if (!_naviButton) {
-        _naviButton = [[UIControl alloc]init];
-        [_naviButton setShowTouch:YES];
-        [self addSubview:_naviButton];
+        _naviButton = [[FlatButton alloc]init];
+        _naviButton.fillColor = [UIColor clearColor];
+        _naviButton.titleColor = COLOR_ACCENT;
+        _naviButton.titleFontName = ICON_FONT_NAME;
+        _naviButton.titleSize = 38;
+        _naviButton.title = ICON_DAO_HANG;
+        [self.contentView addSubview:_naviButton];
     }
     return _naviButton;
 }
 
--(ASTextNode *)naviIcon{
-    if (!_naviIcon) {
-        _naviIcon = [[ASTextNode alloc]init];
-        _naviIcon.layerBacked = YES;
-        [self.naviButton.layer addSublayer:_naviIcon.layer];
+-(FlatButton *)phoneButton{
+    if (!_phoneButton) {
+        _phoneButton = [[FlatButton alloc]init];
+        _phoneButton.fillColor = [UIColor clearColor];
+        _phoneButton.titleColor = COLOR_ACCENT;
+        _phoneButton.titleFontName = ICON_FONT_NAME;
+        _phoneButton.titleSize = 24;
+        _phoneButton.title = ICON_DIAN_HUA;
+        [self.contentView addSubview:_phoneButton];
     }
-    return _naviIcon;
+    return _phoneButton;
 }
 
--(ASTextNode *)naviLabel{
-    if (!_naviLabel) {
-        _naviLabel = [[ASTextNode alloc]init];
-        _naviLabel.layerBacked = YES;
-        [self.naviButton.layer addSublayer:_naviLabel.layer];
-    }
-    return _naviLabel;
-}
+
+//-(ASTextNode *)naviLabel{
+//    if (!_naviLabel) {
+//        _naviLabel = [[ASTextNode alloc]init];
+//        _naviLabel.layerBacked = YES;
+//        [self.naviButton.layer addSublayer:_naviLabel.layer];
+//    }
+//    return _naviLabel;
+//}
 
 -(FlatButton *)activityButton{
     if (!_activityButton) {
@@ -171,35 +279,15 @@ static CGFloat bottomAreaHeight = 30;
 -(void)showSubviews{
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     
-//    self.isSelected
-    
     CGFloat cellHeight = self.contentView.bounds.size.height;
     CGFloat cellWidth = self.contentView.bounds.size.width;
-//
-////    CGFloat leftMargin = 10;
-//    CGFloat topMargin = 5;
-//    
-////    CGFloat backWidth = cellWidth - leftMargin * 2;
-////    CGFloat backHeight = 175;
-//    
-//    CGFloat scrollerHeight = cellHeight - topMargin;
-//    self.bottomAreaView.frame = CGRectMake(0, topMargin, cellWidth, scrollerHeight);
-////    self.bottomAreaView.backgroundColor = [UIColor brownColor];
-//    
-//    [self initBottomArea:scrollerHeight];
-    
-    ShipmentStopBean* stopBean = self.data;
-    
-//    if (self.isSelected) {
-//        
-//    }else{
-//        
-//    }
+
     [self initRouteArea:cellHeight];
+    
     [self initNaviArea:cellWidth cellHeight:cellHeight];
     
-    [self initTitleArea:cellWidth cellHeight:cellHeight];
-    
+    [self initTopArea:cellWidth cellHeight:cellHeight];
+    [self initCenterArea:cellWidth cellHeight:cellHeight];
     [self initBottomArea:cellWidth cellHeight:cellHeight];
 }
 
@@ -214,12 +302,49 @@ static CGFloat bottomAreaHeight = 30;
     [super setSelected:selected];
     CGFloat cellHeight = self.contentView.bounds.size.height;
     CGFloat cellWidth = self.contentView.bounds.size.width;
-    [self initTitleArea:cellWidth cellHeight:cellHeight];
+    [self initRouteArea:cellHeight];
+    [self initTopArea:cellWidth cellHeight:cellHeight];
+    [self initCenterArea:cellWidth cellHeight:cellHeight];
 }
 
--(void)initTitleArea:(CGFloat)cellWidth cellHeight:(CGFloat)cellHeight{
+-(void)initTopArea:(CGFloat)cellWidth cellHeight:(CGFloat)cellHeight{
+    ShipmentStopBean* stopBean = self.data;
     
-    CGFloat leftMargin = CGRectGetMaxX(self.routeLine.frame) + 5;
+    CGFloat leftMargin = CGRectGetMaxX(self.routeLine.frame) + 16;
+    NSString* stopName = ConcatStrings([NSString stringWithFormat:@"%li",(long)self.indexPath.row + 1],@".",stopBean.shortAddress);
+    UIColor* titleColor;
+    if(self.selected){
+        titleColor = FlatOrange;
+        self.backgroundColor = FlatWhite;
+    }else{
+        titleColor = COLOR_BLACK_ORIGINAL;
+        self.backgroundColor = [UIColor clearColor];
+    }
+    
+    self.titleNode.attributedString = [NSString simpleAttributedString:titleColor size:16 content:stopName];
+//    CGFloat maxStartWidth = cellWidth - leftMargin - naviWidth;
+    self.titleNode.size = [self.titleNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize textStartSize =
+//    self.titleNode.frame = (CGRect){
+//        CGPointMake(leftMargin, topAreaHeight - textStartSize.height),textStartSize
+//    };
+    self.titleNode.x = leftMargin;
+    self.titleNode.maxY = topAreaHeight;
+    
+    self.orderCountNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_ACCENT size:14 content:ConcatStrings(ICON_DING_DAN,@"15")];
+    self.orderCountNode.size = [self.orderCountNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize orderCountSize =
+//    self.orderCountNode.frame = (CGRect){
+//        CGPointMake(CGRectGetMaxX(self.titleNode.frame) + 5, CGRectGetMidY(self.titleNode.frame) - orderCountSize.height / 2.),orderCountSize
+//    };
+    self.orderCountNode.x = self.titleNode.maxX + 5;
+    self.orderCountNode.centerY = self.titleNode.centerY;
+}
+
+-(void)initCenterArea:(CGFloat)cellWidth cellHeight:(CGFloat)cellHeight{
+    
+    CGFloat centerAreaY = topAreaHeight;
+    CGFloat centerAreaHeight = cellHeight - topAreaHeight - bottomAreaHeight;
+    
+    CGFloat leftMargin = self.titleNode.x;//CGRectGetMinX(self.titleNode.frame);
     
     ShipmentStopBean* stopBean = self.data;
     
@@ -230,7 +355,7 @@ static CGFloat bottomAreaHeight = 30;
         titleColor = FlatOrange;
         self.backgroundColor = FlatWhite;
     }else{
-        titleColor = FlatBlack;
+        titleColor = COLOR_BLACK_ORIGINAL;
         self.backgroundColor = [UIColor clearColor];
     }
     
@@ -239,75 +364,86 @@ static CGFloat bottomAreaHeight = 30;
     style.alignment = NSTextAlignmentLeft;
     [textString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, address.length)];
     
-    self.titleNode.attributedString = textString;
+    self.addressNode.attributedString = textString;
     
-    CGFloat rightArea = naviWidth;
+    CGFloat maxStartWidth = cellWidth - leftMargin - naviWidth;
     
-    CGFloat maxStartWidth = cellWidth - leftMargin - rightArea;
-    
-    CGSize textStartSize = [self.titleNode measure:CGSizeMake(maxStartWidth, FLT_MAX)];
-    self.titleNode.frame = (CGRect){ CGPointMake(leftMargin,cellHeight - bottomAreaHeight - textStartSize.height),textStartSize};
+    self.addressNode.size = [self.addressNode measure:CGSizeMake(maxStartWidth, FLT_MAX)];//CGSize textStartSize =
+    self.addressNode.x = leftMargin;
+    self.addressNode.centerY = centerAreaY + centerAreaHeight / 2.;
+//    self.addressNode.frame = (CGRect){ CGPointMake(leftMargin,centerAreaY + (centerAreaHeight - textStartSize.height) / 2.),textStartSize};
 }
 
 -(void)initNaviArea:(CGFloat)cellWidth cellHeight:(CGFloat)cellHeight{
-    CGFloat naviHeight = cellHeight;
+    CGFloat naviHeight = cellHeight - bottomAreaHeight;
     
-    self.naviButton.frame = CGRectMake(cellWidth - naviWidth, 0, naviWidth, naviHeight);
+//    self.naviButton.frame = CGRectMake(cellWidth - naviWidth, 0, naviWidth, naviHeight);
+//    
+//    self.naviIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_PRIMARY size:26 content:ICON_DAO_HANG];
+//    CGSize naviIconSize = [self.naviIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+//    self.naviLabel.attributedString = [NSString simpleAttributedString:FlatGray  size:12 content:@"去这里"];
+//    CGSize naviLabelSize = [self.naviLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
-    self.naviIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:26 content:ICON_DAO_HANG];
-    CGSize naviIconSize = [self.naviIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.naviLabel.attributedString = [NSString simpleAttributedString:FlatGray  size:12 content:@"去这里"];
-    CGSize naviLabelSize = [self.naviLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+//    CGFloat naviIconY = (cellHeight - naviIconSize.height - naviLabelSize.height) / 2.;
+    CGFloat baseX = cellWidth - naviWidth;
+    CGFloat buttonHeight = naviHeight - 20;
+    CGFloat buttonWidth = naviWidth;
+    self.naviButton.frame = CGRectMake(baseX + (naviWidth - buttonWidth) / 2., (naviHeight - buttonHeight) / 2., buttonWidth, buttonHeight);
+//    self.phoneButton.frame = CGRectMake(baseX + buttonWidth, (naviHeight - buttonHeight) / 2., buttonWidth, buttonHeight);
     
-    CGFloat naviIconY = (cellHeight - naviIconSize.height - naviLabelSize.height) / 2.;
     
-    self.naviIcon.frame = (CGRect){ CGPointMake((naviWidth - naviIconSize.width) / 2.,naviIconY),naviIconSize};
-    self.naviLabel.frame = (CGRect){ CGPointMake((naviWidth - naviLabelSize.width) / 2.,naviIconY + naviIconSize.height),naviLabelSize};
+//    self.naviIcon.frame = (CGRect){ CGPointMake((naviWidth - naviIconSize.width) / 2.,(bottomAreaHeight - naviIconSize.height) / 2.),naviIconSize};
+//    self.naviLabel.frame = (CGRect){ CGPointMake((naviWidth - naviLabelSize.width) / 2.,naviIconY + naviIconSize.height),naviLabelSize};
 }
 
 -(void)initBottomArea:(CGFloat)cellWidth cellHeight:(CGFloat)cellHeight{
-    CGFloat leftMargin = CGRectGetMaxX(self.routeLine.frame) + 5;
+    CGFloat leftMargin = self.titleNode.x;//CGRectGetMinX(self.titleNode.frame);
     CGFloat bottomY = cellHeight - bottomAreaHeight;
     
-    [self initActivityArea:leftMargin bottomY:bottomY cellWidth:cellWidth cellHeight:cellHeight];
-    
+    self.timeLabel.attributedString = [NSString simpleAttributedString:FlatGray size:12 content:@"送达:2017-08-15 00:00:00"];
+    self.timeLabel.size = [self.timeLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize timeSize =
+    self.timeLabel.x = leftMargin;
+    self.timeLabel.y = bottomY;
+//    self.timeLabel.frame = (CGRect){
+//        CGPointMake(leftMargin, bottomY),
+//        timeSize
+//    };
     ShipmentStopBean* stopBean = self.data;
     
     int pickupCount = stopBean.pickupCount; //生成0-15范围的随机数
     int deliverCount = stopBean.deliverCount; //生成0-15范围的随机数
     
     self.shipUintCountText.attributedString = [self generateShipUnitString:FlatOrange pickupCount:pickupCount deliverCount:deliverCount];
-    CGSize shipUnitSize = [self.shipUintCountText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    self.shipUintCountText.size = [self.shipUintCountText measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize shipUnitSize =
+    self.shipUintCountText.x = leftMargin;
+    self.shipUintCountText.y = self.timeLabel.maxY + 5;
+//    self.shipUintCountText.frame = (CGRect){
+//        CGPointMake(leftMargin, CGRectGetMaxY(self.timeLabel.frame) + 5),
+//        shipUnitSize
+//    };
+    self.phoneButton.width = 35;
+    self.phoneButton.height = 25;
+    self.phoneButton.x = leftMargin + shipWidth;
+    self.phoneButton.y = self.timeLabel.maxY;
+//    self.phoneButton.frame = CGRectMake(leftMargin + shipWidth, CGRectGetMaxY(self.timeLabel.frame), phoneWidth, phoneHeight);
     
-    self.shipUintCountText.frame = (CGRect){
-        CGPointMake(leftMargin, self.activityButton.center.y - shipUnitSize.height / 2.),
-        shipUnitSize
-    };
-    
+    [self initActivityArea:bottomY cellWidth:cellWidth cellHeight:cellHeight];
 }
 
--(void)initActivityArea:(CGFloat)leftMargin bottomY:(CGFloat)bottomY cellWidth:(CGFloat)cellWidth cellHeight:(CGFloat)cellHeight{
-    
-    CGFloat activityWidth = 70;
-    CGFloat activityHeight = 25;
+-(void)initActivityArea:(CGFloat)bottomY cellWidth:(CGFloat)cellWidth cellHeight:(CGFloat)cellHeight{
+    CGFloat activityWidth = 85;
+    CGFloat activityHeight = 30;
     
     ShipmentStopBean* stopBean = self.data;
     
     self.activityButton.fillColor = stopBean.isComplete ? COLOR_YI_WAN_CHENG : COLOR_DAI_WAN_CHENG;
     self.activityButton.title = stopBean.isComplete ? @"已完成" : @"未完成(1)";
     
-//    self.activityBack.frame = self.activityButton.bounds;
-//    
-//    self.activityLabel.attributedString = [NSString simpleAttributedString:[UIColor whiteColor]  size:14 content:@"任务详情"];
-//    CGSize activityLabelSize = [self.activityLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-//    
-//    self.activityLabel.frame = (CGRect){ CGPointMake((activityWidth - activityLabelSize.width) / 2.,(activityHeight -activityLabelSize.height) / 2.),activityLabelSize};
-    
-    self.activityButton.frame = CGRectMake(leftMargin + shipWidth, bottomY, activityWidth, activityHeight);
+    self.activityButton.frame = CGRectMake(cellWidth - activityWidth - 5,bottomY + 5, activityWidth, activityHeight);
 }
 
 -(void)initRouteArea:(CGFloat)cellHeight{
-    CGFloat marginLeft = 10;
+    CGFloat marginLeft = 5;
     
     ShipmentStopBean* stopBean = self.data;
     
@@ -316,45 +452,70 @@ static CGFloat bottomAreaHeight = 30;
     }else{
         self.stateNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_DAI_WAN_CHENG size:20                         content:ICON_DAI_SHANG_BAO];
     }
-    CGSize stateSize = [self.stateNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    self.stateNode.size = [self.stateNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize stateSize =
 //    CGFloat containerWidth = CGRectGetWidth(self.bounds);
     CGFloat stateWidth = 20;
-    self.stateNode.frame = (CGRect){
-        CGPointMake(marginLeft + (stateWidth - stateSize.width) / 2., (cellHeight - stateSize.height) / 2.),stateSize
-    };
-    self.indexNode.attributedString = [NSString simpleAttributedString:FlatGrayDark size:14 content:[NSString stringWithFormat:@"%li",(long)self.indexPath.row + 1]];
-    CGSize indexSize = [self.indexNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    CGFloat indexWidth = 20;
-    self.indexNode.frame = (CGRect){
-        CGPointMake(marginLeft + stateWidth + (indexWidth - indexSize.width) / 2., (cellHeight - indexSize.height) / 2.),indexSize
-    };
+    self.stateNode.centerX = marginLeft + stateWidth / 2;
+    self.stateNode.centerY = cellHeight / 2.;
+//    self.stateNode.frame = (CGRect){
+//        CGPointMake(marginLeft + (stateWidth - stateSize.width) / 2., (cellHeight - stateSize.height) / 2.),stateSize
+//    };
     
-    CGFloat routeW = 5;
+    UIColor* indexColor;
+    if (self.selected) {
+        indexColor = FlatOrange;
+    }else{
+        indexColor = FlatGrayDark;
+    }
+    CGFloat indexWidth = 5;//20
+//    self.indexNode.attributedString = [NSString simpleAttributedString:indexColor size:14 content:[NSString stringWithFormat:@"%li",(long)self.indexPath.row + 1]];
+//    CGSize indexSize = [self.indexNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+//    self.indexNode.frame = (CGRect){
+//        CGPointMake(marginLeft + stateWidth + (indexWidth - indexSize.width) / 2., (cellHeight - indexSize.height) / 2.),indexSize
+//    };
+    
+    CGFloat routeW = 2;
     CGFloat routeH = cellHeight;
     CGFloat routeY = 0;
+    CGFloat routeBaseX = marginLeft + stateWidth + indexWidth + 3;
+    CGFloat radius;
+    self.routeLine.hidden = NO;
     if (self.isFirst) {
-        routeH = cellHeight * 3 / 4;
+        routeH = cellHeight * 1 / 2;
         routeY = cellHeight - routeH;
-        self.routeLine.topLeftRadius = routeW / 2.;
-        self.routeLine.topRightRadius = routeW / 2.;
-        self.routeLine.bottomLeftRadius = 0;
-        self.routeLine.bottomRightRadius = 0;
+//        self.routeLine.topLeftRadius = routeW / 2.;
+//        self.routeLine.topRightRadius = routeW / 2.;
+//        self.routeLine.bottomLeftRadius = 0;
+//        self.routeLine.bottomRightRadius = 0;
+        radius = routeW + self.routeCircle.strokeWidth + 2;
     }else if(self.isLast){
-        routeH = cellHeight * 3 / 4;
-        self.routeLine.topLeftRadius = 0;
-        self.routeLine.topRightRadius = 0;
-        self.routeLine.bottomLeftRadius = routeW / 2.;
-        self.routeLine.bottomRightRadius = routeW / 2.;
+        routeH = cellHeight * 1 / 2;
+//        self.routeLine.topLeftRadius = 0;
+//        self.routeLine.topRightRadius = 0;
+//        self.routeLine.bottomLeftRadius = routeW / 2.;
+//        self.routeLine.bottomRightRadius = routeW / 2.;
+        radius = routeW + self.routeCircle.strokeWidth + 2;
     }else{
-        self.routeLine.topLeftRadius = self.routeLine.topRightRadius = self.routeLine.bottomLeftRadius = self.routeLine.bottomRightRadius = 0;
+//        self.routeLine.topLeftRadius = self.routeLine.topRightRadius = self.routeLine.bottomLeftRadius = self.routeLine.bottomRightRadius = 0;
+        radius = routeW + self.routeCircle.strokeWidth + 1;//routeW / 2. - 0.5;
     }
-    CGFloat routeBaseX = marginLeft + stateWidth + indexWidth;
-    
     self.routeLine.frame = CGRectMake(routeBaseX, routeY, routeW, routeH);
     
-    CGFloat radius = routeW / 2. - 0.5;
+    self.routeCircle.fillColor = self.isFirst || self.isLast ? [UIColor whiteColor] : COLOR_LINE;
+    self.routeCircle.strokeColor = self.isFirst || self.isLast ? COLOR_LINE : [UIColor whiteColor];
     self.routeCircle.cornerRadius = radius;
     self.routeCircle.frame = CGRectMake(routeBaseX + routeW / 2. - radius, cellHeight / 2. - radius, radius * 2, radius * 2);
+    
+    self.indicatorView.hidden = !self.selected;
+    self.routeCircle.hidden = self.selected;
+    if (!self.indicatorView.hidden) {
+        CGSize carSize = self.indicatorView.bounds.size;
+        self.indicatorView.x = routeBaseX + routeW / 2. - carSize.width / 3.;
+        self.indicatorView.centerY = cellHeight / 2.;
+//        self.indicatorView.frame = (CGRect){
+//            CGPointMake(routeBaseX + routeW / 2. - carSize.width / 3., cellHeight / 2. - carSize.height / 2.),carSize
+//        };
+    }
 }
 
 -(NSAttributedString *)generateShipUnitString:(UIColor*)color pickupCount:(int)pickupCount deliverCount:(int)deliverCount{

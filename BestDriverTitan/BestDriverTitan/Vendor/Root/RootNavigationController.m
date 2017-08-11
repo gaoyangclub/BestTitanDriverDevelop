@@ -11,6 +11,7 @@
 @interface RootNavigationController ()
 
 @property (nonatomic,retain)UIImageView* navBarHairlineImageView;
+@property (nonatomic,retain)UIView* hairlineProxy;
 
 @end
 
@@ -39,16 +40,28 @@
 //    return nil;
 //}
 
+-(UIView *)hairlineProxy{
+    if (!_hairlineProxy) {
+        _hairlineProxy = [[UIView alloc]init];
+        [self.navigationBar addSubview:_hairlineProxy];
+        _hairlineProxy.frame = self.navBarHairlineImageView.frame;
+    }
+    return _hairlineProxy;
+}
+
 -(void)viewWillAppear:(BOOL)animated{
     self.navigationBar.translucent = NO;//    Bar的高斯模糊效果，默认为YES
     [super viewWillAppear:animated];
     self.navigationBar.barTintColor = self.navigationColor;
     self.navBarHairlineImageView.hidden = true;
+    
+    self.hairlineProxy.backgroundColor = self.hairlineColor;
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    self.navBarHairlineImageView.hidden = false;
+    self.navBarHairlineImageView.hidden = true;
+    
 }
 //- (void)viewDidLoad {
 //    [super viewDidLoad];
@@ -66,9 +79,9 @@
 }
 
 -(UIImageView *)navBarHairlineImageView{
-    if (!self.hairlineHidden) {
-        return nil;
-    }
+//    if (!self.hairlineHidden) {
+//        return nil;
+//    }
     UIImageView * hailline = [self findHairlineImageViewUnder:self.navigationBar];
     return hailline;
 }

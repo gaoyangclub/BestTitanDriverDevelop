@@ -55,7 +55,7 @@
         _nameLab = [[UILabel alloc]init];
         _nameLab.text = APPLICATION_NAME;
         _nameLab.font = [UIFont systemFontOfSize:20];
-        _nameLab.textColor = FlatBlack;//[UIColor whiteColor];//[[UIColor alloc]initWithRed:58.0/255 green:139.0/255 blue:253.0/255 alpha:1];
+        _nameLab.textColor = COLOR_BLACK_ORIGINAL;//[UIColor whiteColor];//[[UIColor alloc]initWithRed:58.0/255 green:139.0/255 blue:253.0/255 alpha:1];
         [_nameLab sizeToFit];
         [self addSubview:_nameLab];
     }

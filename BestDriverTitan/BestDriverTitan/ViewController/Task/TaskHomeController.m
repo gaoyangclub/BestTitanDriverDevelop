@@ -18,6 +18,7 @@
 }
 
 @property(nonatomic,retain)UIView* titleView;
+@property (nonatomic,retain) ASDisplayNode* lineBottomY;
 
 @end
 
@@ -33,16 +34,26 @@
     if (!_titleView) {
         _titleView = [[UIView alloc]init];
         
-        [UICreationUtils createNavigationTitleLabel:20 color:[UIColor whiteColor] text:NAVIGATION_TITLE_TASK_HOME superView:_titleView];
+        [UICreationUtils createNavigationTitleLabel:20 color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_TASK_HOME superView:_titleView];
     }
     return _titleView;
 }
 
+-(ASDisplayNode *)lineBottomY{
+    if(!_lineBottomY){
+        _lineBottomY = [[ASDisplayNode alloc]init];
+        _lineBottomY.backgroundColor = COLOR_LINE;
+        _lineBottomY.layerBacked = YES;
+        [self.view.layer addSublayer:_lineBottomY.layer];
+    }
+    return _lineBottomY;
+}
+
 -(void)initTitleArea{
     self.tabBarController.navigationItem.leftBarButtonItem =
-    [UICreationUtils createNavigationNormalButtonItem:[UIColor whiteColor] font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SHE_ZHI target:self action:@selector(leftItemClick)];
+    [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SHE_ZHI target:self action:@selector(leftItemClick)];
     
-    self.tabBarController.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:[UIColor whiteColor] font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SAO_MIAO target:self action:@selector(rightItemClick)];
+    self.tabBarController.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SAO_MIAO target:self action:@selector(rightItemClick)];
     
     self.tabBarController.navigationItem.titleView = self.titleView;
 }
@@ -59,6 +70,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    CGFloat viewWidth = self.view.frame.size.width;
+    CGFloat viewHeight = self.view.frame.size.height;
     
 //    if (!self->pageMenu) {
         NSArray* titleList = [NSArray arrayWithObjects:
@@ -100,7 +114,7 @@
                                      CAPSPageMenuOptionScrollMenuBackgroundColor:[UIColor whiteColor],
                                      CAPSPageMenuOptionViewBackgroundColor:[UIColor clearColor],
                                      CAPSPageMenuOptionSelectionIndicatorColor:COLOR_PRIMARY,
-                                     CAPSPageMenuOptionUnselectedMenuItemLabelColor:FlatBlack,
+                                     CAPSPageMenuOptionUnselectedMenuItemLabelColor:COLOR_BLACK_ORIGINAL,
                                      CAPSPageMenuOptionSelectedMenuItemLabelColor:COLOR_PRIMARY,
                                      CAPSPageMenuOptionMenuItemFont:[UIFont systemFontOfSize:16],
                                      CAPSPageMenuOptionSelectionIndicatorHeight:@(2),
@@ -108,12 +122,14 @@
                                      CAPSPageMenuOptionAddBottomMenuHairline:@(NO)
                                      };
         
-        self->pageMenu = [[CAPSPageMenu alloc] initWithViewControllers:controllerArray frame:CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height) options:parameters];
+        self->pageMenu = [[CAPSPageMenu alloc] initWithViewControllers:controllerArray frame:CGRectMake(0.0, 0.0, viewWidth, viewHeight) options:parameters];
         //
         //    // Lastly add page menu as subview of base view controller view
         //    // or use pageMenu controller in you view hierachy as desired
         [self.view addSubview:pageMenu.view];
 //    }
+    
+    self.lineBottomY.frame = CGRectMake(0, PAGE_MENU_HEIGHT - LINE_WIDTH, viewWidth, LINE_WIDTH);
     
     
 //    var controllerArray:[UIViewController] = []

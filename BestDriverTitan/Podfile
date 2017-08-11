@@ -24,4 +24,7 @@ pod 'YYModel'
 pod 'Pgyer'
 pod 'PgyUpdate'
 
+#友盟统计开放平台
+pod 'UMengAnalytics'#标准SDK，含IDFA
+
 end

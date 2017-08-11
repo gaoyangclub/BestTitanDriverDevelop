@@ -106,7 +106,7 @@ static const CGFloat IMAGE_HEIGHT = 120;
 
 -(UILabel *)infoLabel{
     if (!_infoLabel) {
-        _infoLabel = [UICreationUtils createLabel:18 color:FlatBlack text:@"当前版本说明" sizeToFit:YES superView:self.infoBack];
+        _infoLabel = [UICreationUtils createLabel:18 color:COLOR_BLACK_ORIGINAL text:@"当前版本说明" sizeToFit:YES superView:self.infoBack];
         [self.infoBack addSubview:_infoLabel];
     }
     return _infoLabel;
@@ -114,7 +114,7 @@ static const CGFloat IMAGE_HEIGHT = 120;
 
 -(UILabel *)infoText{
     if (!_infoText) {
-        _infoText = [UICreationUtils createLabel:14 color:FlatBlack];
+        _infoText = [UICreationUtils createLabel:14 color:COLOR_BLACK_ORIGINAL];
         _infoText.numberOfLines = 0;
         [self.infoBack addSubview:_infoText];
     }
@@ -123,7 +123,7 @@ static const CGFloat IMAGE_HEIGHT = 120;
 
 -(UILabel *)titleLabel{
     if (!_titleLabel) {
-        _titleLabel = [UICreationUtils createNavigationTitleLabel:20 color:[UIColor whiteColor] text:NAVIGATION_TITLE_VERSION superView:nil];
+        _titleLabel = [UICreationUtils createNavigationTitleLabel:20 color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_VERSION superView:nil];
     }
     return _titleLabel;
 }
@@ -140,21 +140,21 @@ static const CGFloat IMAGE_HEIGHT = 120;
 
 //-(UILabel *)logoLabel{
 //    if (!_logoLabel) {
-//        _logoLabel = [UICreationUtils createLabel:24 color:FlatBlack text:APPLICATION_NAME sizeToFit:YES superView:self.scrollView];
+//        _logoLabel = [UICreationUtils createLabel:24 color:COLOR_BLACK_ORIGINAL text:APPLICATION_NAME sizeToFit:YES superView:self.scrollView];
 //    }
 //    return _logoLabel;
 //}
 
 //-(UILabel *)logoDes{
 //    if (!_logoDes) {
-//        _logoDes = [UICreationUtils createLabel:16 color:FlatBlack text:APPLICATION_NAME_EN sizeToFit:YES superView:self.scrollView];
+//        _logoDes = [UICreationUtils createLabel:16 color:COLOR_BLACK_ORIGINAL text:APPLICATION_NAME_EN sizeToFit:YES superView:self.scrollView];
 //    }
 //    return _logoDes;
 //}
 
 -(UILabel *)versionLabel{
     if (!_versionLabel) {
-        _versionLabel = [UICreationUtils createLabel:14 color:FlatBlack];
+        _versionLabel = [UICreationUtils createLabel:14 color:COLOR_BLACK_ORIGINAL];
         [self.infoBack addSubview:_versionLabel];
     }
     return _versionLabel;
@@ -171,7 +171,7 @@ static const CGFloat IMAGE_HEIGHT = 120;
 
 -(UILabel *)qrcodeLabel{
     if (!_qrcodeLabel) {
-        _qrcodeLabel = [UICreationUtils createLabel:14 color:FlatBlack text:@"扫描二维码安装" sizeToFit:YES superView:self.scrollView];
+        _qrcodeLabel = [UICreationUtils createLabel:14 color:COLOR_BLACK_ORIGINAL text:@"扫描二维码安装" sizeToFit:YES superView:self.scrollView];
     }
     return _qrcodeLabel;
 }
@@ -200,7 +200,7 @@ static const CGFloat IMAGE_HEIGHT = 120;
 
 -(void)initTitleArea{
     self.navigationItem.leftBarButtonItem =
-    [UICreationUtils createNavigationNormalButtonItem:[UIColor whiteColor] font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
+    [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
     
     self.navigationItem.titleView = self.titleLabel;
 }

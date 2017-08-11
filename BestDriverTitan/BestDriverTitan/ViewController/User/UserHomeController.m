@@ -64,7 +64,7 @@ typedef NS_ENUM(NSInteger,ItemPostion){
     if (!_titleView) {
         _titleView = [[UIView alloc]init];
         
-        [UICreationUtils createNavigationTitleLabel:20 color:[UIColor whiteColor] text:NAVIGATION_TITLE_USER superView:_titleView];
+        [UICreationUtils createNavigationTitleLabel:20 color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_USER superView:_titleView];
     }
     return _titleView;
 }
@@ -97,7 +97,7 @@ typedef NS_ENUM(NSInteger,ItemPostion){
 
 -(UILabel *)userLabel{
     if (!_userLabel) {
-        _userLabel = [UICreationUtils createLabel:ICON_FONT_NAME size:16 color:FlatBlack];
+        _userLabel = [UICreationUtils createLabel:ICON_FONT_NAME size:16 color:COLOR_BLACK_ORIGINAL];
         [self.userBack addSubview:_userLabel];
     }
     return _userLabel;
@@ -326,7 +326,7 @@ typedef NS_ENUM(NSInteger,ItemPostion){
     
     normalItem.labelName = label;
     normalItem.labelSize = 14;
-    normalItem.labelColor = FlatBlack;
+    normalItem.labelColor = COLOR_BLACK_ORIGINAL;
     
 //    normalItem.lineLeftMargin = 50;
     if (itemPostion == ItemPostionTop) {

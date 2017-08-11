@@ -46,7 +46,7 @@
 @property (nonatomic,retain) ASTextNode* soCountText;//so个数
 @property (nonatomic,retain) ASTextNode* soCountLabel;//so个数label
 
-//@property (nonatomic,retain) UIArrowView* rightArrow;
+@property (nonatomic,retain) UIArrowView* rightArrow;
 @property (nonatomic,retain) ASDisplayNode* lineTopY;
 @property (nonatomic,retain) ASDisplayNode* lineBottomY;
 @property (nonatomic,retain) ASDisplayNode* lineCenterX;
@@ -181,7 +181,7 @@
     if(!_licencePlateView){
         _licencePlateView = [[DiyLicensePlateNode alloc]init];
         _licencePlateView.layerBacked = YES;
-        _licencePlateView.fillColor = COLOR_LINE;
+        _licencePlateView.fillColor = FlatWhite;//COLOR_LINE;
         _licencePlateView.compleColor = [UIColor clearColor];
         [self.contentView.layer addSublayer:_licencePlateView.layer];
     }
@@ -241,16 +241,16 @@
     return _lineFollowX;
 }
 
-//-(UIArrowView *)rightArrow{
-//    if(!_rightArrow){
-//        _rightArrow = [[UIArrowView alloc]initWithFrame:CGRectMake(0, 0, 10, 22)];
-//        _rightArrow.direction = ArrowDirectRight;
-//        _rightArrow.lineColor = COLOR_LINE;
-//        _rightArrow.lineThinkness = 2;
-//        [self.contentView addSubview:_rightArrow];
-//    }
-//    return _rightArrow;
-//}
+-(UIArrowView *)rightArrow{
+    if(!_rightArrow){
+        _rightArrow = [[UIArrowView alloc]initWithFrame:CGRectMake(0, 0, 8, 16)];
+        _rightArrow.direction = ArrowDirectRight;
+        _rightArrow.lineColor = COLOR_LINE;
+        _rightArrow.lineThinkness = 2;
+        [self.contentView addSubview:_rightArrow];
+    }
+    return _rightArrow;
+}
 
 -(ASTextNode *)soCountText{
     if(!_soCountText){
@@ -442,8 +442,10 @@
 //    self.followButton.frame = CGRectMake(0, topY + (topHeight - followWidth) / 2., followWidth, followWidth);
 //    [self showFollowArea];
     
+    UIColor* iconColor = COLOR_LINE;//[UIColor flatGrayColorDark];
+    
     CGFloat areaX1 = marginLeft;
-    self.expenseLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColorDark] size:16 content:ICON_JIN_QIAN];
+    self.expenseLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:16 content:ICON_JIN_QIAN];
     CGSize expenseLabelSize = [self.expenseLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.expenseText.attributedString = [NSString simpleAttributedString:[UIColor flatOrangeColor] size:14 content:@"15元"];
     CGSize expenseTextSize = [self.expenseText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
@@ -458,9 +460,9 @@
     };
     
     CGFloat areaX2 = marginLeft + areaWith;
-    self.distanceLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColorDark]     size:16 content:ICON_JU_LI];
+    self.distanceLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:16 content:ICON_JU_LI];
     CGSize distanceLabelSize = [self.distanceLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.distanceText.attributedString = [NSString simpleAttributedString:[UIColor flatBlackColor] size:14 content:@"1.7公里"];
+    self.distanceText.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:@"1.7公里"];
     CGSize distanceTextSize = [self.distanceText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
     CGFloat distanceX = areaX2 + (areaWith - distanceLabelSize.width - distanceTextSize.width) / 2;
@@ -473,9 +475,9 @@
     };
     
     CGFloat areaX3 = marginLeft + areaWith * 2;
-    self.costHourLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColorDark]     size:16 content:ICON_SHI_JIAN];
+    self.costHourLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:16 content:ICON_SHI_JIAN];
     CGSize hourLabelSize = [self.costHourLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.costHourText.attributedString = [NSString simpleAttributedString:[UIColor flatBlackColor] size:14 content:@"2.5小时"];
+    self.costHourText.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:@"2.5小时"];
     CGSize hourTextSize = [self.costHourText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
     CGFloat hourX = areaX3 + (areaWith - hourLabelSize.width - hourTextSize.width) / 2;
@@ -652,9 +654,9 @@
 
 -(void)initBottomArea:(CGFloat)bottomY bottomWidth:(CGFloat)bottomWidth bottomHeight:(CGFloat)bottomHeight{
     
-    CGFloat planButtonWidth = bottomHeight - 10;
-    self.planButton.frame = CGRectMake(bottomWidth - planButtonWidth, bottomY , planButtonWidth, bottomHeight);
-    [self showPlanArea];
+    CGFloat planButtonWidth = 10;//bottomHeight - ;
+//    self.planButton.frame = CGRectMake(bottomWidth - planButtonWidth, bottomY , planButtonWidth, bottomHeight);
+//    [self showPlanArea];
     
     ShipmentBean* bean = self.data;
     
@@ -667,7 +669,7 @@
     self.iconStart.frame = (CGRect){ CGPointMake(leftpadding,0 + (bottomHeight / 2. - iconStartSize.height) / 2.),iconStartSize};
     
     NSString* address = @"大港镇松镇公路1339号宝湾物流112号库";
-    NSMutableAttributedString* textString = (NSMutableAttributedString*)[NSString simpleAttributedString:FlatBlack size:12 content:address];
+    NSMutableAttributedString* textString = (NSMutableAttributedString*)[NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:12 content:address];
     NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
     style.alignment = NSTextAlignmentLeft;
     [textString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, address.length)];
@@ -683,7 +685,7 @@
     self.iconEnd.frame = (CGRect){ CGPointMake(leftpadding,bottomHeight / 2. + (bottomHeight / 2. - iconStartSize.height) / 2.),iconEndSize};
     
     NSString* address2 = @"青浦工业园区新团路518号（二期）";
-    NSMutableAttributedString* textString2 = (NSMutableAttributedString*)[NSString simpleAttributedString:FlatBlack size:12 content:address2];
+    NSMutableAttributedString* textString2 = (NSMutableAttributedString*)[NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:12 content:address2];
 //    NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
 //    style.alignment = NSTextAlignmentLeft;
     [textString2 addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, address2.length)];
@@ -814,12 +816,12 @@
 //    CGFloat gap = 1;
     
     CGFloat leftMargin = 0;//10;
-    CGFloat topMargin = 5;
+//    CGFloat topMargin = 5;
     
     CGFloat backWidth = cellWidth - leftMargin * 2;
-    CGFloat backHeight = cellHeight - topMargin;// * 2;
+    CGFloat backHeight = cellHeight;// - topMargin;// * 2;
     
-    CGFloat padding = 5;//内边距10
+//    CGFloat padding = 5;//内边距10
     
     CGFloat topHeight = 40;
     CGFloat bottomHeight = 60;
@@ -833,13 +835,17 @@
     
     self.normalBackView.backNode.frame = self.selectBackView.backNode.frame = self.backNode.frame;
     
-    self.lineTopY.frame = CGRectMake(padding, topY + topHeight, backWidth - padding * 2, LINE_WIDTH);
+//    self.lineTopY.frame = CGRectMake(padding, topY + topHeight, backWidth - padding * 2, LINE_WIDTH);
 //    self.lineBottomY.frame = CGRectMake(padding, topY + topHeight + centerHeight, backWidth - padding * 2, LINE_WIDTH);
+//    if(!self.isLast){
+        self.lineBottomY.frame = CGRectMake(0, backHeight - LINE_WIDTH, backWidth, LINE_WIDTH);
+//    }
+//    self.lineBottomY.hidden = self.isLast;
 //    self.lineCenterX.frame = CGRectMake((backWidth - LINE_WIDTH) / 2., centerY + padding, LINE_WIDTH, centerHeight - padding * 2);
     
     CGFloat bottomY = centerY + centerHeight;
     
-    self.lineFollowX.frame = CGRectMake(backWidth - bottomHeight - LINE_WIDTH / 2. + 10, bottomY + padding, LINE_WIDTH, bottomHeight -padding * 2);
+//    self.lineFollowX.frame = CGRectMake(backWidth - bottomHeight - LINE_WIDTH / 2. + 10, bottomY + padding, LINE_WIDTH, bottomHeight -padding * 2);
     
     [self initTitleArea:cellWidth];
     
@@ -847,7 +853,11 @@
 //    [self initCenterArea:centerY centerWidth:backWidth centerHeight:centerHeight];
     [self initBottomArea:bottomY bottomWidth:backWidth bottomHeight:bottomHeight];
     
-    
+    CGSize arrowSize = self.rightArrow.frame.size;
+    CGRect arrowFrame = self.rightArrow.frame;
+    CGPoint arrowOrigin = CGPointMake(cellWidth - arrowSize.width - 10, (cellHeight - arrowSize.height) / 2.);
+    arrowFrame.origin = arrowOrigin;
+    self.rightArrow.frame = arrowFrame;
 ////    NSLog(@"颜色 %@",[TaskViewCell hexFromUIColor:[UIColor greenColor]]);
 //    self.shipUintCountText.attributedString = [NSString simpleAttributedString:[UIColor flatCoffeeColorDark] size:14 context:@"货量50箱"];
 //    CGSize countSize = [self.shipUintCountText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
@@ -867,7 +877,7 @@
 //
 //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 ////        NSAttributedString* iconString = SimpleHtmlTextFace(ICON_FONT_NAME,iconColor,@"14",iconName);
-////        NSAttributedString* codeString = SimpleHtmlText([UIColor flatBlackColor], @"4", @"TO1251616161");
+////        NSAttributedString* codeString = SimpleHtmlText(COLOR_BLACK_ORIGINAL, @"4", @"TO1251616161");
 ////        NSAttributedString* liceneString = SimpleHtmlText([UIColor flatWhiteColor],@"4",@"浙A8888888");
 ////        NSAttributedString* countString = SimpleHtmlText([UIColor flatCoffeeColorDark],@"4",@"货量50箱");
 ////        NSAttributedString* soString = SimpleHtmlText([UIColor flatGrayColorDark],@"4",@"SO100个");
@@ -894,10 +904,10 @@
     
     NSString* context = @"TO1251616161";
     //    NSMutableAttributedString* attrString = [[NSMutableAttributedString alloc]initWithString:context];
-    //    [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor flatBlackColor] range:NSMakeRange(0, context.length)];
+    //    [attrString addAttribute:NSForegroundColorAttributeName value:COLOR_BLACK_ORIGINAL range:NSMakeRange(0, context.length)];
     //    [attrString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16] range:NSMakeRange(0, context.length)];
-    self.codeText.attributedString = [NSString simpleAttributedString:[UIColor flatBlackColor] size:16 content:context];
-    //    [NSString simpleAttributedString:[UIColor flatBlackColor] size:16 context:@"TO1251616161"];
+    self.codeText.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:16 content:context];
+    //    [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:16 context:@"TO1251616161"];
     CGSize codeSize = [self.codeText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.codeText.frame = (CGRect){ CGPointMake(padding * 2, padding), codeSize };
     
@@ -913,7 +923,7 @@
     }
     self.stateArea.hidden = bean.isComplete;
     
-    self.licencePlateText.attributedString = [NSString simpleAttributedString:[UIColor flatBlackColor] size:14 content:@"浙A790GK"];
+    self.licencePlateText.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:@"浙A790GK"];
     CGSize liceneSize = [self.licencePlateText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     CGFloat plateWidth = liceneSize.width + 10;
     CGFloat plateHeight = liceneSize.height + 10;

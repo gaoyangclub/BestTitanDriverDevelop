@@ -42,6 +42,7 @@ PODS:
     - SDWebImage/Core (= 3.8.2)
   - SDWebImage/Core (3.8.2)
   - SVProgressHUD (1.0)
+  - UMengAnalytics (4.1.2)
   - YYModel (1.0.4)
 
 DEPENDENCIES:
@@ -57,6 +58,7 @@ DEPENDENCIES:
   - pop (~> 1.0)
   - SDWebImage
   - SVProgressHUD
+  - UMengAnalytics
   - YYModel
 
 SPEC CHECKSUMS:
@@ -72,8 +74,9 @@ SPEC CHECKSUMS:
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   SVProgressHUD: 46088807596a795cbcb4affd92cf3f13b6ab3dda
+  UMengAnalytics: 8d95752776c32f5b954d40edc7f23944882a7c14
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 365e54f3bddd8d52a53f53c2976a61d01e566086
+PODFILE CHECKSUM: 30743f2bf507cd9be8cc2612250974dc43508acf
 
 COCOAPODS: 1.1.1

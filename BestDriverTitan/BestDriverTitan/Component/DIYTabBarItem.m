@@ -10,7 +10,7 @@
 #import "LCTabBarBadge.h"
 
 #define selectColor COLOR_PRIMARY
-#define normalColor [UIColor grayColor]
+#define normalColor COLOR_NAVI_TITLE
 
 @interface DIYTabBarItem(){
     BOOL badgeChange;

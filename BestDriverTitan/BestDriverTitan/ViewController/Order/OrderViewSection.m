@@ -138,7 +138,7 @@
     CGSize iconSize = [self.iconText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.iconText.frame = (CGRect){ CGPointMake(leftpadding,(sectionHeight - iconSize.height) / 2. + 2),iconSize};
     
-    self.title.attributedString = [NSString simpleAttributedString:[UIColor flatBlackColor] size:14 content:content];
+    self.title.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:content];
     CGSize titleSize = [self.title measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.title.frame = (CGRect){CGPointMake(self.iconText.frame.origin.x + self.iconText.frame.size.width + 3, sectionHeight / 2. - 15),titleSize};
     

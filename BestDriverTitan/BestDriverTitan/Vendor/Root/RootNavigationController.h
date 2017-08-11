@@ -11,6 +11,7 @@
 @interface RootNavigationController : UINavigationController
 
 @property(nonatomic,assign)BOOL hairlineHidden;
+@property(nonatomic,retain)UIColor* hairlineColor;
 @property(nonatomic,retain)UIColor* navigationColor;
 
 @end

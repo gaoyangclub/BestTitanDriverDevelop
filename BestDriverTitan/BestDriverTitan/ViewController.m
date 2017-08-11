@@ -30,7 +30,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    self.view.backgroundColor = COLOR_PRIMARY;
+    self.view.backgroundColor = [UIColor whiteColor];
     
 //    UIButton* btn = [[UIButton alloc] initWithFrame:CGRectMake(50, 50, 100, 30)];
 //    [self.view addSubview:btn];
@@ -64,6 +64,7 @@
     switchTitle.center = center;
     [self.view addSubview: switchTitle];
     
+    self.view.backgroundColor = COLOR_PRIMARY;
 }
 
 -(void)switchAction:(UISwitch*)switchButton
@@ -86,7 +87,7 @@
     if (!_titleView) {
         _titleView = [[UIView alloc]init];
         
-        [UICreationUtils createNavigationTitleLabel:20 color:[UIColor whiteColor] text:NAVIGATION_TITLE_HOME superView:_titleView];
+        [UICreationUtils createNavigationTitleLabel:20 color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_HOME superView:_titleView];
     }
     return _titleView;
 }

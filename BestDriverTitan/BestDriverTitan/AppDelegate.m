@@ -28,6 +28,8 @@
 #import <PgySDK/PgyManager.h>
 #import <PgyUpdate/PgyUpdateManager.h>
 
+#import "UMMobClick/MobClick.h"
+
 @interface AppDelegate ()
 
 @end
@@ -98,6 +100,7 @@
     
     OwnerViewController* navigationController = [OwnerViewController sharedInstance];
     navigationController.hairlineHidden = YES;
+    navigationController.hairlineColor = COLOR_LINE;
     navigationController.navigationColor = COLOR_PRIMARY;
     [navigationController setViewControllers:@[[self createNormalTabBar]]];
     
@@ -140,6 +143,11 @@
     [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PGY_APPID];
     
 //    [[PgyUpdateManager sharedPgyManager] checkUpdate];
+    
+    UMConfigInstance.appKey = UM_APPID;
+//    UMConfigInstance.ChannelId = @"App Store";
+//    UMConfigInstance.eSType = E_UM_GAME; //仅适用于游戏场景，应用统计不用设置
+    [MobClick startWithConfigure:UMConfigInstance];//配置以上参数后调用此方法初始化SDK！
     
     return YES;
 }

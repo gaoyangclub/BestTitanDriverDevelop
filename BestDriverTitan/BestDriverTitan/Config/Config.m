@@ -179,6 +179,12 @@ static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不�
     return @"dba51660a44c3e00888ce2a4b24af81a";
 }
 
++(NSString *)getUMengAppID{
+    if (DEBUG_MODE) {
+        return @"59882e6f310c931831001b36";
+    }
+    return @"596302f007fe6513f20005c9";
+}
 
 
 @end
