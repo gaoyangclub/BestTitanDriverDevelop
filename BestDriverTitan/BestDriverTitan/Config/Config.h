@@ -110,6 +110,8 @@
 
 #define ICON_DIAN_PU @"\U0000e615"
 
+#define ICON_SHAN_CHU @"\U0000e603"
+
 #define ICON_BIAO_QIAN_UP @"\U0000e625"
 #define ICON_BIAO_QIAN_DOWN @"\U0000e616"
 #define ICON_BIAN_JI @"\U0000e609"

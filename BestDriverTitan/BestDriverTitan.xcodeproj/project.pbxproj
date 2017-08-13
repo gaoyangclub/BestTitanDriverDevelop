@@ -130,11 +130,17 @@
 		84D1F8681E6567DF007C1307 /* ASControlNode+GY.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D1F8671E6567DF007C1307 /* ASControlNode+GY.m */; };
 		84FF1A201DF7E3A2000AEBC0 /* UICreationUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FF1A1F1DF7E3A2000AEBC0 /* UICreationUtils.m */; };
 		84FF1A241DF7EADE000AEBC0 /* UIArrowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FF1A231DF7EADE000AEBC0 /* UIArrowView.m */; };
+		A910B18D1F3FEBE400CCAFCD /* STImageVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = A910B18A1F3FEBE400CCAFCD /* STImageVIew.m */; };
+		A910B18E1F3FEBE400CCAFCD /* STPhotoBroswer.m in Sources */ = {isa = PBXBuildFile; fileRef = A910B18C1F3FEBE400CCAFCD /* STPhotoBroswer.m */; };
+		A910B1911F401C9F00CCAFCD /* PhotoBroswerController.m in Sources */ = {isa = PBXBuildFile; fileRef = A910B1901F401C9F00CCAFCD /* PhotoBroswerController.m */; };
+		A910B1941F40480600CCAFCD /* PhotoTranslateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A910B1931F40480600CCAFCD /* PhotoTranslateUtils.m */; };
+		A910B1971F4076F600CCAFCD /* OrderEditModelView.m in Sources */ = {isa = PBXBuildFile; fileRef = A910B1961F4076F600CCAFCD /* OrderEditModelView.m */; };
 		A9CF264A1E5071B100D11B59 /* RoundRectNode.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CF26491E5071B100D11B59 /* RoundRectNode.m */; };
 		A9D2CF431E87A786000E7F8A /* OrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D2CF421E87A786000E7F8A /* OrderViewController.m */; };
 		A9D2CF461E87AB08000E7F8A /* OrderTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D2CF451E87AB08000E7F8A /* OrderTabView.m */; };
 		A9D2CF491E87E9C2000E7F8A /* OrderViewSection.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D2CF481E87E9C2000E7F8A /* OrderViewSection.m */; };
 		A9D6D35D1F24676D001E9C5A /* NormalSelectItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D6D35C1F24676D001E9C5A /* NormalSelectItem.m */; };
+		A9D9D6451F3F3D8B002096C8 /* ShipmentTaskBean.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D9D6441F3F3D8B002096C8 /* ShipmentTaskBean.m */; };
 		A9D9F49B1F11EC38000536F0 /* PopAnimateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D9F49A1F11EC38000536F0 /* PopAnimateManager.m */; };
 		A9D9F49E1F11F36C000536F0 /* UIButton+Style.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D9F49D1F11F36C000536F0 /* UIButton+Style.m */; };
 		A9D9F4A11F11FC19000536F0 /* NSObject+MethodSwizzlingCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D9F4A01F11FC19000536F0 /* NSObject+MethodSwizzlingCategory.m */; };
@@ -392,6 +398,16 @@
 		84FF1A1F1DF7E3A2000AEBC0 /* UICreationUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICreationUtils.m; sourceTree = "<group>"; };
 		84FF1A221DF7EADE000AEBC0 /* UIArrowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIArrowView.h; sourceTree = "<group>"; };
 		84FF1A231DF7EADE000AEBC0 /* UIArrowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIArrowView.m; sourceTree = "<group>"; };
+		A910B1891F3FEBE400CCAFCD /* STImageVIew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STImageVIew.h; sourceTree = "<group>"; };
+		A910B18A1F3FEBE400CCAFCD /* STImageVIew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STImageVIew.m; sourceTree = "<group>"; };
+		A910B18B1F3FEBE400CCAFCD /* STPhotoBroswer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPhotoBroswer.h; sourceTree = "<group>"; };
+		A910B18C1F3FEBE400CCAFCD /* STPhotoBroswer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STPhotoBroswer.m; sourceTree = "<group>"; };
+		A910B18F1F401C9F00CCAFCD /* PhotoBroswerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoBroswerController.h; sourceTree = "<group>"; };
+		A910B1901F401C9F00CCAFCD /* PhotoBroswerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoBroswerController.m; sourceTree = "<group>"; };
+		A910B1921F40480600CCAFCD /* PhotoTranslateUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTranslateUtils.h; sourceTree = "<group>"; };
+		A910B1931F40480600CCAFCD /* PhotoTranslateUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoTranslateUtils.m; sourceTree = "<group>"; };
+		A910B1951F4076F600CCAFCD /* OrderEditModelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderEditModelView.h; sourceTree = "<group>"; };
+		A910B1961F4076F600CCAFCD /* OrderEditModelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderEditModelView.m; sourceTree = "<group>"; };
 		A9CF26481E5071B100D11B59 /* RoundRectNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundRectNode.h; sourceTree = "<group>"; };
 		A9CF26491E5071B100D11B59 /* RoundRectNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundRectNode.m; sourceTree = "<group>"; };
 		A9D2CF411E87A786000E7F8A /* OrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderViewController.h; sourceTree = "<group>"; };
@@ -402,6 +418,8 @@
 		A9D2CF481E87E9C2000E7F8A /* OrderViewSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderViewSection.m; sourceTree = "<group>"; };
 		A9D6D35B1F24676D001E9C5A /* NormalSelectItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NormalSelectItem.h; sourceTree = "<group>"; };
 		A9D6D35C1F24676D001E9C5A /* NormalSelectItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NormalSelectItem.m; sourceTree = "<group>"; };
+		A9D9D6431F3F3D8B002096C8 /* ShipmentTaskBean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShipmentTaskBean.h; sourceTree = "<group>"; };
+		A9D9D6441F3F3D8B002096C8 /* ShipmentTaskBean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShipmentTaskBean.m; sourceTree = "<group>"; };
 		A9D9F4991F11EC37000536F0 /* PopAnimateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopAnimateManager.h; sourceTree = "<group>"; };
 		A9D9F49A1F11EC38000536F0 /* PopAnimateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopAnimateManager.m; sourceTree = "<group>"; };
 		A9D9F49C1F11F36C000536F0 /* UIButton+Style.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Style.h"; sourceTree = "<group>"; };
@@ -692,6 +710,8 @@
 				8439A1CB1F25D93300E629C8 /* LocalBundleManager.m */,
 				847609DB1F317915003C6359 /* UpdateVersionManager.h */,
 				847609DC1F317915003C6359 /* UpdateVersionManager.m */,
+				A910B1921F40480600CCAFCD /* PhotoTranslateUtils.h */,
+				A910B1931F40480600CCAFCD /* PhotoTranslateUtils.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -725,6 +745,8 @@
 				84963C8D1F14CF0F00AA4617 /* ShipmentStopBean.m */,
 				846217D31F161DE000B2C46B /* ShipmentActivityBean.h */,
 				846217D41F161DE000B2C46B /* ShipmentActivityBean.m */,
+				A9D9D6431F3F3D8B002096C8 /* ShipmentTaskBean.h */,
+				A9D9D6441F3F3D8B002096C8 /* ShipmentTaskBean.m */,
 				847CF8F51F20B04200EB27EA /* User.h */,
 				847CF8F61F20B04200EB27EA /* User.m */,
 				847CF8F81F20B05A00EB27EA /* Titoken.h */,
@@ -844,6 +866,8 @@
 				8485AA831F298F76002D27A6 /* FlatButton.m */,
 				848A38121F3D870800B15E4B /* PhotoSelectionView.h */,
 				848A38131F3D870800B15E4B /* PhotoSelectionView.m */,
+				A910B18F1F401C9F00CCAFCD /* PhotoBroswerController.h */,
+				A910B1901F401C9F00CCAFCD /* PhotoBroswerController.m */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -974,6 +998,7 @@
 			isa = PBXGroup;
 			children = (
 				848A37E91F3D4E1A00B15E4B /* QBImagePicker */,
+				A910B1881F3FEBCF00CCAFCD /* STPhoto */,
 			);
 			path = ImagePicker;
 			sourceTree = "<group>";
@@ -1047,6 +1072,17 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		A910B1881F3FEBCF00CCAFCD /* STPhoto */ = {
+			isa = PBXGroup;
+			children = (
+				A910B1891F3FEBE400CCAFCD /* STImageVIew.h */,
+				A910B18A1F3FEBE400CCAFCD /* STImageVIew.m */,
+				A910B18B1F3FEBE400CCAFCD /* STPhotoBroswer.h */,
+				A910B18C1F3FEBE400CCAFCD /* STPhotoBroswer.m */,
+			);
+			path = STPhoto;
+			sourceTree = "<group>";
+		};
 		A9D2CF401E87A74A000E7F8A /* Order */ = {
 			isa = PBXGroup;
 			children = (
@@ -1060,6 +1096,8 @@
 				84AF249B1E94D88E00AF200D /* OrderNormalCell.m */,
 				847202D51F3C5F730097F386 /* OrderPhotoCell.h */,
 				847202D61F3C5F730097F386 /* OrderPhotoCell.m */,
+				A910B1951F4076F600CCAFCD /* OrderEditModelView.h */,
+				A910B1961F4076F600CCAFCD /* OrderEditModelView.m */,
 			);
 			path = Order;
 			sourceTree = "<group>";
@@ -1214,6 +1252,7 @@
 				A9D2CF461E87AB08000E7F8A /* OrderTabView.m in Sources */,
 				846217C91F15CB7300B2C46B /* CustomPresentingController.m in Sources */,
 				84129A211E54579700151672 /* MJRefreshAutoGifFooter.m in Sources */,
+				A9D9D6451F3F3D8B002096C8 /* ShipmentTaskBean.m in Sources */,
 				847CF8F71F20B04200EB27EA /* User.m in Sources */,
 				8439A1C71F25CE2D00E629C8 /* VersionManager.m in Sources */,
 				8478A2191E641F300076E8B4 /* TaskTripCell.m in Sources */,
@@ -1255,6 +1294,7 @@
 				848A38081F3D4E1A00B15E4B /* QBAlbumCell.m in Sources */,
 				84129A321E54579700151672 /* MJTableViewController.m in Sources */,
 				847CF8F11F20565E00EB27EA /* NetConfig.m in Sources */,
+				A910B1911F401C9F00CCAFCD /* PhotoBroswerController.m in Sources */,
 				84C080D91F3466F80058D701 /* AuthCodeBean.m in Sources */,
 				847C9C421F219CEB00C22C36 /* UserDefaultsUtils.m in Sources */,
 				84129A2E1E54579700151672 /* UIScrollView+MJRefresh.m in Sources */,
@@ -1267,6 +1307,7 @@
 				847609E01F31817E003C6359 /* VersionInfoController.m in Sources */,
 				849740A91F0A459A008D3030 /* YYFPSLabel.m in Sources */,
 				847278B01DF1715A00C1BACB /* DIYSplashViewModel.m in Sources */,
+				A910B18E1F3FEBE400CCAFCD /* STPhotoBroswer.m in Sources */,
 				849161CC1E34B10B0063CD80 /* TaskViewCell.m in Sources */,
 				84129A251E54579700151672 /* MJRefreshBackNormalFooter.m in Sources */,
 				84495CA61DF117E40017D2CA /* GYTabBarItem.m in Sources */,
@@ -1287,8 +1328,10 @@
 				848A380B1F3D4E1A00B15E4B /* QBAssetsViewController.m in Sources */,
 				848A380A1F3D4E1A00B15E4B /* QBAssetCell.m in Sources */,
 				84129A241E54579700151672 /* MJRefreshBackGifFooter.m in Sources */,
+				A910B18D1F3FEBE400CCAFCD /* STImageVIew.m in Sources */,
 				847278B71DF1767300C1BACB /* BaseViewModel.m in Sources */,
 				841299DB1E542D0D00151672 /* DiyLicensePlateNode.m in Sources */,
+				A910B1941F40480600CCAFCD /* PhotoTranslateUtils.m in Sources */,
 				8402EC2A1DF94852002B78D9 /* TaskViewController.m in Sources */,
 				846217CC1F15CBDD00B2C46B /* CustomDismissingController.m in Sources */,
 				8402EC7D1DF97D41002B78D9 /* TaskTripController.m in Sources */,
@@ -1303,6 +1346,7 @@
 				84AF249C1E94D88E00AF200D /* OrderNormalCell.m in Sources */,
 				84129A311E54579700151672 /* MJTableViewCell.m in Sources */,
 				84495CA51DF117E40017D2CA /* GYTabBarController.m in Sources */,
+				A910B1971F4076F600CCAFCD /* OrderEditModelView.m in Sources */,
 				849740AA1F0A459A008D3030 /* YYWeakProxy.m in Sources */,
 				84129A2B1E54579700151672 /* MJRefreshConst.m in Sources */,
 				849161CF1E34B1C00063CD80 /* ShipmentBean.m in Sources */,

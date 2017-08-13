@@ -20,6 +20,8 @@ typedef NS_ENUM(NSInteger, CustomPopDirection) {
 @property(nonatomic,assign)CustomPopDirection popToDirection;
 
 @property(nonatomic,assign)BOOL cancelOnTouchOutside;
+@property(nonatomic,assign)CGFloat topMargin;
+@property(nonatomic,assign)CGFloat leftMargin;
 
 @property(nonatomic,retain,readonly)UIControl* contentView;
 

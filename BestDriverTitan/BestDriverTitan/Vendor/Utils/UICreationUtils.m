@@ -91,8 +91,17 @@
     layer.fillColor = backgroundColor.CGColor;
     layer.path = path.CGPath;
     
-    CGFloat plusWidth = rect.size.width / 2;
+    CAShapeLayer* pluslayer = [UICreationUtils createPlusLayer:radius color:textColor strokeWidth:2 isAdd:isAdd];
     
+    [layer addSublayer:pluslayer];
+    
+    return layer;
+}
+
++(CAShapeLayer*)createPlusLayer:(CGFloat)radius color:(UIColor*)color strokeWidth:(CGFloat)strokeWidth isAdd:(BOOL)isAdd{
+    CGRect rect = CGRectMake(0, 0, radius * 2, radius * 2);
+    
+    CGFloat plusWidth = rect.size.width / 2;
     UIBezierPath* plusPath = [UIBezierPath bezierPath];
     [plusPath moveToPoint:CGPointMake(rect.size.width / 2. - plusWidth / 2. + 0.5,rect.size.height / 2. + 0.5)];
     [plusPath addLineToPoint:CGPointMake(rect.size.width / 2. + plusWidth / 2. + 0.5,rect.size.height / 2. + 0.5)];
@@ -101,15 +110,13 @@
         [plusPath moveToPoint:CGPointMake(rect.size.width / 2. + 0.5,rect.size.height / 2. - plusWidth / 2. + 0.5)];
         [plusPath addLineToPoint:CGPointMake(rect.size.width / 2. + 0.5,rect.size.height / 2. + plusWidth / 2. + 0.5)];
     }
-    
     CAShapeLayer* pluslayer = [[CAShapeLayer alloc]init];
-    pluslayer.strokeColor = textColor.CGColor;
-    pluslayer.lineWidth = 2;
+    pluslayer.strokeColor = color.CGColor;
+    pluslayer.lineWidth = strokeWidth;
     pluslayer.path = plusPath.CGPath;
     pluslayer.frame = rect;
-    [layer addSublayer:pluslayer];
     
-    return layer;
+    return pluslayer;
 }
 
 +(void)autoEnsureViewsWidth:(CGFloat)baseX totolWidth:(CGFloat)totolWidth views:(NSArray*)views viewWidths:(NSArray*)viewWidths padding:(CGFloat)padding{

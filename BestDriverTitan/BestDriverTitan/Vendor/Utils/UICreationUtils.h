@@ -23,6 +23,7 @@
 
 +(CAShapeLayer*)createRangeLayer:(CGFloat)radius textColor:(UIColor*)textColor backgroundColor:(UIColor*)backgroundColor;
 +(CAShapeLayer*)createRangeLayer:(CGFloat)radius textColor:(UIColor*)textColor backgroundColor:(UIColor*)backgroundColor isAdd:(BOOL)isAdd;
++(CAShapeLayer*)createPlusLayer:(CGFloat)radius color:(UIColor*)color strokeWidth:(CGFloat)strokeWidth isAdd:(BOOL)isAdd;
 
 +(void)autoEnsureViewsWidth:(CGFloat)baseX totolWidth:(CGFloat)totolWidth views:(NSArray*)views viewWidths:(NSArray*)viewWidths padding:(CGFloat)padding;
 

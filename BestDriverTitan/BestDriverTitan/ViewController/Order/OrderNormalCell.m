@@ -9,6 +9,7 @@
 #import "OrderNormalCell.h"
 #import "DiyNumberAddView.h"
 #import "FlatButton.h"
+#import "OrderEditModelView.h"
 
 @interface OrderNormalCell()
 
@@ -98,9 +99,16 @@
         _editButton.titleSize = 24;
         _editButton.titleColor = COLOR_ACCENT;
         _editButton.title = ICON_BIAN_JI;
+//        [_editButton setShowTouch:YES];
+        [_editButton addTarget:self action:@selector(clickEditButton) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:_editButton];
     }
     return _editButton;
+}
+
+-(void)clickEditButton{
+    OrderEditModelView* editView = [[OrderEditModelView alloc]init];
+    [editView show];
 }
 
 //-(DiyNumberAddView *)pieceNumberView{

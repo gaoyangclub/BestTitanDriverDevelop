@@ -9,9 +9,10 @@
 #import "CustomPopModelView.h"
 #import "AppDelegate.h"
 
+#define DEFAULT_LEFT_MARGIN 50
+#define DEFAULT_TOP_MARGIN 140
+
 @interface CustomPopModelView (){
-    CGFloat defaultLeftMargin;
-    CGFloat defaultTopMargin;
     UIControl* _contentView;
 }
 
@@ -33,21 +34,25 @@
 }
 
 -(instancetype)init{
-    defaultTopMargin = 140;
-    defaultLeftMargin = 50;
+    self.topMargin = DEFAULT_TOP_MARGIN;
+    self.leftMargin = DEFAULT_LEFT_MARGIN;
     self.popFromDirection = CustomPopDirectionTop;
     self.popToDirection = CustomPopDirectionTop;
     self.cancelOnTouchOutside = YES;
     return [super init];
 }
 
+-(UIView*)getParentView{
+    return [[UIApplication sharedApplication].windows lastObject];
+}
+
 -(void)show{
     self.opaque = YES;
     self.backgroundColor = [FlatGrayDark colorWithAlphaComponent:0.5];
     
-    UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+    UIView* parent = [self getParentView];
 //     添加到窗口
-    [window addSubview:self];
+    [parent addSubview:self];
     
     //    window.userInteractionEnabled = YES;
     
@@ -59,7 +64,7 @@
     
 //    [self didMoveToParentViewController:window.rootViewController];
     
-    self.frame = window.bounds;
+    self.frame = parent.bounds;
     
     [self addTarget:self action:@selector(onTouchOutside) forControlEvents:UIControlEventTouchUpInside];
     
@@ -68,8 +73,8 @@
 ////    self.view.userInteractionEnabled = YES;
 //    [self.view addGestureRecognizer:tapClick];
     self.contentView.frame = CGRectMake(0,0,
-                              CGRectGetWidth(self.bounds) - defaultLeftMargin * 2,
-                              CGRectGetHeight(self.bounds) - defaultTopMargin * 2);
+                              CGRectGetWidth(self.bounds) - self.leftMargin * 2,
+                              CGRectGetHeight(self.bounds) - self.topMargin * 2);
     [self viewDidLoad];
     
     [self popContentView];

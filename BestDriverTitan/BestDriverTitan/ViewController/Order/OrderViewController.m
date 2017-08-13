@@ -14,6 +14,7 @@
 #import "FlatButton.h"
 #import "HudManager.h"
 #import "OrderPhotoCell.h"
+#import "ShipmentTaskBean.h"
 
 @interface TestTableViewCell3 : MJTableViewCell
 
@@ -253,20 +254,21 @@
 -(void)headerRefresh:(HeaderRefreshHandler)handler{
     int64_t delay = 1.0 * NSEC_PER_SEC;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), ^{//
-        int count = (arc4random() % 3) + 1; //生成3-10范围的随机数
+        int count = (arc4random() % 6) + 1; //生成3-10范围的随机数
     
         [self.tableView clearSource];
         
         for (NSInteger i = 0; i < count; i++) {
             NSMutableArray* sourceData = [NSMutableArray<CellVo*> array];
-            
-            int count2 = (arc4random() % 3) + 1; //生成1-3范围的随机数
+            ShipmentTaskBean* bean = [[ShipmentTaskBean alloc]init];
+            int count2 = (arc4random() % 15) + 1; //生成1-3范围的随机数
             for (NSInteger j = 0; j < count2; j++) {
-                [sourceData addObject:[CellVo initWithParams:ORDER_VIEW_CELL_HEIGHT cellClass:[OrderNormalCell class] cellData:@"数据"]];
+                [sourceData addObject:[CellVo initWithParams:ORDER_VIEW_CELL_HEIGHT cellClass:[OrderNormalCell class] cellData:
+                                       @""]];
             }
-            [sourceData addObject:[CellVo initWithParams:ORDER_PHOTO_CELL_HEIGHT cellClass:[OrderPhotoCell class] cellData:@"附件区域"]];
+            [sourceData addObject:[CellVo initWithParams:ORDER_PHOTO_CELL_HEIGHT cellClass:[OrderPhotoCell class] cellData:bean]];
             
-            SourceVo* svo = [SourceVo initWithParams:sourceData headerHeight:ORDER_VIEW_SECTION_HEIGHT headerClass:[OrderViewSection class] headerData:NULL];
+            SourceVo* svo = [SourceVo initWithParams:sourceData headerHeight:ORDER_VIEW_SECTION_HEIGHT headerClass:[OrderViewSection class] headerData:bean];
             [self.tableView addSource:svo];
         }
 //        [self.tabView setTotalCount:count];

@@ -10,32 +10,41 @@
 #import "QBImagePickerController.h"
 #import "FlatButton.h"
 #import "RoundRectNode.h"
+#import "PhotoBroswerController.h"
+#import "HudManager.h"
 
 #define CELL_IDENTIFIER @"photoCellID"
 
-@interface PhotoAlbumVo : NSObject
-
-@end
-
-@implementation PhotoAlbumVo
-@end
-
 @interface PhotoCollectionCell : UICollectionViewCell
 
-@property (nonatomic,retain) NSIndexPath* indexPath;
-@property (nonatomic,retain) PhotoSelectionView* collectionView;
-@property (nonatomic,retain) PhotoAlbumVo* data;
+@property(nonatomic,retain) NSIndexPath* indexPath;
+@property(nonatomic,retain) PhotoSelectionView* collectionView;
+@property(nonatomic,retain) UIControl* photoButton;
+@property(nonatomic,retain) PhotoAlbumVo *data;
 
-//@property(nonatomic,retain)FlatButton* operateButton;
+@property(nonatomic,retain) UIControl* operateButton;
 @property(nonatomic,retain) RoundRectNode* backArea;
 @property(nonatomic,retain) ASTextNode* titleLabel;//去这里
-@property(nonatomic,retain) ASTextNode* tagLabel;//去这里
+//@property(nonatomic,retain) ASTextNode* tagLabel;//去这里
+@property(nonatomic,retain) CAShapeLayer* tagLayer;//+
 
-@property(nonatomic,retain) UIView* normalView;
-@property(nonatomic,retain) UIView* selectedView;
+@property(nonatomic,retain) UIImageView* imageView;
+
+//@property(nonatomic,retain) UIView* normalView;
+//@property(nonatomic,retain) UIView* selectedView;
 
 @end
 @implementation PhotoCollectionCell
+
+-(void)setData:(PhotoAlbumVo *)data{
+    _data = data;
+    [self setNeedsLayout];
+}
+
+-(void)setIndexPath:(NSIndexPath *)indexPath{
+    _indexPath = indexPath;
+    [self setNeedsLayout];
+}
 
 -(RoundRectNode *)backArea{
     if (!_backArea) {
@@ -44,7 +53,7 @@
         _backArea.strokeColor = FlatGray;
         _backArea.strokeWidth = 1;
         _backArea.cornerRadius = 5;
-        [self.layer addSublayer:_backArea.layer];
+        [self.operateButton.layer addSublayer:_backArea.layer];
     }
     return _backArea;
 }
@@ -58,79 +67,142 @@
     return _titleLabel;
 }
 
--(ASTextNode *)tagLabel{
-    if (!_tagLabel) {
-        _tagLabel = [[ASTextNode alloc]init];
-        _tagLabel.layerBacked = YES;
-        [self.backArea addSubnode:_tagLabel];
+//-(ASTextNode *)tagLabel{
+//    if (!_tagLabel) {
+//        _tagLabel = [[ASTextNode alloc]init];
+//        _tagLabel.layerBacked = YES;
+//        [self.backArea addSubnode:_tagLabel];
+//    }
+//    return _tagLabel;
+//}
+
+-(CAShapeLayer *)tagLayer{
+    if (!_tagLayer) {
+        _tagLayer = [UICreationUtils createPlusLayer:self.contentView.width / 2. color:FlatGray strokeWidth:6 isAdd:YES];
+        [self.operateButton.layer addSublayer:_tagLayer];
     }
-    return _tagLabel;
+    return _tagLayer;
 }
 
-//-(FlatButton *)operateButton{
-//    if (!_operateButton) {
-//        _operateButton = [[FlatButton alloc]init];
-//        _operateButton.fillColor = [UIColor whiteColor];
-////        _operateButton.titleFontName = ICON_FONT_NAME;
+-(UIControl *)operateButton{
+    if (!_operateButton) {
+        _operateButton = [[UIControl alloc]init];
+        [_operateButton setShowTouch:YES];
+//        _operateButton.fillColor = [UIColor clearColor];
+//        _operateButton.titleFontName = ICON_FONT_NAME;
 //        _operateButton.titleSize = 80;
 //        _operateButton.titleColor = FlatGray;
-//        _operateButton.title = self.collectionView.title;
+//        _operateButton.title = @"+";//self.collectionView.title;
 //        _operateButton.strokeColor = FlatGray;
 //        _operateButton.strokeWidth = 1;
 //        _operateButton.userInteractionEnabled = NO;
-////        [_operateButton addTarget:self action:@selector(operateButtonClick) forControlEvents:UIControlEventTouchUpInside];
-//        [self addSubview:_operateButton];
+        [_operateButton addTarget:self action:@selector(operateButtonClick) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:_operateButton];
+    }
+    return _operateButton;
+}
+
+-(void)operateButtonClick{
+    [self.collectionView showActionSheet];
+}
+
+-(UIControl *)photoButton{
+    if (!_photoButton) {
+        _photoButton = [[UIControl alloc]init];
+        [_photoButton setShowTouch:YES];
+        [_photoButton addTarget:self action:@selector(photoButtonClick) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:_photoButton];
+    }
+    return _photoButton;
+}
+
+-(void)photoButtonClick{
+    [self.collectionView showPhotoByIndexPath:self.indexPath];
+}
+
+-(UIImageView *)imageView{
+    if (!_imageView) {
+        _imageView = [[UIImageView alloc]init];
+        _imageView.layer.cornerRadius = 5;
+        _imageView.layer.masksToBounds = YES;
+        _imageView.contentMode = UIViewContentModeScaleAspectFill;
+        [self.photoButton addSubview:_imageView];
+    }
+    return _imageView;
+}
+
+//-(UIView *)normalView{
+//    if (!_normalView) {
+//        _normalView = [[UIView alloc]init];
+//        _normalView.backgroundColor = [UIColor clearColor];
 //    }
-//    return _operateButton;
+//    return _normalView;
+//}
+//
+//-(UIView *)selectedView{
+//    if (!_selectedView) {
+//        _selectedView = [[UIView alloc]init];
+//        _selectedView.backgroundColor = [UIColor lightGrayColor];
+//    }
+//    return _selectedView;
 //}
 
--(UIView *)normalView{
-    if (!_normalView) {
-        _normalView = [[UIView alloc]init];
-        _normalView.backgroundColor = [UIColor clearColor];
-    }
-    return _normalView;
-}
-
--(UIView *)selectedView{
-    if (!_selectedView) {
-        _selectedView = [[UIView alloc]init];
-        _selectedView.backgroundColor = [UIColor lightGrayColor];
-    }
-    return _selectedView;
-}
-
 -(void)layoutSubviews{
-//    self.operateButton.frame = self.bounds;
     if (self.indexPath.row == 0) {
         [self initBackArea];
+    }else{
+        [self initPhotoArea];
     }
-    self.backgroundView = self.normalView;
-    self.selectedBackgroundView = self.selectedView;
+//    self.backgroundView = self.normalView;
+//    self.selectedBackgroundView = self.selectedView;
 }
 
 -(void)initBackArea{
+    self.operateButton.frame = self.contentView.bounds;
+    
     UIColor* color = FlatGray;
     self.backArea.userInteractionEnabled = NO;
     self.backArea.frame = self.bounds;
-    self.tagLabel.attributedString = [NSString simpleAttributedString:color size:60 content:@"+"];
-    self.tagLabel.size = [self.tagLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.tagLabel.centerX = self.backArea.centerX;
+//    self.tagLabel.attributedString = [NSString simpleAttributedString:color size:60 content:@"+"];
+//    self.tagLabel.size = [self.tagLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+//    self.tagLabel.centerX = self.backArea.centerX;
 //    self.tagLabel.backgroundColor = FlatBrownDark;
     
     self.titleLabel.attributedString = [NSString simpleAttributedString:color size:14 content:self.collectionView.title];
     self.titleLabel.size = [self.titleLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.titleLabel.centerX = self.backArea.centerX;
+    self.titleLabel.y = self.backArea.centerY + 20;
 //    self.titleLabel.backgroundColor = FlatSkyBlue;
+
+    self.tagLayer.frame = CGRectMake(0, -10, self.operateButton.width, self.operateButton.height);
     
-    CGFloat baseY = (self.height - self.tagLabel.height - self.titleLabel.height) / 2.;
-    self.tagLabel.y = baseY;
-    self.titleLabel.y = self.tagLabel.maxY;
+    self.operateButton.hidden = NO;
+    self.photoButton.hidden = YES;
+}
+
+-(void)initPhotoArea{
+    self.photoButton.frame = self.imageView.frame = self.contentView.bounds;
+    
+//    CGSize itemSize = self.contentView.size;
+//    CGFloat scale = [[UIScreen mainScreen] scale];
+//    CGSize targetSize = CGSizeMake(itemSize.width * scale,itemSize.height * scale);
+    if (self.data) {
+        if (self.data.image) {
+            self.imageView.image = self.data.image;
+        }else{
+            __weak __typeof(self) weakSelf = self;
+            [PhotoTranslateUtils translateImageByAsset:self.data completeHandler:^{
+                weakSelf.imageView.image = weakSelf.data.image;
+            }];
+        }
+    }
+    self.operateButton.hidden = YES;
+    self.photoButton.hidden = NO;
 }
 
 @end
 
-@interface PhotoSelectionView()<UIActionSheetDelegate,QBImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
+@interface PhotoSelectionView()<UIActionSheetDelegate,QBImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,PhotoBroswerDelegate>
 
 //@property(nonatomic,retain)FlatButton* operateButton;
 //@property(nonatomic,retain)UICollectionView* scrollView;
@@ -190,21 +262,28 @@
 -(UICollectionViewFlowLayout *)collectionLayout{
     if (!_collectionLayout) {
         _collectionLayout = [[UICollectionViewFlowLayout alloc]init];
-        _collectionLayout.minimumLineSpacing = 2;
+        _collectionLayout.minimumLineSpacing = self.hGap;
     }
     return _collectionLayout;
 }
 
--(NSMutableArray *)dataArray{
+-(NSMutableArray<PhotoAlbumVo*> *)dataArray{
     if (!_dataArray) {
         _dataArray = [[NSMutableArray<PhotoAlbumVo*> alloc]init];
     }
     return _dataArray;
 }
 
+-(void)setAssetsArray:(NSMutableArray<PhotoAlbumVo*> *)assetsArray{
+    _assetsArray = assetsArray;
+    [self clearAll];
+    [self.dataArray addObjectsFromArray:assetsArray];
+}
+
 -(void)setHGap:(CGFloat)hGap{
-//    _hGap = hGap;
-//    [self setNeedsLayout];
+    _hGap = hGap;
+    self.collectionLayout.minimumLineSpacing = hGap;
+    [self setCollectionViewLayout:self.collectionLayout];
 }
 
 -(void)clearAll{
@@ -212,6 +291,9 @@
     [self.dataArray addObject:[[PhotoAlbumVo alloc]init]];//创建一个空的表示添加按钮
     
     [self reloadData];
+    
+    self.contentOffset = CGPointMake(0, 0);//恢复原位
+    
 }
 
 //-(FlatButton *)operateButton{
@@ -261,17 +343,37 @@
 }
 
 -(void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingAssets:(NSArray *)assets{
+    [self addPickingAssets:assets];
+    [self reloadData];
     [imagePickerController dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)addPickingAssets:(NSArray *)assets{
+    NSInteger addCount = assets.count;
+    if (self.maxSelectCount > 0 && self.dataArray.count - 1 + addCount > self.maxSelectCount) {
+        addCount = self.maxSelectCount - (self.dataArray.count - 1);
+        [HudManager showToast:ConcatStrings(@"图片只能添加到",@(self.maxSelectCount),@"个为止!")];
+    }
+    for (PHAsset* asset in assets) {
+        PhotoAlbumVo* vo = [[PhotoAlbumVo alloc]init];
+        vo.phAsset = asset;
+        [self.assetsArray addObject:vo];
+        [self.dataArray addObject:vo];
+        addCount --;
+        if (addCount <= 0) {
+            break;//最多就只添加这些
+        }
+    }
 }
 
 - (void)showCamera{
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-//        picker.delegate = self;
     //    picker.allowsEditing = YES;
     // 监测权限
     AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        picker.delegate = self;
         picker.sourceType = UIImagePickerControllerSourceTypeCamera;
         [self.parentController presentViewController:picker animated:YES completion:nil];
     } else if (authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied) {
@@ -281,6 +383,24 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"设备不支持相机！" message:@"请从相册中选取照片。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
         [alert show];
     }
+}
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    [self addCameraAssets:image];
+    [self reloadData];
+//    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera)
+//    {
+//        // UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);//保存到相册中
+//    }
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)addCameraAssets:(UIImage*)image{
+    PhotoAlbumVo* vo = [[PhotoAlbumVo alloc]init];
+    vo.image = image;
+    [self.assetsArray addObject:vo];
+    [self.dataArray addObject:vo];
 }
 
 //-(void)layoutSubviews{
@@ -306,22 +426,24 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     PhotoCollectionCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER forIndexPath: indexPath];
-    PhotoAlbumVo* data = self.dataArray[indexPath.row];
     cell.indexPath = indexPath;
     cell.collectionView = self;
-    cell.data = data;
+    cell.data = self.dataArray[indexPath.row];
     return cell;
 }
 
-
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
-        [self showActionSheet];
-    }
-    [self deselectItemAtIndexPath:indexPath animated:false];
-}
+//-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+//    if (indexPath.row == 0) {
+//        [self showActionSheet];
+//    }
+//    [self deselectItemAtIndexPath:indexPath animated:false];
+//}
 
 -(void)showActionSheet{
+    if (self.maxSelectCount > 0 && self.dataArray.count - 1 >= self.maxSelectCount) {
+        [HudManager showToast:ConcatStrings(@"图片最多只能添加",@(self.maxSelectCount),@"个")];
+        return;
+    }
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
                                   initWithTitle:nil
                                   delegate:self
@@ -330,6 +452,34 @@
                                   otherButtonTitles:@"拍照",@"选择相册",nil];
     actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     [actionSheet showInView:self];
+}
+
+-(void)showPhotoByIndexPath:(NSIndexPath *)indexPath{
+//    NSMutableArray* copyArray = [self.dataArray copy];
+    
+    [PhotoTranslateUtils translateImagesByAssets:self.dataArray completeHandler:^{
+        NSMutableArray<UIImage*>* imageArr = [[NSMutableArray<UIImage*> alloc]init];
+        for (PhotoAlbumVo* vo in self.dataArray) {
+            if (vo.image) {
+                [imageArr addObject:vo.image];
+            }
+        }
+        PhotoBroswerController* broswerController = [[PhotoBroswerController alloc]init];
+        broswerController.imageArray = imageArr;
+        broswerController.selectedIndex = indexPath.row - 1;
+        broswerController.delegate = self;
+        [self.parentController pushViewController:broswerController animated:YES];
+    }];
+}
+
+-(void)photoBroswerDelete:(PhotoBroswerController *)broswerController index:(NSInteger)index{
+    if (index < self.assetsArray.count) {
+        [self.assetsArray removeObjectAtIndex:index];
+    }
+    if (index + 1 < self.dataArray.count) {
+        [self.dataArray removeObjectAtIndex:index + 1];
+    }
+    [self reloadData];
 }
 
 @end
