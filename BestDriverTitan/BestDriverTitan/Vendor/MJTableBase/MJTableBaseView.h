@@ -97,7 +97,7 @@ typedef void(^FooterLoadMoreHandler)(BOOL hasData);
 -(SourceVo*)getLastSource;
 -(SourceVo*)getFirstSource;
 
--(SourceVo*)getSourceByIndex:(int)index;
+-(SourceVo*)getSourceByIndex:(NSInteger)index;
 -(NSUInteger)getSourceCount;
 
 @end

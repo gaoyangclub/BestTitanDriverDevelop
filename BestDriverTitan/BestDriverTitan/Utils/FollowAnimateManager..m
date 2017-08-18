@@ -83,7 +83,6 @@ static FollowAnimateManager* instance;
         _iconTag.font = [UIFont fontWithName:ICON_FONT_NAME size:24];
         _iconTag.text = ICON_STAR;
         _iconTag.textColor = FlatOrange;
-        
     }
     return _iconTag;
 }

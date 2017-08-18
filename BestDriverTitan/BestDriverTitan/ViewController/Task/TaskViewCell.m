@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "UICreationUtils.h"
 #import "FollowAnimateManager.h"
+#import "FlatButton.h"
 
 @interface RoundBackView:UIView
 
@@ -36,8 +37,8 @@
 @property (nonatomic,retain) ASDisplayNode* backNode;
 
 @property (nonatomic,retain) ASTextNode* codeText;//运单号
-@property (nonatomic,retain) RoundRectNode* stateArea;//未完成
-@property (nonatomic,retain) ASTextNode* stateText;//未完成
+@property (nonatomic,retain) FlatButton* stateArea;//未完成
+//@property (nonatomic,retain) ASTextNode* stateText;//未完成
 
 @property (nonatomic,retain) ASTextNode* licencePlateText;//车牌号
 @property (nonatomic,retain) DiyLicensePlateNode* licencePlateView;//车牌背景图
@@ -53,6 +54,8 @@
 
 @property (nonatomic,retain) ASDisplayNode* lineFollowX;
 
+@property (nonatomic,retain) ASTextNode* orderCountIcon;//订单icon
+@property (nonatomic,retain) ASTextNode* orderCountNode;//订单数
 @property (nonatomic,retain) ASTextNode* costHourText;//配送时间花费
 @property (nonatomic,retain) ASTextNode* distanceText;//配送里程花费
 @property (nonatomic,retain) ASTextNode* expenseText;//参考运费
@@ -110,6 +113,24 @@
         [_selectBackView.layer addSublayer:back.layer];
     }
     return _selectBackView;
+}
+
+-(ASTextNode *)orderCountNode{
+    if (!_orderCountNode) {
+        _orderCountNode = [[ASTextNode alloc]init];
+        _orderCountNode.layerBacked = YES;
+        [self.backNode addSubnode:_orderCountNode];
+    }
+    return _orderCountNode;
+}
+
+-(ASTextNode *)orderCountIcon{
+    if (!_orderCountIcon) {
+        _orderCountIcon = [[ASTextNode alloc]init];
+        _orderCountIcon.layerBacked = YES;
+        [self.backNode addSubnode:_orderCountIcon];
+    }
+    return _orderCountIcon;
 }
 
 -(ASTextNode *)expenseLabel{
@@ -282,25 +303,38 @@
     return _codeText;
 }
 
--(RoundRectNode *)stateArea{
+//-(RoundRectNode *)stateArea{
+//    if (!_stateArea) {
+//        _stateArea = [[RoundRectNode alloc]init];
+//        _stateArea.layerBacked = YES;
+//        _stateArea.cornerRadius = 3;
+//        _stateArea.fillColor = COLOR_DAI_WAN_CHENG;
+//        [self.backNode addSubnode:_stateArea];
+//    }
+//    return _stateArea;
+//}
+
+-(FlatButton *)stateArea{
     if (!_stateArea) {
-        _stateArea = [[RoundRectNode alloc]init];
-        _stateArea.layerBacked = YES;
+        _stateArea = [[FlatButton alloc]init];
+        _stateArea.userInteractionEnabled = NO;
         _stateArea.cornerRadius = 3;
-        _stateArea.fillColor = COLOR_DAI_WAN_CHENG;
-        [self.backNode addSubnode:_stateArea];
+        _stateArea.fillColor = [UIColor whiteColor];
+        _stateArea.strokeWidth = 1;
+        //        _stateArea.fillColor = COLOR_DAI_WAN_CHENG;
+        [self.contentView addSubview:_stateArea];
     }
     return _stateArea;
 }
 
--(ASTextNode *)stateText{
-    if(!_stateText){
-        _stateText = [[ASTextNode alloc]init];
-        _stateText.layerBacked = YES;
-        [self.stateArea addSubnode:_stateText];
-    }
-    return _stateText;
-}
+//-(ASTextNode *)stateText{
+//    if(!_stateText){
+//        _stateText = [[ASTextNode alloc]init];
+//        _stateText.layerBacked = YES;
+//        [self.stateArea addSubnode:_stateText];
+//    }
+//    return _stateText;
+//}
 
 -(ASTextNode *)shipUintCountText{
     if(!_shipUintCountText){
@@ -437,14 +471,27 @@
     
     CGFloat marginLeft = 0;//followWidth / 2.;
     
-    CGFloat areaWith = (topWidth - marginLeft) / 3.;
+    CGFloat areaWith = (topWidth - marginLeft) / 4.;
     
 //    self.followButton.frame = CGRectMake(0, topY + (topHeight - followWidth) / 2., followWidth, followWidth);
 //    [self showFollowArea];
     
-    UIColor* iconColor = COLOR_LINE;//[UIColor flatGrayColorDark];
+    UIColor* iconColor = FlatGray;//[UIColor flatGrayColorDark];
     
-    CGFloat areaX1 = marginLeft;
+    CGFloat areaX0 = marginLeft;
+    
+    self.orderCountIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:16 content:ICON_DING_DAN];
+    self.orderCountIcon.size = [self.orderCountIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    
+    self.orderCountNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange size:14 content:@"15个"];
+    self.orderCountNode.size = [self.orderCountNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize orderCountSize =
+    
+    self.orderCountIcon.x = areaX0 + (areaWith - self.orderCountIcon.width - self.orderCountNode.width) / 2;
+    self.orderCountNode.x = self.orderCountIcon.maxX;
+    self.orderCountNode.centerY = self.orderCountIcon.centerY = topY + topHeight / 2.;
+    
+    CGFloat areaX1 = areaX0 + areaWith;
+    
     self.expenseLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:16 content:ICON_JIN_QIAN];
     CGSize expenseLabelSize = [self.expenseLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.expenseText.attributedString = [NSString simpleAttributedString:[UIColor flatOrangeColor] size:14 content:@"15元"];
@@ -459,7 +506,7 @@
         CGPointMake(expenseX + expenseLabelSize.width, topY + (topHeight - expenseTextSize.height) / 2.),expenseTextSize
     };
     
-    CGFloat areaX2 = marginLeft + areaWith;
+    CGFloat areaX2 = areaX1 + areaWith;
     self.distanceLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:16 content:ICON_JU_LI];
     CGSize distanceLabelSize = [self.distanceLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.distanceText.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:@"1.7公里"];
@@ -474,7 +521,7 @@
         CGPointMake(distanceX + distanceLabelSize.width, topY + (topHeight - distanceTextSize.height) / 2.),distanceTextSize
     };
     
-    CGFloat areaX3 = marginLeft + areaWith * 2;
+    CGFloat areaX3 = areaX2 + areaWith;
     self.costHourLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:16 content:ICON_SHI_JIAN];
     CGSize hourLabelSize = [self.costHourLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.costHourText.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:@"2.5小时"];
@@ -658,15 +705,17 @@
 //    self.planButton.frame = CGRectMake(bottomWidth - planButtonWidth, bottomY , planButtonWidth, bottomHeight);
 //    [self showPlanArea];
     
-    ShipmentBean* bean = self.data;
+//    ShipmentBean* bean = self.data;
     
     self.buttonArea.frame = CGRectMake(0, bottomY, bottomWidth, bottomHeight);
     
-    CGFloat leftpadding = 10;
+    CGFloat baseX = self.orderCountIcon.x;
+//    CGFloat leftpadding = 10;
+    CGFloat iconGap = 5;
     
     self.iconStart.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatGreenDark size:16 content:ICON_NODE];
     CGSize iconStartSize = [self.iconStart measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.iconStart.frame = (CGRect){ CGPointMake(leftpadding,0 + (bottomHeight / 2. - iconStartSize.height) / 2.),iconStartSize};
+    self.iconStart.frame = (CGRect){ CGPointMake(baseX,0 + (bottomHeight / 2. - iconStartSize.height) / 2.),iconStartSize};
     
     NSString* address = @"大港镇松镇公路1339号宝湾物流112号库";
     NSMutableAttributedString* textString = (NSMutableAttributedString*)[NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:12 content:address];
@@ -675,14 +724,14 @@
     [textString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, address.length)];
     
     self.textStart.attributedString = textString;
-    CGFloat maxStartWidth = bottomWidth - leftpadding - iconStartSize.width - planButtonWidth;
+    CGFloat maxStartWidth = bottomWidth - baseX - iconStartSize.width - iconGap - planButtonWidth;
     
     CGSize textStartSize = [self.textStart measure:CGSizeMake(maxStartWidth, FLT_MAX)];
-    self.textStart.frame = (CGRect){ CGPointMake(leftpadding + iconStartSize.width + leftpadding / 2.,0 + (bottomHeight / 2. - textStartSize.height) / 2.),textStartSize};
+    self.textStart.frame = (CGRect){ CGPointMake(self.iconStart.maxX + iconGap,0 + (bottomHeight / 2. - textStartSize.height) / 2.),textStartSize};
     
     self.iconEnd.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange size:16 content:ICON_NODE];
     CGSize iconEndSize = [self.iconEnd measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.iconEnd.frame = (CGRect){ CGPointMake(leftpadding,bottomHeight / 2. + (bottomHeight / 2. - iconStartSize.height) / 2.),iconEndSize};
+    self.iconEnd.frame = (CGRect){ CGPointMake(baseX,bottomHeight / 2. + (bottomHeight / 2. - iconStartSize.height) / 2.),iconEndSize};
     
     NSString* address2 = @"青浦工业园区新团路518号（二期）";
     NSMutableAttributedString* textString2 = (NSMutableAttributedString*)[NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:12 content:address2];
@@ -691,49 +740,48 @@
     [textString2 addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, address2.length)];
     
     self.textEnd.attributedString = textString2;
-    maxStartWidth = bottomWidth - leftpadding - iconEndSize.width - planButtonWidth;
+    maxStartWidth = bottomWidth - baseX - iconEndSize.width - iconGap - planButtonWidth;
     
     CGSize textEndSize = [self.textEnd measure:CGSizeMake(maxStartWidth, FLT_MAX)];
-    self.textEnd.frame = (CGRect){ CGPointMake(leftpadding + iconEndSize.width + leftpadding / 2.,bottomHeight / 2. + (bottomHeight / 2. - textEndSize.height) / 2.),textEndSize};
+    self.textEnd.frame = (CGRect){ CGPointMake(self.iconEnd.maxX + iconGap,bottomHeight / 2. + (bottomHeight / 2. - textEndSize.height) / 2.),textEndSize};
     
-    
-    if (true) {
-        return;
-    }
-    
-    [self.buttonArea removeAllSubNodes];
-//    for (ASDisplayNode* subNode in self.buttonArea.subnodes) {//先全部移除干净
-//        [subNode removeFromSupernode];
+//    if (true) {
+//        return;
 //    }
-    
-    CGFloat baseX = 10;
-    int factor = bean.factor1; //生成0-2范围的随机数
-    if(factor == 0){
-        ASDisplayNode* subNode1 = [self createStateNode:@"货量差异" color:FlatYellow offsetX:baseX bottomHeight:bottomHeight];
-        [self.buttonArea addSubnode:subNode1];
-        baseX += subNode1.frame.size.width + 5;
-    }
-    if (bean.isComplete) {
-        ASDisplayNode* subNode2 = [self createStateNode:@"已完成" color:COLOR_YI_WAN_CHENG offsetX:baseX bottomHeight:bottomHeight];
-        [self.buttonArea addSubnode:subNode2];
-        baseX += subNode2.frame.size.width + 5;
-    }else{
-        int factor = bean.factor2; //生成0-2范围的随机数
-        if (factor > 1) {
-            ASDisplayNode* subNode2 = [self createStateNode:@"待签收" color:COLOR_DAI_WAN_CHENG offsetX:baseX bottomHeight:bottomHeight];
-            [self.buttonArea addSubnode:subNode2];
-            baseX += subNode2.frame.size.width + 5;
-        }else if(factor > 0){
-            ASDisplayNode* subNode2 = [self createStateNode:@"待提货" color:COLOR_DAI_WAN_CHENG offsetX:baseX bottomHeight:bottomHeight];
-            [self.buttonArea addSubnode:subNode2];
-            baseX += subNode2.frame.size.width + 5;
-        }
-    }
-    factor = bean.factor3; //生成0-2范围的随机数
-    if (factor > 0) {
-        ASDisplayNode* subNode1 = [self createStateNode:@"待收款" color:FlatOrange offsetX:baseX bottomHeight:bottomHeight];
-        [self.buttonArea addSubnode:subNode1];
-    }
+//    
+//    [self.buttonArea removeAllSubNodes];
+////    for (ASDisplayNode* subNode in self.buttonArea.subnodes) {//先全部移除干净
+////        [subNode removeFromSupernode];
+////    }
+//    
+//    CGFloat baseX = 10;
+//    int factor = bean.factor1; //生成0-2范围的随机数
+//    if(factor == 0){
+//        ASDisplayNode* subNode1 = [self createStateNode:@"货量差异" color:FlatYellow offsetX:baseX bottomHeight:bottomHeight];
+//        [self.buttonArea addSubnode:subNode1];
+//        baseX += subNode1.frame.size.width + 5;
+//    }
+//    if (bean.isComplete) {
+//        ASDisplayNode* subNode2 = [self createStateNode:@"已完成" color:COLOR_YI_WAN_CHENG offsetX:baseX bottomHeight:bottomHeight];
+//        [self.buttonArea addSubnode:subNode2];
+//        baseX += subNode2.frame.size.width + 5;
+//    }else{
+//        int factor = bean.factor2; //生成0-2范围的随机数
+//        if (factor > 1) {
+//            ASDisplayNode* subNode2 = [self createStateNode:@"待签收" color:COLOR_DAI_WAN_CHENG offsetX:baseX bottomHeight:bottomHeight];
+//            [self.buttonArea addSubnode:subNode2];
+//            baseX += subNode2.frame.size.width + 5;
+//        }else if(factor > 0){
+//            ASDisplayNode* subNode2 = [self createStateNode:@"待提货" color:COLOR_DAI_WAN_CHENG offsetX:baseX bottomHeight:bottomHeight];
+//            [self.buttonArea addSubnode:subNode2];
+//            baseX += subNode2.frame.size.width + 5;
+//        }
+//    }
+//    factor = bean.factor3; //生成0-2范围的随机数
+//    if (factor > 0) {
+//        ASDisplayNode* subNode1 = [self createStateNode:@"待收款" color:FlatOrange offsetX:baseX bottomHeight:bottomHeight];
+//        [self.buttonArea addSubnode:subNode1];
+//    }
     
 //    UIButton* btn = [UIButton buttonWithType:UIButtonTypeSystem];
     //    [btn setTitle:@"ceshiahgia" forState:UIControlStateNormal];
@@ -846,10 +894,10 @@
     CGFloat bottomY = centerY + centerHeight;
     
 //    self.lineFollowX.frame = CGRectMake(backWidth - bottomHeight - LINE_WIDTH / 2. + 10, bottomY + padding, LINE_WIDTH, bottomHeight -padding * 2);
+    [self initTopArea:topY topWidth:backWidth topHeight:topHeight];
     
     [self initTitleArea:cellWidth];
     
-    [self initTopArea:topY topWidth:backWidth topHeight:topHeight];
 //    [self initCenterArea:centerY centerWidth:backWidth centerHeight:centerHeight];
     [self initBottomArea:bottomY bottomWidth:backWidth bottomHeight:bottomHeight];
     
@@ -908,20 +956,34 @@
     //    [attrString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16] range:NSMakeRange(0, context.length)];
     self.codeText.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:16 content:context];
     //    [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:16 context:@"TO1251616161"];
-    CGSize codeSize = [self.codeText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.codeText.frame = (CGRect){ CGPointMake(padding * 2, padding), codeSize };
+    self.codeText.size = [self.codeText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    self.codeText.x = self.orderCountIcon.x;
+    self.codeText.y = padding;
+//    self.codeText.frame = (CGRect){ CGPointMake(padding * 2, padding), codeSize };
     
     ShipmentBean* bean = self.data;
-    if (!bean.isComplete) {
-        self.stateText.attributedString = [NSString simpleAttributedString:[UIColor whiteColor] size:12 content:@"未完成"];
-        CGSize stateSize = [self.stateText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-        self.stateText.frame = (CGRect){ CGPointMake(padding, padding / 2.), stateSize };
-        
-        CGFloat stateHeight = stateSize.height + padding;
-        
-        self.stateArea.frame = CGRectMake(CGRectGetMinX(self.codeText.frame) + codeSize.width + padding, padding + (CGRectGetHeight(self.codeText.bounds) - stateHeight) / 2., stateSize.width + padding * 2, stateHeight);
+    UIColor* iconColor;
+    if(bean.isComplete){
+        iconColor = COLOR_YI_WAN_CHENG;
+    }else{
+        iconColor = COLOR_DAI_WAN_CHENG;
     }
-    self.stateArea.hidden = bean.isComplete;
+    
+    self.stateArea.frame = CGRectMake(self.codeText.maxX + padding, 0, 50, 20);
+    self.stateArea.centerY = self.codeText.centerY;
+    self.stateArea.titleColor = self.stateArea.strokeColor = iconColor;
+    self.stateArea.title = bean.isComplete ? @"已完成":@"未完成";
+    
+//    if (!bean.isComplete) {
+//        self.stateText.attributedString = [NSString simpleAttributedString:[UIColor whiteColor] size:12 content:@"未完成"];
+//        CGSize stateSize = [self.stateText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+//        self.stateText.frame = (CGRect){ CGPointMake(padding, padding / 2.), stateSize };
+//        
+//        CGFloat stateHeight = stateSize.height + padding;
+//        
+//        self.stateArea.frame = CGRectMake(CGRectGetMinX(self.codeText.frame) + codeSize.width + padding, padding + (CGRectGetHeight(self.codeText.bounds) - stateHeight) / 2., stateSize.width + padding * 2, stateHeight);
+//    }
+//    self.stateArea.hidden = bean.isComplete;
     
     self.licencePlateText.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:@"浙A790GK"];
     CGSize liceneSize = [self.licencePlateText measure:CGSizeMake(FLT_MAX, FLT_MAX)];

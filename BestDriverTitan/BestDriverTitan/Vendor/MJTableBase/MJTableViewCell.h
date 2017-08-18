@@ -25,4 +25,6 @@
 
 -(BOOL)showSelectionStyle;
 
+-(CGFloat)getCellHeight;
+
 @end

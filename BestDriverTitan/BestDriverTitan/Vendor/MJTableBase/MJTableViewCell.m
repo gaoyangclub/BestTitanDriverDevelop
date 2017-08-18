@@ -40,7 +40,12 @@
 
 -(void)setCellVo:(CellVo *)cellVo{
     _cellVo = cellVo;
-    [self setNeedsLayout];
+    CGFloat cellHeight = [self getCellHeight];
+    if (cellHeight > 0) {
+        cellVo.cellHeight = cellHeight;
+    }else{
+        [self setNeedsLayout];
+    }
 }
 
 -(void)setData:(NSObject *)data{
@@ -61,6 +66,10 @@
 
 -(BOOL)showSelectionStyle{
     return YES;
+}
+
+-(CGFloat)getCellHeight{
+    return 0;
 }
 
 @end

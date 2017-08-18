@@ -13,6 +13,8 @@
 #import "ShipmentStopBean.h"
 #import "FlatButton.h"
 #import "UIArrowView.h"
+#import "MapNaviViewController.h"
+#import "OwnerViewController.h"
 
 @interface TaskTripCell(){
     
@@ -27,6 +29,7 @@
 //@property(nonatomic,retain)ASTextNode* indexNode;
 
 @property(nonatomic,retain)ASTextNode* titleNode;
+@property(nonatomic,retain)ASTextNode* orderCountIcon;
 @property(nonatomic,retain)ASTextNode* orderCountNode;//订单数
 
 @property(nonatomic,retain)ASTextNode* addressNode;
@@ -42,7 +45,7 @@
 
 @property (nonatomic,retain)FlatButton* naviButton;//导航按钮
 //@property (nonatomic,retain)ASTextNode* naviIcon;//导航图标
-//@property (nonatomic,retain)ASTextNode* naviLabel;//去这里
+@property (nonatomic,retain)ASTextNode* naviLabel;//去这里
 
 @property (nonatomic,retain)FlatButton* phoneButton;//联系电话
 
@@ -55,11 +58,18 @@
 @end
 
 static CGFloat topAreaHeight = 30;
-static CGFloat shipWidth = 60;
+//static CGFloat shipWidth = 60;
 static CGFloat naviWidth = 40;
 static CGFloat bottomAreaHeight = 45;
 
 @implementation TaskTripCell
+
++(CGFloat)getMarginLeft{
+    if (SCREEN_WIDTH > IPHONE_5S_WIDTH) {
+        return 7 * SYSTEM_SCALE;
+    }
+    return 3;
+}
 
 //-(ASTextNode *)carView{
 //    if (!_carView) {
@@ -114,6 +124,8 @@ static CGFloat bottomAreaHeight = 45;
     if (!_titleNode) {
         _titleNode = [[ASTextNode alloc]init];
         _titleNode.layerBacked = YES;
+        _titleNode.maximumNumberOfLines = 1;//最多一行
+        _titleNode.truncationMode = NSLineBreakByTruncatingTail;
         [self.contentView.layer addSublayer:_titleNode.layer];
     }
     return _titleNode;
@@ -128,10 +140,21 @@ static CGFloat bottomAreaHeight = 45;
     return _orderCountNode;
 }
 
+-(ASTextNode *)orderCountIcon{
+    if (!_orderCountIcon) {
+        _orderCountIcon = [[ASTextNode alloc]init];
+        _orderCountIcon.layerBacked = YES;
+        [self.contentView.layer addSublayer:_orderCountIcon.layer];
+    }
+    return _orderCountIcon;
+}
+
 -(ASTextNode *)addressNode{
     if (!_addressNode) {
         _addressNode = [[ASTextNode alloc]init];
         _addressNode.layerBacked = YES;
+        _addressNode.maximumNumberOfLines = 2;//最多2行
+        _addressNode.truncationMode = NSLineBreakByTruncatingTail;
         [self.contentView.layer addSublayer:_addressNode.layer];
     }
     return _addressNode;
@@ -213,9 +236,15 @@ static CGFloat bottomAreaHeight = 45;
         _naviButton.titleFontName = ICON_FONT_NAME;
         _naviButton.titleSize = 38;
         _naviButton.title = ICON_DAO_HANG;
+        [_naviButton addTarget:self action:@selector(clickNaviButton) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:_naviButton];
     }
     return _naviButton;
+}
+
+-(void)clickNaviButton{
+    MapNaviViewController* naviController = [[MapNaviViewController alloc]init];
+    [[OwnerViewController sharedInstance]pushViewController:naviController animated:YES];
 }
 
 -(FlatButton *)phoneButton{
@@ -224,7 +253,7 @@ static CGFloat bottomAreaHeight = 45;
         _phoneButton.fillColor = [UIColor clearColor];
         _phoneButton.titleColor = COLOR_ACCENT;
         _phoneButton.titleFontName = ICON_FONT_NAME;
-        _phoneButton.titleSize = 24;
+        _phoneButton.titleSize = 28;
         _phoneButton.title = ICON_DIAN_HUA;
         [self.contentView addSubview:_phoneButton];
     }
@@ -232,14 +261,14 @@ static CGFloat bottomAreaHeight = 45;
 }
 
 
-//-(ASTextNode *)naviLabel{
-//    if (!_naviLabel) {
-//        _naviLabel = [[ASTextNode alloc]init];
-//        _naviLabel.layerBacked = YES;
-//        [self.naviButton.layer addSublayer:_naviLabel.layer];
-//    }
-//    return _naviLabel;
-//}
+-(ASTextNode *)naviLabel{
+    if (!_naviLabel) {
+        _naviLabel = [[ASTextNode alloc]init];
+        _naviLabel.layerBacked = YES;
+        [self.naviButton.layer addSublayer:_naviLabel.layer];
+    }
+    return _naviLabel;
+}
 
 -(FlatButton *)activityButton{
     if (!_activityButton) {
@@ -311,8 +340,17 @@ static CGFloat bottomAreaHeight = 45;
     ShipmentStopBean* stopBean = self.data;
     
     CGFloat leftMargin = CGRectGetMaxX(self.routeLine.frame) + 16;
+    
+    CGFloat padding = 5;
+    
+    self.orderCountIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatGray size:18 content:ICON_DING_DAN];
+    self.orderCountIcon.size = [self.orderCountIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+
+    self.orderCountNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange size:16 content:@"15"];
+    self.orderCountNode.size = [self.orderCountNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize orderCountSize =
+
     NSString* stopName = ConcatStrings([NSString stringWithFormat:@"%li",(long)self.indexPath.row + 1],@".",stopBean.shortAddress);
-    UIColor* titleColor;
+    UIColor* titleColor;//,@"上海市松江区上海市松江区啦啦啦啦啦啦"
     if(self.selected){
         titleColor = FlatOrange;
         self.backgroundColor = FlatWhite;
@@ -321,22 +359,21 @@ static CGFloat bottomAreaHeight = 45;
         self.backgroundColor = [UIColor clearColor];
     }
     
-    self.titleNode.attributedString = [NSString simpleAttributedString:titleColor size:16 content:stopName];
-//    CGFloat maxStartWidth = cellWidth - leftMargin - naviWidth;
-    self.titleNode.size = [self.titleNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize textStartSize =
-//    self.titleNode.frame = (CGRect){
-//        CGPointMake(leftMargin, topAreaHeight - textStartSize.height),textStartSize
-//    };
+    NSMutableAttributedString* textString = (NSMutableAttributedString*)[NSString simpleAttributedString:titleColor size:16 content:stopName];
+    NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
+    style.alignment = NSTextAlignmentLeft;
+    [textString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, stopName.length)];
+    self.titleNode.attributedString = textString;
+    CGFloat maxStartWidth = cellWidth - leftMargin - naviWidth - [TaskTripCell getMarginLeft] - self.orderCountIcon.width - padding - self.orderCountNode.width;
+    self.titleNode.size = [self.titleNode measure:CGSizeMake(maxStartWidth, FLT_MAX)];//CGSize textStartSize =
     self.titleNode.x = leftMargin;
     self.titleNode.maxY = topAreaHeight;
     
-    self.orderCountNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_ACCENT size:14 content:ConcatStrings(ICON_DING_DAN,@"15")];
-    self.orderCountNode.size = [self.orderCountNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize orderCountSize =
-//    self.orderCountNode.frame = (CGRect){
-//        CGPointMake(CGRectGetMaxX(self.titleNode.frame) + 5, CGRectGetMidY(self.titleNode.frame) - orderCountSize.height / 2.),orderCountSize
-//    };
-    self.orderCountNode.x = self.titleNode.maxX + 5;
-    self.orderCountNode.centerY = self.titleNode.centerY;
+    self.orderCountIcon.x = self.titleNode.maxX + padding;
+    self.orderCountIcon.centerY = self.titleNode.centerY;
+    
+    self.orderCountNode.x = self.orderCountIcon.maxX;
+    self.orderCountNode.centerY = self.orderCountIcon.centerY;
 }
 
 -(void)initCenterArea:(CGFloat)cellWidth cellHeight:(CGFloat)cellHeight{
@@ -366,7 +403,7 @@ static CGFloat bottomAreaHeight = 45;
     
     self.addressNode.attributedString = textString;
     
-    CGFloat maxStartWidth = cellWidth - leftMargin - naviWidth;
+    CGFloat maxStartWidth = cellWidth - leftMargin - naviWidth - [TaskTripCell getMarginLeft];
     
     self.addressNode.size = [self.addressNode measure:CGSizeMake(maxStartWidth, FLT_MAX)];//CGSize textStartSize =
     self.addressNode.x = leftMargin;
@@ -381,16 +418,19 @@ static CGFloat bottomAreaHeight = 45;
 //    
 //    self.naviIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_PRIMARY size:26 content:ICON_DAO_HANG];
 //    CGSize naviIconSize = [self.naviIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-//    self.naviLabel.attributedString = [NSString simpleAttributedString:FlatGray  size:12 content:@"去这里"];
-//    CGSize naviLabelSize = [self.naviLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    self.naviLabel.attributedString = [NSString simpleAttributedString:FlatGray  size:12 content:@"去这里"];
+    self.naviLabel.size = [self.naviLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
 //    CGFloat naviIconY = (cellHeight - naviIconSize.height - naviLabelSize.height) / 2.;
-    CGFloat baseX = cellWidth - naviWidth;
-    CGFloat buttonHeight = naviHeight - 20;
+    CGFloat baseX = cellWidth - naviWidth - [TaskTripCell getMarginLeft];
+    CGFloat buttonHeight = naviHeight - 10;
     CGFloat buttonWidth = naviWidth;
     self.naviButton.frame = CGRectMake(baseX + (naviWidth - buttonWidth) / 2., (naviHeight - buttonHeight) / 2., buttonWidth, buttonHeight);
 //    self.phoneButton.frame = CGRectMake(baseX + buttonWidth, (naviHeight - buttonHeight) / 2., buttonWidth, buttonHeight);
+//    self.naviButton.backgroundColor = FlatBrownDark;
     
+    self.naviLabel.centerX = self.naviButton.width / 2. - 5;
+    self.naviLabel.maxY = self.naviButton.height;
     
 //    self.naviIcon.frame = (CGRect){ CGPointMake((naviWidth - naviIconSize.width) / 2.,(bottomAreaHeight - naviIconSize.height) / 2.),naviIconSize};
 //    self.naviLabel.frame = (CGRect){ CGPointMake((naviWidth - naviLabelSize.width) / 2.,naviIconY + naviIconSize.height),naviLabelSize};
@@ -421,13 +461,15 @@ static CGFloat bottomAreaHeight = 45;
 //        CGPointMake(leftMargin, CGRectGetMaxY(self.timeLabel.frame) + 5),
 //        shipUnitSize
 //    };
-    self.phoneButton.width = 35;
-    self.phoneButton.height = 25;
-    self.phoneButton.x = leftMargin + shipWidth;
-    self.phoneButton.y = self.timeLabel.maxY;
 //    self.phoneButton.frame = CGRectMake(leftMargin + shipWidth, CGRectGetMaxY(self.timeLabel.frame), phoneWidth, phoneHeight);
     
     [self initActivityArea:bottomY cellWidth:cellWidth cellHeight:cellHeight];
+    
+    self.phoneButton.width = 30;
+    self.phoneButton.height = 30;
+//    self.phoneButton.backgroundColor = FlatBrownDark;
+    self.phoneButton.maxX = self.activityButton.x - [TaskTripCell getMarginLeft];
+    self.phoneButton.centerY = self.activityButton.centerY;
 }
 
 -(void)initActivityArea:(CGFloat)bottomY cellWidth:(CGFloat)cellWidth cellHeight:(CGFloat)cellHeight{
@@ -439,11 +481,11 @@ static CGFloat bottomAreaHeight = 45;
     self.activityButton.fillColor = stopBean.isComplete ? COLOR_YI_WAN_CHENG : COLOR_DAI_WAN_CHENG;
     self.activityButton.title = stopBean.isComplete ? @"已完成" : @"未完成(1)";
     
-    self.activityButton.frame = CGRectMake(cellWidth - activityWidth - 5,bottomY + 5, activityWidth, activityHeight);
+    self.activityButton.frame = CGRectMake(cellWidth - activityWidth - [TaskTripCell getMarginLeft],bottomY + 5, activityWidth, activityHeight);
 }
 
 -(void)initRouteArea:(CGFloat)cellHeight{
-    CGFloat marginLeft = 5;
+    CGFloat marginLeft = [TaskTripCell getMarginLeft];
     
     ShipmentStopBean* stopBean = self.data;
     

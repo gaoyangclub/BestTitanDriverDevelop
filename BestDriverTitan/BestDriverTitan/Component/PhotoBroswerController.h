@@ -19,6 +19,6 @@
 
 @property (nonatomic, strong) NSArray<UIImage*> * imageArray;
 @property (nonatomic, assign) NSInteger selectedIndex;
-@property (nonatomic, weak) id<PhotoBroswerDelegate> delegate;;
+@property (nonatomic, weak) id<PhotoBroswerDelegate> delegate;
 
 @end

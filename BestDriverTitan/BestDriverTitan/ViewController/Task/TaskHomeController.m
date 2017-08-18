@@ -76,8 +76,8 @@
     
 //    if (!self->pageMenu) {
         NSArray* titleList = [NSArray arrayWithObjects:
-                              [NSArray arrayWithObjects:@"最新任务",@(NO), nil],
-                              [NSArray arrayWithObjects:@"历史任务",@(YES), nil],
+                              [NSArray arrayWithObjects:@"最近任务",@(NO), nil],
+                              [NSArray arrayWithObjects:@"所有任务",@(YES), nil],
 //                              [NSArray arrayWithObjects:@"历史任务",@(YES), nil],
 //                              [NSArray arrayWithObjects:@"历史任务",@(YES), nil],
 //                              [NSArray arrayWithObjects:@"历史任务",@(YES), nil],

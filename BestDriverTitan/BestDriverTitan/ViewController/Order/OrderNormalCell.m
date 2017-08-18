@@ -10,6 +10,7 @@
 #import "DiyNumberAddView.h"
 #import "FlatButton.h"
 #import "OrderEditModelView.h"
+#import "UIArrowView.h"
 
 @interface OrderNormalCell()
 
@@ -23,13 +24,15 @@
 //@property(nonatomic,retain)DiyNumberAddView* pieceNumberView;
 @property(nonatomic,retain)ASTextNode* pieceLabel;//内件数
 
-@property(nonatomic,retain)FlatButton* editButton;//编辑 铅笔
+//@property(nonatomic,retain)FlatButton* editButton;//编辑 铅笔
 
 //@property(nonatomic,retain)ASTextNode* weightLabel;//重量
 
 //@property(nonatomic,retain)ASTextNode* volumeLabel;//体积
 
 @property(nonatomic,retain)ASDisplayNode* bottomLine;//底部线
+
+@property(nonatomic,retain)UIArrowView* rightArrow;//向右箭头
 
 @end
 
@@ -91,24 +94,36 @@
     return _pieceLabel;
 }
 
--(FlatButton *)editButton{
-    if (!_editButton) {
-        _editButton = [[FlatButton alloc]init];
-        _editButton.fillColor = [UIColor clearColor];
-        _editButton.titleFontName = ICON_FONT_NAME;
-        _editButton.titleSize = 24;
-        _editButton.titleColor = COLOR_ACCENT;
-        _editButton.title = ICON_BIAN_JI;
-//        [_editButton setShowTouch:YES];
-        [_editButton addTarget:self action:@selector(clickEditButton) forControlEvents:UIControlEventTouchUpInside];
-        [self.contentView addSubview:_editButton];
-    }
-    return _editButton;
-}
+//-(FlatButton *)editButton{
+//    if (!_editButton) {
+//        _editButton = [[FlatButton alloc]init];
+//        _editButton.fillColor = [UIColor clearColor];
+//        _editButton.titleFontName = ICON_FONT_NAME;
+//        _editButton.titleSize = 24;
+//        _editButton.titleColor = COLOR_ACCENT;
+//        _editButton.title = ICON_BIAN_JI;
+////        [_editButton setShowTouch:YES];
+//        [_editButton addTarget:self action:@selector(clickEditButton) forControlEvents:UIControlEventTouchUpInside];
+//        [self.contentView addSubview:_editButton];
+//    }
+//    return _editButton;
+//}
 
--(void)clickEditButton{
-    OrderEditModelView* editView = [[OrderEditModelView alloc]init];
-    [editView show];
+//-(void)clickEditButton{
+//    OrderEditModelView* editView = [[OrderEditModelView alloc]init];
+//    [editView show];
+//}
+
+-(UIArrowView *)rightArrow{
+    if (!_rightArrow) {
+        _rightArrow = [[UIArrowView alloc]init];
+        _rightArrow.direction = ArrowDirectRight;
+        _rightArrow.lineColor = COLOR_LINE;
+        _rightArrow.lineThinkness = 2;
+        _rightArrow.size = CGSizeMake(8 , 14);
+        [self.contentView addSubview:_rightArrow];
+    }
+    return _rightArrow;
 }
 
 //-(DiyNumberAddView *)pieceNumberView{
@@ -230,16 +245,19 @@
     CGSize pieceSize = [self.pieceLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.pieceLabel.frame = (CGRect){ CGPointMake(CGRectGetMaxX(self.packageLabel.frame) + lefftpadding, CGRectGetMidY(self.packageLabel.frame) - pieceSize.height / 2.), pieceSize};
     
-    CGFloat buttonWidth = viewHeight - 10;
-    CGFloat buttonHeight = buttonWidth;
+//    CGFloat buttonWidth = viewHeight - 10;
+//    CGFloat buttonHeight = buttonWidth;
+//    self.editButton.frame = CGRectMake(viewWidth - buttonWidth - lefftpadding, (viewHeight - buttonHeight) / 2., buttonWidth, buttonHeight);
     
-    self.editButton.frame = CGRectMake(viewWidth - buttonWidth - lefftpadding, (viewHeight - buttonHeight) / 2., buttonWidth, buttonHeight);
+    self.rightArrow.x = viewWidth - self.rightArrow.width - lefftpadding;
+    self.rightArrow.centerY = self.contentView.centerY;
+//    self.rightArrow.frame = CGRectMake(viewWidth - buttonWidth - lefftpadding, (viewHeight - buttonHeight) / 2., buttonWidth, buttonHeight);
     
     self.bottomLine.frame = CGRectMake(lefftpadding, viewHeight - LINE_WIDTH, viewWidth - lefftpadding * 2, LINE_WIDTH);
 }
 
--(BOOL)showSelectionStyle{
-    return NO;
-}
+//-(BOOL)showSelectionStyle{
+//    return NO;
+//}
 
 @end

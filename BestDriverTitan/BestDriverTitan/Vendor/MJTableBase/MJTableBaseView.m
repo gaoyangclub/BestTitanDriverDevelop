@@ -103,7 +103,7 @@
     [self.dataArray addObject:sourceVo];
 }
 
--(SourceVo*)getSourceByIndex:(int)index{
+-(SourceVo*)getSourceByIndex:(NSInteger)index{
     return self.dataArray[index];
 }
 

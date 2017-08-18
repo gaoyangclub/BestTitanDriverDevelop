@@ -186,5 +186,12 @@ static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不�
     return @"596302f007fe6513f20005c9";
 }
 
++(NSString *)getAmapApiKey{
+    if (DEBUG_MODE) {
+        return @"b4aa0ec101a8d63030738884cf4af870";
+    }
+    return @"";
+}
+
 
 @end

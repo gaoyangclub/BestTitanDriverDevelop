@@ -124,7 +124,11 @@
             startDate = [startDate dateByAddingTimeInterval:-24 * 3600];//-24小时
         }
         ShipmentBean* bean = [[ShipmentBean alloc]init];
-        bean.isComplete = (arc4random() % 3) > 0 ? NO : YES;//;
+        if(self.hasHistory){
+            bean.isComplete = (arc4random() % 3) > 0 ? NO : YES;//;
+        }else{
+            bean.isComplete = NO;
+        }
         bean.pickupCount = (arc4random() % 15);
         bean.deliverCount = (arc4random() % 15);
         bean.factor1 = (arc4random() % 3);

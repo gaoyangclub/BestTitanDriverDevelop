@@ -81,11 +81,11 @@
 -(FlatButton *)pageButton{
     if (!_pageButton) {
         _pageButton = [[FlatButton alloc]init];
-        _pageButton.strokeWidth = 1;
-        _pageButton.strokeColor = COLOR_PRIMARY;
+//        _pageButton.strokeWidth = 1;
+//        _pageButton.strokeColor = COLOR_PRIMARY;
         _pageButton.titleSize = 14;
-        _pageButton.titleColor = COLOR_PRIMARY;
-        _pageButton.fillColor = [UIColor whiteColor];
+        _pageButton.titleColor = [UIColor whiteColor];//COLOR_PRIMARY;
+//        _pageButton.fillColor = [UIColor whiteColor];
         [_pageButton addTarget:self action:@selector(clickPageButton) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_pageButton];
     }
@@ -97,7 +97,9 @@
         _stateArea = [[FlatButton alloc]init];
         _stateArea.userInteractionEnabled = NO;
         _stateArea.cornerRadius = 3;
-//        _stateArea.fillColor = COLOR_DAI_WAN_CHENG;
+        _stateArea.fillColor = [UIColor whiteColor];
+        _stateArea.strokeWidth = 1;
+        //        _stateArea.fillColor = COLOR_DAI_WAN_CHENG;
         [self addSubview:_stateArea];
     }
     return _stateArea;
@@ -146,16 +148,16 @@
     CGSize desSize = [self.desLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.desLabel.frame = (CGRect){CGPointMake(self.iconText.frame.origin.x + self.iconText.frame.size.width + 3, sectionHeight / 2.),desSize};
     
-    CGFloat stateHeight = 20;
-    self.stateArea.frame = CGRectMake(CGRectGetMaxX(self.title.frame) + leftpadding, (sectionHeight - stateHeight) / 2., 50, stateHeight);
-    self.stateArea.fillColor = iconColor;
-    self.stateArea.title = isComplete ? @"已确认":@"未确认";
+    self.stateArea.frame = CGRectMake(CGRectGetMaxX(self.title.frame) + leftpadding, 0, 50, 20);
+    self.stateArea.centerY = sectionHeight / 2.;
+    self.stateArea.titleColor = self.stateArea.strokeColor = iconColor;
+    self.stateArea.title = isComplete ? @"已上报":@"未上报";
     
     if(self.itemCount > 1){
         CGFloat buttonWidth = 65;
         CGFloat buttonHeight = 30;
         self.pageButton.frame = CGRectMake(sectionWidth - leftpadding - buttonWidth, (sectionHeight - buttonHeight) / 2., buttonWidth,buttonHeight);
-        self.pageButton.strokeColor = self.pageButton.titleColor = iconColor;
+        self.pageButton.fillColor = COLOR_ACCENT;// iconColor;
         if (self.isLast) {
             self.pageButton.title = @"回顶部";
         }else{

@@ -72,9 +72,13 @@
 //    tapClick.numberOfTapsRequired = 1;//触摸次数
 ////    self.view.userInteractionEnabled = YES;
 //    [self.view addGestureRecognizer:tapClick];
+    CGFloat contentHeight = CGRectGetHeight(self.bounds) - self.topMargin * 2;
+    if (self.minHeight > 0 && contentHeight < self.minHeight) {
+        contentHeight = self.minHeight;
+    }
     self.contentView.frame = CGRectMake(0,0,
                               CGRectGetWidth(self.bounds) - self.leftMargin * 2,
-                              CGRectGetHeight(self.bounds) - self.topMargin * 2);
+                              contentHeight);
     [self viewDidLoad];
     
     [self popContentView];

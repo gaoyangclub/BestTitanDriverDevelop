@@ -18,6 +18,7 @@
 #import "HudManager.h"
 #import "UpdateVersionManager.h"
 #import "AdminViewController.h"
+#import "AmapLocationService.h"
 
 
 static OwnerViewController* instance;
@@ -163,6 +164,7 @@ static OwnerViewController* instance;
         self.navigationColor = COLOR_USER_PROXY;
     }else{
         self.navigationColor = [UIColor whiteColor];
+        [AmapLocationService startUpdatingLocation];//定位开启
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_LOGIN_COMPLETE object:nil];
 }
@@ -171,6 +173,7 @@ static OwnerViewController* instance;
     if ([Config getIsUserProxyMode]) {
         [self popAdminView:YES completion:completion];
     }else{
+        [AmapLocationService stopUpdatingLocation];//关闭定位
         [UserDefaultsUtils removeObject:USER_KEY];//清除数据
         [self popLoginview:YES completion:completion];
     }

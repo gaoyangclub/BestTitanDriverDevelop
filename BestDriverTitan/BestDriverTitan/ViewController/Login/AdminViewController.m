@@ -65,7 +65,7 @@
 
 -(UILabel *)logoIcon{
     if (!_logoIcon) {
-        _logoIcon = [UICreationUtils createLabel:ICON_FONT_NAME size:100 color:COLOR_USER_PROXY text:ICON_JIAN_KONG sizeToFit:YES superView:self.view];
+        _logoIcon = [UICreationUtils createLabel:ICON_FONT_NAME size:SYSTEM_SCALE_FACTOR * 100 color:COLOR_USER_PROXY text:ICON_JIAN_KONG sizeToFit:YES superView:self.view];
     }
     return _logoIcon;
 }
@@ -240,12 +240,16 @@
 -(void)initLogoArea{
     
     CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
-    CGFloat logoMarginTop = 50;
+//    CGFloat logoMarginTop = 50;
 //    CGFloat logoMarginBottom = 95;
     
-    CGSize iconSize = self.logoIcon.frame.size;
+//    CGSize iconSize = self.logoIcon.frame.size;
     
-    self.logoIcon.frame = (CGRect){ CGPointMake((viewWidth - iconSize.width) / 2., logoMarginTop),iconSize};
+    CGFloat logoMarginTop = (self.view.centerY - self.logoIcon.height - self.logoLabel.height - self.logoDes.height) / 2.;
+    
+    self.logoIcon.centerX = self.view.centerX;
+    self.logoIcon.y = logoMarginTop;
+//    self.logoIcon.frame = (CGRect){ CGPointMake((viewWidth - iconSize.width) / 2., logoMarginTop),iconSize};
     
     CGFloat logoLabelHeight = CGRectGetHeight(self.logoLabel.bounds);
     CGFloat logoLabelWidth = CGRectGetWidth(self.logoLabel.bounds);
@@ -270,7 +274,7 @@
     CGFloat iconWidth = 50;
     CGFloat inputHeight = areaHeight / 2.;
     
-    self.inputArea.frame = CGRectMake(0, CGRectGetMaxY(self.logoDes.frame) + inputHeight, viewWidth, areaHeight);
+    self.inputArea.frame = CGRectMake(0, self.view.centerY, viewWidth, areaHeight);
     
     CGFloat usernameIconHeight = CGRectGetHeight(self.usernameIcon.bounds);
     CGFloat usernameIconWidth = CGRectGetWidth(self.usernameIcon.bounds);
@@ -297,8 +301,6 @@
     self.writableSwitch.center = switchCenter;
     
     self.submitButton.frame = CGRectMake(padding, CGRectGetMaxY(self.inputArea.frame) + inputHeight, viewWidth - padding * 2, inputHeight);
-    
-    
 //    self.loginButton.frame = CGRectMake(padding, CGRectGetMaxY(self.submitButton.frame) + inputHeight, viewWidth - padding * 2, inputHeight);
     
     self.returnButton.frame = CGRectMake(0, viewHeight - inputHeight - padding, 0, inputHeight);
@@ -306,6 +308,10 @@
     self.loginButton.frame = CGRectMake(0, viewHeight - inputHeight - padding, 0, inputHeight);
     //    }
     [UICreationUtils autoEnsureViewsWidth:0 totolWidth:viewWidth views:@[self.returnButton,self.loginButton] viewWidths:@[@"40%",@"60%"] padding:padding];
+    
+    if(self.submitButton.maxY > self.returnButton.y){
+        self.submitButton.maxY = self.returnButton.y - padding;
+    }
 }
 
 -(void)clickSubmitButton:(UIView*)sender{

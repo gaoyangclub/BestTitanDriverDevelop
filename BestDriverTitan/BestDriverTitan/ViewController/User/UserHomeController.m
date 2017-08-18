@@ -199,7 +199,7 @@ typedef NS_ENUM(NSInteger,ItemPostion){
     bottomY = [self initUserItem:bottomY];
     bottomY += gap;
     //我的货量明细，我的收入，签到，分享，用户反馈，版本信息
-    bottomY = [self initNormalItem:bottomY icon:ICON_SHOU_ZHI labal:@"收支" iconBackColor:COLOR_DAI_WAN_CHENG handler:nil itemPostion:ItemPostionTop];
+    bottomY = [self initNormalItem:bottomY icon:ICON_JIN_QIAN labal:@"收支" iconBackColor:FlatYellow handler:nil itemPostion:ItemPostionTop];
     bottomY = [self initNormalItem:bottomY icon:ICON_HUO_LIANG labal:@"货量" iconBackColor:FlatOrange handler:nil];
 //    bottomY = [self initNormalItem:bottomY icon:ICON_LI_CHENG labal:@"里程" iconBackColor:FlatYellowDark handler:nil];
     bottomY = [self initNormalItem:bottomY icon:ICON_QIAN_DAO labal:@"签到" iconBackColor:FlatMintDark handler:nil itemPostion:ItemPostionBottom];
@@ -320,8 +320,9 @@ typedef NS_ENUM(NSInteger,ItemPostion){
     normalItem.strokeColor = COLOR_LINE;
     //        _userBack.arrowSize = CGSizeMake(10, 22);
     normalItem.iconName = icon;
-    normalItem.iconSize = 14;
-    normalItem.iconBackColor = iconBackColor;
+    normalItem.iconSize = 20;
+    normalItem.iconColor = iconBackColor;
+    normalItem.iconBackColor = [UIColor clearColor];
     normalItem.showIconLine = NO;
     
     normalItem.labelName = label;

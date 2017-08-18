@@ -9,6 +9,8 @@
 #import "OrderEditModelView.h"
 #import "DiyNumberAddView.h"
 #import "AppDelegate.h"
+#import "FlatButton.h"
+#import "UICreationUtils.h"
 
 @interface OrderEditModelView()
 
@@ -16,6 +18,7 @@
 
 @property(nonatomic,retain)DiyNumberAddView* packageNumberView;//
 @property(nonatomic,retain)ASTextNode* packageLabel;//包装数
+@property(nonatomic,retain)ASTextNode* packageOriginal;//包装原始值
 
 @property(nonatomic,retain)DiyNumberAddView* pieceNumberView;
 @property(nonatomic,retain)ASTextNode* pieceLabel;//内件数
@@ -26,6 +29,11 @@
 
 @property(nonatomic,retain)ASTextNode* volumeLabel;//体积
 
+@property(nonatomic,retain)UITextField* weightText;//重量文本框
+@property(nonatomic,retain)UITextField* volumeText;//体积文本框
+
+@property(nonatomic,retain)FlatButton* submitButton;
+@property(nonatomic,retain)FlatButton* returnButton;
 
 @end
 
@@ -36,6 +44,7 @@
     if (self) {
 //        self.opaque = false;//坑爹 一定要关闭掉才有透明绘制和圆角
         self.leftMargin = 20;
+        self.minHeight = 320;
     }
     return self;
 }
@@ -110,51 +119,142 @@
     return _volumeLabel;
 }
 
+-(UITextField *)weightText{
+    if (!_weightText) {
+        _weightText = [[UITextField alloc]init];
+//        _weightText.clearButtonMode = UITextFieldViewModeWhileEditing;//输入的时候显示close按钮
+        _weightText.font = [UIFont systemFontOfSize:16];
+        _weightText.textColor = COLOR_BLACK_ORIGINAL;
+        //        _weightText.delegate = self; //文本交互代理
+        _weightText.placeholder = @"请输入重量";
+        _weightText.keyboardType = UIKeyboardTypeNumberPad;
+        _weightText.returnKeyType = UIReturnKeyDone; //键盘return键样式
+        _weightText.backgroundColor = FlatWhite;
+        _weightText.textAlignment = NSTextAlignmentCenter;
+//        _weightText
+        [self.contentView addSubview:_weightText];
+    }
+    return _weightText;
+}
+
+-(UITextField *)volumeText{
+    if (!_volumeText) {
+        _volumeText = [[UITextField alloc]init];
+        //        _volumeText.clearButtonMode = UITextFieldViewModeWhileEditing;//输入的时候显示close按钮
+        _volumeText.font = [UIFont systemFontOfSize:16];
+        _volumeText.textColor = COLOR_BLACK_ORIGINAL;
+        //        _volumeText.delegate = self; //文本交互代理
+        _volumeText.placeholder = @"请输入体积";
+        _volumeText.keyboardType = UIKeyboardTypeNumberPad;
+        _volumeText.returnKeyType = UIReturnKeyDone; //键盘return键样式
+        _volumeText.backgroundColor = FlatWhite;
+        _volumeText.textAlignment = NSTextAlignmentCenter;
+        //        _weightText
+        [self.contentView addSubview:_volumeText];
+    }
+    return _volumeText;
+}
+
+-(FlatButton *)submitButton{
+    if (!_submitButton) {
+        _submitButton = [[FlatButton alloc]init];
+        _submitButton.fillColor = COLOR_PRIMARY;
+        _submitButton.title = @"确定修改";
+        _submitButton.titleSize = 20;
+        //        _loginButton.cornerRadius = 0;
+        [self.contentView addSubview:_submitButton];
+        [_submitButton addTarget:self action:@selector(clickSubmitButton:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _submitButton;
+}
+
+-(FlatButton *)returnButton{
+    if (!_returnButton) {
+        _returnButton = [[FlatButton alloc]init];
+        _returnButton.fillColor = [UIColor whiteColor];
+        _returnButton.titleColor = _returnButton.strokeColor = COLOR_PRIMARY;
+        _returnButton.strokeWidth = 1;
+        _returnButton.title = @"取消";
+        _returnButton.titleSize = 20;
+        //        _returnButton.cornerRadius = 0;
+        [self.contentView addSubview:_returnButton];
+        
+        [_returnButton addTarget:self action:@selector(clickReturnButton:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _returnButton;
+}
+
+-(void)clickSubmitButton:(UIView*)sender{
+    [self dismiss];
+}
+
+-(void)clickReturnButton:(UIView*)sender{
+    [self dismiss];
+}
+
 -(void)viewDidLoad{
     //    self.backgroundColor = [UIColor whiteColor];
-    //
-        CGFloat viewWidth = CGRectGetWidth(self.contentView.bounds);
-        CGFloat viewHeight = CGRectGetHeight(self.contentView.bounds);
     
-        CGFloat lefftpadding = 10;
-        CGFloat titleHeight = 30;
-        CGFloat offsetY = titleHeight - 10;
+    CGFloat viewWidth = self.contentView.width;// CGRectGetWidth(self.contentView.bounds);
+    CGFloat viewHeight = self.contentView.height;//CGRectGetHeight(self.contentView.bounds);
     
-        CGFloat gapWidth = viewWidth / 2.;
-        CGFloat gapHeight = (viewHeight - titleHeight) / 2.;
-        CGFloat numberWidth = 120;
-        CGFloat numberHeight = 40;
+    CGFloat lefftpadding = 10;
+    CGFloat titleHeight = 30;
     
-        self.titleLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:14 content:@"阿迪达斯毛巾啊"];
-    //    self.titleLabel.backgroundColor = [UIColor brownColor];
-        CGSize titleSize = [self.titleLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-        self.titleLabel.frame = (CGRect){ CGPointMake(lefftpadding,(titleHeight - titleSize.height) / 2.), titleSize};
+    CGFloat gapWidth = viewWidth / 2.;
+//    CGFloat gapHeight = (viewHeight - titleHeight) / 2.;
+    CGFloat numberWidth = 120;
+    CGFloat numberHeight = 40;
     
-        self.packageLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:12 content:@"包装数(箱)"];
-        CGSize packageSize = [self.packageLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-        self.packageLabel.frame = (CGRect){ CGPointMake(gapWidth * 0 + (gapWidth - packageSize.width) / 2., offsetY + gapHeight * 0 + (gapHeight / 2. - packageSize.height)), packageSize};
-        self.packageNumberView.frame = CGRectMake(gapWidth * 0 + (gapWidth - numberWidth) / 2., offsetY + gapHeight * 0 + (gapHeight / 2.), numberWidth, numberHeight);
+    CGFloat viewCenterY = self.contentView.centerY;
+    CGFloat offsetY = 50 * SYSTEM_SCALE;
     
-        self.pieceLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:12 content:@"内件数量"];
-        CGSize pieceSize = [self.pieceLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-        self.pieceLabel.frame = (CGRect){ CGPointMake(gapWidth * 1 + (gapWidth - pieceSize.width) / 2., offsetY + gapHeight * 0 + (gapHeight / 2. - pieceSize.height)), pieceSize};
-        self.pieceNumberView.frame = CGRectMake(gapWidth * 1 + (gapWidth - numberWidth) / 2., offsetY + gapHeight * 0 + (gapHeight / 2.), numberWidth, numberHeight);
+    self.titleLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:14 content:@"阿迪达斯毛巾啊"];
+    self.titleLabel.size = [self.titleLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    self.titleLabel.x = lefftpadding;
+    self.titleLabel.centerY = titleHeight / 2.;
     
+    self.packageLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:12 content:@"包装数(箱)"];
+    self.packageLabel.size = [self.packageLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    self.packageLabel.centerX = gapWidth / 2.;
+    self.packageLabel.y = viewCenterY - offsetY;
     
-        self.weightLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:12 content:@"重量(kg)"];
-        CGSize weightSize = [self.weightLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-        self.weightLabel.frame = (CGRect){ CGPointMake(gapWidth * 0 + (gapWidth - weightSize.width) / 2., offsetY + gapHeight * 1 + (gapHeight / 2. - weightSize.height)), weightSize};
+    self.packageNumberView.frame = CGRectMake(self.packageLabel.centerX - numberWidth / 2., self.packageLabel.maxY, numberWidth, numberHeight);
     
-        self.packageNumberView.y = self.weightLabel.maxY;//临时添加...
+    self.pieceLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:12 content:@"内件数量"];
+    self.pieceLabel.size = [self.pieceLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    self.pieceLabel.centerX = gapWidth + gapWidth / 2.;
+    self.pieceLabel.y = viewCenterY - offsetY;
+    self.pieceNumberView.frame = CGRectMake(self.pieceLabel.centerX - numberWidth / 2., self.pieceLabel.maxY, numberWidth, numberHeight);
     
-        self.volumeLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:12 content:@"体积(m³)"];
-        CGSize volumeSize = [self.volumeLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-        self.volumeLabel.frame = (CGRect){ CGPointMake(gapWidth * 1 + (gapWidth - volumeSize.width) / 2., offsetY + gapHeight * 1 + (gapHeight / 2. - volumeSize.height)), volumeSize};
+    self.weightLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:12 content:@"重量(kg)"];
+    self.weightLabel.size = [self.weightLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    self.weightLabel.centerX = gapWidth / 2.;
+    self.weightLabel.y = viewCenterY;// + offsetY / 2.;
+    
+    self.weightText.frame = CGRectMake(self.weightLabel.centerX - numberWidth / 2., self.weightLabel.maxY, numberWidth, numberHeight);
+    self.weightText.text = @"163.613";
+    //        self.packageNumberView.y = self.weightLabel.maxY;//临时添加...
+    
+    self.volumeLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:12 content:@"体积(m³)"];
+    self.volumeLabel.size = [self.volumeLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    self.volumeLabel.centerX = gapWidth + gapWidth / 2.;
+    self.volumeLabel.centerY = self.weightLabel.centerY;
+    
+    self.volumeText.frame = CGRectMake(self.volumeLabel.centerX - numberWidth / 2., self.volumeLabel.maxY, numberWidth, numberHeight);
+    self.volumeText.text = @"1.53";
     
 //        self.bottomLine.hidden = self.isFirst;
 //        if (!self.isFirst) {
 //            self.bottomLine.frame = CGRectMake(lefftpadding, 0, viewWidth - lefftpadding * 2, LINE_WIDTH);
 //        }
+    CGFloat padding = 20;
+    
+    self.submitButton.height = self.returnButton.height = numberHeight;
+    self.submitButton.maxY = self.returnButton.maxY = viewHeight - padding;
+    
+    
+    [UICreationUtils autoEnsureViewsWidth:0 totolWidth:viewWidth views:@[self.submitButton,self.returnButton] viewWidths:@[@"60%",@"40%"] padding:20];
 }
 
 -(UIView*)getParentView{

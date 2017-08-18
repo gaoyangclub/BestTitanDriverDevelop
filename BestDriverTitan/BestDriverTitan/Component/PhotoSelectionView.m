@@ -217,7 +217,7 @@
 
 - (instancetype)init
 {
-    self = [super initWithFrame:CGRectNull collectionViewLayout:[[UICollectionViewLayout alloc]init]];
+    self = [super initWithFrame:CGRectNull collectionViewLayout:self.collectionLayout];
     if (self) {
         [self prepare];
     }
@@ -233,6 +233,13 @@
 //-(instancetype)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout{
 //    return [self initWithFrame:frame];
 //}
+
+-(void)setContentSize:(CGSize)contentSize{
+    [super setContentSize:contentSize];
+    if (self.selectionDelegate && [self.selectionDelegate respondsToSelector:@selector(contentSizeChanged:contentSize:)]) {
+        [self.selectionDelegate contentSizeChanged:self contentSize:contentSize];
+    }
+}
 
 -(void)prepare{
     //        self.opaque = false;//坑爹 一定要关闭掉才有透明绘制和圆角
@@ -255,14 +262,20 @@
 
 -(void)setItemSize:(CGSize)itemSize{
     self.collectionLayout.itemSize = itemSize;
-    self.collectionLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;//水平滑动
+    [self setCollectionViewLayout:self.collectionLayout];
+}
+
+-(void)setScrollDirection:(UICollectionViewScrollDirection)scrollDirection{
+    self.collectionLayout.scrollDirection = scrollDirection;
     [self setCollectionViewLayout:self.collectionLayout];
 }
 
 -(UICollectionViewFlowLayout *)collectionLayout{
     if (!_collectionLayout) {
         _collectionLayout = [[UICollectionViewFlowLayout alloc]init];
-        _collectionLayout.minimumLineSpacing = self.hGap;
+        _collectionLayout.minimumLineSpacing = 0;
+        _collectionLayout.minimumInteritemSpacing = 0;
+        _collectionLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;//默认横向 水平滑动
     }
     return _collectionLayout;
 }
@@ -283,6 +296,7 @@
 -(void)setHGap:(CGFloat)hGap{
     _hGap = hGap;
     self.collectionLayout.minimumLineSpacing = hGap;
+    self.collectionLayout.minimumInteritemSpacing = hGap;
     [self setCollectionViewLayout:self.collectionLayout];
 }
 
@@ -344,7 +358,6 @@
 
 -(void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingAssets:(NSArray *)assets{
     [self addPickingAssets:assets];
-    [self reloadData];
     [imagePickerController dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -363,6 +376,10 @@
         if (addCount <= 0) {
             break;//最多就只添加这些
         }
+    }
+    [self reloadData];
+    if (self.selectionDelegate && [self.selectionDelegate respondsToSelector:@selector(photoAdded:)]) {
+        [self.selectionDelegate photoAdded:self];
     }
 }
 
@@ -388,7 +405,6 @@
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     [self addCameraAssets:image];
-    [self reloadData];
 //    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera)
 //    {
 //        // UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);//保存到相册中
@@ -401,6 +417,11 @@
     vo.image = image;
     [self.assetsArray addObject:vo];
     [self.dataArray addObject:vo];
+    [self reloadData];
+    
+    if (self.selectionDelegate && [self.selectionDelegate respondsToSelector:@selector(photoAdded:)]) {
+        [self.selectionDelegate photoAdded:self];
+    }
 }
 
 //-(void)layoutSubviews{
@@ -480,6 +501,31 @@
         [self.dataArray removeObjectAtIndex:index + 1];
     }
     [self reloadData];
+    if (self.selectionDelegate && [self.selectionDelegate respondsToSelector:@selector(photoDeleted:)]) {
+        [self.selectionDelegate photoDeleted:self];
+    }
 }
+
+//-(BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+
+//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+//{
+//    if([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]){
+//        UIPanGestureRecognizer* gesture = (UIPanGestureRecognizer*)gestureRecognizer;
+//        CGPoint translation = [gesture translationInView:self];
+////        if (gesture.state == UIGestureRecognizerStateChanged){
+//            if (translation.y < 0.0 && self.contentOffset.y >= self.contentSize.height - self.height){//向下移动到底部
+//                return YES;
+//            }else if(translation.y > 0 && self.contentOffset.y <= 0){//已经到顶部了
+//                return YES;
+//            }
+////        }
+//    }
+////    [UIScrollViewDelayedTouchesBeganGestureRecognizer]
+////
+////    return self.contentOffset.y > self.contentSize.height - self.height
+////    || self.contentOffset.y < 0;
+//    return NO;
+//}
 
 @end

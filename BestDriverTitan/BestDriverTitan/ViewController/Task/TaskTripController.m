@@ -13,6 +13,8 @@
 #import "ShipmentStopBean.h"
 #import "TaskActivityView.h"
 #import "OwnerViewController.h"
+#import "MapViewController.h"
+#import "AmapLocationService.h"
 
 @interface TestTableViewCell2 : MJTableViewCell
 
@@ -91,7 +93,9 @@
 
 //进入地图详情页
 -(void)rightClick{
-    
+    MapViewController* mapController = [MapViewController sharedInstance];
+    mapController.locationPoints = [AmapLocationService getAllLocationInfos];
+    [self.navigationController pushViewController:mapController animated:YES];
 }
 
 //返回上层

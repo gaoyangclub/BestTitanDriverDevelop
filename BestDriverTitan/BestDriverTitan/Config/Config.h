@@ -13,7 +13,7 @@
 #define COLOR_NAVI_TITLE COLOR_BLACK_ORIGINAL//FlatGrayDark
 
 #define COLOR_PRIMARY FlatMint//FlatSkyBlue//COLOR_YI_WAN_CHENG//rgba(23,182,46,1)//[Config getPrimaryColor]
-#define COLOR_ACCENT FlatGreen
+#define COLOR_ACCENT rgb(120,196,112)//rgb(178,218,125)//rgb(118,208,190)//FlatGreenDark//COLOR_USER_PROXY//FlatGreen
 #define COLOR_BACKGROUND FlatWhite//rgba(226,226,226,1)
 #define COLOR_LINE rgba(218,218,218,1)
 #define COLOR_YI_WAN_CHENG FlatGrayDark//COLOR_PRIMARY //rgb(67,152,216)//rgba(21,178,168,1)
@@ -34,6 +34,8 @@
 #define PGY_APPID [Config getPgyerAppID]
 
 #define UM_APPID [Config getUMengAppID]
+
+#define AMAP_APIKEY [Config getAmapApiKey]
 
 #define PGY_APIKEY @"72fabb9ca801817be273e54018a6b42d"
 
@@ -59,13 +61,13 @@
 
 #define ICON_YI_WAN_CHENG @"\U0000e69a"
 #define ICON_DAI_WAN_CHENG @"\U0000e699"
-#define ICON_SHI_JIAN ICON_DAI_SHANG_BAO //@"\U0000e610"
-#define ICON_JU_LI @"\U0000e63c"
-#define ICON_JIN_QIAN @"\U0000e642"
+#define ICON_SHI_JIAN @"\U0000e612" //@"\U0000e610"
+#define ICON_JU_LI @"\U0000e625"//@"\U0000e63c"
+#define ICON_JIN_QIAN @"\U0000e605"//@"\U0000e642"
 #define ICON_QI_DIAN @"\U0000e674"
 #define ICON_ZHONG_DIAN @"\U0000e673"
 
-#define ICON_TI_HUO @"\U0000e653"
+#define ICON_TI_HUO @"\U0000e64c"//@"\U0000e653"
 #define ICON_ZHUANG_CHE @"\U0000e662"
 #define ICON_XIE_HUO @"\U0000e62b"
 #define ICON_QIAN_SHOU @"\U0000e67e"
@@ -97,13 +99,13 @@
 
 #define ICON_YAN_ZHENG_MA @"\U0000e61f"//@"\U0000e60c"
 
-#define ICON_HUO_LIANG @"\U0000e644"
+#define ICON_HUO_LIANG @"\U0000e636"//@"\U0000e644"
 #define ICON_SHOU_ZHI @"\U0000e63a"
-#define ICON_QIAN_DAO @"\U0000e608"
+#define ICON_QIAN_DAO @"\U0000e611"//@"\U0000e608"
 #define ICON_LI_CHENG @"\U0000e687"
-#define ICON_FEN_XIANG @"\U0000e602"
-#define ICON_FAN_KUI @"\U0000e635"
-#define ICON_BAN_BEN @"\U0000e60e"
+#define ICON_FEN_XIANG @"\U0000e645"//@"\U0000e602"
+#define ICON_FAN_KUI @"\U0000e610"//@"\U0000e635"
+#define ICON_BAN_BEN @"\U0000e626"//@"\U0000e60e"
 
 #define ICON_JIAN_KONG @"\U0000e8ad"
 #define ICON_XIE_RU @"\U0000e6db"
@@ -142,7 +144,11 @@
 
 #define NAVIGATION_TITLE_USER @"我的"
 
-#define SYSTEM_SCALE ([UIApplication sharedApplication].delegate).window.screen.scale
+#define SYSTEM_SCALE [UIScreen mainScreen].scale
+#define SCREEN_WIDTH [UIScreen mainScreen].nativeBounds.size.width
+#define SCREEN_HEIGHT [UIScreen mainScreen].nativeBounds.size.height
+
+#define IPHONE_5S_WIDTH 640
 
 #define SYSTEM_SCALE_FACTOR (SYSTEM_SCALE > 2 ? SYSTEM_SCALE / 2.5 : SYSTEM_SCALE / 2)
 
@@ -167,11 +173,14 @@
 #define ORDER_VIEW_SECTION_HEIGHT 50
 
 #define ORDER_PHOTO_CELL_HEIGHT 100
+#define ORDER_RECEIPT_CELL_HEIGHT 0
 
 #define EVENT_ADDRESS_SELECT @"EVENT_ADDRESS_SELECT"
 #define EVENT_LOGIN_COMPLETE @"EVENT_LOGIN_COMPLETE"
 #define EVENT_ACTIVITY_SELECT @"EVENT_ACTIVITY_SELECT"
 #define EVENT_ORDER_PAGE_CHANGE @"EVENT_ORDER_PAGE_CHANGE"
+
+#define EVENT_LOCATION_CHANGE @"EVENT_LOCATION_CHANGE"
 
 #define ACTIVITY_CODE_PICKUP_HANDOVER @"PICKUP_HANDOVER" //揽收
 #define ACTIVITY_CODE_LOAD @"LOAD" //装车
@@ -229,6 +238,8 @@ static AppVersion* appVersion;
 +(NSString*)getUMengAppID;
 
 +(UIColor*)getPrimaryColor;
+
++(NSString*)getAmapApiKey;
 
 @end
 

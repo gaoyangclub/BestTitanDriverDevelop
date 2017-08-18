@@ -296,24 +296,28 @@
 -(void)initLogoArea{
     
     CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
-    CGFloat logoMarginTop = 50;
-    CGFloat logoMarginBottom = 95;
+//    CGFloat logoMarginTop = 50;
+//    CGFloat logoMarginBottom = 95;
     
-    CGFloat logoHeight = self.view.center.y - logoMarginTop - logoMarginBottom;
+    CGFloat logoHeight = SYSTEM_SCALE_FACTOR * 120;//self.view.center.y - logoMarginTop - logoMarginBottom;
+    
+    CGFloat logoMarginTop = (self.view.centerY - logoHeight - self.logoLabel.height - self.logoDes.height) / 2.;
     
     self.logoImg.frame = CGRectMake(0, logoMarginTop, viewWidth, logoHeight);
     
-    CGFloat logoLabelHeight = CGRectGetHeight(self.logoLabel.bounds);
-    CGFloat logoLabelWidth = CGRectGetWidth(self.logoLabel.bounds);
+//    CGFloat logoLabelHeight = CGRectGetHeight(self.logoLabel.bounds);
+//    CGFloat logoLabelWidth = CGRectGetWidth(self.logoLabel.bounds);
     
     CGFloat logoLabelY = CGRectGetMaxY(self.logoImg.frame) + 10;
     
-    self.logoLabel.frame = CGRectMake((viewWidth - logoLabelWidth) / 2., logoLabelY, logoLabelWidth, logoLabelHeight);
+//    self.logoLabel.frame = CGRectMake((viewWidth - logoLabelWidth) / 2., logoLabelY, logoLabelWidth, logoLabelHeight);
+    self.logoLabel.centerX = self.logoDes.centerX = self.view.centerX;
+    self.logoLabel.y = logoLabelY;
+    self.logoDes.y = self.logoLabel.maxY;
+//    CGFloat logoDesHeight = CGRectGetHeight(self.logoDes.bounds);
+//    CGFloat logoDesWidth = CGRectGetWidth(self.logoDes.bounds);
     
-    CGFloat logoDesHeight = CGRectGetHeight(self.logoDes.bounds);
-    CGFloat logoDesWidth = CGRectGetWidth(self.logoDes.bounds);
-    
-    self.logoDes.frame = CGRectMake((viewWidth - logoDesWidth) / 2., logoLabelY + logoLabelHeight, logoDesWidth, logoDesHeight);
+//    self.logoDes.frame = CGRectMake((viewWidth - logoDesWidth) / 2., logoLabelY + logoLabelHeight, logoDesWidth, logoDesHeight);
     
     [self showVersionLabel];
 }

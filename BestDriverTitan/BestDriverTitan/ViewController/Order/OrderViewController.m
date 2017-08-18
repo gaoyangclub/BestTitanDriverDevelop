@@ -15,6 +15,8 @@
 #import "HudManager.h"
 #import "OrderPhotoCell.h"
 #import "ShipmentTaskBean.h"
+#import "OrderReceiptCell.h"
+#import "OrderEditModelView.h"
 
 @interface TestTableViewCell3 : MJTableViewCell
 
@@ -31,6 +33,7 @@
 
 @interface OrderViewController()<OrderTabViewDelegate>{
     BOOL isClickTab;
+    ShipmentActivityBean* currentActivity;//当前选中的活动
 }
 
 @property(nonatomic,retain)OrderTabView* tabView;
@@ -81,7 +84,7 @@
 -(ASTextNode *)textAddress{
     if (!_textAddress) {
         _textAddress = [[ASTextNode alloc]init];
-        _textAddress.maximumNumberOfLines = 3;
+        _textAddress.maximumNumberOfLines = 2;
         _textAddress.truncationMode = NSLineBreakByTruncatingTail;
         _textAddress.layerBacked = YES;
         [self.addressView addSubnode:_textAddress];
@@ -262,11 +265,16 @@
             NSMutableArray* sourceData = [NSMutableArray<CellVo*> array];
             ShipmentTaskBean* bean = [[ShipmentTaskBean alloc]init];
             int count2 = (arc4random() % 15) + 1; //生成1-3范围的随机数
-            for (NSInteger j = 0; j < count2; j++) {
-                [sourceData addObject:[CellVo initWithParams:ORDER_VIEW_CELL_HEIGHT cellClass:[OrderNormalCell class] cellData:
-                                       @""]];
+            
+            if ([currentActivity.activityDefinitionCode isEqualToString:ACTIVITY_CODE_DELIVERY_RECEIPT]) {
+                [sourceData addObject:[CellVo initWithParams:ORDER_RECEIPT_CELL_HEIGHT cellClass:[OrderReceiptCell class] cellData:bean]];
+            }else{
+                for (NSInteger j = 0; j < count2; j++) {
+                    [sourceData addObject:[CellVo initWithParams:ORDER_VIEW_CELL_HEIGHT cellClass:[OrderNormalCell class] cellData:
+                                           @""]];
+                }
+                [sourceData addObject:[CellVo initWithParams:ORDER_PHOTO_CELL_HEIGHT cellClass:[OrderPhotoCell class] cellData:bean]];
             }
-            [sourceData addObject:[CellVo initWithParams:ORDER_PHOTO_CELL_HEIGHT cellClass:[OrderPhotoCell class] cellData:bean]];
             
             SourceVo* svo = [SourceVo initWithParams:sourceData headerHeight:ORDER_VIEW_SECTION_HEIGHT headerClass:[OrderViewSection class] headerData:bean];
             [self.tableView addSource:svo];
@@ -316,6 +324,7 @@
 }
 
 -(void)didSelectItem:(ShipmentActivityBean *)activityBean{
+    currentActivity = activityBean;
     [self.tableView headerBeginRefresh];
     UIColor* statusColor;
     if ([activityBean hasReport]) {
@@ -325,6 +334,16 @@
     }
     self.submitButton.fillColor = statusColor;
     self.submitButton.title = ConcatStrings([Config getActivityIconByCode:activityBean.activityDefinitionCode],@"   确认",[Config getActivityLabelByCode:activityBean.activityDefinitionCode],@"(",[Config getActivityStatusLabel:activityBean.status],@")");
+}
+
+-(void)didSelectRow:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    SourceVo* source =[self.tableView getSourceByIndex:indexPath.section];
+    CellVo* cellVo = source.data[indexPath.row];
+    if ([NSStringFromClass(cellVo.cellClass) isEqualToString:NSStringFromClass([OrderNormalCell class])]) {
+        OrderEditModelView* editView = [[OrderEditModelView alloc]init];
+        [editView show];
+    }
+//    [cellVo.class getName];
 }
 
 /*

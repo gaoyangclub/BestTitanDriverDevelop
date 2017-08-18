@@ -27,4 +27,9 @@ pod 'PgyUpdate'
 #友盟统计开放平台
 pod 'UMengAnalytics'#标准SDK，含IDFA
 
+#高德API开放平台
+pod 'AMapLocation'
+pod 'AMapSearch'
+pod 'AMapNavi' #已包含3D地图，无需单独引入3D地图
+
 end
