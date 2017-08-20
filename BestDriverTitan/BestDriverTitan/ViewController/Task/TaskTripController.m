@@ -93,7 +93,7 @@
 
 //进入地图详情页
 -(void)rightClick{
-    MapViewController* mapController = [MapViewController sharedInstance];
+    MapViewController* mapController = [[MapViewController alloc]init];//[MapViewController sharedInstance];
     mapController.locationPoints = [AmapLocationService getAllLocationInfos];
     [self.navigationController pushViewController:mapController animated:YES];
 }

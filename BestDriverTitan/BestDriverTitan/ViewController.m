@@ -12,6 +12,9 @@
 #import "MMDrawerController.h"
 #import "YYFPSLabel.h"
 #import "UICreationUtils.h"
+#import "FlatButton.h"
+#import "LocationInfoViewController.h"
+#import "OwnerViewController.h"
 
 @interface ViewController ()
 
@@ -59,12 +62,30 @@
     UILabel* switchTitle = [UICreationUtils createLabel:16 color:[UIColor whiteColor] text:@"显示帧率" sizeToFit:NO];
     switchTitle.frame = CGRectMake(switchView.frame.origin.x + switchView.frame.size.width + 10, 0, 0, 0);
     [switchTitle sizeToFit];
-    CGPoint center = switchTitle.center;
-    center.y = switchView.center.y;
-    switchTitle.center = center;
+    switchTitle.centerY = switchView.centerY;
     [self.view addSubview: switchTitle];
     
+    FlatButton* mapButton = [[FlatButton alloc]initWithFrame:CGRectMake(30, switchTitle.maxY + 20, 100, 30)];
+    mapButton.title = @"轨迹查看";
+//    mapButton.strokeWidth = 1;
+//    mapButton.strokeColor = FlatYellowDark;
+//    mapButton.centerX = self.view.centerX;
+    mapButton.titleSize = 14;
+    mapButton.titleColor = COLOR_BLACK_ORIGINAL;
+    mapButton.fillColor = [UIColor whiteColor];
+    
+    [mapButton addTarget:self action:@selector(clickMapButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview: mapButton];
+    
     self.view.backgroundColor = COLOR_PRIMARY;
+}
+
+-(void)clickMapButton{
+    MMDrawerController* drawerController = (MMDrawerController*)((AppDelegate*)[UIApplication sharedApplication].delegate).window.rootViewController;
+    [drawerController closeDrawerAnimated:YES completion:nil];
+    
+    LocationInfoViewController* locationController = [[LocationInfoViewController alloc]init];
+    [[OwnerViewController sharedInstance]pushViewController:locationController animated:YES];
 }
 
 -(void)switchAction:(UISwitch*)switchButton

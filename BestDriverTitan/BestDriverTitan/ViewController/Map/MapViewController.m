@@ -19,6 +19,8 @@
 @property (nonatomic, retain) MAMapView *mapView;
 @property (nonatomic, retain) MAPointAnnotation *pointAnnotaiton;
 
+@property (nonatomic, strong) MAAnnotationView *userLocationAnnotationView;
+
 @end
 
 static MapViewController* instance;
@@ -76,10 +78,15 @@ static MapViewController* instance;
 
 -(MAMapView *)mapView{
     if (!_mapView) {
-        _mapView = [[MAMapView alloc]init];
-        [self.view addSubview:_mapView];
+        _mapView = [[MAMapView alloc] initWithFrame:self.view.bounds];//[[MAMapView alloc]init];
         _mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        [_mapView setDelegate:self];
+        _mapView.delegate = self;
+        [self.view addSubview:_mapView];
+        
+        _mapView.showsUserLocation = YES;
+//        _mapView.userTrackingMode = MAUserTrackingModeFollow;
+        _mapView.userTrackingMode = MAUserTrackingModeFollowWithHeading;
+        _mapView.userLocation.title = @"您的位置在这里";
     }
     return _mapView;
 }
@@ -110,10 +117,10 @@ static MapViewController* instance;
 }
 
 -(void)viewDidReady{
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(eventLocationChange:)
-                                                 name:EVENT_LOCATION_CHANGE
-                                               object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(eventLocationChange:)
+//                                                 name:EVENT_LOCATION_CHANGE
+//                                               object:nil];
     if (self->commonPolyline) {
         [self.mapView removeOverlay:self->commonPolyline];
     }
@@ -127,19 +134,15 @@ static MapViewController* instance;
             commonPolylineCoords[i].longitude = coordinate.longitude;
             commonPolylineCoords[i].latitude = coordinate.latitude;
         }
-        //构造折线对象
+//        //构造折线对象
         self->commonPolyline = [MAPolyline polylineWithCoordinates:commonPolylineCoords count:count];
         //在地图上添加折线对象
         [self.mapView addOverlay:commonPolyline];
-        
-//        MACoordinateRegion _boundary =  MACoordinateRegionMake(CLLocationCoordinate2DMake(40, 116), MACoordinateSpanMake(2, 2));
-//        MAMapRect mapRect = MAMapRectForCoordinateRegion(_boundary);
+//
 //        
-//        [self.mapView setLimitRegion:_boundary];
-        
         [self.mapView setVisibleMapRect:commonPolyline.boundingMapRect animated:YES];
-        
-        self->hasLocationPoint = YES;
+//
+//        self->hasLocationPoint = YES;
     }
 }
 
@@ -149,19 +152,19 @@ static MapViewController* instance;
     }
 }
 
-//-(void)dealloc{
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_LOCATION_CHANGE object:nil];
-//}
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_LOCATION_CHANGE object:nil];
+}
 
 -(void)showMapLocationPoint:(CLLocationCoordinate2D)coordinate{
     //获取到定位信息，更新annotation
-    [self.pointAnnotaiton setCoordinate:coordinate];
-    
-    if (!self->hasLocationPoint) {
-        self->hasLocationPoint = YES;
-        [self.mapView setCenterCoordinate:coordinate];
-        [self.mapView setZoomLevel:15.1 animated:NO];
-    }
+//    [self.pointAnnotaiton setCoordinate:coordinate];
+//    
+//    if (!self->hasLocationPoint) {
+//        self->hasLocationPoint = YES;
+//        [self.mapView setCenterCoordinate:coordinate];
+//        [self.mapView setZoomLevel:15.1 animated:NO];
+//    }
 }
 
 - (void)eventLocationChange:(NSNotification*)eventData{
@@ -170,22 +173,53 @@ static MapViewController* instance;
 }
 
 
-#pragma mark - MAMapView Delegate
+#pragma mark - mapview delegate
+#pragma mark - MAMapViewDelegate
+
+- (MAOverlayRenderer *)mapView:(MAMapView *)mapView rendererForOverlay:(id <MAOverlay>)overlay
+{
+//    if ([overlay isKindOfClass:[MAPolyline class]])
+//    {
+//        MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:overlay];
+//        
+//        polylineRenderer.lineWidth    = 8.f;
+//        polylineRenderer.strokeColor  = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.6];
+//        polylineRenderer.lineJoinType = kMALineJoinRound;
+//        polylineRenderer.lineCapType  = kMALineCapRound;
+//        
+//        return polylineRenderer;
+//    }
+//    /* 自定义定位精度对应的MACircleView. */
+    if (overlay == mapView.userLocationAccuracyCircle)
+    {
+        MACircleRenderer *accuracyCircleRenderer = [[MACircleRenderer alloc] initWithCircle:overlay];
+        
+        accuracyCircleRenderer.lineWidth    = 2.f;
+        accuracyCircleRenderer.strokeColor  = [UIColor lightGrayColor];
+        accuracyCircleRenderer.fillColor    = [UIColor colorWithRed:1 green:0 blue:0 alpha:.3];
+        
+        return accuracyCircleRenderer;
+    }
+    
+    return nil;
+}
+
 - (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation
 {
-    if ([annotation isKindOfClass:[MAPointAnnotation class]])
+    /* 自定义userLocation对应的annotationView. */
+    if ([annotation isKindOfClass:[MAUserLocation class]])
     {
-        static NSString *pointReuseIndetifier = @"pointReuseIndetifier";
-        MAPinAnnotationView *annotationView = (MAPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:pointReuseIndetifier];
+        static NSString *userLocationStyleReuseIndetifier = @"userLocationStyleReuseIndetifier";
+        MAAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:userLocationStyleReuseIndetifier];
         if (annotationView == nil)
         {
-            annotationView = [[MAPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:pointReuseIndetifier];
-            annotationView.image            = [UIImage imageNamed:@"icon_location.png"];
+            annotationView = [[MAAnnotationView alloc] initWithAnnotation:annotation
+                                                          reuseIdentifier:userLocationStyleReuseIndetifier];
         }
         
-        annotationView.canShowCallout   = NO;
-        annotationView.animatesDrop     = NO;
-        annotationView.draggable        = NO;
+        annotationView.image = [UIImage imageNamed:@"userPosition"];
+        
+        self.userLocationAnnotationView = annotationView;
         
         return annotationView;
     }
@@ -193,23 +227,59 @@ static MapViewController* instance;
     return nil;
 }
 
-
-#pragma <MAMapViewDelegate> 协议中的 mapView:rendererForOverlay: 回调函数
-- (MAOverlayRenderer *)mapView:(MAMapView *)mapView rendererForOverlay:(id <MAOverlay>)overlay
+- (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation
 {
-    if ([overlay isKindOfClass:[MAPolyline class]])
+    if (self.userLocationAnnotationView != nil)//!updatingLocation &&
     {
-        MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:overlay];
-        
-        polylineRenderer.lineWidth    = 8.f;
-        polylineRenderer.strokeColor  = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.6];
-        polylineRenderer.lineJoinType = kMALineJoinRound;
-        polylineRenderer.lineCapType  = kMALineCapRound;
-        
-        return polylineRenderer;
+        [UIView animateWithDuration:0.1 animations:^{
+            
+            double degree = userLocation.heading.trueHeading - self.mapView.rotationDegree;
+            self.userLocationAnnotationView.transform = CGAffineTransformMakeRotation(degree * M_PI / 180.f );
+            
+        }];
     }
-    return nil;
 }
+
+#pragma mark - MAMapView Delegate
+//- (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation
+//{
+//    if ([annotation isKindOfClass:[MAPointAnnotation class]])
+//    {
+//        static NSString *pointReuseIndetifier = @"pointReuseIndetifier";
+//        MAPinAnnotationView *annotationView = (MAPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:pointReuseIndetifier];
+//        if (annotationView == nil)
+//        {
+//            annotationView = [[MAPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:pointReuseIndetifier];
+//            annotationView.image            = [UIImage imageNamed:@"icon_car"];
+//        }
+//        
+//        annotationView.canShowCallout   = NO;
+//        annotationView.animatesDrop     = NO;
+//        annotationView.draggable        = NO;
+//        
+//        return annotationView;
+//    }
+//    
+//    return nil;
+//}
+
+
+//#pragma <MAMapViewDelegate> 协议中的 mapView:rendererForOverlay: 回调函数
+//- (MAOverlayRenderer *)mapView:(MAMapView *)mapView rendererForOverlay:(id <MAOverlay>)overlay
+//{
+//    if ([overlay isKindOfClass:[MAPolyline class]])
+//    {
+//        MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:overlay];
+//        
+//        polylineRenderer.lineWidth    = 8.f;
+//        polylineRenderer.strokeColor  = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.6];
+//        polylineRenderer.lineJoinType = kMALineJoinRound;
+//        polylineRenderer.lineCapType  = kMALineCapRound;
+//        
+//        return polylineRenderer;
+//    }
+//    return nil;
+//}
 
 
 @end

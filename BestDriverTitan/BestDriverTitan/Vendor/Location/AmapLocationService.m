@@ -15,7 +15,8 @@
     self.locationPoint = locationPoint;
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    self.dateString = [dateFormatter stringFromDate:[NSDate date]];
+    NSString* dateString = [dateFormatter stringFromDate:[NSDate date]];
+    self.dateString = dateString;
 }
 
 @end
@@ -72,12 +73,14 @@ static AmapLocationService* instance;
         CLLocationCoordinate2D cd = AMapCoordinateConvert(location.coordinate, AMapCoordinateTypeGPS);
         NSValue* pointValue = [NSValue valueWithMKCoordinate:cd];
         self.lastLocationPoint = pointValue;
-        NSLog(@"nativeLocation:{lat:%f; lon:%f; accuracy:%f; }", location.coordinate.latitude, location.coordinate.longitude,     location.horizontalAccuracy);// reGeocode:%@ , reGeocode.formattedAddress
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_LOCATION_CHANGE object:pointValue];
         
         LocationInfo* info = [[LocationInfo alloc]init];
         [info addLocationPoint:pointValue];
         [_locationPoints addObject:info];
+        
+        NSLog(@"nativeLocation:{lat:%f; lon:%f; accuracy:%f; dateString:%@;}", location.coordinate.latitude, location.coordinate.longitude,location.horizontalAccuracy,info.dateString);// reGeocode:%@ , reGeocode.formattedAddress
     }
 }
 - (void)locationManager:(CLLocationManager *)manager

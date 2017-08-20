@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MJTableViewController.h"
 
-@interface LocationInfoViewController : UIViewController
+@interface LocationInfoViewController : MJTableViewController
 
 @end

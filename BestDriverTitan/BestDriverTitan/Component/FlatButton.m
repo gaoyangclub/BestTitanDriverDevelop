@@ -22,15 +22,27 @@
 {
     self = [super init];
     if (self) {
-        //        self.opaque = false;//坑爹 一定要关闭掉才有透明绘制和圆角
-        self.titleColor = [UIColor whiteColor];
-        self.fillColor = [UIColor grayColor];
-        self.titleSize = 12;
-        self.cornerRadius = 5;
-        self.title = @"";
-        [self setShowTouch:YES];
+        [self prepare];
     }
     return self;
+}
+
+-(instancetype)initWithFrame:(CGRect)frame{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self prepare];
+    }
+    return self;
+}
+
+-(void)prepare{
+    //        self.opaque = false;//坑爹 一定要关闭掉才有透明绘制和圆角
+    self.titleColor = [UIColor whiteColor];
+    self.fillColor = [UIColor grayColor];
+    self.titleSize = 12;
+    self.cornerRadius = 5;
+    self.title = @"";
+    [self setShowTouch:YES];
 }
 
 -(void)setTitle:(NSString *)title{

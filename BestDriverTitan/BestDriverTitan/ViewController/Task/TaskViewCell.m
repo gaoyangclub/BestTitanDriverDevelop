@@ -969,8 +969,9 @@
         iconColor = COLOR_DAI_WAN_CHENG;
     }
     
-    self.stateArea.frame = CGRectMake(self.codeText.maxX + padding, 0, 50, 20);
-    self.stateArea.centerY = self.codeText.centerY;
+    self.stateArea.size = CGSizeMake(50, 20);
+    self.stateArea.x = self.codeText.maxX + padding;
+    self.stateArea.y = 5;//self.codeText.centerY;
     self.stateArea.titleColor = self.stateArea.strokeColor = iconColor;
     self.stateArea.title = bean.isComplete ? @"已完成":@"未完成";
     

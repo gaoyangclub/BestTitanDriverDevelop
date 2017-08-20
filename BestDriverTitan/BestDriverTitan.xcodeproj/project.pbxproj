@@ -144,6 +144,11 @@
 		A910B1941F40480600CCAFCD /* PhotoTranslateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A910B1931F40480600CCAFCD /* PhotoTranslateUtils.m */; };
 		A910B1971F4076F600CCAFCD /* OrderEditModelView.m in Sources */ = {isa = PBXBuildFile; fileRef = A910B1961F4076F600CCAFCD /* OrderEditModelView.m */; };
 		A9CF264A1E5071B100D11B59 /* RoundRectNode.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CF26491E5071B100D11B59 /* RoundRectNode.m */; };
+		A9D0B60C1F480E150020F296 /* icon_car@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D0B60A1F480E150020F296 /* icon_car@2x.png */; };
+		A9D0B60D1F480E150020F296 /* icon_car@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D0B60B1F480E150020F296 /* icon_car@3x.png */; };
+		A9D2248B1F492148001B8135 /* userPosition.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D224891F492148001B8135 /* userPosition.png */; };
+		A9D2248C1F492148001B8135 /* userPosition@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D2248A1F492148001B8135 /* userPosition@2x.png */; };
+		A9D2248F1F49523E001B8135 /* LocationInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D2248E1F49523E001B8135 /* LocationInfoCell.m */; };
 		A9D2CF431E87A786000E7F8A /* OrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D2CF421E87A786000E7F8A /* OrderViewController.m */; };
 		A9D2CF461E87AB08000E7F8A /* OrderTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D2CF451E87AB08000E7F8A /* OrderTabView.m */; };
 		A9D2CF491E87E9C2000E7F8A /* OrderViewSection.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D2CF481E87E9C2000E7F8A /* OrderViewSection.m */; };
@@ -432,6 +437,12 @@
 		A910B1961F4076F600CCAFCD /* OrderEditModelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderEditModelView.m; sourceTree = "<group>"; };
 		A9CF26481E5071B100D11B59 /* RoundRectNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundRectNode.h; sourceTree = "<group>"; };
 		A9CF26491E5071B100D11B59 /* RoundRectNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundRectNode.m; sourceTree = "<group>"; };
+		A9D0B60A1F480E150020F296 /* icon_car@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_car@2x.png"; sourceTree = "<group>"; };
+		A9D0B60B1F480E150020F296 /* icon_car@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_car@3x.png"; sourceTree = "<group>"; };
+		A9D224891F492148001B8135 /* userPosition.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = userPosition.png; sourceTree = "<group>"; };
+		A9D2248A1F492148001B8135 /* userPosition@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "userPosition@2x.png"; sourceTree = "<group>"; };
+		A9D2248D1F49523E001B8135 /* LocationInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationInfoCell.h; sourceTree = "<group>"; };
+		A9D2248E1F49523E001B8135 /* LocationInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationInfoCell.m; sourceTree = "<group>"; };
 		A9D2CF411E87A786000E7F8A /* OrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderViewController.h; sourceTree = "<group>"; };
 		A9D2CF421E87A786000E7F8A /* OrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderViewController.m; sourceTree = "<group>"; };
 		A9D2CF441E87AB08000E7F8A /* OrderTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderTabView.h; sourceTree = "<group>"; };
@@ -738,6 +749,10 @@
 		841CBC671F443871006BCC5B /* map */ = {
 			isa = PBXGroup;
 			children = (
+				A9D224891F492148001B8135 /* userPosition.png */,
+				A9D2248A1F492148001B8135 /* userPosition@2x.png */,
+				A9D0B60A1F480E150020F296 /* icon_car@2x.png */,
+				A9D0B60B1F480E150020F296 /* icon_car@3x.png */,
 				841CBC681F44387F006BCC5B /* icon_location@2x.png */,
 				841CBC691F44387F006BCC5B /* icon_location@3x.png */,
 			);
@@ -749,6 +764,8 @@
 			children = (
 				8423FBB91F46F763007C2CB0 /* LocationInfoViewController.h */,
 				8423FBBA1F46F763007C2CB0 /* LocationInfoViewController.m */,
+				A9D2248D1F49523E001B8135 /* LocationInfoCell.h */,
+				A9D2248E1F49523E001B8135 /* LocationInfoCell.m */,
 			);
 			path = Location;
 			sourceTree = "<group>";
@@ -1238,9 +1255,13 @@
 			files = (
 				847F3E541F1F02BC00C21C6A /* splashBackground2.jpg in Resources */,
 				847290F61F3AF31000C2FC42 /* Default640x960.png in Resources */,
+				A9D0B60C1F480E150020F296 /* icon_car@2x.png in Resources */,
 				847F3E551F1F02BC00C21C6A /* splashLogo2.png in Resources */,
+				A9D2248C1F492148001B8135 /* userPosition@2x.png in Resources */,
 				848A380D1F3D4E1A00B15E4B /* QBImagePicker.storyboard in Resources */,
+				A9D0B60D1F480E150020F296 /* icon_car@3x.png in Resources */,
 				84495CB01DF11F2D0017D2CA /* iconfont.ttf in Resources */,
+				A9D2248B1F492148001B8135 /* userPosition.png in Resources */,
 				8407DF331DF1539300E47E73 /* application.png in Resources */,
 				841CBC6A1F44387F006BCC5B /* icon_location@2x.png in Resources */,
 				84129A2A1E54579700151672 /* MJRefresh.bundle in Resources */,
@@ -1410,6 +1431,7 @@
 				8402EC2A1DF94852002B78D9 /* TaskViewController.m in Sources */,
 				846217CC1F15CBDD00B2C46B /* CustomDismissingController.m in Sources */,
 				8402EC7D1DF97D41002B78D9 /* TaskTripController.m in Sources */,
+				A9D2248F1F49523E001B8135 /* LocationInfoCell.m in Sources */,
 				848A380F1F3D4E1A00B15E4B /* QBSlomoIconView.m in Sources */,
 				84FF1A201DF7E3A2000AEBC0 /* UICreationUtils.m in Sources */,
 				A9D6D35D1F24676D001E9C5A /* NormalSelectItem.m in Sources */,
