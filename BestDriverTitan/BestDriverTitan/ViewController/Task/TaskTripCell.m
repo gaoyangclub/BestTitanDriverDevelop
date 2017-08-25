@@ -403,7 +403,7 @@ static CGFloat bottomAreaHeight = 45;
     
     self.addressNode.attributedString = textString;
     
-    CGFloat maxStartWidth = cellWidth - leftMargin - naviWidth - [TaskTripCell getMarginLeft];
+    CGFloat maxStartWidth = cellWidth - leftMargin - naviWidth - [TaskTripCell getMarginLeft] * 2;
     
     self.addressNode.size = [self.addressNode measure:CGSizeMake(maxStartWidth, FLT_MAX)];//CGSize textStartSize =
     self.addressNode.x = leftMargin;

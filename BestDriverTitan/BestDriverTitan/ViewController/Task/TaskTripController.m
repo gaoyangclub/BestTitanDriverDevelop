@@ -15,25 +15,114 @@
 #import "OwnerViewController.h"
 #import "MapViewController.h"
 #import "AmapLocationService.h"
+#import "CircleNode.h"
+#import "RoundRectNode.h"
 
-@interface TestTableViewCell2 : MJTableViewCell
+@interface TaskFilterButton:UIControl
+
+@property(nonatomic,retain)CircleNode* circleNode;
+@property(nonatomic,retain)ASTextNode* titleNode;
+@property(nonatomic,retain)RoundRectNode* backNode;
+
+@property(nonatomic,copy)NSString* title;
+@property(nonatomic,retain)UIColor* circleColor;
+
+-(void)setSelect:(BOOL)isSelect;
 
 @end
 
-@implementation TestTableViewCell2
+@implementation TaskFilterButton
 
--(void)showSubviews{
-    //    self.backgroundColor = [UIColor magentaColor];
+-(void)setTitle:(NSString *)title{
+    _title = title;
+    [self setNeedsLayout];
+}
+
+-(void)setCircleColor:(UIColor *)circleColor{
+    _circleColor = circleColor;
+    [self setNeedsLayout];
+}
+
+-(ASTextNode *)titleNode{
+    if (!_titleNode) {
+        _titleNode = [[ASTextNode alloc]init];
+        _titleNode.layerBacked = YES;
+        [self.layer addSublayer:_titleNode.layer];
+    }
+    return _titleNode;
+}
+
+-(RoundRectNode *)backNode{
+    if (!_backNode) {
+        _backNode = [[RoundRectNode alloc]init];
+        _backNode.layerBacked = YES;
+//        _backNode.fillColor = [UIColor whiteColor];
+        _backNode.strokeColor = COLOR_LINE;
+        _backNode.strokeWidth = 1;
+        _backNode.cornerRadius = 5;
+        [self.layer addSublayer:_backNode.layer];
+    }
+    return _backNode;
+}
+
+-(CircleNode *)circleNode{
+    if (!_circleNode) {
+        _circleNode = [[CircleNode alloc]init];
+        _circleNode.layerBacked = YES;
+        _circleNode.fillColor = COLOR_LINE;//FlatWhite
+        _circleNode.strokeColor = [UIColor whiteColor];
+        _circleNode.strokeWidth = 1;
+        _circleNode.cornerRadius = 5;
+        [self.layer addSublayer:_circleNode.layer];
+    }
+    return _circleNode;
+}
+
+-(void)layoutSubviews{
+    CGFloat backLeftMargin = 0;
+    CGFloat backTopMargin = 5;
     
-    self.textLabel.text = (NSString*)self.data;
+    self.backNode.frame = CGRectMake(backLeftMargin, backTopMargin, self.width - backLeftMargin * 2, self.height - backTopMargin * 2);
+    
+    self.titleNode.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:self.title];
+    self.titleNode.size = [self.titleNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    self.titleNode.centerY = self.centerY;
+    
+    if (self.circleColor) {
+        CGFloat circleGap = 5;
+        
+        CGFloat circleWidth = self.circleNode.cornerRadius * 2;
+        self.circleNode.fillColor = self.circleColor;
+        self.circleNode.size = CGSizeMake(circleWidth, circleWidth);
+        self.circleNode.centerY = self.centerY;
+        CGFloat baseX = (self.width - (self.titleNode.width + circleWidth + circleGap)) / 2.;
+        
+        self.circleNode.x = baseX;
+        
+        self.titleNode.x = self.circleNode.maxX + circleGap;
+    }else{
+        self.titleNode.x = (self.width - self.titleNode.width) / 2;
+    }
+}
+
+-(void)setSelect:(BOOL)isSelect{
+    if (isSelect) {
+        self.backNode.fillColor = COLOR_BACKGROUND;
+    }else{
+        self.backNode.fillColor = [UIColor whiteColor];
+    }
 }
 
 @end
+
 
 @interface TaskTripController()<TaskActivityViewDelegate>{
 //    UILabel* titleLabel;
 }
 //@property(nonatomic,retain)UIView* titleView;
+
+@property(nonatomic,retain)UIView* filterView;
+
 @property(nonatomic,retain)UILabel* titleLabel;
 
 @property(nonatomic,retain)UIButton* submitButton;
@@ -67,6 +156,15 @@
 //    return _titleView;
 //}
 
+-(UIView*)filterView{
+    if (!_filterView) {
+        _filterView = [[UIView alloc]init];
+        _filterView.backgroundColor = [UIColor whiteColor];
+        [self.view addSubview:_filterView];
+    }
+    return _filterView;
+}
+
 -(UILabel *)titleLabel{
     if (!_titleLabel) {
         _titleLabel = [UICreationUtils createNavigationTitleLabel:20 color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_TASK_TRIP superView:nil];
@@ -94,7 +192,7 @@
 //进入地图详情页
 -(void)rightClick{
     MapViewController* mapController = [[MapViewController alloc]init];//[MapViewController sharedInstance];
-    mapController.locationPoints = [AmapLocationService getAllLocationInfos];
+//    mapController.locationPoints = [AmapLocationService getAllLocationInfos];
     [self.navigationController pushViewController:mapController animated:YES];
 }
 
@@ -135,43 +233,55 @@
 //    handler(NO);
 }
 
-//-(void)footerLoadMore:(FooterLoadMoreHandler)handler{
-//    int64_t delay = 1.0 * NSEC_PER_SEC;
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), ^{//
-//        int count = (arc4random() % 3); //生成0-2范围的随机数
-//        if (count <= 0) {
-//            handler(NO);
-//            return;
-//        }
-//        SourceVo* svo = self.tableView.getLastSource;
-//        NSMutableArray<CellVo*>* sourceData = svo.data;
-//        NSUInteger startIndex = [svo getRealDataCount];
-//        for (NSUInteger i = 0; i < count; i++) {
-//            [sourceData addObject:
-//             [CellVo initWithParams:50 cellClass:[TestTableViewCell2 class] cellData:[NSString stringWithFormat:@"测试数据: %lu",startIndex + i]]];
-//        }
-//        handler(YES);
-//    });
-//}
-
-//-(CGRect)getTableViewFrame{
-//    CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
-//    CGFloat viewHeight = CGRectGetHeight(self.view.bounds);
-//    
+-(CGRect)getTableViewFrame{
+    CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
+    CGFloat viewHeight = CGRectGetHeight(self.view.bounds);
+    
 //    CGFloat padding = 5;
-//    CGFloat tableHeight = viewHeight - SUBMIT_BUTTON_HEIGHT - padding * 2;
-//    
-//    return CGRectMake(0, 0, viewWidth, tableHeight);
-//}
+    CGFloat tableHeight = viewHeight - TASK_TRIP_FILTER_HEIGHT;
+    
+    self.filterView.frame = CGRectMake(0, 0, viewWidth, TASK_TRIP_FILTER_HEIGHT);
+    
+    return CGRectMake(0, TASK_TRIP_FILTER_HEIGHT, viewWidth, tableHeight);
+}
 
 -(void)viewDidLoad{
     [super viewDidLoad];
     self.tableView.clickCellMoveToCenter = YES;
+    
+//    CGFloat count = 4;
+    NSArray<NSString*>* titleArea = @[@"全部",@"未揽收",@"未签收",@"未收款"];
+    NSArray<UIColor*>* colorArea = @[FlatGray,FlatGreen,FlatSkyBlue,FlatYellowDark];
+    
+//    CGFloat buttonWidth = self.view.width / titleArea.count;
+    for (NSInteger i = 0 ; i < titleArea.count ; i ++) {
+        TaskFilterButton* button = [[TaskFilterButton alloc]initWithFrame:CGRectMake(0, 0, 0, TASK_TRIP_FILTER_HEIGHT)];
+        button.title = titleArea[i];
+        if (i == 0) {
+            [button setSelect:YES];
+            button.circleColor = nil;
+        }else{
+            [button setSelect:NO];
+            button.circleColor = colorArea[i];
+        }
+        [button addTarget:self action:@selector(clickFilterButton:) forControlEvents:UIControlEventTouchUpInside];
+        [self.filterView addSubview:button];
+    }
+    [UICreationUtils autoEnsureViewsWidth:0 totolWidth:self.view.width views:self.filterView.subviews viewWidths:@[@"100%",@"100%",@"100%",@"100%"] padding:5];
+    
 //    self.selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(eventOccurredActivity:)
                                                  name:EVENT_ACTIVITY_SELECT
                                                object:nil];
+}
+
+-(void)clickFilterButton:(TaskFilterButton*)sender{
+    for (TaskFilterButton* button in self.filterView.subviews) {
+        [button setSelect:button == sender];
+    }
+    //开始筛选
+    
 }
 
 -(void)didRefreshComplete{

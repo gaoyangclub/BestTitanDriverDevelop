@@ -8,6 +8,7 @@
 
 #import "OrderTabView.h"
 #import "CircleNode.h"
+#import "RoundRectNode.h"
 
 //#define TAB_SELECT_COLOR FlatOrange
 
@@ -17,7 +18,8 @@
 
 @property(nonatomic,retain)ASTextNode* titleNode;
 @property(nonatomic,retain)ASTextNode* statusNode;
-@property(nonatomic,retain)ASDisplayNode* square;
+//@property(nonatomic,retain)ASDisplayNode* square;
+@property(nonatomic,retain)RoundRectNode* backNode;
 @property(nonatomic,retain)ShipmentActivityBean* activityBean;
 
 
@@ -52,14 +54,27 @@
     return _titleNode;
 }
 
--(ASDisplayNode *)square{
-    if (!_square) {
-        _square = [[ASDisplayNode alloc]init];
-        _square.layerBacked = YES;
-        _square.backgroundColor = COLOR_BLACK_ORIGINAL;
-        [self.layer addSublayer:_square.layer];
+//-(ASDisplayNode *)square{
+//    if (!_square) {
+//        _square = [[ASDisplayNode alloc]init];
+//        _square.layerBacked = YES;
+//        _square.backgroundColor = COLOR_BLACK_ORIGINAL;
+//        [self.layer addSublayer:_square.layer];
+//    }
+//    return _square;
+//}
+
+-(RoundRectNode *)backNode{
+    if (!_backNode) {
+        _backNode = [[RoundRectNode alloc]init];
+        _backNode.layerBacked = YES;
+        _backNode.fillColor = [UIColor whiteColor];
+        _backNode.strokeColor = COLOR_LINE;
+        _backNode.strokeWidth = 1;
+        _backNode.cornerRadius = 5;
+        [self.layer addSublayer:_backNode.layer];
     }
-    return _square;
+    return _backNode;
 }
 
 //-(CircleNode *)leftLine{
@@ -105,6 +120,11 @@
     CGFloat viewWidth = CGRectGetWidth(self.bounds);
     CGFloat viewHeight = CGRectGetHeight(self.bounds);
     
+    CGFloat backLeftMargin = 5;
+    CGFloat backTopMargin = 5;
+    
+    self.backNode.frame = CGRectMake(backLeftMargin, backTopMargin, viewWidth - backLeftMargin * 2, viewHeight - backTopMargin * 2);
+    
     NSString* content = [Config getActivityLabelByCode:activityBean.activityDefinitionCode];
     
     self.titleNode.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:content];
@@ -133,7 +153,6 @@
     };
     
     self.backgroundColor = [UIColor whiteColor];
-    
 //    CGFloat radius = LINE_WIDTH * 4.;
 //    self.leftLine.cornerRadius = self.rightLine.cornerRadius = radius;
 //    self.leftLine.frame = CGRectMake(- radius, (viewHeight - radius * 2) / 2., radius * 2, radius * 2);
@@ -158,10 +177,12 @@
 //    CGFloat viewWidth = CGRectGetWidth(self.bounds);
 //    CGFloat viewHeight = CGRectGetHeight(self.bounds);
     if (isSelect) {
-        self.backgroundColor = COLOR_BACKGROUND;
+//        self.backgroundColor = COLOR_BACKGROUND;
+        self.backNode.fillColor = COLOR_BACKGROUND;
 //        self.square.frame = CGRectMake(0, viewHeight - 2, viewWidth, 2);
     }else{
-        self.backgroundColor = [UIColor whiteColor];
+//        self.backgroundColor = [UIColor whiteColor];
+        self.backNode.fillColor = [UIColor whiteColor];
 //        self.square.frame = CGRectMake(0, 0, viewWidth, 0);
     }
 //    self.square.backgroundColor = color;

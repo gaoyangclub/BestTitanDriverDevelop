@@ -217,9 +217,9 @@
     
 //    self.view.userInteractionEnabled = YES;
     
-    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fingerTapped:)];
-    singleTap.cancelsTouchesInView = NO;
-    [self.view addGestureRecognizer:singleTap];
+//    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fingerTapped:)];
+//    singleTap.cancelsTouchesInView = NO;
+//    [self.view addGestureRecognizer:singleTap];
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self

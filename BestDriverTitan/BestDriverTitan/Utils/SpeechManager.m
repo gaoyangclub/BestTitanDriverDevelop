@@ -24,14 +24,18 @@ static AVSpeechSynthesizer* synthsizer;
 }
 
 +(void)playSoundString:(NSString *)soundString{
-    [SpeechManager playSoundString:soundString speedRate:0.1];
+    CGFloat speedRate = 0.1;
+    if ([[UIDevice currentDevice]systemVersion].floatValue >= 9){
+        speedRate = 0.45;
+    }
+    [SpeechManager playSoundString:soundString speedRate:speedRate];
 }
 
 +(void)playSoundString:(NSString *)soundString speedRate:(CGFloat)speedRate{
     AVSpeechUtterance * utterance = [[AVSpeechUtterance alloc] initWithString:soundString];//需要转换的文本
     utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"zh-CN"];//国家语言
     utterance.rate = speedRate;//声速
-    utterance.postUtteranceDelay = 1;//读完后停顿一秒
+//    utterance.postUtteranceDelay = 1;//读完后停顿一秒
     [[SpeechManager getAVSpeechSynthesizer] speakUtterance:utterance];
 }
 

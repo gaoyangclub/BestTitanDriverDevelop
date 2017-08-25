@@ -50,8 +50,14 @@ static AmapLocationService* instance;
         _nativeLocationManager = [[CLLocationManager alloc] init];
         [_nativeLocationManager setDelegate:self];
         [_nativeLocationManager setDesiredAccuracy:kCLLocationAccuracyNearestTenMeters];
-        [_nativeLocationManager requestAlwaysAuthorization];        //NSLocationAlwaysUsageDescription
-        [_nativeLocationManager requestWhenInUseAuthorization];     //NSLocationWhenInUseDescription
+        
+        if ([[UIDevice currentDevice]systemVersion].floatValue >= 8) {
+            [_nativeLocationManager requestAlwaysAuthorization];        //NSLocationAlwaysUsageDescription
+            //        [_nativeLocationManager requestWhenInUseAuthorization];     //NSLocationWhenInUseDescription
+        }
+        if ([[UIDevice currentDevice]systemVersion].floatValue >= 9) {
+            _nativeLocationManager.allowsBackgroundLocationUpdates = YES;
+        }
     }
     return _nativeLocationManager;
 }
@@ -78,7 +84,8 @@ static AmapLocationService* instance;
         
         LocationInfo* info = [[LocationInfo alloc]init];
         [info addLocationPoint:pointValue];
-        [_locationPoints addObject:info];
+//        [self.locationPoints addObject:info];
+        [self.locationPoints insertObject:info atIndex:0];
         
         NSLog(@"nativeLocation:{lat:%f; lon:%f; accuracy:%f; dateString:%@;}", location.coordinate.latitude, location.coordinate.longitude,location.horizontalAccuracy,info.dateString);// reGeocode:%@ , reGeocode.formattedAddress
     }

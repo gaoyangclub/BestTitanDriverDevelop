@@ -68,6 +68,14 @@
 		84495CA71DF117E40017D2CA /* GYTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84495CA31DF117E40017D2CA /* GYTabBarView.m */; };
 		84495CAB1DF119DA0017D2CA /* DIYTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 84495CAA1DF119DA0017D2CA /* DIYTabBarItem.m */; };
 		84495CB01DF11F2D0017D2CA /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84495CAE1DF11F2D0017D2CA /* iconfont.ttf */; };
+		845C576C1F4A8B5E004EC198 /* gpsStat1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 845C57681F4A8B5E004EC198 /* gpsStat1@2x.png */; };
+		845C576D1F4A8B5E004EC198 /* gpsStat2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 845C57691F4A8B5E004EC198 /* gpsStat2@2x.png */; };
+		845C576E1F4A8B5E004EC198 /* decrease@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 845C576A1F4A8B5E004EC198 /* decrease@2x.png */; };
+		845C576F1F4A8B5E004EC198 /* increase@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 845C576B1F4A8B5E004EC198 /* increase@2x.png */; };
+		845C57741F4A8BA4004EC198 /* endPoint.png in Resources */ = {isa = PBXBuildFile; fileRef = 845C57701F4A8BA4004EC198 /* endPoint.png */; };
+		845C57751F4A8BA4004EC198 /* endPoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 845C57711F4A8BA4004EC198 /* endPoint@2x.png */; };
+		845C57761F4A8BA4004EC198 /* startPoint.png in Resources */ = {isa = PBXBuildFile; fileRef = 845C57721F4A8BA4004EC198 /* startPoint.png */; };
+		845C57771F4A8BA4004EC198 /* startPoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 845C57731F4A8BA4004EC198 /* startPoint@2x.png */; };
 		846217C41F15BCC100B2C46B /* TaskActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 846217C31F15BCC100B2C46B /* TaskActivityView.m */; };
 		846217C91F15CB7300B2C46B /* CustomPresentingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 846217C81F15CB7300B2C46B /* CustomPresentingController.m */; };
 		846217CC1F15CBDD00B2C46B /* CustomDismissingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 846217CB1F15CBDD00B2C46B /* CustomDismissingController.m */; };
@@ -296,6 +304,14 @@
 		84495CA91DF119DA0017D2CA /* DIYTabBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIYTabBarItem.h; sourceTree = "<group>"; };
 		84495CAA1DF119DA0017D2CA /* DIYTabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIYTabBarItem.m; sourceTree = "<group>"; };
 		84495CAE1DF11F2D0017D2CA /* iconfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.ttf; sourceTree = "<group>"; };
+		845C57681F4A8B5E004EC198 /* gpsStat1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gpsStat1@2x.png"; sourceTree = "<group>"; };
+		845C57691F4A8B5E004EC198 /* gpsStat2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gpsStat2@2x.png"; sourceTree = "<group>"; };
+		845C576A1F4A8B5E004EC198 /* decrease@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "decrease@2x.png"; sourceTree = "<group>"; };
+		845C576B1F4A8B5E004EC198 /* increase@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "increase@2x.png"; sourceTree = "<group>"; };
+		845C57701F4A8BA4004EC198 /* endPoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = endPoint.png; sourceTree = "<group>"; };
+		845C57711F4A8BA4004EC198 /* endPoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "endPoint@2x.png"; sourceTree = "<group>"; };
+		845C57721F4A8BA4004EC198 /* startPoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startPoint.png; sourceTree = "<group>"; };
+		845C57731F4A8BA4004EC198 /* startPoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "startPoint@2x.png"; sourceTree = "<group>"; };
 		846217C21F15BCC100B2C46B /* TaskActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskActivityView.h; sourceTree = "<group>"; };
 		846217C31F15BCC100B2C46B /* TaskActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskActivityView.m; sourceTree = "<group>"; };
 		846217C71F15CB7300B2C46B /* CustomPresentingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPresentingController.h; sourceTree = "<group>"; };
@@ -749,6 +765,14 @@
 		841CBC671F443871006BCC5B /* map */ = {
 			isa = PBXGroup;
 			children = (
+				845C57701F4A8BA4004EC198 /* endPoint.png */,
+				845C57711F4A8BA4004EC198 /* endPoint@2x.png */,
+				845C57721F4A8BA4004EC198 /* startPoint.png */,
+				845C57731F4A8BA4004EC198 /* startPoint@2x.png */,
+				845C57681F4A8B5E004EC198 /* gpsStat1@2x.png */,
+				845C57691F4A8B5E004EC198 /* gpsStat2@2x.png */,
+				845C576A1F4A8B5E004EC198 /* decrease@2x.png */,
+				845C576B1F4A8B5E004EC198 /* increase@2x.png */,
 				A9D224891F492148001B8135 /* userPosition.png */,
 				A9D2248A1F492148001B8135 /* userPosition@2x.png */,
 				A9D0B60A1F480E150020F296 /* icon_car@2x.png */,
@@ -1257,14 +1281,21 @@
 				847290F61F3AF31000C2FC42 /* Default640x960.png in Resources */,
 				A9D0B60C1F480E150020F296 /* icon_car@2x.png in Resources */,
 				847F3E551F1F02BC00C21C6A /* splashLogo2.png in Resources */,
+				845C576D1F4A8B5E004EC198 /* gpsStat2@2x.png in Resources */,
 				A9D2248C1F492148001B8135 /* userPosition@2x.png in Resources */,
+				845C576E1F4A8B5E004EC198 /* decrease@2x.png in Resources */,
 				848A380D1F3D4E1A00B15E4B /* QBImagePicker.storyboard in Resources */,
 				A9D0B60D1F480E150020F296 /* icon_car@3x.png in Resources */,
+				845C57751F4A8BA4004EC198 /* endPoint@2x.png in Resources */,
 				84495CB01DF11F2D0017D2CA /* iconfont.ttf in Resources */,
 				A9D2248B1F492148001B8135 /* userPosition.png in Resources */,
 				8407DF331DF1539300E47E73 /* application.png in Resources */,
+				845C57761F4A8BA4004EC198 /* startPoint.png in Resources */,
+				845C576C1F4A8B5E004EC198 /* gpsStat1@2x.png in Resources */,
+				845C57741F4A8BA4004EC198 /* endPoint.png in Resources */,
 				841CBC6A1F44387F006BCC5B /* icon_location@2x.png in Resources */,
 				84129A2A1E54579700151672 /* MJRefresh.bundle in Resources */,
+				845C57771F4A8BA4004EC198 /* startPoint@2x.png in Resources */,
 				847290F81F3AF31000C2FC42 /* Default750x1334.png in Resources */,
 				847290F71F3AF31000C2FC42 /* Default640x1136.png in Resources */,
 				848A38071F3D4E1A00B15E4B /* Info.plist in Resources */,
@@ -1272,6 +1303,7 @@
 				848A38061F3D4E1A00B15E4B /* QBImagePicker.strings in Resources */,
 				8466666E1F2F1D950033D489 /* splashBackground.png in Resources */,
 				846666701F2F1DA80033D489 /* splashLogo.png in Resources */,
+				845C576F1F4A8B5E004EC198 /* increase@2x.png in Resources */,
 				841CBC6B1F44387F006BCC5B /* icon_location@3x.png in Resources */,
 				847290FA1F3AF31000C2FC42 /* Default2208x1242.png in Resources */,
 				840DEF761DED6E3100963524 /* Assets.xcassets in Resources */,
@@ -1581,7 +1613,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/SVProgressHUD",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.best.ios.drivertitantest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.best.ios.drivertitan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1610,7 +1642,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/SVProgressHUD",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.best.ios.drivertitantest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.best.ios.drivertitan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;

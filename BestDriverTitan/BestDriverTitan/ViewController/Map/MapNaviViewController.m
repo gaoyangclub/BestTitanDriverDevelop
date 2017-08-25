@@ -100,7 +100,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.endPoint   = [AMapNaviPoint locationWithLatitude:30.17105 longitude:120.27121];
+    self.endPoint = [AMapNaviPoint locationWithLatitude:30.17105 longitude:120.27121];
     
     NSValue* coordinateValue = [AmapLocationService getLastLocationPoint];
     if (coordinateValue) {

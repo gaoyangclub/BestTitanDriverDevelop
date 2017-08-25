@@ -772,7 +772,7 @@
 //            [self.buttonArea addSubnode:subNode2];
 //            baseX += subNode2.frame.size.width + 5;
 //        }else if(factor > 0){
-//            ASDisplayNode* subNode2 = [self createStateNode:@"待提货" color:COLOR_DAI_WAN_CHENG offsetX:baseX bottomHeight:bottomHeight];
+//            ASDisplayNode* subNode2 = [self createStateNode:@"待揽收" color:COLOR_DAI_WAN_CHENG offsetX:baseX bottomHeight:bottomHeight];
 //            [self.buttonArea addSubnode:subNode2];
 //            baseX += subNode2.frame.size.width + 5;
 //        }

@@ -10,16 +10,18 @@
 #import <MAMapKit/MAMapKit.h>
 
 @interface MapViewController ()<MAMapViewDelegate>{
-    BOOL hasLocationPoint;
     MAPolyline *commonPolyline;
 }
 
 @property(nonatomic,retain)UILabel* titleLabel;
 
 @property (nonatomic, retain) MAMapView *mapView;
-@property (nonatomic, retain) MAPointAnnotation *pointAnnotaiton;
 
-@property (nonatomic, strong) MAAnnotationView *userLocationAnnotationView;
+@property (nonatomic, retain) MAAnnotationView *userLocationAnnotationView;
+
+@property (nonatomic, retain) UIButton *gpsButton;
+
+@property (nonatomic, retain) UIView *zoomPannelView;
 
 @end
 
@@ -38,22 +40,9 @@ static MapViewController* instance;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    self->hasLocationPoint = NO;
     [super viewWillAppear:animated];
     [self initTitleArea];
     self.view.backgroundColor = COLOR_BACKGROUND;
-}
-
--(void)viewDidAppear:(BOOL)animated{
-    if (animated) {
-        //        self.mapView.frame = self.view.bounds;
-        if (_mapView) {
-            [self viewDidReady];
-            if ([AmapLocationService getLastLocationPoint]) {
-                [self showMapLocationPoint:[AmapLocationService getLastLocationPoint].MKCoordinateValue];
-            }
-        }
-    }
 }
 
 -(UILabel *)titleLabel{
@@ -83,53 +72,122 @@ static MapViewController* instance;
         _mapView.delegate = self;
         [self.view addSubview:_mapView];
         
+        _mapView.showsScale = YES;
+        
         _mapView.showsUserLocation = YES;
-//        _mapView.userTrackingMode = MAUserTrackingModeFollow;
-        _mapView.userTrackingMode = MAUserTrackingModeFollowWithHeading;
         _mapView.userLocation.title = @"您的位置在这里";
     }
     return _mapView;
 }
 
--(MAPointAnnotation *)pointAnnotaiton{
-    if (!_pointAnnotaiton) {
-        _pointAnnotaiton = [[MAPointAnnotation alloc] init];
-        [self.mapView addAnnotation:_pointAnnotaiton];
+-(UIButton *)gpsButton{
+    if(!_gpsButton){
+        _gpsButton = [self makeGPSButtonView];
+//        _gpsButton.center = CGPointMake(CGRectGetMidX(self.gpsButton.bounds) + 10,
+//                                            self.view.bounds.size.height -  CGRectGetMidY(self.gpsButton.bounds) - 20);
+        [self.view addSubview:_gpsButton];
+        _gpsButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin;
     }
-    return _pointAnnotaiton;
+    return _gpsButton;
+}
+
+- (UIButton *)makeGPSButtonView {
+    UIButton *ret = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    ret.backgroundColor = [UIColor whiteColor];
+    ret.layer.cornerRadius = 4;
+    
+    [ret setImage:[UIImage imageNamed:@"gpsStat1"] forState:UIControlStateNormal];
+    [ret addTarget:self action:@selector(gpsAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    return ret;
+}
+
+-(UIView *)zoomPannelView{
+    if(!_zoomPannelView){
+        _zoomPannelView = [self makeZoomPannelView];
+        _zoomPannelView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
+        [self.view addSubview:_zoomPannelView];
+    }
+    return _zoomPannelView;
+}
+
+- (UIView *)makeZoomPannelView
+{
+    UIView *ret = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 53, 98)];
+    
+    UIButton *incBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 53, 49)];
+    [incBtn setImage:[UIImage imageNamed:@"increase"] forState:UIControlStateNormal];
+    [incBtn sizeToFit];
+    [incBtn addTarget:self action:@selector(zoomPlusAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *decBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 49, 53, 49)];
+    [decBtn setImage:[UIImage imageNamed:@"decrease"] forState:UIControlStateNormal];
+    [decBtn sizeToFit];
+    [decBtn addTarget:self action:@selector(zoomMinusAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    [ret addSubview:incBtn];
+    [ret addSubview:decBtn];
+    
+    return ret;
+}
+
+
+#pragma mark - Action Handlers
+- (void)zoomPlusAction
+{
+    CGFloat oldZoom = self.mapView.zoomLevel;
+    [self.mapView setZoomLevel:(oldZoom + 1) animated:YES];
+//    self.mapView.showsScale = YES;
+}
+
+- (void)zoomMinusAction
+{
+    CGFloat oldZoom = self.mapView.zoomLevel;
+    [self.mapView setZoomLevel:(oldZoom - 1) animated:YES];
+//    self.mapView.showsScale = NO;
+}
+
+- (void)gpsAction {
+    if(self.mapView.userLocation.updating && self.mapView.userLocation.location) {
+        [self.mapView setCenterCoordinate:self.mapView.userLocation.location.coordinate animated:YES];
+        [self.gpsButton setSelected:YES];
+    }
 }
 
 -(void)viewDidLayoutSubviews{
-   self.mapView.frame = self.view.bounds;
+    self.mapView.frame = self.view.bounds;
+    
+    self.zoomPannelView.maxX = self.view.width - 10;
+    self.zoomPannelView.maxY = self.view.height - 10;
+    
+    self.gpsButton.x = self.view.x + 10;
+    self.gpsButton.maxY = self.view.height - 20;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    // Do any additional setup after loading the view.
-    [self viewDidReady];
-    if ([AmapLocationService getLastLocationPoint]) {
-        double delayInSeconds = 0.5;
-        __weak __typeof(self) weakSelf = self;
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC); dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            [weakSelf showMapLocationPoint:[AmapLocationService getLastLocationPoint].MKCoordinateValue];
-        });
+    if (self.mode == MapViewModeNormal) {
+        self.mapView.userTrackingMode = MAUserTrackingModeFollowWithHeading;
+    }else if(self.mode == MapViewModeMark){
+        self.mapView.userTrackingMode = MAUserTrackingModeFollow;
+//        [self showMarks];
+    }else if(self.mode == MapViewModeRoute){
+        self.mapView.userTrackingMode = MAUserTrackingModeFollow;
+        [self showRoutePoints];
     }
 }
 
--(void)viewDidReady{
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(eventLocationChange:)
-//                                                 name:EVENT_LOCATION_CHANGE
-//                                               object:nil];
+-(void)showRoutePoints{
     if (self->commonPolyline) {
         [self.mapView removeOverlay:self->commonPolyline];
     }
-    if (self.locationPoints) {//开始划线
-        NSInteger count = self.locationPoints.count;
+    if (self.routePoints) {//开始划线
+        NSInteger count = self.routePoints.count;
         //构造折线数据对象
         CLLocationCoordinate2D commonPolylineCoords[count];
         for (NSInteger i = 0; i < count; i++) {
-            LocationInfo* info = self.locationPoints[i];
+            LocationInfo* info = self.routePoints[i];
             CLLocationCoordinate2D coordinate = info.locationPoint.MKCoordinateValue;
             commonPolylineCoords[i].longitude = coordinate.longitude;
             commonPolylineCoords[i].latitude = coordinate.latitude;
@@ -138,59 +196,27 @@ static MapViewController* instance;
         self->commonPolyline = [MAPolyline polylineWithCoordinates:commonPolylineCoords count:count];
         //在地图上添加折线对象
         [self.mapView addOverlay:commonPolyline];
-//
-//        
         [self.mapView setVisibleMapRect:commonPolyline.boundingMapRect animated:YES];
-//
-//        self->hasLocationPoint = YES;
     }
 }
-
--(void)viewWillDisappear:(BOOL)animated{
-    if (animated) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_LOCATION_CHANGE object:nil];
-    }
-}
-
--(void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_LOCATION_CHANGE object:nil];
-}
-
--(void)showMapLocationPoint:(CLLocationCoordinate2D)coordinate{
-    //获取到定位信息，更新annotation
-//    [self.pointAnnotaiton setCoordinate:coordinate];
-//    
-//    if (!self->hasLocationPoint) {
-//        self->hasLocationPoint = YES;
-//        [self.mapView setCenterCoordinate:coordinate];
-//        [self.mapView setZoomLevel:15.1 animated:NO];
-//    }
-}
-
-- (void)eventLocationChange:(NSNotification*)eventData{
-    NSValue * coordinateValue = eventData.object;
-    [self showMapLocationPoint:coordinateValue.MKCoordinateValue];
-}
-
 
 #pragma mark - mapview delegate
 #pragma mark - MAMapViewDelegate
-
 - (MAOverlayRenderer *)mapView:(MAMapView *)mapView rendererForOverlay:(id <MAOverlay>)overlay
 {
-//    if ([overlay isKindOfClass:[MAPolyline class]])
-//    {
-//        MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:overlay];
-//        
-//        polylineRenderer.lineWidth    = 8.f;
-//        polylineRenderer.strokeColor  = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.6];
-//        polylineRenderer.lineJoinType = kMALineJoinRound;
-//        polylineRenderer.lineCapType  = kMALineCapRound;
-//        
-//        return polylineRenderer;
-//    }
-//    /* 自定义定位精度对应的MACircleView. */
-    if (overlay == mapView.userLocationAccuracyCircle)
+    if ([overlay isKindOfClass:[MAPolyline class]])
+    {
+        MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:overlay];
+        
+        polylineRenderer.lineWidth    = 8.f;
+        polylineRenderer.strokeColor  = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.6];
+        polylineRenderer.lineJoinType = kMALineJoinRound;
+        polylineRenderer.lineCapType  = kMALineCapRound;
+        
+        return polylineRenderer;
+    }
+    /* 自定义定位精度对应的MACircleView. */
+    else if (overlay == mapView.userLocationAccuracyCircle)
     {
         MACircleRenderer *accuracyCircleRenderer = [[MACircleRenderer alloc] initWithCircle:overlay];
         
@@ -239,47 +265,5 @@ static MapViewController* instance;
         }];
     }
 }
-
-#pragma mark - MAMapView Delegate
-//- (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation
-//{
-//    if ([annotation isKindOfClass:[MAPointAnnotation class]])
-//    {
-//        static NSString *pointReuseIndetifier = @"pointReuseIndetifier";
-//        MAPinAnnotationView *annotationView = (MAPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:pointReuseIndetifier];
-//        if (annotationView == nil)
-//        {
-//            annotationView = [[MAPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:pointReuseIndetifier];
-//            annotationView.image            = [UIImage imageNamed:@"icon_car"];
-//        }
-//        
-//        annotationView.canShowCallout   = NO;
-//        annotationView.animatesDrop     = NO;
-//        annotationView.draggable        = NO;
-//        
-//        return annotationView;
-//    }
-//    
-//    return nil;
-//}
-
-
-//#pragma <MAMapViewDelegate> 协议中的 mapView:rendererForOverlay: 回调函数
-//- (MAOverlayRenderer *)mapView:(MAMapView *)mapView rendererForOverlay:(id <MAOverlay>)overlay
-//{
-//    if ([overlay isKindOfClass:[MAPolyline class]])
-//    {
-//        MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:overlay];
-//        
-//        polylineRenderer.lineWidth    = 8.f;
-//        polylineRenderer.strokeColor  = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.6];
-//        polylineRenderer.lineJoinType = kMALineJoinRound;
-//        polylineRenderer.lineCapType  = kMALineCapRound;
-//        
-//        return polylineRenderer;
-//    }
-//    return nil;
-//}
-
 
 @end

@@ -190,7 +190,7 @@ static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不�
     if (DEBUG_MODE) {
         return @"b4aa0ec101a8d63030738884cf4af870";
     }
-    return @"";
+    return @"b4aa0ec101a8d63030738884cf4af870";
 }
 
 

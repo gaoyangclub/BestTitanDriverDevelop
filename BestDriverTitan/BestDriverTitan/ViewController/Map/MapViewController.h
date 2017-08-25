@@ -9,9 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "AmapLocationService.h"
 
+typedef NS_ENUM(NSInteger, MapViewMode) {
+    MapViewModeNormal = 0,//只显示当前位置
+    MapViewModeMark,//展示地图大头针 显示tips
+    MapViewModeRoute//运动轨迹
+};
+
 @interface MapViewController : UIViewController
 
-@property(nonatomic,retain)NSMutableArray<LocationInfo*>* locationPoints;
+@property(nonatomic,retain)NSMutableArray<LocationInfo*>* routePoints;//轨迹坐标点
+@property(nonatomic,assign)MapViewMode mode;
 
 //-(instancetype)init __attribute__((unavailable("Disabled. Use +sharedInstance instead")));
 //+(instancetype)new __attribute__((unavailable("Disabled. Use +sharedInstance instead")));

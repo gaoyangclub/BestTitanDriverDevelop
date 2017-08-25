@@ -53,10 +53,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(eventLocationChange:)
-                                                 name:EVENT_LOCATION_CHANGE
-                                               object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(eventLocationChange:)
+//                                                 name:EVENT_LOCATION_CHANGE
+//                                               object:nil];
 }
 
 //-(void)viewWillDisappear:(BOOL)animated{
@@ -65,22 +65,21 @@
 //    }
 //}
 
--(void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_LOCATION_CHANGE object:nil];
-}
+//-(void)dealloc{
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_LOCATION_CHANGE object:nil];
+//}
 
 -(void)headerRefresh:(HeaderRefreshHandler)handler{
     int64_t delay = 0.3 * NSEC_PER_SEC;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), ^{//
-    
-        NSMutableArray<LocationInfo *>* locationInfos = [AmapLocationService getAllLocationInfos];
-        if (locationInfos.count <= 0) {
-            handler(NO);
-            return;
-        }
-        [self generateLoctionSource:locationInfos];
+        [self.tableView clearSource];
         
-        handler(YES);
+        NSMutableArray<LocationInfo *>* locationInfos = [AmapLocationService getAllLocationInfos];
+        if (locationInfos.count > 0) {
+            [self generateLoctionSource:locationInfos];
+        }
+        
+        handler(locationInfos.count > 0);
     });
 }
 
@@ -113,7 +112,8 @@
 //进入地图详情页
 -(void)rightClick{
     MapViewController* mapController = [[MapViewController alloc]init];//[MapViewController sharedInstance];
-    mapController.locationPoints = [AmapLocationService getAllLocationInfos];
+    mapController.routePoints = [AmapLocationService getAllLocationInfos];
+    mapController.mode = MapViewModeRoute;
     [self.navigationController pushViewController:mapController animated:YES];
 }
 

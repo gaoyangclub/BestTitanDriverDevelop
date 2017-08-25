@@ -15,7 +15,7 @@
 @property(nonatomic,assign) BOOL isFirst;
 @property(nonatomic,assign) BOOL isLast;
 @property(nonatomic,assign) BOOL needRefresh;
-@property(nonatomic,retain) UITableView *tableView;
+@property(nonatomic,weak) UITableView *tableView;
 @property(nonatomic,retain) NSIndexPath *indexPath;
 @property(nonatomic,retain) CellVo *cellVo;
 @property(nonatomic,retain) id data;

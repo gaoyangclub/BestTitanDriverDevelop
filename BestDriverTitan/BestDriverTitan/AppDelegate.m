@@ -132,7 +132,7 @@
     OwnerViewController* navigationController = [OwnerViewController sharedInstance];
     navigationController.hairlineHidden = YES;
     navigationController.hairlineColor = COLOR_LINE;
-    navigationController.navigationColor = COLOR_PRIMARY;
+    navigationController.navigationColor = [UIColor whiteColor];//COLOR_PRIMARY;
     [navigationController setViewControllers:@[[self createNormalTabBar]]];
     
     ViewController* leftViewController = [[ViewController alloc]init];//AccountSideHomeController()
@@ -157,7 +157,7 @@
     [self.window makeKeyAndVisible];
     self.window.rootViewController = drawerController;//[self createNormalTabBar];//可替换
     
-    CGFloat scale = SYSTEM_SCALE_FACTOR;//([UIApplication sharedApplication].delegate).window.screen.scale;
+//    CGFloat scale = SYSTEM_SCALE_FACTOR;//([UIApplication sharedApplication].delegate).window.screen.scale;
     
     YYFPSLabel* _fpsLabel = [YYFPSLabel sharedInstance];
 //    _fpsLabel.frame = CGRectMake(200, 200, 50, 30);
