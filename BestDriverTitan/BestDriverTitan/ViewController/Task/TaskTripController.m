@@ -17,6 +17,8 @@
 #import "AmapLocationService.h"
 #import "CircleNode.h"
 #import "RoundRectNode.h"
+#import "NetRequestClass.h"
+#import "EmptyDataSource.h"
 
 @interface TaskFilterButton:UIControl
 
@@ -118,6 +120,8 @@
 
 @interface TaskTripController()<TaskActivityViewDelegate>{
 //    UILabel* titleLabel;
+    NSMutableArray<ShipmentStopBean*>* stopBeanList;
+    NSString* selectedTaskCode;
 }
 //@property(nonatomic,retain)UIView* titleView;
 
@@ -131,9 +135,19 @@
 
 @property(nonatomic,retain)UIControl* moreButton;
 
+@property(nonatomic,retain)EmptyDataSource* emptyDataSource;
+
 @end
 
+static NSArray<NSString*>* taskCodeArr;
 @implementation TaskTripController
+
+-(NSArray<NSString*>*)getTaskCodeArr{
+    if (!taskCodeArr) {
+        taskCodeArr = @[@"全部",ACTIVITY_CODE_PICKUP_HANDOVER,ACTIVITY_CODE_SIGN_FOR_RECEIPT,ACTIVITY_CODE_COD];
+    }
+    return taskCodeArr;
+}
 
 -(BOOL)getShowFooter{
     return NO;
@@ -172,6 +186,13 @@
     return _titleLabel;
 }
 
+-(EmptyDataSource *)emptyDataSource{
+    if (!_emptyDataSource) {
+        _emptyDataSource = [[EmptyDataSource alloc]init];
+    }
+    return _emptyDataSource;
+}
+
 -(void)initTitleArea{
     self.navigationItem.leftBarButtonItem =
     [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
@@ -203,34 +224,56 @@
 
 -(void)headerRefresh:(HeaderRefreshHandler)handler{
     int64_t delay = 1.0 * NSEC_PER_SEC;
+    
+    __weak __typeof(self) weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), ^{//
-        
-        NSMutableArray<ShipmentStopBean*>* stopArr = [NSMutableArray<ShipmentStopBean*> array];
-        int stopCount = (arc4random() % 10) + 2;
-        for (NSUInteger i = 0; i < stopCount; i++) {
-            ShipmentStopBean* bean = [[ShipmentStopBean alloc]init];
-            bean.isComplete = (arc4random() % 3) > 0 ? NO : YES;//;
-            bean.shortAddress = ConcatStrings(@"横港路李宁店",[NSNumber numberWithInteger:i + 1],@"号店");
-            bean.stopName = ConcatStrings(@"上海上海市松江区上海上海市松江区",bean.shortAddress,@"18弄63号");
-            
-            bean.pickupCount = (arc4random() % 15);
-            bean.deliverCount = (arc4random() % 15);
-            bean.orderCount = (arc4random() % 10) + 1;
-            [stopArr addObject:bean];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (![NetRequestClass netWorkReachability]) {//网络异常
+            strongSelf.emptyDataSource.netError = YES;
+            [strongSelf.tableView clearSource];
+            handler(NO);
+            return;
         }
-        [self.tableView clearSource];
-        
-        NSMutableArray<CellVo*>* sourceData = [NSMutableArray<CellVo*> array];
-//        int count = 1;//(arc4random() % 18) + 30; //生成3-10范围的随机数
-        for (NSUInteger i = 0; i < stopCount; i++) {
-            //            [self.sourceData addObject:[NSString stringWithFormat:@"数据: %lu",i]];
-            [sourceData addObject:
-             [CellVo initWithParams:TASK_TRIP_CELL_HEIGHT cellClass:[TaskTripCell class] cellData:stopArr[i]]];
-        }
-        [self.tableView addSource:[SourceVo initWithParams:sourceData headerHeight:0 headerClass:nil headerData:NULL]];//[TaskTripSection class]
-        handler(sourceData.count > 0);
+        strongSelf.emptyDataSource.netError = NO;
+        [strongSelf tempGenerateStopList];
+        NSMutableArray<ShipmentStopBean*>* sortStopList = [strongSelf sortStopListByCode:strongSelf->selectedTaskCode];
+        handler(sortStopList.count > 0);
     });
 //    handler(NO);
+}
+
+-(void)tempGenerateStopList{
+    self->stopBeanList = [NSMutableArray<ShipmentStopBean*> array];
+    int stopCount = (arc4random() % 2);
+    for (NSUInteger i = 0; i < stopCount; i++) {
+        
+        /*--  创建活动列表 start  --*/
+        NSMutableArray<NSString*>* codeArr = [NSMutableArray<NSString*> arrayWithObjects:ACTIVITY_CODE_PICKUP_HANDOVER,ACTIVITY_CODE_LOAD,ACTIVITY_CODE_UNLOAD,ACTIVITY_CODE_SIGN_FOR_RECEIPT,ACTIVITY_CODE_DELIVERY_RECEIPT,ACTIVITY_CODE_COD, nil];
+        NSInteger removeCount = arc4random() % codeArr.count;
+        for(NSInteger i = 0 ; i < removeCount ; i ++){
+            NSInteger removeIndex = arc4random() % codeArr.count;
+            [codeArr removeObjectAtIndex:removeIndex];
+        }
+        NSMutableArray<ShipmentActivityBean*>* activityBeans = [NSMutableArray<ShipmentActivityBean*> array];
+        for (NSString* code in codeArr) {
+            ShipmentActivityBean* bean = [[ShipmentActivityBean alloc]init];
+            bean.activityDefinitionCode = code;
+            bean.status = arc4random() % 2 > 0 ? ACTIVITY_STATUS_REPORTED : ACTIVITY_STATUS_PENDING_REPORT;
+            [activityBeans addObject:bean];
+        }
+        /*--  创建活动列表 end  --*/
+        
+        ShipmentStopBean* bean = [[ShipmentStopBean alloc]init];
+        bean.isComplete = (arc4random() % 3) > 0 ? NO : YES;//;
+        bean.shortAddress = ConcatStrings(@"横港路李宁店",[NSNumber numberWithInteger:i + 1],@"号店");
+        bean.stopName = ConcatStrings(@"上海上海市松江区上海上海市松江区",bean.shortAddress,@"18弄63号");
+        
+        bean.pickupCount = (arc4random() % 15);
+        bean.deliverCount = (arc4random() % 15);
+        bean.orderCount = (arc4random() % 10) + 1;
+        bean.shipmentActivityList = activityBeans;
+        [self->stopBeanList addObject:bean];
+    }
 }
 
 -(CGRect)getTableViewFrame{
@@ -249,20 +292,31 @@
     [super viewDidLoad];
     self.tableView.clickCellMoveToCenter = YES;
     
-//    CGFloat count = 4;
-    NSArray<NSString*>* titleArea = @[@"全部",@"未揽收",@"未签收",@"未收款"];
-    NSArray<UIColor*>* colorArea = @[FlatGray,FlatGreen,FlatSkyBlue,FlatYellowDark];
+    [self initEmptyData];
     
+    self.tableView.emptyDataSetSource = self.emptyDataSource;
+    self.tableView.emptyDataSetDelegate = self.emptyDataSource;
+    
+    __weak __typeof(self) weakSelf = self;
+    self.emptyDataSource.didTapButtonBlock = ^(void){
+        [weakSelf.tableView headerBeginRefresh];
+    };
+    
+//    CGFloat count = 4;
 //    CGFloat buttonWidth = self.view.width / titleArea.count;
-    for (NSInteger i = 0 ; i < titleArea.count ; i ++) {
+    NSArray* codeArr = [self getTaskCodeArr];
+    for (NSInteger i = 0 ; i < codeArr.count ; i ++) {
         TaskFilterButton* button = [[TaskFilterButton alloc]initWithFrame:CGRectMake(0, 0, 0, TASK_TRIP_FILTER_HEIGHT)];
-        button.title = titleArea[i];
+        NSString* code = codeArr[i];
+        NSString* activityLabel = [Config getActivityLabelByCode:code];
+        button.title = activityLabel ? ConcatStrings(@"未",activityLabel) : code;
+        button.tag = i;
         if (i == 0) {
             [button setSelect:YES];
             button.circleColor = nil;
         }else{
             [button setSelect:NO];
-            button.circleColor = colorArea[i];
+            button.circleColor = [Config getActivityColorByCode:code];
         }
         [button addTarget:self action:@selector(clickFilterButton:) forControlEvents:UIControlEventTouchUpInside];
         [self.filterView addSubview:button];
@@ -281,13 +335,55 @@
         [button setSelect:button == sender];
     }
     //开始筛选
+    self->selectedTaskCode = sender.tag ? [self getTaskCodeArr][sender.tag] : nil;
+    [self initEmptyData];
+    [self sortStopListByCode:self->selectedTaskCode];
+    [self.tableView reloadMJData];
+}
+
+-(void)initEmptyData{
+    self.emptyDataSource.buttonTitle = self->selectedTaskCode ? nil : @"点我刷新";
+    self.emptyDataSource.noDataDescription = self->selectedTaskCode ? @"该类型任务已完成!" : @"任务已全部完成";
+}
+
+-(NSMutableArray<ShipmentStopBean*>*)sortStopListByCode:(NSString*)code{
+    NSMutableArray<ShipmentStopBean*>* sortStopList = [NSMutableArray<ShipmentStopBean*> array];
+    for (ShipmentStopBean* stop in self->stopBeanList) {
+        if (!code) {//全部
+            [sortStopList addObject:stop];
+        }else{
+            for (ShipmentActivityBean* activityBean in stop.shipmentActivityList) {
+                if (![activityBean hasReport] && [activityBean.activityDefinitionCode isEqualToString:code]) {
+                    [sortStopList addObject:stop];
+                    break;
+                }
+            }
+        }
+    }
+    [self.tableView clearSource];
     
+    NSMutableArray<CellVo*>* sourceData = [NSMutableArray<CellVo*> array];
+    //        int count = 1;//(arc4random() % 18) + 30; //生成3-10范围的随机数
+    for (NSUInteger i = 0; i < sortStopList.count; i++) {
+        //            [self.sourceData addObject:[NSString stringWithFormat:@"数据: %lu",i]];
+        [sourceData addObject:
+         [CellVo initWithParams:TASK_TRIP_CELL_HEIGHT cellClass:[TaskTripCell class] cellData:sortStopList[i]]];
+    }
+    [self.tableView addSource:[SourceVo initWithParams:sourceData headerHeight:0 headerClass:nil headerData:NULL]];//[TaskTripSection class]
+    
+    return sortStopList;
 }
 
 -(void)didRefreshComplete{
-    SourceVo* sourceVo = self.tableView.dataSourceArray[0];
-    NSInteger selectIndex = (arc4random() % sourceVo.data.count);
-    self.selectedIndexPath = [NSIndexPath indexPathForRow:selectIndex inSection:0];
+    if (!self->selectedTaskCode && [self.tableView getSourceCount] > 0) {//全部
+        SourceVo* sourceVo = self.tableView.dataSourceArray[0];
+        if(sourceVo.data.count){//有数据
+            NSInteger selectIndex = (arc4random() % sourceVo.data.count);
+            self.selectedIndexPath = [NSIndexPath indexPathForRow:selectIndex inSection:0];
+            
+            [self.tableView moveSelectedIndexPathToCenter];
+        }
+    }
 }
 
 -(void)dealloc{
@@ -295,7 +391,8 @@
 }
 
 - (void)eventOccurredActivity:(NSNotification*)eventData{
-    [self jumpOrderViewController:nil];
+    ShipmentStopBean* stopBean = eventData.object;
+    [self jumpOrderViewController:stopBean.shipmentActivityList];
 }
 
 //- (void)eventOccurred:(NSNotification*)eventData{
@@ -362,8 +459,9 @@
     [self jumpOrderViewController:nil];
 }
 
--(void)jumpOrderViewController:(ShipmentActivityBean*)activityBean{
-    UIViewController* controller = [[OrderViewController alloc]init];
+-(void)jumpOrderViewController:(NSArray<ShipmentActivityBean*>*)activityBeans{
+    OrderViewController* controller = [[OrderViewController alloc]init];
+    controller.activityBeans = activityBeans;
     [[OwnerViewController sharedInstance] pushViewController:controller animated:YES];
 }
 
@@ -435,7 +533,7 @@
 }
 
 -(void)activitySelected:(ShipmentActivityBean *)activityBean{
-    [self jumpOrderViewController:activityBean];
+    [self jumpOrderViewController:@[activityBean]];
 }
 
 -(void)didSelectRow:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -445,6 +543,5 @@
     
 //    DDLog(@"didSelectRow:%@%@",@"收到选中行消息...",indexPath);
 }
-
 
 @end

@@ -93,6 +93,14 @@ typedef void(^FooterLoadMoreHandler)(BOOL hasData);
  *  @param sourceVo
  */
 -(void)addSource:(SourceVo*)sourceVo;
+/**
+ *  重新刷新全部界面 类似源生的reloadData
+ */
+-(void)reloadMJData;
+/**
+ *  将选中的数据项平滑居中移动
+ */
+-(void)moveSelectedIndexPathToCenter;
 
 -(SourceVo*)getLastSource;
 -(SourceVo*)getFirstSource;

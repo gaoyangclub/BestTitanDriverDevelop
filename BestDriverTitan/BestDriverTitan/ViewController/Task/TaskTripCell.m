@@ -52,6 +52,9 @@
 @property (nonatomic,retain)FlatButton* activityButton;
 
 @property (nonatomic,retain)UIView* indicatorView;
+
+@property (nonatomic,retain)ASDisplayNode* circleArea;//未报活动的状态圈圈
+
 //@property (nonatomic,retain)RoundRectNode* activityBack;
 //@property (nonatomic,retain)ASTextNode* activityLabel;
 
@@ -61,6 +64,7 @@ static CGFloat topAreaHeight = 30;
 //static CGFloat shipWidth = 60;
 static CGFloat naviWidth = 40;
 static CGFloat bottomAreaHeight = 45;
+static CGFloat stateWidth = 20;
 
 @implementation TaskTripCell
 
@@ -305,12 +309,21 @@ static CGFloat bottomAreaHeight = 45;
 //    return _activityLabel;
 //}
 
+-(ASDisplayNode *)circleArea{
+    if (!_circleArea) {
+        _circleArea = [[ASDisplayNode alloc]init];
+        [self.contentView.layer addSubnode:_circleArea];
+    }
+    return _circleArea;
+}
+
 -(void)showSubviews{
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     
     CGFloat cellHeight = self.contentView.bounds.size.height;
     CGFloat cellWidth = self.contentView.bounds.size.width;
 
+    [self initStateArea:cellHeight];
     [self initRouteArea:cellHeight];
     
     [self initNaviArea:cellWidth cellHeight:cellHeight];
@@ -440,7 +453,12 @@ static CGFloat bottomAreaHeight = 45;
     CGFloat leftMargin = self.titleNode.x;//CGRectGetMinX(self.titleNode.frame);
     CGFloat bottomY = cellHeight - bottomAreaHeight;
     
-    self.timeLabel.attributedString = [NSString simpleAttributedString:FlatGray size:12 content:@"送达:2017-08-15 00:00:00"];
+    CGFloat bottomSize = 12;
+    if (SCREEN_WIDTH > IPHONE_5S_WIDTH) {
+        bottomSize = 14;
+    }
+    
+    self.timeLabel.attributedString = [NSString simpleAttributedString:FlatGray size:bottomSize content:@"送达:2017-08-15 00:00:00"];
     self.timeLabel.size = [self.timeLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize timeSize =
     self.timeLabel.x = leftMargin;
     self.timeLabel.y = bottomY;
@@ -453,7 +471,7 @@ static CGFloat bottomAreaHeight = 45;
     int pickupCount = stopBean.pickupCount; //生成0-15范围的随机数
     int deliverCount = stopBean.deliverCount; //生成0-15范围的随机数
     
-    self.shipUintCountText.attributedString = [self generateShipUnitString:FlatOrange pickupCount:pickupCount deliverCount:deliverCount];
+    self.shipUintCountText.attributedString = [self generateShipUnitString:bottomSize color:FlatOrange pickupCount:pickupCount deliverCount:deliverCount];
     self.shipUintCountText.size = [self.shipUintCountText measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize shipUnitSize =
     self.shipUintCountText.x = leftMargin;
     self.shipUintCountText.y = self.timeLabel.maxY + 5;
@@ -484,24 +502,62 @@ static CGFloat bottomAreaHeight = 45;
     self.activityButton.frame = CGRectMake(cellWidth - activityWidth - [TaskTripCell getMarginLeft],bottomY + 5, activityWidth, activityHeight);
 }
 
--(void)initRouteArea:(CGFloat)cellHeight{
+-(void)initStateArea:(CGFloat)cellHeight{
     CGFloat marginLeft = [TaskTripCell getMarginLeft];
-    
     ShipmentStopBean* stopBean = self.data;
-    
     if (stopBean.isComplete) {
         self.stateNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:20                         content:ICON_YI_SHANG_BAO];
     }else{
         self.stateNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_DAI_WAN_CHENG size:20                         content:ICON_DAI_SHANG_BAO];
     }
     self.stateNode.size = [self.stateNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize stateSize =
-//    CGFloat containerWidth = CGRectGetWidth(self.bounds);
-    CGFloat stateWidth = 20;
+    //    CGFloat containerWidth = CGRectGetWidth(self.bounds);
     self.stateNode.centerX = marginLeft + stateWidth / 2;
     self.stateNode.centerY = cellHeight / 2.;
-//    self.stateNode.frame = (CGRect){
-//        CGPointMake(marginLeft + (stateWidth - stateSize.width) / 2., (cellHeight - stateSize.height) / 2.),stateSize
-//    };
+    //    self.stateNode.frame = (CGRect){
+    //        CGPointMake(marginLeft + (stateWidth - stateSize.width) / 2., (cellHeight - stateSize.height) / 2.),stateSize
+    //    };
+//    self.stateNode.hidden = NO;
+    
+    [self.circleArea removeAllSubNodes];
+    
+    for (ShipmentActivityBean* activityBean in stopBean.shipmentActivityList) {
+        if (![activityBean hasReport]) {
+            if ([activityBean.activityDefinitionCode isEqualToString:ACTIVITY_CODE_PICKUP_HANDOVER]
+                || [activityBean.activityDefinitionCode isEqualToString:ACTIVITY_CODE_SIGN_FOR_RECEIPT]
+                || [activityBean.activityDefinitionCode isEqualToString:ACTIVITY_CODE_COD]) {
+                [self createActivityCircle:activityBean.activityDefinitionCode];
+            }
+        }
+    }
+}
+
+-(void)createActivityCircle:(NSString*)code{
+    CircleNode* circleNode = [[CircleNode alloc]init];
+    circleNode.layerBacked = YES;
+    circleNode.fillColor = [Config getActivityColorByCode:code];
+    circleNode.strokeColor = [UIColor whiteColor];
+    circleNode.strokeWidth = 1;
+    circleNode.cornerRadius = 5;
+    
+    CGFloat sizeWidth = circleNode.cornerRadius * 2;
+    
+    circleNode.size = CGSizeMake(sizeWidth, sizeWidth);
+    circleNode.y = 0;
+    circleNode.x = self.circleArea.subnodes.count * circleNode.cornerRadius;
+    
+    [self.circleArea addSubnode:circleNode];
+    
+    self.circleArea.width = circleNode.maxX;
+    self.circleArea.height = sizeWidth;
+    self.circleArea.y = self.stateNode.maxY + 10;
+    self.circleArea.centerX = self.stateNode.centerX;
+    
+//    self.stateNode.hidden = YES;
+}
+
+-(void)initRouteArea:(CGFloat)cellHeight{
+    CGFloat marginLeft = [TaskTripCell getMarginLeft];
     
     UIColor* indexColor;
     if (self.selected) {
@@ -522,7 +578,11 @@ static CGFloat bottomAreaHeight = 45;
     CGFloat routeBaseX = marginLeft + stateWidth + indexWidth + 3;
     CGFloat radius;
     self.routeLine.hidden = NO;
-    if (self.isFirst) {
+    if(self.isSingle){
+        routeH = 0;
+        routeY = 0;
+        radius = routeW + self.routeCircle.strokeWidth + 2;
+    }else if (self.isFirst) {
         routeH = cellHeight * 1 / 2;
         routeY = cellHeight - routeH;
 //        self.routeLine.topLeftRadius = routeW / 2.;
@@ -560,7 +620,7 @@ static CGFloat bottomAreaHeight = 45;
     }
 }
 
--(NSAttributedString *)generateShipUnitString:(UIColor*)color pickupCount:(int)pickupCount deliverCount:(int)deliverCount{
+-(NSAttributedString *)generateShipUnitString:(CGFloat)size color:(UIColor*)color pickupCount:(int)pickupCount deliverCount:(int)deliverCount{
     NSString* pickupString = NULL;
     if (pickupCount) {
         pickupString = ConcatStrings(@"提 ",[NSNumber numberWithInt:pickupCount],@" ");
@@ -572,7 +632,7 @@ static CGFloat bottomAreaHeight = 45;
     NSString* context = ConcatStrings(pickupString ? pickupString : @"", deliverString ? deliverString : @"");
     NSMutableAttributedString* attrString = [[NSMutableAttributedString alloc]initWithString:context];
 //    [attrString addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(0, context.length)];
-    [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(0, context.length)];
+    [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:size] range:NSMakeRange(0, context.length)];
     NSUInteger loc = 0;
     if (pickupCount) {
 //        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(loc, 2)];

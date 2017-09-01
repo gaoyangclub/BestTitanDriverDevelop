@@ -20,7 +20,7 @@
 @interface OrderTabView : UIScrollView
 
 @property(nonatomic,weak)id<OrderTabViewDelegate> tabDelegate;
-@property(nonatomic,retain)NSMutableArray<ShipmentActivityBean*>* activityBeans;
+@property(nonatomic,retain)NSArray<ShipmentActivityBean*>* activityBeans;
 
 //-(void)setTotalCount:(NSInteger)count;
 -(void)setSelectedIndex:(NSInteger)index;

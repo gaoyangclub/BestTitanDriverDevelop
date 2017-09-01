@@ -51,6 +51,23 @@ static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不�
     return nil;
 }
 
++(UIColor *)getActivityColorByCode:(NSString *)code{
+    if ([ACTIVITY_CODE_PICKUP_HANDOVER isEqual:code]) {
+        return FlatGreen;
+    }else if([ACTIVITY_CODE_LOAD isEqual:code]){
+        return nil;
+    }else if([ACTIVITY_CODE_UNLOAD isEqual:code]){
+        return nil;
+    }else if([ACTIVITY_CODE_SIGN_FOR_RECEIPT isEqual:code]){
+        return FlatSkyBlue;
+    }else if([ACTIVITY_CODE_DELIVERY_RECEIPT isEqual:code]){
+        return nil;
+    }else if([ACTIVITY_CODE_COD isEqual:code]){
+        return FlatYellowDark;
+    }
+    return nil;
+}
+
 +(NSString *)getActivityStatusLabel:(NSString *)status{
     if ([ACTIVITY_STATUS_PENDING_REPORT isEqualToString:status]) {
         return @"未上报";

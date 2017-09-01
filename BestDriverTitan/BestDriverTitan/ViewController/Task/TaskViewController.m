@@ -15,6 +15,7 @@
 #import "TaskViewCell.h"
 #import "TaskViewSection.h"
 #import "OwnerViewController.h"
+#import "EmptyDataSource.h"
 
 @interface TestTableViewCell : MJTableViewCell
 
@@ -34,8 +35,10 @@
 }
 
 @property(nonatomic,retain)UIView* titleView;
+@property(nonatomic,retain)EmptyDataSource* emptyDataSource;
 
 @end
+
 
 @implementation TaskViewController
 
@@ -89,6 +92,13 @@
     return _titleView;
 }
 
+-(EmptyDataSource *)emptyDataSource{
+    if (!_emptyDataSource) {
+        _emptyDataSource = [[EmptyDataSource alloc]init];
+    }
+    return _emptyDataSource;
+}
+
 //-(void)initTitleArea{
 //    self.tabBarController.navigationItem.leftBarButtonItem = [UICreationUtils createNavigationLeftButtonItem:[UIColor whiteColor] target:self action:@selector(rightItemClick)];
 //    
@@ -140,10 +150,39 @@
     return shipmentList;
 }
 
+-(void)viewDidLoad{
+    
+//    if (!self.hasHistory) {
+//        self.emptyDataSource.noDataDescription = @"恭喜您，最近任务已全部完成!";
+//    }else{
+//    }
+    self.emptyDataSource.noDataDescription = @"对不起，暂时没有任何任务!";
+    self.emptyDataSource.buttonTitle = @"点我刷新";
+    self.emptyDataSource.noDataIconName = ICON_EMPTY_NO_DATA;
+    
+    self.tableView.emptyDataSetSource = self.emptyDataSource;
+    self.tableView.emptyDataSetDelegate = self.emptyDataSource;
+    __weak __typeof(self) weakSelf = self;
+    self.emptyDataSource.didTapButtonBlock = ^(void){
+        [weakSelf.tableView headerBeginRefresh];
+    };
+}
+
 -(void)headerRefresh:(HeaderRefreshHandler)handler{
     int64_t delay = 1.0 * NSEC_PER_SEC;
+    
+    __weak __typeof(self) weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), ^{//
-        int count = (arc4random() % 10) + 5; //生成3-10范围的随机数
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (![NetRequestClass netWorkReachability]) {//网络异常
+            strongSelf.emptyDataSource.netError = YES;
+            [strongSelf.tableView clearSource];
+            handler(NO);
+            return;
+        }
+        strongSelf.emptyDataSource.netError = NO;
+        
+        int count = (arc4random() % 3); //生成3-10范围的随机数
         
         NSDate* startDate = nil;
         if (self.hasHistory) {

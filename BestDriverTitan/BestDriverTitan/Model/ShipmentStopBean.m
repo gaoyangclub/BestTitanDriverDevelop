@@ -12,8 +12,10 @@
 
 @implementation ShipmentStopBean
 
-
-
+#pragma 声明数组、字典或者集合里的元素类型时要重写
++ (nullable NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
+    return @{@"shipmentActivityList":[ShipmentActivityBean class]};
+}
 
 
 @end

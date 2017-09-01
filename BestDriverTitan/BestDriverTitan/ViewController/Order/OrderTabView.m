@@ -238,7 +238,7 @@
     }
 }
 
--(void)setActivityBeans:(NSMutableArray<ShipmentActivityBean *> *)activityBeans{
+-(void)setActivityBeans:(NSArray<ShipmentActivityBean *> *)activityBeans{
     _activityBeans = activityBeans;
     
     [self removeAllSubViews];

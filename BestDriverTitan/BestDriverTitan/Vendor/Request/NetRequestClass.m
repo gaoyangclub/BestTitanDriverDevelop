@@ -12,16 +12,13 @@
 
 @end
 
+static BOOL netState;
 
 @implementation NetRequestClass
-#pragma 监测网络的可链接性
-+ (BOOL) netWorkReachability
-{
-    __block BOOL netState = NO;
-    
-    
+
++(void)initNetWorkStatus{
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-//        NSLog(@"Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
+        //        NSLog(@"Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
         switch (status) {
             case AFNetworkReachabilityStatusReachableViaWWAN:
                 netState = YES;
@@ -34,9 +31,12 @@
                 break;
         }
     }];
-    
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
-    
+}
+
+#pragma 监测网络的可链接性
++ (BOOL) netWorkReachability
+{
 //    NSURL *baseURL = [NSURL URLWithString:strUrl];
 //    
 //    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
@@ -59,7 +59,6 @@
 //    }];
 //    
 //    [manager.reachabilityManager startMonitoring];
-    
     return netState;
 }
 

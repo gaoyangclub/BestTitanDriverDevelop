@@ -32,6 +32,8 @@
 
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import "SpeechManager.h"
+#import "AVSpeechDataSource.h"
+#import "TTSDataSource.h"
 
 @interface AppDelegate ()
 
@@ -117,9 +119,12 @@
 //    
 //    NSNumber* aStr = @0x0135315;
 //    NSLog(@"aStr指针内存地址：%x",&aStr);
-    [self configureAudit];
+//    [self configureAudit];
+    [SpeechManager setDataSource:[[TTSDataSource alloc]init]];
     
     [self configureAPIKey];
+    
+    [NetRequestClass initNetWorkStatus];
     
     [IQKeyboardManager sharedManager].enable = YES;
     

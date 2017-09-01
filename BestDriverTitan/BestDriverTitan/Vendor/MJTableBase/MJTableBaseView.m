@@ -197,17 +197,7 @@
             if (strongSelf.refreshDelegate && [strongSelf.refreshDelegate respondsToSelector:@selector(headerRefresh:)]) {
                 [strongSelf.refreshDelegate headerRefresh:^(BOOL hasData){
                     _hasFirstRefreshed = YES;
-                    strongSelf.refreshAll = YES;
-                    [strongSelf checkGaps];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [strongSelf reloadData];
-                        if (strongSelf.refreshDelegate && [strongSelf.refreshDelegate respondsToSelector:@selector(didRefreshComplete)]){
-                            [strongSelf.refreshDelegate didRefreshComplete];
-                        }
-                        if (strongSelf.selectedIndexPath) {
-                            [strongSelf dispatchSelectRow:strongSelf.selectedIndexPath];
-                        }
-                    });
+                    [strongSelf reloadMJData];
                     [strongSelf.mj_header endRefreshing];// 结束刷新
                     if (hasData) {
                         if (strongSelf.mj_footer) {
@@ -222,14 +212,34 @@
             }
         };
         header.endRefreshingCompletionBlock = ^(){
-            if (self.clickCellMoveToCenter && _selectedIndexPath) {
-//                MJTableViewCell* cell = [self cellForRowAtIndexPath:_selectedIndexPath];
-//                DDLog(@"selectedIndexPath.row:%ld",(long)_selectedIndexPath.row);
-                [self moveCellToCenter:_selectedIndexPath];
-            }
+            [self moveSelectedIndexPathToCenter];
         };
         self.mj_header = header;
     }
+}
+
+-(void)moveSelectedIndexPathToCenter{
+    if(self.mj_header.isIdle){//不在刷新状态下可以使用
+        if (self.clickCellMoveToCenter && _selectedIndexPath) {
+            //                MJTableViewCell* cell = [self cellForRowAtIndexPath:_selectedIndexPath];
+            //                DDLog(@"selectedIndexPath.row:%ld",(long)_selectedIndexPath.row);
+            [self moveCellToCenter:_selectedIndexPath];
+        }
+    }
+}
+
+-(void)reloadMJData{
+    self.refreshAll = YES;
+    [self checkGaps];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self reloadData];
+        if (self.refreshDelegate && [self.refreshDelegate respondsToSelector:@selector(didRefreshComplete)]){
+            [self.refreshDelegate didRefreshComplete];
+        }
+        if (self.selectedIndexPath) {
+            [self dispatchSelectRow:self.selectedIndexPath];
+        }
+    });
 }
 
 -(MJRefreshHeader *)header{
@@ -262,7 +272,7 @@
         NSLog(@"产生无效UITableViewCell 可能是一个刷新列表正在进行中 另一个刷新就来了引起的");
         return [[UITableViewCell alloc] init];
     }
-    SourceVo*  source = self.dataArray[section];
+    SourceVo* source = self.dataArray[section];
     CellVo* cellVo = source.data[row];//获取的数据给cell显示
     Class cellClass = cellVo.cellClass;
 //    if(autoCellClass != nil){
@@ -310,6 +320,7 @@
 //        cell.needRefresh = YES; //需要刷新
 //    }
     NSObject* data = cellVo.cellData;
+    cell.isSingle = source.data.count <= 1;
     cell.isFirst = cellVo.cellTag == CELL_TAG_FIRST;
     if(source.data != NULL){
         cell.isLast = cellVo.cellTag == CELL_TAG_LAST;//row == source.data!.count - 1//索引在最后

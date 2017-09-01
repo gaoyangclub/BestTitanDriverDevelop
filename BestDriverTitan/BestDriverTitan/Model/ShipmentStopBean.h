@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ShipmentActivityBean.h"
 
 @interface ShipmentStopBean : NSObject
 
@@ -21,5 +22,7 @@
 @property(nonatomic,assign)int deliverCount;
 @property(nonatomic,assign)BOOL isComplete;
 @property(nonatomic,assign)BOOL isFollow;
+
+@property(nonatomic,retain)NSMutableArray<ShipmentActivityBean*>* shipmentActivityList;
 
 @end

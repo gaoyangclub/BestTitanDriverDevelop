@@ -54,7 +54,6 @@
 		841CBC661F44356A006BCC5B /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 841CBC651F44356A006BCC5B /* MapViewController.m */; };
 		841CBC6A1F44387F006BCC5B /* icon_location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 841CBC681F44387F006BCC5B /* icon_location@2x.png */; };
 		841CBC6B1F44387F006BCC5B /* icon_location@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 841CBC691F44387F006BCC5B /* icon_location@3x.png */; };
-		8423FBB71F46C510007C2CB0 /* SpeechManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8423FBB61F46C510007C2CB0 /* SpeechManager.m */; };
 		8423FBBB1F46F763007C2CB0 /* LocationInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8423FBBA1F46F763007C2CB0 /* LocationInfoViewController.m */; };
 		84343C311E559D42000E26C2 /* libPods-BestDriverTitan.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84343C2B1E559D42000E26C2 /* libPods-BestDriverTitan.a */; };
 		843589281F0DE14800135991 /* FollowAnimateManager..m in Sources */ = {isa = PBXBuildFile; fileRef = 843589271F0DE14800135991 /* FollowAnimateManager..m */; };
@@ -139,6 +138,18 @@
 		84963C8E1F14CF0F00AA4617 /* ShipmentStopBean.m in Sources */ = {isa = PBXBuildFile; fileRef = 84963C8D1F14CF0F00AA4617 /* ShipmentStopBean.m */; };
 		849740A91F0A459A008D3030 /* YYFPSLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 849740A61F0A459A008D3030 /* YYFPSLabel.m */; };
 		849740AA1F0A459A008D3030 /* YYWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 849740A81F0A459A008D3030 /* YYWeakProxy.m */; };
+		849CB3571F59325200D77137 /* EmptyDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 849CB3561F59325200D77137 /* EmptyDataSource.m */; };
+		849CB35B1F59641500D77137 /* SpeechManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 849CB35A1F59641500D77137 /* SpeechManager.m */; };
+		849CB35E1F5965BD00D77137 /* AVSpeechDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 849CB35D1F5965BD00D77137 /* AVSpeechDataSource.m */; };
+		849CB3611F59687500D77137 /* TTSDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 849CB3601F59687500D77137 /* TTSDataSource.m */; };
+		849CB3631F5979B400D77137 /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 849CB3621F5979B400D77137 /* iflyMSC.framework */; };
+		849CB3651F5979C600D77137 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 849CB3641F5979C600D77137 /* CoreLocation.framework */; };
+		849CB3671F5979EC00D77137 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 849CB3661F5979EC00D77137 /* libz.tbd */; };
+		849CB3691F597A1400D77137 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 849CB3681F597A1400D77137 /* libc++.tbd */; };
+		849CB36B1F597A2D00D77137 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 849CB36A1F597A2D00D77137 /* libicucore.tbd */; };
+		849CB36F1F597CF400D77137 /* TTSConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 849CB36E1F597CF400D77137 /* TTSConfig.m */; };
+		849CB3711F59808600D77137 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 849CB3701F59808600D77137 /* AddressBook.framework */; };
+		849CB3731F59809100D77137 /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 849CB3721F59809100D77137 /* Contacts.framework */; };
 		84AF24991E94CE3C00AF200D /* DiyNumberAddView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AF24981E94CE3C00AF200D /* DiyNumberAddView.m */; };
 		84AF249C1E94D88E00AF200D /* OrderNormalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AF249B1E94D88E00AF200D /* OrderNormalCell.m */; };
 		84C080D91F3466F80058D701 /* AuthCodeBean.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C080D81F3466F80058D701 /* AuthCodeBean.m */; };
@@ -271,8 +282,6 @@
 		841CBC651F44356A006BCC5B /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		841CBC681F44387F006BCC5B /* icon_location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_location@2x.png"; sourceTree = "<group>"; };
 		841CBC691F44387F006BCC5B /* icon_location@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_location@3x.png"; sourceTree = "<group>"; };
-		8423FBB51F46C510007C2CB0 /* SpeechManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeechManager.h; sourceTree = "<group>"; };
-		8423FBB61F46C510007C2CB0 /* SpeechManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeechManager.m; sourceTree = "<group>"; };
 		8423FBB91F46F763007C2CB0 /* LocationInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationInfoViewController.h; sourceTree = "<group>"; };
 		8423FBBA1F46F763007C2CB0 /* LocationInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationInfoViewController.m; sourceTree = "<group>"; };
 		84343C271E559D42000E26C2 /* libAFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAFNetworking.a; path = "Pods/../build/Debug-iphoneos/AFNetworking/libAFNetworking.a"; sourceTree = "<group>"; };
@@ -427,6 +436,23 @@
 		849740A61F0A459A008D3030 /* YYFPSLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYFPSLabel.m; sourceTree = "<group>"; };
 		849740A71F0A459A008D3030 /* YYWeakProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYWeakProxy.h; sourceTree = "<group>"; };
 		849740A81F0A459A008D3030 /* YYWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYWeakProxy.m; sourceTree = "<group>"; };
+		849CB3551F59325200D77137 /* EmptyDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptyDataSource.h; sourceTree = "<group>"; };
+		849CB3561F59325200D77137 /* EmptyDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyDataSource.m; sourceTree = "<group>"; };
+		849CB3591F59641500D77137 /* SpeechManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeechManager.h; sourceTree = "<group>"; };
+		849CB35A1F59641500D77137 /* SpeechManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeechManager.m; sourceTree = "<group>"; };
+		849CB35C1F5965BD00D77137 /* AVSpeechDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVSpeechDataSource.h; sourceTree = "<group>"; };
+		849CB35D1F5965BD00D77137 /* AVSpeechDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVSpeechDataSource.m; sourceTree = "<group>"; };
+		849CB35F1F59687500D77137 /* TTSDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTSDataSource.h; sourceTree = "<group>"; };
+		849CB3601F59687500D77137 /* TTSDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTSDataSource.m; sourceTree = "<group>"; };
+		849CB3621F5979B400D77137 /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iflyMSC.framework; path = BestDriverTitan/framework/iflyMSC.framework; sourceTree = "<group>"; };
+		849CB3641F5979C600D77137 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		849CB3661F5979EC00D77137 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		849CB3681F597A1400D77137 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		849CB36A1F597A2D00D77137 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
+		849CB36D1F597CF400D77137 /* TTSConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTSConfig.h; sourceTree = "<group>"; };
+		849CB36E1F597CF400D77137 /* TTSConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTSConfig.m; sourceTree = "<group>"; };
+		849CB3701F59808600D77137 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		849CB3721F59809100D77137 /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
 		84AF24971E94CE3C00AF200D /* DiyNumberAddView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiyNumberAddView.h; sourceTree = "<group>"; };
 		84AF24981E94CE3C00AF200D /* DiyNumberAddView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiyNumberAddView.m; sourceTree = "<group>"; };
 		84AF249A1E94D88E00AF200D /* OrderNormalCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderNormalCell.h; sourceTree = "<group>"; };
@@ -484,6 +510,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				849CB3731F59809100D77137 /* Contacts.framework in Frameworks */,
+				849CB3711F59808600D77137 /* AddressBook.framework in Frameworks */,
+				849CB36B1F597A2D00D77137 /* libicucore.tbd in Frameworks */,
+				849CB3691F597A1400D77137 /* libc++.tbd in Frameworks */,
+				849CB3671F5979EC00D77137 /* libz.tbd in Frameworks */,
+				849CB3651F5979C600D77137 /* CoreLocation.framework in Frameworks */,
+				849CB3631F5979B400D77137 /* iflyMSC.framework in Frameworks */,
 				8466667C1F2F21950033D489 /* SystemConfiguration.framework in Frameworks */,
 				8466667A1F2F218D0033D489 /* AVFoundation.framework in Frameworks */,
 				846666781F2F21830033D489 /* AudioToolbox.framework in Frameworks */,
@@ -501,6 +534,13 @@
 		37E69560C9226E0B3F831319 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				849CB3721F59809100D77137 /* Contacts.framework */,
+				849CB3701F59808600D77137 /* AddressBook.framework */,
+				849CB36A1F597A2D00D77137 /* libicucore.tbd */,
+				849CB3681F597A1400D77137 /* libc++.tbd */,
+				849CB3661F5979EC00D77137 /* libz.tbd */,
+				849CB3641F5979C600D77137 /* CoreLocation.framework */,
+				849CB3621F5979B400D77137 /* iflyMSC.framework */,
 				8466667B1F2F21950033D489 /* SystemConfiguration.framework */,
 				846666791F2F218D0033D489 /* AVFoundation.framework */,
 				846666771F2F21830033D489 /* AudioToolbox.framework */,
@@ -797,6 +837,7 @@
 		843589251F0DE11100135991 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				849CB3581F5963F400D77137 /* Speech */,
 				843589261F0DE14800135991 /* FollowAnimateManager.h */,
 				843589271F0DE14800135991 /* FollowAnimateManager..m */,
 				A9D9F4991F11EC37000536F0 /* PopAnimateManager.h */,
@@ -813,8 +854,8 @@
 				847609DC1F317915003C6359 /* UpdateVersionManager.m */,
 				A910B1921F40480600CCAFCD /* PhotoTranslateUtils.h */,
 				A910B1931F40480600CCAFCD /* PhotoTranslateUtils.m */,
-				8423FBB51F46C510007C2CB0 /* SpeechManager.h */,
-				8423FBB61F46C510007C2CB0 /* SpeechManager.m */,
+				849CB3551F59325200D77137 /* EmptyDataSource.h */,
+				849CB3561F59325200D77137 /* EmptyDataSource.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -913,6 +954,7 @@
 		84495C971DF113D90017D2CA /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				849CB3541F59318E00D77137 /* Task */,
 				847278AD1DF1713600C1BACB /* Splash */,
 				847F3E5A1F1F77B800C21C6A /* Login */,
 				847278B51DF1767300C1BACB /* BaseViewModel.h */,
@@ -1148,6 +1190,36 @@
 				849740A81F0A459A008D3030 /* YYWeakProxy.m */,
 			);
 			path = YYFPSLabel;
+			sourceTree = "<group>";
+		};
+		849CB3541F59318E00D77137 /* Task */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Task;
+			sourceTree = "<group>";
+		};
+		849CB3581F5963F400D77137 /* Speech */ = {
+			isa = PBXGroup;
+			children = (
+				849CB3591F59641500D77137 /* SpeechManager.h */,
+				849CB35A1F59641500D77137 /* SpeechManager.m */,
+				849CB35C1F5965BD00D77137 /* AVSpeechDataSource.h */,
+				849CB35D1F5965BD00D77137 /* AVSpeechDataSource.m */,
+				849CB36C1F597CF400D77137 /* TTS */,
+				849CB35F1F59687500D77137 /* TTSDataSource.h */,
+				849CB3601F59687500D77137 /* TTSDataSource.m */,
+			);
+			path = Speech;
+			sourceTree = "<group>";
+		};
+		849CB36C1F597CF400D77137 /* TTS */ = {
+			isa = PBXGroup;
+			children = (
+				849CB36D1F597CF400D77137 /* TTSConfig.h */,
+				849CB36E1F597CF400D77137 /* TTSConfig.m */,
+			);
+			path = TTS;
 			sourceTree = "<group>";
 		};
 		84FF1A1D1DF7E364000AEBC0 /* Utils */ = {
@@ -1402,6 +1474,7 @@
 				84D1F8681E6567DF007C1307 /* ASControlNode+GY.m in Sources */,
 				840DEF711DED6E3100963524 /* ViewController.m in Sources */,
 				84963C8E1F14CF0F00AA4617 /* ShipmentStopBean.m in Sources */,
+				849CB35B1F59641500D77137 /* SpeechManager.m in Sources */,
 				847609DD1F317915003C6359 /* UpdateVersionManager.m in Sources */,
 				84129A2D1E54579700151672 /* UIScrollView+MJExtension.m in Sources */,
 				84129A231E54579700151672 /* MJRefreshAutoStateFooter.m in Sources */,
@@ -1460,6 +1533,7 @@
 				847278B71DF1767300C1BACB /* BaseViewModel.m in Sources */,
 				841299DB1E542D0D00151672 /* DiyLicensePlateNode.m in Sources */,
 				A910B1941F40480600CCAFCD /* PhotoTranslateUtils.m in Sources */,
+				849CB3611F59687500D77137 /* TTSDataSource.m in Sources */,
 				8402EC2A1DF94852002B78D9 /* TaskViewController.m in Sources */,
 				846217CC1F15CBDD00B2C46B /* CustomDismissingController.m in Sources */,
 				8402EC7D1DF97D41002B78D9 /* TaskTripController.m in Sources */,
@@ -1472,19 +1546,21 @@
 				84AF24991E94CE3C00AF200D /* DiyNumberAddView.m in Sources */,
 				8478A2161E6407260076E8B4 /* TaskTripSection.m in Sources */,
 				84129A291E54579700151672 /* MJRefreshStateHeader.m in Sources */,
+				849CB3571F59325200D77137 /* EmptyDataSource.m in Sources */,
 				84AF249C1E94D88E00AF200D /* OrderNormalCell.m in Sources */,
 				84129A311E54579700151672 /* MJTableViewCell.m in Sources */,
+				849CB35E1F5965BD00D77137 /* AVSpeechDataSource.m in Sources */,
 				84495CA51DF117E40017D2CA /* GYTabBarController.m in Sources */,
 				A910B1971F4076F600CCAFCD /* OrderEditModelView.m in Sources */,
 				849740AA1F0A459A008D3030 /* YYWeakProxy.m in Sources */,
 				84129A2B1E54579700151672 /* MJRefreshConst.m in Sources */,
 				849161CF1E34B1C00063CD80 /* ShipmentBean.m in Sources */,
 				84129A281E54579700151672 /* MJRefreshNormalHeader.m in Sources */,
+				849CB36F1F597CF400D77137 /* TTSConfig.m in Sources */,
 				84129A331E54579700151672 /* MJTableViewSection.m in Sources */,
 				84753E981F340CB20012024D /* AdminViewController.m in Sources */,
 				84129A1E1E54579700151672 /* MJRefreshComponent.m in Sources */,
 				846217CF1F15CC5A00B2C46B /* CustomModalViewController.m in Sources */,
-				8423FBB71F46C510007C2CB0 /* SpeechManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1544,7 +1620,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1583,7 +1659,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1601,6 +1677,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = GDF5YE97RF;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/BestDriverTitan/framework",
+				);
 				GCC_PREFIX_HEADER = BestDriverTitan/Config/PrefixHeader.pch;
 				INFOPLIST_FILE = BestDriverTitan/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1630,6 +1710,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = GDF5YE97RF;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/BestDriverTitan/framework",
+				);
 				GCC_PREFIX_HEADER = BestDriverTitan/Config/PrefixHeader.pch;
 				INFOPLIST_FILE = BestDriverTitan/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

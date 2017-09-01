@@ -39,6 +39,8 @@
 
 #define PGY_APIKEY @"72fabb9ca801817be273e54018a6b42d"
 
+#define FLY_APIKEY @"59a926de"//讯飞
+
 #define DEBUG_MODE [Config isDebugMode]
 
 #define ICON_FAN_HUI @"\U0000e730"//@"\U0000e614"
@@ -119,6 +121,10 @@
 #define ICON_BIAN_JI @"\U0000e609"
 
 #define ICON_FU_JIAN @"\U0000e62e"
+
+#define ICON_EMPTY_WAN_CHENG @"\U0000e60c"
+#define ICON_EMPTY_WANG_LUO @"\U0000e68c"//@"\U0000e62d"
+#define ICON_EMPTY_NO_DATA @"\U0000e601"
 
 #define APPLICATION_NAME [LocalBundleManager getAppName]//@"百世通"
 #define APPLICATION_NAME_EN @"BestTitan"
@@ -215,6 +221,7 @@ static AppVersion* appVersion;
 
 +(NSString*)getActivityIconByCode:(NSString*)code;
 +(NSString*)getActivityLabelByCode:(NSString*)code;
++(UIColor *)getActivityColorByCode:(NSString *)code;
 
 +(NSString*)getActivityStatusLabel:(NSString*)status;
 

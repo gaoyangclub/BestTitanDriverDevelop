@@ -174,24 +174,9 @@
     
     self.tableView.sectionGap = 5;
     self.tabView.tabDelegate = self;
-    
-    NSMutableArray<NSString*>* codeArr = [NSMutableArray<NSString*> arrayWithObjects:ACTIVITY_CODE_PICKUP_HANDOVER,ACTIVITY_CODE_LOAD,ACTIVITY_CODE_UNLOAD,ACTIVITY_CODE_SIGN_FOR_RECEIPT,ACTIVITY_CODE_DELIVERY_RECEIPT,ACTIVITY_CODE_COD, nil];
-    //  @[ACTIVITY_CODE_PICKUP_HANDOVER,ACTIVITY_CODE_LOAD,ACTIVITY_CODE_UNLOAD,ACTIVITY_CODE_SIGN_FOR_RECEIPT,ACTIVITY_CODE_DELIVERY_RECEIPT,ACTIVITY_CODE_COD
-    //                                    ];
-    NSInteger removeCount = arc4random() % codeArr.count;
-    for(NSInteger i = 0 ; i < removeCount ; i ++){
-        NSInteger removeIndex = arc4random() % codeArr.count;
-        [codeArr removeObjectAtIndex:removeIndex];
-    }
-    NSMutableArray<ShipmentActivityBean*>* activityBeans = [NSMutableArray<ShipmentActivityBean*> array];
-    for (NSString* code in codeArr) {
-        ShipmentActivityBean* bean = [[ShipmentActivityBean alloc]init];
-        bean.activityDefinitionCode = code;
-        bean.status = arc4random() % 2 > 0 ? ACTIVITY_STATUS_REPORTED : ACTIVITY_STATUS_PENDING_REPORT;
-        [activityBeans addObject:bean];
-    }
-    [self.tabView setActivityBeans:activityBeans];
-    [self.tabView setSelectedIndex:arc4random() % activityBeans.count];
+
+    [self.tabView setActivityBeans:self.activityBeans];
+    [self.tabView setSelectedIndex:arc4random() % self.activityBeans.count];
     
     CGFloat sectionWidth = self.view.bounds.size.width;
     CGFloat leftpadding = 10;

@@ -13,6 +13,9 @@ typedef void (^FailureBlock) (NSString* errorCode,NSString* errorMsg);
 
 @interface NetRequestClass : NSObject
 
+#pragma 开始侦听状态
++ (void) initNetWorkStatus;
+
 #pragma 监测网络的可链接性
 + (BOOL) netWorkReachability;
 

@@ -7,7 +7,10 @@
 //
 
 #import "MJTableViewController.h"
+#import "ShipmentActivityBean.h"
 
 @interface OrderViewController : MJTableViewController
+
+@property(nonatomic,retain)NSArray<ShipmentActivityBean*>* activityBeans;
 
 @end
