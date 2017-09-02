@@ -184,9 +184,10 @@ static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不�
 }
 
 +(BOOL)isDebugMode{
-    NSString* identifier = [LocalBundleManager getBundleIdentifier];
-    NSString* lastTag = [identifier substringWithRange:NSMakeRange(identifier.length - 4, 4)];
-    return [lastTag isEqualToString:@"test"];
+    return YES;
+//    NSString* identifier = [LocalBundleManager getBundleIdentifier];
+//    NSString* lastTag = [identifier substringWithRange:NSMakeRange(identifier.length - 4, 4)];
+//    return [lastTag isEqualToString:@"test"];
 }
 
 +(NSString *)getPgyerAppID{

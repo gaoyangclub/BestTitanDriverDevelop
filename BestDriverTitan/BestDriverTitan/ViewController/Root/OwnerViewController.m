@@ -107,7 +107,7 @@ static OwnerViewController* instance;
     if (!currentUser) {//没有有缓存数据跳出登录页
         [self popLoginview:NO completion:nil];
     }else{
-        [self loginDidDismiss:currentUser];
+        [self autoLoginComplete:currentUser];
 //        [self popLoginview:NO];
     }
 }
@@ -124,15 +124,23 @@ static OwnerViewController* instance;
     [self presentViewController:loginViewController animated:animated completion:completion];
 }
 
-//-(void)loginWillDismiss:(User *)user{
-//    
-//}
+-(void)autoLoginComplete:(User *)user{
+    if ([user isAdmin]) {//管理员权限
+        [self popAdminView:YES completion:nil];
+    }else{
+        [self checkUserAudit:user];//直接刷新界面
+    }
+}
+
+-(void)loginWillDismiss:(User *)user{
+    if (![user isAdmin]) {//管理员权限
+        [self checkUserAudit:user];//直接刷新界面
+    }
+}
 
 -(void)loginDidDismiss:(User *)user{
     if ([user isAdmin]) {//管理员权限
         [self popAdminView:YES completion:nil];
-    }else{//直接刷新界面
-        [self checkUserAudit:user];
     }
 }
 
@@ -166,6 +174,7 @@ static OwnerViewController* instance;
         self.navigationColor = [UIColor whiteColor];
         [AmapLocationService startUpdatingLocation];//定位开启
     }
+    self.isLogin = YES;
     [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_LOGIN_COMPLETE object:nil];
 }
 
@@ -177,6 +186,8 @@ static OwnerViewController* instance;
         [UserDefaultsUtils removeObject:USER_KEY];//清除数据
         [self popLoginview:YES completion:completion];
     }
+    self.isLogin = NO;
+    [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_LOGOUT object:nil];
 }
 
 @end

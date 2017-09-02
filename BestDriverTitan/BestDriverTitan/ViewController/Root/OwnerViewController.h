@@ -17,6 +17,8 @@
 
 +(instancetype)sharedInstance;
 
+@property(nonatomic,assign)BOOL isLogin;
+
 -(void)showSplashView;
 
 -(void)checkPopLoginView;

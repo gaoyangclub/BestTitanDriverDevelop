@@ -77,6 +77,12 @@
 
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    if ([OwnerViewController sharedInstance].isLogin && [self.tableView getSourceCount] <= 0) {
+        [self refreshAndEmptyDataSource];
+    }
+}
+
 //-(CGRect)getTableViewFrame {
 //    CGFloat padding = 5;
 ////    self.tableView.sectionGap = 5;
@@ -95,6 +101,11 @@
 -(EmptyDataSource *)emptyDataSource{
     if (!_emptyDataSource) {
         _emptyDataSource = [[EmptyDataSource alloc]init];
+        __weak __typeof(self) weakSelf = self;
+        _emptyDataSource.didTapButtonBlock = ^(void){
+            [weakSelf.tableView headerBeginRefresh];
+        };
+        
     }
     return _emptyDataSource;
 }
@@ -150,23 +161,53 @@
     return shipmentList;
 }
 
--(void)viewDidLoad{
+-(BOOL)autoRefreshHeader{
+    return NO;//self.hasHistory;
+}
+
+-(void)refreshAndEmptyDataSource{
+    [self.tableView headerBeginRefresh];
     
-//    if (!self.hasHistory) {
-//        self.emptyDataSource.noDataDescription = @"恭喜您，最近任务已全部完成!";
-//    }else{
-//    }
     self.emptyDataSource.noDataDescription = @"对不起，暂时没有任何任务!";
     self.emptyDataSource.buttonTitle = @"点我刷新";
     self.emptyDataSource.noDataIconName = ICON_EMPTY_NO_DATA;
     
     self.tableView.emptyDataSetSource = self.emptyDataSource;
     self.tableView.emptyDataSetDelegate = self.emptyDataSource;
-    __weak __typeof(self) weakSelf = self;
-    self.emptyDataSource.didTapButtonBlock = ^(void){
-        [weakSelf.tableView headerBeginRefresh];
-    };
 }
+
+-(void)viewDidLoad{
+    
+    [super viewDidLoad];
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                                 selector:@selector(eventLoginComplete)
+//                                                     name:EVENT_LOGIN_COMPLETE
+//                                                   object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(eventLogout)
+                                                 name:EVENT_LOGOUT
+                                               object:nil];
+}
+
+-(void)dealloc{
+//    if (!self.hasHistory) {
+//        [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_LOGIN_COMPLETE object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_LOGOUT object:nil];
+//    }
+}
+
+- (void)eventLogout{
+    self.tableView.emptyDataSetSource = nil;
+    self.tableView.emptyDataSetDelegate = nil;
+    [self.tableView clearSource];
+    [self.tableView reloadData];
+//    [self.tableView headerBeginRefresh];
+}
+
+//-(void)eventLoginComplete{
+//    
+//}
 
 -(void)headerRefresh:(HeaderRefreshHandler)handler{
     int64_t delay = 1.0 * NSEC_PER_SEC;
@@ -182,7 +223,7 @@
         }
         strongSelf.emptyDataSource.netError = NO;
         
-        int count = (arc4random() % 3); //生成3-10范围的随机数
+        int count = (arc4random() % 5); //生成3-10范围的随机数
         
         NSDate* startDate = nil;
         if (self.hasHistory) {
