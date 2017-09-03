@@ -9,7 +9,7 @@
 #import "TTSDataSource.h"
 #import "TTSConfig.h"
 
-@interface TTSDataSource()//<IFlySpeechSynthesizerDelegate>
+@interface TTSDataSource()<IFlySpeechSynthesizerDelegate>
 @end
 
 static IFlySpeechSynthesizer * iFlySpeechSynthesizer;
@@ -28,36 +28,19 @@ static IFlySpeechSynthesizer * iFlySpeechSynthesizer;
         
         iFlySpeechSynthesizer = [IFlySpeechSynthesizer sharedInstance];
         
-//        iFlySpeechSynthesizer.delegate = self;
-//        TTSConfig *instance = [TTSConfig sharedInstance];
-//        //设置语速1-100
-//        [iFlySpeechSynthesizer setParameter:instance.speed forKey:[IFlySpeechConstant SPEED]];
-//        //设置音量1-100
-//        [iFlySpeechSynthesizer setParameter:instance.volume forKey:[IFlySpeechConstant VOLUME]];
-//        //设置音调1-100
-//        [iFlySpeechSynthesizer setParameter:instance.pitch forKey:[IFlySpeechConstant PITCH]];
-//        //设置采样率
-//        [iFlySpeechSynthesizer setParameter:instance.sampleRate forKey:[IFlySpeechConstant SAMPLE_RATE]];
-//        //设置发音人
-//        [iFlySpeechSynthesizer setParameter:instance.vcnName forKey:[IFlySpeechConstant VOICE_NAME]];
-//        //设置文本编码格式
-//        [iFlySpeechSynthesizer setParameter:@"unicode" forKey:[IFlySpeechConstant TEXT_ENCODING]];
-        
-        //设置协议委托对象
-//        iFlySpeechSynthesizer.delegate = self;
-        //设置合成参数
-        //设置在线工作方式
-        [iFlySpeechSynthesizer setParameter:[IFlySpeechConstant TYPE_CLOUD]
-                                      forKey:[IFlySpeechConstant ENGINE_TYPE]];
-        //设置音量，取值范围 0~100
-        [iFlySpeechSynthesizer setParameter:@"50"
-                                      forKey: [IFlySpeechConstant VOLUME]];
-        //发音人，默认为”xiaoyan”，可以设置的参数列表可参考“合成发音人列表”
-        [iFlySpeechSynthesizer setParameter:@" xiaoyan "
-                                      forKey: [IFlySpeechConstant VOICE_NAME]];
-        //保存合成文件名，如不再需要，设置为nil或者为空表示取消，默认目录位于library/cache下
-        [iFlySpeechSynthesizer setParameter:@" tts.pcm"
-                                      forKey: [IFlySpeechConstant TTS_AUDIO_PATH]];
+        TTSConfig *instance = [TTSConfig sharedInstance];
+        //设置语速1-100
+        [iFlySpeechSynthesizer setParameter:instance.speed forKey:[IFlySpeechConstant SPEED]];
+        //设置音量1-100
+        [iFlySpeechSynthesizer setParameter:instance.volume forKey:[IFlySpeechConstant VOLUME]];
+        //设置音调1-100
+        [iFlySpeechSynthesizer setParameter:instance.pitch forKey:[IFlySpeechConstant PITCH]];
+        //设置采样率
+        [iFlySpeechSynthesizer setParameter:instance.sampleRate forKey:[IFlySpeechConstant SAMPLE_RATE]];
+        //设置发音人
+        [iFlySpeechSynthesizer setParameter:instance.vcnName forKey:[IFlySpeechConstant VOICE_NAME]];
+        //设置文本编码格式
+        [iFlySpeechSynthesizer setParameter:@"unicode" forKey:[IFlySpeechConstant TEXT_ENCODING]];
     }
     return iFlySpeechSynthesizer;
 }
@@ -67,7 +50,9 @@ static IFlySpeechSynthesizer * iFlySpeechSynthesizer;
     {
         [self stopSound];
     }
-    [[TTSDataSource getFlySpeechSynthesizer] startSpeaking:soundString];
+    IFlySpeechSynthesizer* synthesizer = [TTSDataSource getFlySpeechSynthesizer];
+    synthesizer.delegate = self;
+    [synthesizer startSpeaking:soundString];
 }
 
 -(void)stopSound{
@@ -78,6 +63,10 @@ static IFlySpeechSynthesizer * iFlySpeechSynthesizer;
 
 -(BOOL)isSpeaking{
     return iFlySpeechSynthesizer ? iFlySpeechSynthesizer.isSpeaking : NO;
+}
+
+-(void)onCompleted:(IFlySpeechError *)error{
+    NSLog(@"%@",error);
 }
 
 

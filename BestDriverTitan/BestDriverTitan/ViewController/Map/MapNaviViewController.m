@@ -139,6 +139,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma AMapNaviDriveManagerDelegate
 - (void)driveManagerOnCalculateRouteSuccess:(AMapNaviDriveManager *)driveManager
 {
     NSLog(@"onCalculateRouteSuccess");
@@ -148,11 +149,13 @@
     [self.driveManager startGPSNavi];
 }
 
+#pragma AMapNaviDriveManagerDelegate
 - (BOOL)driveManagerIsNaviSoundPlaying:(AMapNaviDriveManager *)driveManager
 {
     return [SpeechManager isSpeaking];
 }
 
+#pragma AMapNaviDriveManagerDelegate
 - (void)driveManager:(AMapNaviDriveManager *)driveManager playNaviSoundString:(NSString *)soundString soundStringType:(AMapNaviSoundType)soundStringType
 {
     NSLog(@"playNaviSoundString:{%ld:%@}", (long)soundStringType, soundString);
@@ -169,6 +172,11 @@
 //    
 //    [synthsizer speakUtterance:utterance];
     [SpeechManager playSoundString:soundString];
+}
+
+#pragma AMapNaviDriveViewDelegate
+-(void)driveViewCloseButtonClicked:(AMapNaviDriveView *)driveView{
+    [self leftClick];
 }
 
 @end

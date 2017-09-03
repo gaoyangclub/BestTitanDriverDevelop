@@ -89,7 +89,7 @@ static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不�
     if (DEBUG_MODE) {
         baseName = ConcatStrings(@"v",[LocalBundleManager getAppVersion],@"(",@([LocalBundleManager getAppCode]),@")",mode);
     }else{
-        baseName = ConcatStrings(@"v",[LocalBundleManager getAppVersion],mode);
+        baseName = ConcatStrings(@"v",[LocalBundleManager getAppVersion],@"(",@([LocalBundleManager getAppCode]),@")",mode);
     }
     switch ([NetConfig getCurrentNetMode]) {
         case NetModeTypePersonYan:return ConcatStrings(@"Ywj ",baseName);
@@ -184,10 +184,10 @@ static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不�
 }
 
 +(BOOL)isDebugMode{
-    return YES;
-//    NSString* identifier = [LocalBundleManager getBundleIdentifier];
-//    NSString* lastTag = [identifier substringWithRange:NSMakeRange(identifier.length - 4, 4)];
-//    return [lastTag isEqualToString:@"test"];
+    NSString* tag = @"debug";
+    NSString* identifier = [LocalBundleManager getAppVersion];
+    NSString* lastTag = [identifier substringWithRange:NSMakeRange(identifier.length - tag.length, tag.length)];
+    return [lastTag isEqualToString:tag];
 }
 
 +(NSString *)getPgyerAppID{
