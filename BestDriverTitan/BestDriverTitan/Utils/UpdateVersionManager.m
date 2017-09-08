@@ -70,9 +70,9 @@ static UpdateVersionManager* instance;
 -(void)showUpdateAlert{
     UIAlertView * alert;
     if (self->updateNecessary) {
-        alert = [[UIAlertView alloc]initWithTitle:@"有新版本，请立即更新!" message:self->updateNote delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        alert = [[UIAlertView alloc]initWithTitle:@"有新版本，请立即更新!" message:self->updateNote delegate:self cancelButtonTitle:@"立即更新" otherButtonTitles:nil, nil];
     }else{
-        alert = [[UIAlertView alloc]initWithTitle:@"有新版本，请立即更新!" message:self->updateNote delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"稍后更新", nil];
+        alert = [[UIAlertView alloc]initWithTitle:@"有新版本，请立即更新!" message:self->updateNote delegate:self cancelButtonTitle:@"立即更新" otherButtonTitles:@"稍后更新", nil];
     }
     [alert show];
 }
@@ -91,7 +91,7 @@ static UpdateVersionManager* instance;
 }
 
 -(void)getLastVersionInfo:(ReturnValueBlock)returnBlock{
-    [NetRequestClass NetRequestPOSTWithRequestURL:PGY_VERSION_GROUP_URL WithParameter:@{@"aId":PGY_APPID,@"_api_key":PGY_APIKEY} headers:nil body:nil WithReturnValeuBlock:returnBlock WithFailureBlock:nil];
+    [NetRequestClass NetRequestPOSTWithRequestURL:PGY_VERSION_GROUP_URL WithParameter:@{@"aId":PGY_APPID,@"_api_key":PGY_APIKEY} headers:nil WithReturnValeuBlock:returnBlock WithFailureBlock:nil];
 }
 
 @end

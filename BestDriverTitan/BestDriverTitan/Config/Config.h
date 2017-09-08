@@ -20,6 +20,14 @@
 #define COLOR_DAI_WAN_CHENG COLOR_PRIMARY//FlatWatermelon//[UIColor flatSandColorDark]//rgb(250,83,44)//rgba(240,129,69,1)
 #define LINE_WIDTH 0.5
 
+//#ifdef DEBUG
+//#define NSLog(FORMAT, ...) fprintf(stderr,"\n %s:%d   %s\n",[[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String],__LINE__, [[[NSString alloc] initWithData:[[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] dataUsingEncoding:NSUTF8StringEncoding] encoding:NSNonLossyASCIIStringEncoding] UTF8String]);
+//#else
+//#define NSLog(...)
+//#endif
+
+#define NSLog(FORMAT, ...) fprintf(stderr,"\n %s:%d   %s\n",[[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String],__LINE__, [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
+
 #define DDLog(xx, ...)  NSLog(@"%s(%d): " xx, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #define DRAWER_WIDTH 200
@@ -42,6 +50,8 @@
 #define FLY_APIKEY @"59a926de"//讯飞
 
 #define DEBUG_MODE [Config isDebugMode]
+
+#define HEART_BEAT_INTERVAL DEBUG_MODE ? 60 * 1000 : 5 * 60 * 1000 //生产环境5分钟
 
 #define ICON_FAN_HUI @"\U0000e730"//@"\U0000e614"
 #define ICON_SHE_ZHI @"\U0000e628"

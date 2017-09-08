@@ -14,6 +14,8 @@
 #import <Foundation/Foundation.h>
 #import "NetRequestClass.h"
 
+#define GetBody(bean) [NSJSONSerialization dataWithJSONObject:[bean yy_modelToJSONObject] options:kNilOptions error:NULL]
+
 typedef NS_ENUM(NSInteger,NetSendType) {
     NetSendTypeGet = 1,
     NetSendTypePost = 2

@@ -10,18 +10,27 @@
 
 #import <AMapLocationKit/AMapLocationKit.h>
 
+typedef NS_ENUM(NSInteger,LocationMarkType) {
+    LocationMarkTypePoint = 0,//定位点
+    LocationMarkTypeInfo,
+    LocationMarkTypeDebug,
+    LocationMarkTypeWarn,
+    LocationMarkTypeError,
+};
+
 @interface LocationInfo : NSObject
 
 @property(nonatomic,retain)NSValue* locationPoint;
 @property(nonatomic,copy)NSString* dateString;
+@property(nonatomic,copy)NSString* markInfo;
+@property(nonatomic,assign)LocationMarkType markType;
 
 -(void)addLocationPoint:(NSValue*)locationPoint;
+-(void)saveDateString;
 
 @end
 
 @interface AmapLocationService : NSObject
-
-@property (nonatomic,retain) AMapLocationManager *locationManager;
 
 +(instancetype)sharedInstance;
 
@@ -31,5 +40,15 @@
 +(NSValue*)getLastLocationPoint;
 
 +(NSMutableArray<LocationInfo*>*)getAllLocationInfos;
+
++(NSMutableArray<LocationInfo *> *)getAllLocationPoints;//仅获取LocationMarkTypePoint的数据
+
++(NSMutableArray<NSString*>*)getLocationList;
+
++(void)clearLocationList;
+
++(void)addMarkInfo:(NSString*)mark type:(LocationMarkType)type;
+
++(void)setHasSendLocation:(BOOL)value;
 
 @end

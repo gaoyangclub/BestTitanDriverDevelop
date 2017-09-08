@@ -244,7 +244,7 @@ static NSArray<NSString*>* taskCodeArr;
 
 -(void)tempGenerateStopList{
     self->stopBeanList = [NSMutableArray<ShipmentStopBean*> array];
-    int stopCount = (arc4random() % 2);
+    int stopCount = (arc4random() % 10);
     for (NSUInteger i = 0; i < stopCount; i++) {
         
         /*--  创建活动列表 start  --*/

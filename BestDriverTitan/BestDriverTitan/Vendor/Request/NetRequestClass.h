@@ -27,7 +27,7 @@ typedef void (^FailureBlock) (NSString* errorCode,NSString* errorMsg);
 //                  WithErrorCodeBlock: (ErrorCodeBlock) errorBlock
                     WithFailureBlock: (FailureBlock) failureBlock;
 
-#pragma POST请求
+#pragma POST请求 body形式
 + (void) NetRequestPOSTWithRequestURL: (NSString *) requestURLString
                         WithParameter: (NSDictionary *) parameter
                               headers: (NSDictionary <NSString *, NSString *> *) headers
@@ -35,5 +35,21 @@ typedef void (^FailureBlock) (NSString* errorCode,NSString* errorMsg);
                  WithReturnValeuBlock: (ReturnValueBlock) block
 //                   WithErrorCodeBlock: (ErrorCodeBlock) errorBlock
                      WithFailureBlock: (FailureBlock) failureBlock;
+
+#pragma POST请求 parameter形式
++ (void) NetRequestPOSTWithRequestURL: (NSString *) requestURLString
+                        WithParameter: (NSDictionary *) parameter
+                              headers: (NSDictionary <NSString *, NSString *> *) headers
+                 WithReturnValeuBlock: (ReturnValueBlock) block
+                     WithFailureBlock: (FailureBlock) failureBlock;
+
+#pragma POST UPLOAD 请求 images上传图片
++ (void) NetRequestUploadWithRequestURL: (NSString *) requestURLString
+                          WithParameter: (NSDictionary *) parameter
+                                headers: (NSDictionary <NSString *, NSString *> *) headers
+                                 images: (NSArray<UIImage*>*) images
+                   WithReturnValeuBlock: (ReturnValueBlock) block
+//                   WithErrorCodeBlock: (ErrorCodeBlock) errorBlock
+                       WithFailureBlock: (FailureBlock) failureBlock;
 
 @end

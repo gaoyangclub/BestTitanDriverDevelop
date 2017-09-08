@@ -75,6 +75,7 @@
 		845C57751F4A8BA4004EC198 /* endPoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 845C57711F4A8BA4004EC198 /* endPoint@2x.png */; };
 		845C57761F4A8BA4004EC198 /* startPoint.png in Resources */ = {isa = PBXBuildFile; fileRef = 845C57721F4A8BA4004EC198 /* startPoint.png */; };
 		845C57771F4A8BA4004EC198 /* startPoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 845C57731F4A8BA4004EC198 /* startPoint@2x.png */; };
+		845D2DF31F5D405000F4F95E /* GeTuiDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 845D2DF21F5D405000F4F95E /* GeTuiDataSource.m */; };
 		846217C41F15BCC100B2C46B /* TaskActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 846217C31F15BCC100B2C46B /* TaskActivityView.m */; };
 		846217C91F15CB7300B2C46B /* CustomPresentingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 846217C81F15CB7300B2C46B /* CustomPresentingController.m */; };
 		846217CC1F15CBDD00B2C46B /* CustomDismissingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 846217CB1F15CBDD00B2C46B /* CustomDismissingController.m */; };
@@ -91,6 +92,10 @@
 		8466667A1F2F218D0033D489 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 846666791F2F218D0033D489 /* AVFoundation.framework */; };
 		8466667C1F2F21950033D489 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8466667B1F2F21950033D489 /* SystemConfiguration.framework */; };
 		846E88211E66ED7800A6C9B0 /* UIView+GY.m in Sources */ = {isa = PBXBuildFile; fileRef = 846E88201E66ED7800A6C9B0 /* UIView+GY.m */; };
+		8470A4C41F5E3DCD00AF1830 /* EmptyDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8470A4C31F5E3DCD00AF1830 /* EmptyDataSource.m */; };
+		8470A4C71F5E3E6100AF1830 /* BackgroundTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8470A4C61F5E3E6100AF1830 /* BackgroundTimer.m */; };
+		8470A4CB1F5E426F00AF1830 /* LocationViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8470A4CA1F5E426F00AF1830 /* LocationViewModel.m */; };
+		8470A4CE1F5E43C400AF1830 /* HeartBeat.m in Sources */ = {isa = PBXBuildFile; fileRef = 8470A4CD1F5E43C400AF1830 /* HeartBeat.m */; };
 		847202D71F3C5F730097F386 /* OrderPhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 847202D61F3C5F730097F386 /* OrderPhotoCell.m */; };
 		847278B01DF1715A00C1BACB /* DIYSplashViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 847278AF1DF1715A00C1BACB /* DIYSplashViewModel.m */; };
 		847278B41DF1763A00C1BACB /* NetRequestClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 847278B31DF1763A00C1BACB /* NetRequestClass.m */; };
@@ -138,7 +143,6 @@
 		84963C8E1F14CF0F00AA4617 /* ShipmentStopBean.m in Sources */ = {isa = PBXBuildFile; fileRef = 84963C8D1F14CF0F00AA4617 /* ShipmentStopBean.m */; };
 		849740A91F0A459A008D3030 /* YYFPSLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 849740A61F0A459A008D3030 /* YYFPSLabel.m */; };
 		849740AA1F0A459A008D3030 /* YYWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 849740A81F0A459A008D3030 /* YYWeakProxy.m */; };
-		849CB3571F59325200D77137 /* EmptyDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 849CB3561F59325200D77137 /* EmptyDataSource.m */; };
 		849CB35B1F59641500D77137 /* SpeechManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 849CB35A1F59641500D77137 /* SpeechManager.m */; };
 		849CB35E1F5965BD00D77137 /* AVSpeechDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 849CB35D1F5965BD00D77137 /* AVSpeechDataSource.m */; };
 		849CB3611F59687500D77137 /* TTSDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 849CB3601F59687500D77137 /* TTSDataSource.m */; };
@@ -321,6 +325,8 @@
 		845C57711F4A8BA4004EC198 /* endPoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "endPoint@2x.png"; sourceTree = "<group>"; };
 		845C57721F4A8BA4004EC198 /* startPoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startPoint.png; sourceTree = "<group>"; };
 		845C57731F4A8BA4004EC198 /* startPoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "startPoint@2x.png"; sourceTree = "<group>"; };
+		845D2DF11F5D405000F4F95E /* GeTuiDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiDataSource.h; sourceTree = "<group>"; };
+		845D2DF21F5D405000F4F95E /* GeTuiDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeTuiDataSource.m; sourceTree = "<group>"; };
 		846217C21F15BCC100B2C46B /* TaskActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskActivityView.h; sourceTree = "<group>"; };
 		846217C31F15BCC100B2C46B /* TaskActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskActivityView.m; sourceTree = "<group>"; };
 		846217C71F15CB7300B2C46B /* CustomPresentingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPresentingController.h; sourceTree = "<group>"; };
@@ -344,6 +350,14 @@
 		8466667B1F2F21950033D489 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		846E881F1E66ED7800A6C9B0 /* UIView+GY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+GY.h"; sourceTree = "<group>"; };
 		846E88201E66ED7800A6C9B0 /* UIView+GY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+GY.m"; sourceTree = "<group>"; };
+		8470A4C21F5E3DCD00AF1830 /* EmptyDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptyDataSource.h; sourceTree = "<group>"; };
+		8470A4C31F5E3DCD00AF1830 /* EmptyDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyDataSource.m; sourceTree = "<group>"; };
+		8470A4C51F5E3E6100AF1830 /* BackgroundTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundTimer.h; sourceTree = "<group>"; };
+		8470A4C61F5E3E6100AF1830 /* BackgroundTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundTimer.m; sourceTree = "<group>"; };
+		8470A4C91F5E426F00AF1830 /* LocationViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationViewModel.h; sourceTree = "<group>"; };
+		8470A4CA1F5E426F00AF1830 /* LocationViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationViewModel.m; sourceTree = "<group>"; };
+		8470A4CC1F5E43C400AF1830 /* HeartBeat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeartBeat.h; sourceTree = "<group>"; };
+		8470A4CD1F5E43C400AF1830 /* HeartBeat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeartBeat.m; sourceTree = "<group>"; };
 		847202D51F3C5F730097F386 /* OrderPhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderPhotoCell.h; sourceTree = "<group>"; };
 		847202D61F3C5F730097F386 /* OrderPhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderPhotoCell.m; sourceTree = "<group>"; };
 		847278AE1DF1715A00C1BACB /* DIYSplashViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIYSplashViewModel.h; sourceTree = "<group>"; };
@@ -436,8 +450,6 @@
 		849740A61F0A459A008D3030 /* YYFPSLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYFPSLabel.m; sourceTree = "<group>"; };
 		849740A71F0A459A008D3030 /* YYWeakProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYWeakProxy.h; sourceTree = "<group>"; };
 		849740A81F0A459A008D3030 /* YYWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYWeakProxy.m; sourceTree = "<group>"; };
-		849CB3551F59325200D77137 /* EmptyDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptyDataSource.h; sourceTree = "<group>"; };
-		849CB3561F59325200D77137 /* EmptyDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyDataSource.m; sourceTree = "<group>"; };
 		849CB3591F59641500D77137 /* SpeechManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeechManager.h; sourceTree = "<group>"; };
 		849CB35A1F59641500D77137 /* SpeechManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeechManager.m; sourceTree = "<group>"; };
 		849CB35C1F5965BD00D77137 /* AVSpeechDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVSpeechDataSource.h; sourceTree = "<group>"; };
@@ -837,6 +849,8 @@
 		843589251F0DE11100135991 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				8470A4C11F5E3DA700AF1830 /* Empty */,
+				845D2DF01F5D403300F4F95E /* GeTui */,
 				849CB3581F5963F400D77137 /* Speech */,
 				843589261F0DE14800135991 /* FollowAnimateManager.h */,
 				843589271F0DE14800135991 /* FollowAnimateManager..m */,
@@ -854,8 +868,8 @@
 				847609DC1F317915003C6359 /* UpdateVersionManager.m */,
 				A910B1921F40480600CCAFCD /* PhotoTranslateUtils.h */,
 				A910B1931F40480600CCAFCD /* PhotoTranslateUtils.m */,
-				849CB3551F59325200D77137 /* EmptyDataSource.h */,
-				849CB3561F59325200D77137 /* EmptyDataSource.m */,
+				8470A4C51F5E3E6100AF1830 /* BackgroundTimer.h */,
+				8470A4C61F5E3E6100AF1830 /* BackgroundTimer.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -899,6 +913,8 @@
 				8439A1C31F25C9F500E629C8 /* AppVersion.m */,
 				84C080D71F3466F80058D701 /* AuthCodeBean.h */,
 				84C080D81F3466F80058D701 /* AuthCodeBean.m */,
+				8470A4CC1F5E43C400AF1830 /* HeartBeat.h */,
+				8470A4CD1F5E43C400AF1830 /* HeartBeat.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -954,6 +970,7 @@
 		84495C971DF113D90017D2CA /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				8470A4C81F5E409300AF1830 /* Location */,
 				849CB3541F59318E00D77137 /* Task */,
 				847278AD1DF1713600C1BACB /* Splash */,
 				847F3E5A1F1F77B800C21C6A /* Login */,
@@ -1029,6 +1046,15 @@
 			path = iconfont;
 			sourceTree = "<group>";
 		};
+		845D2DF01F5D403300F4F95E /* GeTui */ = {
+			isa = PBXGroup;
+			children = (
+				845D2DF11F5D405000F4F95E /* GeTuiDataSource.h */,
+				845D2DF21F5D405000F4F95E /* GeTuiDataSource.m */,
+			);
+			path = GeTui;
+			sourceTree = "<group>";
+		};
 		846217C61F15CB4100B2C46B /* Presenting */ = {
 			isa = PBXGroup;
 			children = (
@@ -1044,6 +1070,25 @@
 				847CEA5B1F302CED0028F7AA /* CustomPopListView.m */,
 			);
 			path = Presenting;
+			sourceTree = "<group>";
+		};
+		8470A4C11F5E3DA700AF1830 /* Empty */ = {
+			isa = PBXGroup;
+			children = (
+				8470A4C21F5E3DCD00AF1830 /* EmptyDataSource.h */,
+				8470A4C31F5E3DCD00AF1830 /* EmptyDataSource.m */,
+			);
+			name = Empty;
+			path = Speech/Empty;
+			sourceTree = "<group>";
+		};
+		8470A4C81F5E409300AF1830 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				8470A4C91F5E426F00AF1830 /* LocationViewModel.h */,
+				8470A4CA1F5E426F00AF1830 /* LocationViewModel.m */,
+			);
+			path = Location;
 			sourceTree = "<group>";
 		};
 		847278A91DF168B200C1BACB /* Splash */ = {
@@ -1318,6 +1363,11 @@
 				TargetAttributes = {
 					840DEF651DED6E3100963524 = {
 						CreatedOnToolsVersion = 7.1.1;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1440,6 +1490,7 @@
 				8407DF2D1DF1523300E47E73 /* SplashSourceView.m in Sources */,
 				A9D9F49E1F11F36C000536F0 /* UIButton+Style.m in Sources */,
 				848A38101F3D4E1A00B15E4B /* QBVideoIconView.m in Sources */,
+				8470A4CB1F5E426F00AF1830 /* LocationViewModel.m in Sources */,
 				848A38111F3D4E1A00B15E4B /* QBVideoIndicatorView.m in Sources */,
 				847F3E591F1F412800C21C6A /* LoginViewController.m in Sources */,
 				84129A301E54579700151672 /* MJTableBaseView.m in Sources */,
@@ -1458,6 +1509,7 @@
 				848A380C1F3D4E1A00B15E4B /* QBCheckmarkView.m in Sources */,
 				84129A1F1E54579700151672 /* MJRefreshFooter.m in Sources */,
 				841299DE1E542E4300151672 /* CircleNode.m in Sources */,
+				8470A4CE1F5E43C400AF1830 /* HeartBeat.m in Sources */,
 				84495CA71DF117E40017D2CA /* GYTabBarView.m in Sources */,
 				84129A1C1E54579700151672 /* MJRefreshAutoFooter.m in Sources */,
 				841CBC661F44356A006BCC5B /* MapViewController.m in Sources */,
@@ -1469,7 +1521,9 @@
 				841422581F4598E500C0299B /* MapNaviViewController.m in Sources */,
 				847CEA5C1F302CED0028F7AA /* CustomPopListView.m in Sources */,
 				8423FBBB1F46F763007C2CB0 /* LocationInfoViewController.m in Sources */,
+				845D2DF31F5D405000F4F95E /* GeTuiDataSource.m in Sources */,
 				84129A2F1E54579700151672 /* UIView+MJExtension.m in Sources */,
+				8470A4C41F5E3DCD00AF1830 /* EmptyDataSource.m in Sources */,
 				8439A1C41F25C9F500E629C8 /* AppVersion.m in Sources */,
 				84D1F8681E6567DF007C1307 /* ASControlNode+GY.m in Sources */,
 				840DEF711DED6E3100963524 /* ViewController.m in Sources */,
@@ -1546,9 +1600,9 @@
 				84AF24991E94CE3C00AF200D /* DiyNumberAddView.m in Sources */,
 				8478A2161E6407260076E8B4 /* TaskTripSection.m in Sources */,
 				84129A291E54579700151672 /* MJRefreshStateHeader.m in Sources */,
-				849CB3571F59325200D77137 /* EmptyDataSource.m in Sources */,
 				84AF249C1E94D88E00AF200D /* OrderNormalCell.m in Sources */,
 				84129A311E54579700151672 /* MJTableViewCell.m in Sources */,
+				8470A4C71F5E3E6100AF1830 /* BackgroundTimer.m in Sources */,
 				849CB35E1F5965BD00D77137 /* AVSpeechDataSource.m in Sources */,
 				84495CA51DF117E40017D2CA /* GYTabBarController.m in Sources */,
 				A910B1971F4076F600CCAFCD /* OrderEditModelView.m in Sources */,
@@ -1620,7 +1674,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1659,7 +1713,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1683,6 +1737,7 @@
 				);
 				GCC_PREFIX_HEADER = BestDriverTitan/Config/PrefixHeader.pch;
 				INFOPLIST_FILE = BestDriverTitan/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1716,6 +1771,7 @@
 				);
 				GCC_PREFIX_HEADER = BestDriverTitan/Config/PrefixHeader.pch;
 				INFOPLIST_FILE = BestDriverTitan/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

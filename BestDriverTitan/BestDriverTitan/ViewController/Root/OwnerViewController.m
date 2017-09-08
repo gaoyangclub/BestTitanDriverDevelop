@@ -19,6 +19,8 @@
 #import "UpdateVersionManager.h"
 #import "AdminViewController.h"
 #import "AmapLocationService.h"
+#import "BackgroundTimer.h"
+#import "LocationViewModel.h"
 
 
 static OwnerViewController* instance;
@@ -125,6 +127,12 @@ static OwnerViewController* instance;
 }
 
 -(void)autoLoginComplete:(User *)user{
+    
+    NSNumber* modeValue = [UserDefaultsUtils getObject:NET_MODE_KEY];
+    if (modeValue) {
+        [NetConfig setCurrentNetMode:[modeValue integerValue]];
+    }
+    
     if ([user isAdmin]) {//管理员权限
         [self popAdminView:YES completion:nil];
     }else{
@@ -173,6 +181,14 @@ static OwnerViewController* instance;
     }else{
         self.navigationColor = [UIColor whiteColor];
         [AmapLocationService startUpdatingLocation];//定位开启
+        [BackgroundTimer start:HEART_BEAT_INTERVAL];
+        // 延迟2秒执行：
+//        double delayInSeconds = 5.0;
+//        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC); dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//            
+//            [LocationViewModel sendLocationPoints];
+//            
+//        });
     }
     self.isLogin = YES;
     [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_LOGIN_COMPLETE object:nil];
@@ -183,6 +199,7 @@ static OwnerViewController* instance;
         [self popAdminView:YES completion:completion];
     }else{
         [AmapLocationService stopUpdatingLocation];//关闭定位
+        [BackgroundTimer clear];
         [UserDefaultsUtils removeObject:USER_KEY];//清除数据
         [self popLoginview:YES completion:completion];
     }

@@ -35,6 +35,7 @@ static NetModeType netMode;// = NetModeTypeRelease;//默认T8生产环境
         case NetModeTypePersonWang:return [SERVER_URL_PERSON_WANG stringByAppendingString:SERVER_REST_POSTFIX];
         case NetModeTypePersonZhu:return [SERVER_URL_PERSON_ZHU stringByAppendingString:SERVER_REST_POSTFIX];
         case NetModeTypePersonZheng:return [SERVER_URL_PERSON_ZHENG stringByAppendingString:SERVER_REST_POSTFIX];
+        case NetModeTypePersonGao:return [SERVER_URL_PERSON_GAO stringByAppendingString:SERVER_REST_POSTFIX];
         case NetModeTypeDemo:return [SERVER_URL_DEMO stringByAppendingString:SERVER_REST_POSTFIX];
         case NetModeTypeTest:return [SERVER_URL_TEST stringByAppendingString:SERVER_REST_POSTFIX];
         case NetModeTypeUat:return [SERVER_URL_UAT stringByAppendingString:SERVER_REST_POSTFIX];
@@ -60,7 +61,7 @@ static NetModeType netMode;// = NetModeTypeRelease;//默认T8生产环境
 static NSArray* netModes;
 +(NSArray *)getNetModes{
     if (!netModes) {
-        netModes = [NSArray arrayWithObjects:@(NetModeTypeTest),@(NetModeTypeDemo),@(NetModeTypeUat),@(NetModeTypeRelease),@(NetModeTypeReleaseT9),@(NetModeTypePersonLiu),@(NetModeTypePersonWang),@(NetModeTypePersonZheng),nil];
+        netModes = @[@(NetModeTypeTest),@(NetModeTypeDemo),@(NetModeTypeUat),@(NetModeTypeRelease),@(NetModeTypeReleaseT9),@(NetModeTypePersonLiu),@(NetModeTypePersonWang),@(NetModeTypePersonZheng),@(NetModeTypePersonGao)];
     }
     return netModes;
 }

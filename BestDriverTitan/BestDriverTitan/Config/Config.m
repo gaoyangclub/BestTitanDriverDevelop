@@ -98,6 +98,7 @@ static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不�
         case NetModeTypePersonWang:return ConcatStrings(@"Wsj ",baseName);
         case NetModeTypePersonZhu:return ConcatStrings(@"Zjd ",baseName);
         case NetModeTypePersonZheng:return ConcatStrings(@"Zxx ",baseName);
+        case NetModeTypePersonGao:return ConcatStrings(@"Gy ",baseName);
         case NetModeTypeDemo:return ConcatStrings(@"Demo ",baseName);
         case NetModeTypeTest:return ConcatStrings(@"Test ",baseName);
         case NetModeTypeUat:return ConcatStrings(@"Uat ",baseName);
@@ -115,6 +116,7 @@ static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不�
         case NetModeTypePersonWang:return @"王斯基";
         case NetModeTypePersonZhu:return @"朱斯基";
         case NetModeTypePersonZheng:return @"郑斯基";
+        case NetModeTypePersonGao:return @"高斯基";
         case NetModeTypeDemo:return @"Demo环境";
         case NetModeTypeTest:return @"Test环境";
         case NetModeTypeUat:return @"Uat环境";
@@ -191,9 +193,9 @@ static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不�
 }
 
 +(NSString *)getPgyerAppID{
-    if (DEBUG_MODE) {
-        return @"0e8c9bf2a0d8fcbaf37a90353405c6c0";
-    }
+//    if (DEBUG_MODE) {
+//        return @"0e8c9bf2a0d8fcbaf37a90353405c6c0";
+//    }
     return @"dba51660a44c3e00888ce2a4b24af81a";
 }
 

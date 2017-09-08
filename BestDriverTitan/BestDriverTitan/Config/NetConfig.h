@@ -16,6 +16,7 @@
 #define SERVER_URL_PERSON_LIU @"http://bg229565.800best.net:8081"//IP 刘z
 #define SERVER_URL_PERSON_ZHU @"http://bl02777.800best.net:8089"//IP 朱jd
 #define SERVER_URL_PERSON_WANG @"http://bg246069.800best.net:8080"//IP 王sj
+#define SERVER_URL_PERSON_GAO @"http://bl04696.800best.net"//IP 高y
 #define SERVER_URL_PERSON_ZHENG @"http://10.45.16.83:8080"//IP 郑xx
 #define SERVER_URL_DEMO @"http://t8demo.800best.com"//demo
 #define SERVER_URL_TEST @"https://t8test.800best.com"//测试环境
@@ -32,6 +33,7 @@
 #define AUTH_CODE_URL(phone,isadmin) ConcatStrings(SERVER_DRIVER_URL,@"token/driver/authcode/",phone,@"/",isadmin)
 #define CHECK_VERSION_URL ConcatStrings(SERVER_DRIVER_URL,@"version/detail/ios")
 #define LOGIN_URL(phone,authcode) ConcatStrings(SERVER_DRIVER_URL,@"token/driver/",phone,@"/",authcode)
+#define HEART_BEAT_URL ConcatStrings(SERVER_DRIVER_URL,@"shipment/heartbeat")
 
 #define PGY_VERSION_GROUP_URL @"http://www.pgyer.com/apiv1/app/viewGroup"
 
@@ -43,6 +45,7 @@ typedef NS_ENUM(NSInteger,NetModeType) {
     NetModeTypePersonWang = 9,
     NetModeTypePersonZhu = 10,
     NetModeTypePersonZheng = 11,
+    NetModeTypePersonGao = 12,
     NetModeTypeDemo = 6,
     NetModeTypeUat = 3,
     NetModeTypeTest = 2,

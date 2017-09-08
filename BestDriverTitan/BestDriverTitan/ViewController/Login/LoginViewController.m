@@ -35,7 +35,10 @@
 @property(nonatomic,retain)UILabel* logoDes;
 @property(nonatomic,retain)UILabel* versionLabel;
 
+@property(nonatomic,retain)UILabel* flyTagLabel;
+
 @property(nonatomic,retain)UILabel* operateLabeL;
+
 @property(nonatomic,retain)FlatButton* operateButton;
 
 @property(nonatomic,retain)LoginViewModel* loginViewModel;
@@ -81,6 +84,13 @@
         [self.view addSubview:_versionLabel];
     }
     return _versionLabel;
+}
+
+-(UILabel *)flyTagLabel{
+    if (!_flyTagLabel) {
+        _flyTagLabel = [UICreationUtils createLabel:14 color:COLOR_BLACK_ORIGINAL text:@"语音技术由科大讯飞提供" sizeToFit:YES superView:self.view];
+    }
+    return _flyTagLabel;
 }
 
 -(UIView *)inputArea{
@@ -230,7 +240,7 @@
 }
 
 -(void)initOperateArea{
-    NSNumber* modeValue =[UserDefaultsUtils getObject:NET_MODE_KEY];
+    NSNumber* modeValue = [UserDefaultsUtils getObject:NET_MODE_KEY];
     if (modeValue) {
         [NetConfig setCurrentNetMode:[modeValue integerValue]];
         [self showVersionLabel];
@@ -286,6 +296,9 @@
 //    }else{
         [self.usernameText setText:[UserDefaultsUtils getObject:PHONE_KEY]];
 //    }
+//    NSString *deviceUDID = [[UIDevice currentDevice] identifierForVendor].debugDescription;
+//    
+//    [self.authcodeText setText:deviceUDID];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -320,6 +333,9 @@
 //    self.logoDes.frame = CGRectMake((viewWidth - logoDesWidth) / 2., logoLabelY + logoLabelHeight, logoDesWidth, logoDesHeight);
     
     [self showVersionLabel];
+    
+//    self.flyTagLabel.y = self.versionLabel.maxY + 15;
+//    self.flyTagLabel.centerX = self.view.centerX;
 }
 
 -(void)showVersionLabel{

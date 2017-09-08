@@ -269,8 +269,7 @@ static const CGFloat IMAGE_HEIGHT = 120;
 
 -(VersionDetailInfo*)getCurrentVersionInfoByGroup:(VersionGroupInfo*) groupInfo{
     for (VersionDetailInfo* info in groupInfo.data) {
-        if ([info.appVersion isEqualToString:[LocalBundleManager getAppVersion]] &&
-            info.appVersionNo == [LocalBundleManager getAppCode]) {
+        if (info.appVersionNo == [LocalBundleManager getAppCode]) {//[info.appVersion isEqualToString:[LocalBundleManager getAppVersion]] &&
             return info;
         }
     }

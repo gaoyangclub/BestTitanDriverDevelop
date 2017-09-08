@@ -58,15 +58,36 @@
     
     CGFloat leftMargin = 10;
     
-    self.dateNode.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:info.dateString];
-    self.dateNode.size = [self.dateNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize timeSize =
-    self.dateNode.x = leftMargin;
-    self.dateNode.maxY = self.contentView.centerY;
+    if (info.dateString) {
+        self.dateNode.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:info.dateString];
+        self.dateNode.size = [self.dateNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize timeSize =
+        self.dateNode.x = leftMargin;
+        self.dateNode.maxY = self.contentView.centerY;
+    }else{
+        self.dateNode.attributedString = nil;
+    }
     
     CLLocationCoordinate2D locationPoint = info.locationPoint.MKCoordinateValue;
     
-    NSString* titleString = ConcatStrings(@"纬度:",@(locationPoint.latitude),@"  经度:",@(locationPoint.longitude));
-    self.titleNode.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:12 content:titleString];
+    NSString* titleString;
+    UIColor* color;
+    if (info.markType == LocationMarkTypePoint) {
+        titleString = ConcatStrings(@"纬度:",@(locationPoint.latitude),@"  经度:",@(locationPoint.longitude));
+        color = FlatGrayDark;
+    }else if(info.markType == LocationMarkTypeInfo){
+        titleString = info.markInfo;
+        color = COLOR_BLACK_ORIGINAL;
+    }else if(info.markType == LocationMarkTypeDebug){
+        titleString = info.markInfo;
+        color = FlatGreen;
+    }else if(info.markType == LocationMarkTypeWarn){
+        titleString = info.markInfo;
+        color = FlatYellowDark;
+    }else if(info.markType == LocationMarkTypeError){
+        titleString = info.markInfo;
+        color = FlatWatermelon;
+    }
+    self.titleNode.attributedString = [NSString simpleAttributedString:color size:12 content:titleString];
     self.titleNode.size = [self.titleNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize timeSize =
     self.titleNode.x = leftMargin;
     self.titleNode.y = self.contentView.centerY;

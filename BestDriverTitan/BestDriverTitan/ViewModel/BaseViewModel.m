@@ -45,7 +45,7 @@
     if (fillHeader) {
         NSString* token = [Config getToken];
         if (token) {
-            headers = [NSDictionary dictionaryWithObject:token forKey:@"TI-TOKEN"];//拼装headers
+            headers = @{@"TI-TOKEN":token};
         }
     }
     if (sendType == NetSendTypeGet) {

@@ -8,11 +8,16 @@
 
 #import "AmapLocationService.h"
 #import <AMapFoundationKit/AMapFoundationKit.h>
+#import "LocationViewModel.h"
 
 @implementation LocationInfo
 
 -(void)addLocationPoint:(NSValue *)locationPoint{
     self.locationPoint = locationPoint;
+    [self saveDateString];
+}
+
+-(void)saveDateString{
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString* dateString = [dateFormatter stringFromDate:[NSDate date]];
@@ -25,13 +30,18 @@
 
 @property (nonatomic,retain) NSValue * lastLocationPoint;
 
-@property (nonatomic,retain) NSMutableArray<LocationInfo*>* locationPoints;//将数据存储起来 间隔时间提报
+@property (nonatomic,retain) NSMutableArray<LocationInfo*>* locationInfoPoints;//将数据存储起来 间隔时间提报
 
-@property(nonatomic,strong) CLLocationManager* nativeLocationManager;
+@property (nonatomic,strong) CLLocationManager* nativeLocationManager;
+//@property (nonatomic,retain) AMapLocationManager *locationManager;
+
+@property (nonatomic,retain) NSMutableArray<NSString*>* locationList;
 
 @end
 
 static AmapLocationService* instance;
+//static NSInteger submitCount = 20;
+//static BOOL hasSendLocation;
 
 @implementation AmapLocationService
 
@@ -51,6 +61,9 @@ static AmapLocationService* instance;
         [_nativeLocationManager setDelegate:self];
         [_nativeLocationManager setDesiredAccuracy:kCLLocationAccuracyNearestTenMeters];
         
+        //该模式是抵抗程序在后台被杀，申明不能够被暂停
+        _nativeLocationManager.pausesLocationUpdatesAutomatically = NO;
+        
         if ([[UIDevice currentDevice]systemVersion].floatValue >= 8) {
             [_nativeLocationManager requestAlwaysAuthorization];        //NSLocationAlwaysUsageDescription
             //        [_nativeLocationManager requestWhenInUseAuthorization];     //NSLocationWhenInUseDescription
@@ -62,11 +75,18 @@ static AmapLocationService* instance;
     return _nativeLocationManager;
 }
 
--(NSMutableArray<LocationInfo *> *)locationPoints{
-    if (!_locationPoints) {
-        _locationPoints = [[NSMutableArray<LocationInfo*> alloc]init];
+-(NSMutableArray<LocationInfo *> *)locationInfoPoints{
+    if (!_locationInfoPoints) {
+        _locationInfoPoints = [[NSMutableArray<LocationInfo*> alloc]init];
     }
-    return _locationPoints;
+    return _locationInfoPoints;
+}
+
+-(NSMutableArray<NSString *> *)locationList{
+    if (!_locationList) {
+        _locationList = [[NSMutableArray<NSString *> alloc]init];
+    }
+    return _locationList;
 }
 
 - (void)locationManager:(CLLocationManager *)manager
@@ -85,33 +105,44 @@ static AmapLocationService* instance;
         LocationInfo* info = [[LocationInfo alloc]init];
         [info addLocationPoint:pointValue];
 //        [self.locationPoints addObject:info];
-        [self.locationPoints insertObject:info atIndex:0];
+        [self.locationInfoPoints insertObject:info atIndex:0];
         
-        NSLog(@"nativeLocation:{lat:%f; lon:%f; accuracy:%f; dateString:%@;}", location.coordinate.latitude, location.coordinate.longitude,location.horizontalAccuracy,info.dateString);// reGeocode:%@ , reGeocode.formattedAddress
+        NSString* pointGroup = ConcatStrings(@"",@(cd.longitude),@",",@(cd.latitude));
+        [self.locationList addObject:pointGroup];
+        
+//        if(hasSendLocation){
+//            NSLog(@"hasSendLocation-------------正在发送中--------------");
+//        }
+//        if(!hasSendLocation && self.locationList.count > submitCount){//每60个点上传一次
+//            [LocationViewModel sendLocationPoints];
+//        }
+        
+//        NSLog(@"nativeLocation:{lat:%f; lon:%f; accuracy:%f; dateString:%@;}", location.coordinate.latitude, location.coordinate.longitude,location.horizontalAccuracy,info.dateString);// reGeocode:%@ , reGeocode.formattedAddress
     }
 }
+
 - (void)locationManager:(CLLocationManager *)manager
        didFailWithError:(NSError *)error {
     NSLog(@"didFailWithError: %@", error);
 }
 
--(AMapLocationManager *)locationManager{
-    if (!_locationManager) {
-        _locationManager = [[AMapLocationManager alloc] init];
-        
-        [_locationManager setDelegate:self];
-        
-        //设置不允许系统暂停定位
-        [_locationManager setPausesLocationUpdatesAutomatically:NO];
-        
-        //设置允许在后台定位
-        [_locationManager setAllowsBackgroundLocationUpdates:YES];
-        
-        //    //设置允许连续定位逆地理
-        //    [_locationManager setLocatingWithReGeocode:YES];
-    }
-    return _locationManager;
-}
+//-(AMapLocationManager *)locationManager{
+//    if (!_locationManager) {
+//        _locationManager = [[AMapLocationManager alloc] init];
+//        
+//        [_locationManager setDelegate:self];
+//        
+//        //设置不允许系统暂停定位
+//        [_locationManager setPausesLocationUpdatesAutomatically:NO];
+//        
+//        //设置允许在后台定位
+//        [_locationManager setAllowsBackgroundLocationUpdates:YES];
+//        
+//        //    //设置允许连续定位逆地理
+//        //    [_locationManager setLocatingWithReGeocode:YES];
+//    }
+//    return _locationManager;
+//}
 
 - (void)amapLocationManager:(AMapLocationManager *)manager didFailWithError:(NSError *)error
 {
@@ -133,7 +164,7 @@ static AmapLocationService* instance;
 }
 
 +(void)stopUpdatingLocation{
-    [[AmapLocationService sharedInstance].locationManager stopUpdatingLocation];//停止定位
+    [[AmapLocationService sharedInstance].nativeLocationManager stopUpdatingLocation];//停止定位
 }
 
 +(NSValue *)getLastLocationPoint{
@@ -141,7 +172,41 @@ static AmapLocationService* instance;
 }
 
 +(NSMutableArray<LocationInfo *> *)getAllLocationInfos{
-    return [AmapLocationService sharedInstance].locationPoints;
+    return [AmapLocationService sharedInstance].locationInfoPoints;
+}
+
++(NSMutableArray<LocationInfo *> *)getAllLocationPoints{
+    NSMutableArray<LocationInfo *> * locationInfos = [AmapLocationService getAllLocationInfos];
+    if (locationInfos && locationInfos.count > 0) {
+        NSMutableArray<LocationInfo *> * locationPoints = [NSMutableArray<LocationInfo *> array];
+        for (LocationInfo* info in locationInfos) {
+            if (info.markType == LocationMarkTypePoint) {
+                [locationPoints addObject:info];
+            }
+        }
+        return locationPoints;
+    }
+    return nil;
+}
+
++(NSMutableArray<NSString *> *)getLocationList{
+    return [AmapLocationService sharedInstance].locationList;
+}
+
++(void)clearLocationList{
+    [[AmapLocationService sharedInstance].locationList removeAllObjects];//清除数据
+}
+
++(void)addMarkInfo:(NSString *)mark type:(LocationMarkType)type{
+    LocationInfo* info = [[LocationInfo alloc]init];
+    info.markInfo = mark;
+    info.markType = type;
+    [info saveDateString];
+    [[AmapLocationService sharedInstance].locationInfoPoints insertObject:info atIndex:0];
+}
+
++(void)setHasSendLocation:(BOOL)value{
+//    hasSendLocation = value;
 }
 
 @end

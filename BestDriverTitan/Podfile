@@ -1,6 +1,6 @@
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '7.0'
-target “BestDriverTitan” do
+target 'BestDriverTitan' do
 
 pod 'IQKeyboardManager'
 
@@ -8,7 +8,7 @@ pod 'ChameleonFramework'
 pod 'SVProgressHUD'
 pod 'MBProgressHUD'
 pod 'AFNetworking', '~> 3.0'
-pod 'HYBUnicodeReadable'
+#pod 'HYBUnicodeReadable' //将字符转中文
 pod 'MMDrawerController', '~> 0.5.7'
 
 pod 'SDWebImage'
@@ -34,4 +34,13 @@ pod 'AMapLocation'
 pod 'AMapSearch'
 pod 'AMapNavi' #已包含3D地图，无需单独引入3D地图
 
+#个推开放平台
+pod 'GTSDK'#标准SDK，含IDFA
+
 end
+
+#target 'NotificationService' do
+#platform :ios, "10.0"
+#pod 'GTExtensionSDK'
+#
+#end

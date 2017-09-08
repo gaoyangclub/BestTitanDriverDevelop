@@ -188,9 +188,11 @@ static MapViewController* instance;
         CLLocationCoordinate2D commonPolylineCoords[count];
         for (NSInteger i = 0; i < count; i++) {
             LocationInfo* info = self.routePoints[i];
-            CLLocationCoordinate2D coordinate = info.locationPoint.MKCoordinateValue;
-            commonPolylineCoords[i].longitude = coordinate.longitude;
-            commonPolylineCoords[i].latitude = coordinate.latitude;
+            if(info.markType == LocationMarkTypePoint){//坐标点形式的展示
+                CLLocationCoordinate2D coordinate = info.locationPoint.MKCoordinateValue;
+                commonPolylineCoords[i].longitude = coordinate.longitude;
+                commonPolylineCoords[i].latitude = coordinate.latitude;
+            }
         }
 //        //构造折线对象
         self->commonPolyline = [MAPolyline polylineWithCoordinates:commonPolylineCoords count:count];
