@@ -172,6 +172,7 @@
 		A9D2248B1F492148001B8135 /* userPosition.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D224891F492148001B8135 /* userPosition.png */; };
 		A9D2248C1F492148001B8135 /* userPosition@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D2248A1F492148001B8135 /* userPosition@2x.png */; };
 		A9D2248F1F49523E001B8135 /* LocationInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D2248E1F49523E001B8135 /* LocationInfoCell.m */; };
+		A9D2A25A1F64D63A00498E01 /* ZXPUnicode.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D2A2591F64D63A00498E01 /* ZXPUnicode.m */; };
 		A9D2CF431E87A786000E7F8A /* OrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D2CF421E87A786000E7F8A /* OrderViewController.m */; };
 		A9D2CF461E87AB08000E7F8A /* OrderTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D2CF451E87AB08000E7F8A /* OrderTabView.m */; };
 		A9D2CF491E87E9C2000E7F8A /* OrderViewSection.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D2CF481E87E9C2000E7F8A /* OrderViewSection.m */; };
@@ -497,6 +498,8 @@
 		A9D2248A1F492148001B8135 /* userPosition@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "userPosition@2x.png"; sourceTree = "<group>"; };
 		A9D2248D1F49523E001B8135 /* LocationInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationInfoCell.h; sourceTree = "<group>"; };
 		A9D2248E1F49523E001B8135 /* LocationInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationInfoCell.m; sourceTree = "<group>"; };
+		A9D2A2581F64D63A00498E01 /* ZXPUnicode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXPUnicode.h; sourceTree = "<group>"; };
+		A9D2A2591F64D63A00498E01 /* ZXPUnicode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXPUnicode.m; sourceTree = "<group>"; };
 		A9D2CF411E87A786000E7F8A /* OrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderViewController.h; sourceTree = "<group>"; };
 		A9D2CF421E87A786000E7F8A /* OrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderViewController.m; sourceTree = "<group>"; };
 		A9D2CF441E87AB08000E7F8A /* OrderTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderTabView.h; sourceTree = "<group>"; };
@@ -934,6 +937,7 @@
 		84495C951DF113D90017D2CA /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				A9D55E511F63911800866580 /* Unicode */,
 				841CBC5F1F442FF1006BCC5B /* Location */,
 				848A37E81F3D4E0100B15E4B /* ImagePicker */,
 				849740A41F0A459A008D3030 /* YYFPSLabel */,
@@ -1328,6 +1332,15 @@
 			path = Order;
 			sourceTree = "<group>";
 		};
+		A9D55E511F63911800866580 /* Unicode */ = {
+			isa = PBXGroup;
+			children = (
+				A9D2A2581F64D63A00498E01 /* ZXPUnicode.h */,
+				A9D2A2591F64D63A00498E01 /* ZXPUnicode.m */,
+			);
+			path = Unicode;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1515,6 +1528,7 @@
 				841CBC661F44356A006BCC5B /* MapViewController.m in Sources */,
 				847F3E5D1F1F79DB00C21C6A /* LoginViewModel.m in Sources */,
 				840DEDB51DF6B12900F19412 /* RootNavigationController.m in Sources */,
+				A9D2A25A1F64D63A00498E01 /* ZXPUnicode.m in Sources */,
 				84183F291E84F5D000E4BCCE /* TaskHomeController.m in Sources */,
 				848A38091F3D4E1A00B15E4B /* QBAlbumsViewController.m in Sources */,
 				848A38141F3D870800B15E4B /* PhotoSelectionView.m in Sources */,

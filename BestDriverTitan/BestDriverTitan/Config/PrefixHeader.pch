@@ -34,5 +34,6 @@
 #import "PopAnimateManager.h"
 #import "UIButton+Style.h"
 #import "NSObject+MethodSwizzlingCategory.h"
+#import "ZXPUnicode.h"
 
 #endif
