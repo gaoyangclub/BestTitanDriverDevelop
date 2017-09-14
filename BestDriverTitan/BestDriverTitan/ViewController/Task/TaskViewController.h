@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "MJTableViewController.h"
+#import "PageListViewController.h"
 
-@interface TaskViewController : MJTableViewController
+@interface TaskViewController : PageListViewController
 
 @property(nonatomic,assign)BOOL hasHistory;//是否包含历史任务
 

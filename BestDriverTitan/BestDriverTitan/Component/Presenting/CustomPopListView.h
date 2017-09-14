@@ -1,4 +1,5 @@
 //
+//
 //  CustomComboboxView.h
 //  BestDriverTitan
 //
@@ -24,7 +25,12 @@
 
 @property(nonatomic, weak) id<CustomPopListViewDelegate> delegate;
 
+@property(nonatomic,assign) BOOL clickItemDismiss;//选中某个条目自动关闭选项
+
 @property(nonatomic,retain) NSArray* dataArray;
 @property(nonatomic,copy) NSString* dataField;
+
+@property(nonatomic,retain) Class cellClass;
+
 
 @end

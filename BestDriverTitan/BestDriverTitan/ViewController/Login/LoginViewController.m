@@ -246,19 +246,21 @@
         [self showVersionLabel];
     }
     
-    CGSize labelSize = self.operateLabeL.frame.size;
-    CGFloat labelX = CGRectGetMinX(self.submitButton.frame);
-    CGFloat labelY = CGRectGetMaxY(self.submitButton.frame) + 20;
-    
-    self.operateLabeL.frame = (CGRect){CGPointMake(labelX, labelY),labelSize};
+    CGFloat const gap = 20;
+    self.operateLabeL.x = self.submitButton.x;
+    CGFloat labelY = self.submitButton.maxY + gap;
+    if (labelY + self.operateLabeL.height > self.view.height - 10) {
+        self.operateLabeL.maxY = self.view.height - gap;
+        self.submitButton.maxY = self.operateLabeL.y - gap;
+    }else{
+        self.operateLabeL.y = labelY;
+    }
     
     self.operateButton.title = [Config getNetModelName:NET_MODE];
     
-    self.operateButton.frame = CGRectMake(labelX + labelSize.width + 10, 0, 100, 25);
-    
-    CGPoint buttonCenter = self.operateButton.center;
-    buttonCenter.y = self.operateLabeL.center.y;
-    self.operateButton.center = buttonCenter;
+    self.operateButton.size = CGSizeMake(100, 25);
+    self.operateButton.x = self.operateLabeL.maxX + 10;
+    self.operateButton.centerY = self.operateLabeL.centerY;
 }
 
 -(void)clickOperateButton{

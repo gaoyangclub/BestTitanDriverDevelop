@@ -7,6 +7,7 @@
 //
 
 #import "TaskViewSection.h"
+#import "DateUtils.h"
 
 @implementation TaskViewSectionVo
 
@@ -117,15 +118,17 @@
         iconName = ICON_DAI_WAN_CHENG;
     }
     
-    NSDate* dateNow = [[NSDate alloc]init];
-    NSString* timeContent = nil;
-    if (dateNow.timeIntervalSince1970 - hvo.dateTime.timeIntervalSince1970 < 24 * 3600) {
-        timeContent = @"今天";
-    }else if(dateNow.timeIntervalSince1970 - hvo.dateTime.timeIntervalSince1970 < 24 * 3600 * 2){
-        timeContent = @"昨天";
-    }else if(dateNow.timeIntervalSince1970 - hvo.dateTime.timeIntervalSince1970 < 24 * 3600 * 3){
-        timeContent = @"前天";
-    }else{
+//    NSDate* dateNow = [[NSDate alloc]init];
+//    NSString* timeContent = nil;
+    NSString* timeContent = [DateUtils getUTCFormateName:hvo.dateTime];
+    if (!timeContent) {
+//    if (dateNow.timeIntervalSince1970 - hvo.dateTime.timeIntervalSince1970 < 24 * 3600) {
+//        timeContent = @"今天";
+//    }else if(dateNow.timeIntervalSince1970 - hvo.dateTime.timeIntervalSince1970 < 24 * 3600 * 2){
+//        timeContent = @"昨天";
+//    }else if(dateNow.timeIntervalSince1970 - hvo.dateTime.timeIntervalSince1970 < 24 * 3600 * 3){
+//        timeContent = @"前天";
+//    }else{
         NSDateFormatter* dateFormatter = [[NSDateFormatter alloc]init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];//"yyyy-MM-dd HH:mm:ss"
         timeContent = [dateFormatter stringFromDate:hvo.dateTime];
@@ -133,7 +136,6 @@
     
     CGFloat squareHeight = sectionHeight - 8;
     self.square.frame = CGRectMake(0,(sectionHeight - squareHeight) / 2., 2, squareHeight);
-    
 //    self.iconText.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:24 content:iconName];
 //    CGSize iconSize = [self.iconText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
 //    self.iconText.frame = (CGRect){ CGPointMake(leftpadding,(squareHeight - iconSize.height) / 2. + 2),iconSize};

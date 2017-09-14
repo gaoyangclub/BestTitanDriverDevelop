@@ -26,16 +26,19 @@
 //    _errorBlock = errorBlock;
 //    _failureBlock = failureBlock;
 //}
-
 -(void)sendRequest:(NSString *)url returnBlock:(ReturnValueBlock)returnBlock failureBlock:(FailureBlock)failureBlock{
-    [self sendRequest:url sendType:NetSendTypeGet body:nil returnBlock:returnBlock failureBlock:failureBlock];
+    [self sendRequest:url responseJson:YES returnBlock:returnBlock failureBlock:failureBlock];
 }
 
--(void)sendRequest:(NSString *)url sendType:(NetSendType)sendType body:(NSData *)body returnBlock:(ReturnValueBlock)returnBlock failureBlock:(FailureBlock)failureBlock{
-    [self sendRequest:url sendType:sendType body:body fillHeader:YES returnBlock:returnBlock failureBlock:failureBlock];
+-(void)sendRequest:(NSString *)url responseJson:(BOOL)responseJson returnBlock:(ReturnValueBlock)returnBlock failureBlock:(FailureBlock)failureBlock{
+    [self sendRequest:url sendType:NetSendTypeGet body:nil responseJson:responseJson returnBlock:returnBlock failureBlock:failureBlock];
 }
 
--(void)sendRequest:(NSString *)url sendType:(NetSendType)sendType body:(NSData *)body fillHeader:(BOOL)fillHeader returnBlock:(ReturnValueBlock)returnBlock failureBlock:(FailureBlock)failureBlock{
+-(void)sendRequest:(NSString *)url sendType:(NetSendType)sendType body:(NSData *)body responseJson:(BOOL)responseJson returnBlock:(ReturnValueBlock)returnBlock failureBlock:(FailureBlock)failureBlock{
+    [self sendRequest:url sendType:sendType body:body fillHeader:YES responseJson:responseJson returnBlock:returnBlock failureBlock:failureBlock];
+}
+
+-(void)sendRequest:(NSString *)url sendType:(NetSendType)sendType body:(NSData *)body fillHeader:(BOOL)fillHeader responseJson:(BOOL)responseJson returnBlock:(ReturnValueBlock)returnBlock failureBlock:(FailureBlock)failureBlock{
     if (!url) {//请求地址无效 无权操作
         if (failureBlock) {
             failureBlock(nil,@"当前无权限操作该数据!");
@@ -49,7 +52,7 @@
         }
     }
     if (sendType == NetSendTypeGet) {
-        [NetRequestClass NetRequestGETWithRequestURL:url WithParameter:nil headers:headers WithReturnValeuBlock:returnBlock WithFailureBlock:failureBlock];
+        [NetRequestClass NetRequestGETWithRequestURL:url WithParameter:nil headers:headers responseJson:responseJson WithReturnValeuBlock:returnBlock WithFailureBlock:failureBlock];
     }else{
         [NetRequestClass NetRequestPOSTWithRequestURL:url WithParameter:nil headers:headers body:body WithReturnValeuBlock:returnBlock WithFailureBlock:failureBlock];
     }

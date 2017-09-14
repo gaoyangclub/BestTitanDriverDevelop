@@ -12,7 +12,7 @@
 
 
 -(void) fetchUpdateVersion:(ReturnValueBlock)returnBlock failureBlock:(FailureBlock)failureBlock;{
-    [self sendRequest:CHECK_VERSION_URL sendType:NetSendTypeGet body:nil fillHeader:NO returnBlock:returnBlock failureBlock:failureBlock];
+    [self sendRequest:CHECK_VERSION_URL sendType:NetSendTypeGet body:nil fillHeader:NO responseJson:YES returnBlock:returnBlock failureBlock:failureBlock];
 //    [NetRequestClass NetRequestGETWithRequestURL:CHECK_VERSION_URL WithParameter:nil headers:nil
 //                            WithReturnValeuBlock:^(id returnValue) {
 //        DDLog(@"%@", returnValue);

@@ -44,9 +44,11 @@ typedef NS_ENUM(NSInteger,NetSendType) {
 
 -(void)sendRequest:(NSString*)url returnBlock:(ReturnValueBlock)returnBlock failureBlock:(FailureBlock)failureBlock;
 
--(void)sendRequest:(NSString*)url sendType:(NetSendType)sendType body:(NSData*)body returnBlock:(ReturnValueBlock)returnBlock failureBlock:(FailureBlock)failureBlock;
+-(void)sendRequest:(NSString*)url responseJson:(BOOL)responseJson returnBlock:(ReturnValueBlock)returnBlock failureBlock:(FailureBlock)failureBlock;
 
--(void)sendRequest:(NSString*)url sendType:(NetSendType)sendType body:(NSData*)body fillHeader:(BOOL)fillHeader returnBlock:(ReturnValueBlock)returnBlock failureBlock:(FailureBlock)failureBlock;
+-(void)sendRequest:(NSString*)url sendType:(NetSendType)sendType body:(NSData*)body responseJson:(BOOL)responseJson returnBlock:(ReturnValueBlock)returnBlock failureBlock:(FailureBlock)failureBlock;
+
+-(void)sendRequest:(NSString*)url sendType:(NetSendType)sendType body:(NSData*)body fillHeader:(BOOL)fillHeader responseJson:(BOOL)responseJson returnBlock:(ReturnValueBlock)returnBlock failureBlock:(FailureBlock)failureBlock;
 
 
 @end

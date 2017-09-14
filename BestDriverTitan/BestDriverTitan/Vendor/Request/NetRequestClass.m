@@ -111,7 +111,6 @@ static BOOL netState;
 //                   WithErrorCodeBlock: (ErrorCodeBlock) errorBlock
                      WithFailureBlock: (FailureBlock) failureBlock
 {
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     //申明返回的结果是json类型
 //    manager.responseSerializer = [AFJSONResponseSerializer serializer];
 ////    //申明请求的数据是json类型
@@ -138,16 +137,24 @@ static BOOL netState;
 //        [NetRequestClass onNetFailure:error failureBlock:failureBlock];
 //    }];
     
+    [NetRequestClass NetRequestGETWithRequestURL:requestURLString WithParameter:parameter headers:headers responseJson:YES WithReturnValeuBlock:block WithFailureBlock:failureBlock];
+}
+
++(void)NetRequestGETWithRequestURL:(NSString *)requestURLString WithParameter:(NSDictionary *)parameter headers:(NSDictionary<NSString *,NSString *> *)headers responseJson:(BOOL)responseJson WithReturnValeuBlock:(ReturnValueBlock)block WithFailureBlock:(FailureBlock)failureBlock{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    if (!responseJson) {//非json格式的数据获取
+        manager.responseSerializer = [AFHTTPResponseSerializer serializer];//设置服务器允许的请求格式内容
+    }
     NSMutableURLRequest *request = [[AFJSONRequestSerializer serializer] requestWithMethod:@"GET" URLString:requestURLString parameters:parameter error:nil];
     //    [request addValue:你需要的accept-id forHTTPHeaderField:@"Accept-Id"];
     //    [request addValue:你需要的user-agent forHTTPHeaderField:@"User-Agent"];
-//    [request addValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    //    [request addValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     
     for (NSString *key in headers) {
-//        NSLog(@"key: %@ value: %@", key, headers[key]);
+        //        NSLog(@"key: %@ value: %@", key, headers[key]);
         [request setValue:headers[key] forHTTPHeaderField:key];
     }
-//    [request setHTTPBody:body];
+    //    [request setHTTPBody:body];
     
     [[manager dataTaskWithRequest:request completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
         if (!error) {
@@ -157,7 +164,6 @@ static BOOL netState;
             [NetRequestClass onNetFailure:error failureBlock:failureBlock];
         }
     }] resume];
-    
 }
 
 + (void) NetRequestPOSTWithRequestURL: (NSString *) requestURLString
@@ -279,11 +285,12 @@ static BOOL netState;
 
 +(void)onNetFailure:(NSError * _Nonnull)error failureBlock:(FailureBlock) failureBlock{
     NSData* result = [error.userInfo valueForKey:@"com.alamofire.serialization.response.error.data"];
+    NSString* detailMessage;
     if (result) {
         NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:result options:NSJSONReadingMutableLeaves error:nil];
         //        NSString* detailMessage = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
         //        DDLog(@"%@", jsonDict);
-        NSString* detailMessage = [jsonDict valueForKey:@"detailMessage"];
+        detailMessage = [jsonDict valueForKey:@"detailMessage"];
         if (!detailMessage) {
             detailMessage = [jsonDict valueForKey:@"message"];
         }
@@ -292,7 +299,10 @@ static BOOL netState;
             failureBlock(code,detailMessage);
         }
     }else{
-        if(failureBlock){
+        detailMessage = [error.userInfo valueForKey:@"NSDebugDescription"];
+        if (detailMessage) {
+            failureBlock(nil,detailMessage);
+        }else if(failureBlock){
             failureBlock(nil,@"网络错误,请检查网络情况");
         }
     }

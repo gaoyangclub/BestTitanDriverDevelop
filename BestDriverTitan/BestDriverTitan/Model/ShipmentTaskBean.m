@@ -18,5 +18,21 @@
     return _assetsArray;
 }
 
+-(NSString *)getStatusName{
+    if ([ACTIVITY_STATUS_PENDING_REPORT isEqualToString:self.status]) {
+        return @"未确认";
+    }else if ([ACTIVITY_STATUS_REPORTING isEqualToString:self.status] || [ACTIVITY_STATUS_REPORTED isEqualToString:self.status]) {
+        return @"已确认";
+    }else if ([ACTIVITY_STATUS_CANCELED isEqualToString:self.status]) {
+        return @"已取消";
+    }
+    return @"";
+}
+
+#pragma 声明数组、字典或者集合里的元素类型时要重写
++ (nullable NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
+    return @{@"shipUnits":[ShipmentActivityShipUnitBean class],@"contactList":[ContactBean class]};
+}
+
 
 @end

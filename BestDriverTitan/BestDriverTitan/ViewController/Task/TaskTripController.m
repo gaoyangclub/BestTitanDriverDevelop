@@ -19,6 +19,10 @@
 #import "RoundRectNode.h"
 #import "NetRequestClass.h"
 #import "EmptyDataSource.h"
+#import "ContactBean.h"
+#import "TaskViewModel.h"
+#import "HudManager.h"
+#import "GeographyUtils.h"
 
 @interface TaskFilterButton:UIControl
 
@@ -120,7 +124,7 @@
 
 @interface TaskTripController()<TaskActivityViewDelegate>{
 //    UILabel* titleLabel;
-    NSMutableArray<ShipmentStopBean*>* stopBeanList;
+    NSArray<ShipmentStopBean*>* stopBeanList;
     NSString* selectedTaskCode;
 }
 //@property(nonatomic,retain)UIView* titleView;
@@ -136,6 +140,8 @@
 @property(nonatomic,retain)UIControl* moreButton;
 
 @property(nonatomic,retain)EmptyDataSource* emptyDataSource;
+
+@property(nonatomic,retain)TaskViewModel* viewModel;
 
 @end
 
@@ -158,7 +164,6 @@ static NSArray<NSString*>* taskCodeArr;
     [self initTitleArea];
     self.view.backgroundColor = [UIColor whiteColor];//COLOR_BACKGROUND;
 }
-
 
 //-(UIView *)titleView{
 //    if (!_titleView) {
@@ -193,6 +198,13 @@ static NSArray<NSString*>* taskCodeArr;
     return _emptyDataSource;
 }
 
+-(TaskViewModel *)viewModel{
+    if (!_viewModel) {
+        _viewModel = [[TaskViewModel alloc]init];
+    }
+    return _viewModel;
+}
+
 -(void)initTitleArea{
     self.navigationItem.leftBarButtonItem =
     [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
@@ -201,7 +213,7 @@ static NSArray<NSString*>* taskCodeArr;
     
     self.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_DI_TU target:self action:@selector(rightClick)];
     
-    self.titleLabel.text = @"TO12451516161";//标题显示TO号
+    self.titleLabel.text = self.shipmentBean.code;//@"TO12451516161";//标题显示TO号
     [self.titleLabel sizeToFit];
 //    self.titleView.bounds = titleLabel.bounds;
     self.navigationItem.titleView = self.titleLabel;//self.titleView;
@@ -223,58 +235,92 @@ static NSArray<NSString*>* taskCodeArr;
 }
 
 -(void)headerRefresh:(HeaderRefreshHandler)handler{
-    int64_t delay = 1.0 * NSEC_PER_SEC;
-    
+    if (![NetRequestClass netWorkReachability]) {//网络异常
+        self.emptyDataSource.netError = YES;
+        [self.tableView clearSource];
+        handler(NO);
+        return;
+    }
     __weak __typeof(self) weakSelf = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), ^{//
+    [self.viewModel getStopList:self.shipmentBean.id returnBlock:^(id returnValue) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (![NetRequestClass netWorkReachability]) {//网络异常
-            strongSelf.emptyDataSource.netError = YES;
-            [strongSelf.tableView clearSource];
-            handler(NO);
+        if(!strongSelf){//界面已经被销毁
             return;
         }
+        strongSelf->stopBeanList = [NSArray yy_modelArrayWithClass:[ShipmentStopBean class] json:returnValue];
         strongSelf.emptyDataSource.netError = NO;
-        [strongSelf tempGenerateStopList];
         NSMutableArray<ShipmentStopBean*>* sortStopList = [strongSelf sortStopListByCode:strongSelf->selectedTaskCode];
         handler(sortStopList.count > 0);
-    });
-//    handler(NO);
+    } failureBlock:^(NSString *errorCode, NSString *errorMsg) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [HudManager showToast:errorMsg];
+        strongSelf.emptyDataSource.netError = YES;
+        [strongSelf.tableView clearSource];
+        handler(NO);
+    }];
+//    int64_t delay = 1.0 * NSEC_PER_SEC;
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), ^{//
+//        __strong typeof(weakSelf) strongSelf = weakSelf;
+//        if(!strongSelf){//界面已经被销毁
+//            return;
+//        }
+//        if (![NetRequestClass netWorkReachability]) {//网络异常
+//            strongSelf.emptyDataSource.netError = YES;
+//            [strongSelf.tableView clearSource];
+//            handler(NO);
+//            return;
+//        }
+//        strongSelf.emptyDataSource.netError = NO;
+//        [strongSelf tempGenerateStopList];
+//        NSMutableArray<ShipmentStopBean*>* sortStopList = [strongSelf sortStopListByCode:strongSelf->selectedTaskCode];
+//        handler(sortStopList.count > 0);
+//    });
 }
 
--(void)tempGenerateStopList{
-    self->stopBeanList = [NSMutableArray<ShipmentStopBean*> array];
-    int stopCount = (arc4random() % 10);
-    for (NSUInteger i = 0; i < stopCount; i++) {
-        
-        /*--  创建活动列表 start  --*/
-        NSMutableArray<NSString*>* codeArr = [NSMutableArray<NSString*> arrayWithObjects:ACTIVITY_CODE_PICKUP_HANDOVER,ACTIVITY_CODE_LOAD,ACTIVITY_CODE_UNLOAD,ACTIVITY_CODE_SIGN_FOR_RECEIPT,ACTIVITY_CODE_DELIVERY_RECEIPT,ACTIVITY_CODE_COD, nil];
-        NSInteger removeCount = arc4random() % codeArr.count;
-        for(NSInteger i = 0 ; i < removeCount ; i ++){
-            NSInteger removeIndex = arc4random() % codeArr.count;
-            [codeArr removeObjectAtIndex:removeIndex];
-        }
-        NSMutableArray<ShipmentActivityBean*>* activityBeans = [NSMutableArray<ShipmentActivityBean*> array];
-        for (NSString* code in codeArr) {
-            ShipmentActivityBean* bean = [[ShipmentActivityBean alloc]init];
-            bean.activityDefinitionCode = code;
-            bean.status = arc4random() % 2 > 0 ? ACTIVITY_STATUS_REPORTED : ACTIVITY_STATUS_PENDING_REPORT;
-            [activityBeans addObject:bean];
-        }
-        /*--  创建活动列表 end  --*/
-        
-        ShipmentStopBean* bean = [[ShipmentStopBean alloc]init];
-        bean.isComplete = (arc4random() % 3) > 0 ? NO : YES;//;
-        bean.shortAddress = ConcatStrings(@"横港路李宁店",[NSNumber numberWithInteger:i + 1],@"号店");
-        bean.stopName = ConcatStrings(@"上海上海市松江区上海上海市松江区",bean.shortAddress,@"18弄63号");
-        
-        bean.pickupCount = (arc4random() % 15);
-        bean.deliverCount = (arc4random() % 15);
-        bean.orderCount = (arc4random() % 10) + 1;
-        bean.shipmentActivityList = activityBeans;
-        [self->stopBeanList addObject:bean];
-    }
-}
+//-(void)tempGenerateStopList{
+//    self->stopBeanList = [NSMutableArray<ShipmentStopBean*> array];
+//    int stopCount = (arc4random() % 10);
+//    for (NSUInteger i = 0; i < stopCount; i++) {
+//        
+//        /*--  创建活动列表 start  --*/
+//        NSMutableArray<NSString*>* codeArr = [NSMutableArray<NSString*> arrayWithObjects:ACTIVITY_CODE_PICKUP_HANDOVER,ACTIVITY_CODE_LOAD,ACTIVITY_CODE_UNLOAD,ACTIVITY_CODE_SIGN_FOR_RECEIPT,ACTIVITY_CODE_DELIVERY_RECEIPT,ACTIVITY_CODE_COD, nil];
+//        NSInteger removeCount = arc4random() % codeArr.count;
+//        for(NSInteger i = 0 ; i < removeCount ; i ++){
+//            NSInteger removeIndex = arc4random() % codeArr.count;
+//            [codeArr removeObjectAtIndex:removeIndex];
+//        }
+//        NSMutableArray<ShipmentActivityBean*>* activityBeans = [NSMutableArray<ShipmentActivityBean*> array];
+//        for (NSString* code in codeArr) {
+//            ShipmentActivityBean* bean = [[ShipmentActivityBean alloc]init];
+//            bean.activityDefinitionCode = code;
+//            bean.status = arc4random() % 2 > 0 ? ACTIVITY_STATUS_REPORTED : ACTIVITY_STATUS_PENDING_REPORT;
+//            [activityBeans addObject:bean];
+//        }
+//        /*--  创建活动列表 end  --*/
+//        /*--  创建联系人列表 start  --*/
+//        NSMutableArray<ContactBean*>* contactBeans = [NSMutableArray<ContactBean*> array];
+//        int contactCount = (arc4random() % 3);
+//        for (NSUInteger j = 0; j < contactCount; j++){
+//            ContactBean* contactBean = [[ContactBean alloc]init];
+//            contactBean.mobel = @"13656664618";
+//            contactBean.name = ConcatStrings(@"老板",@(j));
+//            [contactBeans addObject:contactBean];
+//        }
+//        /*--  创建联系人列表 end  --*/
+//        
+//        ShipmentStopBean* bean = [[ShipmentStopBean alloc]init];
+////        bean.isComplete = (arc4random() % 3) > 0 ? NO : YES;//;
+//        bean.stopName = ConcatStrings(@"横港路李宁店",[NSNumber numberWithInteger:i + 1],@"号店");
+//        bean.locationAddress = ConcatStrings(@"上海上海市松江区上海上海市松江区",bean.stopName,@"18弄63号");
+//        
+//        bean.pickupCount = (arc4random() % 15);
+//        bean.deliverCount = (arc4random() % 15);
+//        bean.orderCount = (arc4random() % 10) + 1;
+//        bean.shipmentActivityList = activityBeans;
+//        bean.contactList = contactBeans;
+//        [(NSMutableArray*)self->stopBeanList addObject:bean];
+//    }
+//}
 
 -(CGRect)getTableViewFrame{
     CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
@@ -343,7 +389,7 @@ static NSArray<NSString*>* taskCodeArr;
 
 -(void)initEmptyData{
     self.emptyDataSource.buttonTitle = self->selectedTaskCode ? nil : @"点我刷新";
-    self.emptyDataSource.noDataDescription = self->selectedTaskCode ? @"该类型任务已完成!" : @"任务已全部完成";
+    self.emptyDataSource.noDataDescription = self->selectedTaskCode ? @"该类型任务不存在或已完成!" : @"任务已全部完成";
 }
 
 -(NSMutableArray<ShipmentStopBean*>*)sortStopListByCode:(NSString*)code{
@@ -378,12 +424,33 @@ static NSArray<NSString*>* taskCodeArr;
     if (!self->selectedTaskCode && [self.tableView getSourceCount] > 0) {//全部
         SourceVo* sourceVo = self.tableView.dataSourceArray[0];
         if(sourceVo.data.count){//有数据
-            NSInteger selectIndex = (arc4random() % sourceVo.data.count);
-            self.selectedIndexPath = [NSIndexPath indexPathForRow:selectIndex inSection:0];
-            
-            [self.tableView moveSelectedIndexPathToCenter];
+            NSInteger selectIndex = [self getLatestStopIndexByLocation];
+            //(arc4random() % sourceVo.data.count);
+            if (selectIndex >= 0) {
+                self.selectedIndexPath = [NSIndexPath indexPathForRow:selectIndex inSection:0];
+                [self.tableView moveSelectedIndexPathToCenter];
+            }
         }
     }
+}
+
+-(NSInteger)getLatestStopIndexByLocation{
+    NSValue* locationValue = [AmapLocationService getLastLocationPoint];
+    if(!locationValue || !self->stopBeanList || self->stopBeanList.count <= 0)return -1;//还未找到
+    
+    CLLocationCoordinate2D locationPoint = locationValue.MKCoordinateValue;
+    
+    NSInteger latestIndex = 0;
+    double latestDist = DBL_MAX;
+    for (NSInteger i = self->stopBeanList.count - 1; i >= 0; i--) {
+        ShipmentStopBean* stopBean = self->stopBeanList[i];
+        double dist = [GeographyUtils getLantitudeLongitudeDist:stopBean.longitude lat1:stopBean.latitude lon2:locationPoint.longitude lat2:locationPoint.latitude];
+        if (dist < latestDist){
+            latestDist = dist;
+            latestIndex = i;
+        }
+    }
+    return latestIndex;
 }
 
 -(void)dealloc{

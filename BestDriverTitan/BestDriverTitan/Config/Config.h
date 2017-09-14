@@ -20,6 +20,8 @@
 #define COLOR_DAI_WAN_CHENG COLOR_PRIMARY//FlatWatermelon//[UIColor flatSandColorDark]//rgb(250,83,44)//rgba(240,129,69,1)
 #define LINE_WIDTH 0.5
 
+#define PER_PAGE_COUNT 20 //每一页数据个数
+
 //#ifdef DEBUG
 //#define NSLog(FORMAT, ...) fprintf(stderr,"\n %s:%d   %s\n",[[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String],__LINE__, [[[NSString alloc] initWithData:[[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] dataUsingEncoding:NSUTF8StringEncoding] encoding:NSNonLossyASCIIStringEncoding] UTF8String]);
 //#else
@@ -220,6 +222,9 @@
 #define ACTIVITY_STATUS_REPORTING @"REPORTING"
 #define ACTIVITY_STATUS_REPORTED @"REPORTED"
 #define ACTIVITY_STATUS_CANCELED @"CANCELED"
+
+#define ACCOUNT_DRIVER_TYPE_INDIVIDUAL @"INDIVIDUAL"//个体司机
+#define ACCOUNT_DRIVER_TYPE_SUBORDINATE @"SUBORDINATE"//挂靠承运商
 
 #define USER_KEY @"user_key"
 #define PHONE_KEY @"phone_key"

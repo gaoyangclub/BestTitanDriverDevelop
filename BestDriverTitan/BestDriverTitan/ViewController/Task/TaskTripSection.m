@@ -520,31 +520,31 @@
     CGSize phoneSize = [self.phoneIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.phoneIcon.frame = (CGRect){CGPointMake((bottomHeight - phoneSize.width) / 2, (bottomHeight - phoneSize.height) / 2),phoneSize};
     
-    self.followButton.frame = CGRectMake(bottomWidth - bottomHeight, bottomY, bottomHeight, bottomHeight);
-    [self showFollowArea:bean];
+//    self.followButton.frame = CGRectMake(bottomWidth - bottomHeight, bottomY, bottomHeight, bottomHeight);
+//    [self showFollowArea:bean];
 }
 
--(void)showFollowArea:(ShipmentStopBean*)bean{
-    
-    CGFloat areaHeight = CGRectGetHeight(self.followButton.bounds);
-    
-    if (bean.isFollow) {
-        self.followIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange  size:24 content:ICON_STAR];
-//        self.followLabel.attributedString = [NSString simpleAttributedString:FlatOrange  size:12 content:@"收  藏"];
-    }else{
-        self.followIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor]  size:24 content:ICON_STAR];
-//        self.followLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColor]  size:12 content:@"收  藏"];
-    }
-    
-    CGSize iconSize = [self.followIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-//    CGSize labelSize = [self.followLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    
-    CGFloat iconY = (areaHeight - iconSize.height) / 2;
-    
-    self.followIcon.frame = (CGRect){CGPointMake((areaHeight - iconSize.width) / 2, iconY),iconSize};
-    
-//    self.followLabel.frame = (CGRect){CGPointMake((areaHeight - labelSize.width) / 2, iconY + iconSize.height + iconGap),labelSize};
-}
+//-(void)showFollowArea:(ShipmentStopBean*)bean{
+//    
+//    CGFloat areaHeight = CGRectGetHeight(self.followButton.bounds);
+//    
+//    if (bean.isFollow) {
+//        self.followIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange  size:24 content:ICON_STAR];
+////        self.followLabel.attributedString = [NSString simpleAttributedString:FlatOrange  size:12 content:@"收  藏"];
+//    }else{
+//        self.followIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor]  size:24 content:ICON_STAR];
+////        self.followLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColor]  size:12 content:@"收  藏"];
+//    }
+//    
+//    CGSize iconSize = [self.followIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+////    CGSize labelSize = [self.followLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+//    
+//    CGFloat iconY = (areaHeight - iconSize.height) / 2;
+//    
+//    self.followIcon.frame = (CGRect){CGPointMake((areaHeight - iconSize.width) / 2, iconY),iconSize};
+//    
+////    self.followLabel.frame = (CGRect){CGPointMake((areaHeight - labelSize.width) / 2, iconY + iconSize.height + iconGap),labelSize};
+//}
 
 //-(void)initTopArea:(CGFloat)backWidth{
 //    if (!buttonDic) {

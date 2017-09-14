@@ -15,6 +15,9 @@
 #import "UIArrowView.h"
 #import "MapNaviViewController.h"
 #import "OwnerViewController.h"
+#import "CustomPopListView.h"
+#import "TaskContactCell.h"
+#import "HudManager.h"
 
 @interface TaskTripCell(){
     
@@ -254,16 +257,37 @@ static CGFloat stateWidth = 20;
 -(FlatButton *)phoneButton{
     if (!_phoneButton) {
         _phoneButton = [[FlatButton alloc]init];
-        _phoneButton.fillColor = [UIColor clearColor];
-        _phoneButton.titleColor = COLOR_ACCENT;
+        _phoneButton.fillColor = COLOR_ACCENT;
+        _phoneButton.titleColor = [UIColor whiteColor];
         _phoneButton.titleFontName = ICON_FONT_NAME;
-        _phoneButton.titleSize = 28;
+        _phoneButton.titleSize = 18;
         _phoneButton.title = ICON_DIAN_HUA;
+        CGFloat radius = 15;
+        _phoneButton.width = _phoneButton.height = radius * 2;
+        _phoneButton.cornerRadius = radius;
+        
+        [_phoneButton addTarget:self action:@selector(clickPhoneButton) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:_phoneButton];
     }
     return _phoneButton;
 }
 
+-(void)clickPhoneButton{
+    ShipmentStopBean* stopBean = self.data;
+    if(stopBean.contactList && stopBean.contactList.count > 0){
+        CustomPopListView* popListView = [[CustomPopListView alloc]init];
+        popListView.minWidth = 300;
+        popListView.dataArray = stopBean.contactList;
+        //    popListView.delegate = self;
+        popListView.cellClass = [TaskContactCell class];
+        popListView.clickItemDismiss = NO;
+        
+        [popListView show];
+    }else{
+        [HudManager showToast:@"该停靠站暂时没有联系人信息!"];
+    }
+    
+}
 
 -(ASTextNode *)naviLabel{
     if (!_naviLabel) {
@@ -359,10 +383,10 @@ static CGFloat stateWidth = 20;
     self.orderCountIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatGray size:18 content:ICON_DING_DAN];
     self.orderCountIcon.size = [self.orderCountIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
 
-    self.orderCountNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange size:16 content:@"15"];
+    self.orderCountNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange size:16 content:[NSString stringWithFormat:@"%ld个",(long)stopBean.ordermovementCt]];
     self.orderCountNode.size = [self.orderCountNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize orderCountSize =
 
-    NSString* stopName = ConcatStrings([NSString stringWithFormat:@"%li",(long)self.indexPath.row + 1],@".",stopBean.shortAddress);
+    NSString* stopName = ConcatStrings([NSString stringWithFormat:@"%li",(long)self.indexPath.row + 1],@".",stopBean.stopName);
     UIColor* titleColor;//,@"上海市松江区上海市松江区啦啦啦啦啦啦"
     if(self.selected){
         titleColor = FlatOrange;
@@ -398,7 +422,7 @@ static CGFloat stateWidth = 20;
     
     ShipmentStopBean* stopBean = self.data;
     
-    NSString* address = stopBean.stopName;
+    NSString* address = stopBean.locationAddress;
     
     UIColor* titleColor;
     if(self.selected){
@@ -458,7 +482,10 @@ static CGFloat stateWidth = 20;
         bottomSize = 14;
     }
     
-    self.timeLabel.attributedString = [NSString simpleAttributedString:FlatGray size:bottomSize content:@"送达:2017-08-15 00:00:00"];
+    ShipmentStopBean* stopBean = self.data;
+    
+    self.timeLabel.attributedString = [NSString simpleAttributedString:FlatGray size:bottomSize content:
+                                       ConcatStrings(@"送达:",stopBean.deliveryDate)];
     self.timeLabel.size = [self.timeLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize timeSize =
     self.timeLabel.x = leftMargin;
     self.timeLabel.y = bottomY;
@@ -466,7 +493,6 @@ static CGFloat stateWidth = 20;
 //        CGPointMake(leftMargin, bottomY),
 //        timeSize
 //    };
-    ShipmentStopBean* stopBean = self.data;
     
     int pickupCount = stopBean.pickupCount; //生成0-15范围的随机数
     int deliverCount = stopBean.deliverCount; //生成0-15范围的随机数
@@ -483,11 +509,17 @@ static CGFloat stateWidth = 20;
     
     [self initActivityArea:bottomY cellWidth:cellWidth cellHeight:cellHeight];
     
-    self.phoneButton.width = 30;
-    self.phoneButton.height = 30;
+//    self.phoneButton.width = 30;
+//    self.phoneButton.height = 30;
 //    self.phoneButton.backgroundColor = FlatBrownDark;
     self.phoneButton.maxX = self.activityButton.x - [TaskTripCell getMarginLeft];
     self.phoneButton.centerY = self.activityButton.centerY;
+    
+    if(stopBean.contactList && stopBean.contactList.count > 0){
+        self.phoneButton.fillColor = COLOR_ACCENT;
+    }else{
+        self.phoneButton.fillColor = COLOR_LINE;
+    }
 }
 
 -(void)initActivityArea:(CGFloat)bottomY cellWidth:(CGFloat)cellWidth cellHeight:(CGFloat)cellHeight{

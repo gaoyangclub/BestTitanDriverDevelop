@@ -71,12 +71,17 @@
 
 -(void)headerRefresh:(HeaderRefreshHandler)handler{
     int64_t delay = 0.3 * NSEC_PER_SEC;
+    __weak __typeof(self) weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), ^{//
-        [self.tableView clearSource];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if(!strongSelf){//界面已经被销毁
+            return;
+        }
+        [strongSelf.tableView clearSource];
         
         NSMutableArray<LocationInfo *>* locationInfos = [AmapLocationService getAllLocationInfos];
         if (locationInfos.count > 0) {
-            [self generateLoctionSource:locationInfos];
+            [strongSelf generateLoctionSource:locationInfos];
         }
         
         handler(locationInfos.count > 0);

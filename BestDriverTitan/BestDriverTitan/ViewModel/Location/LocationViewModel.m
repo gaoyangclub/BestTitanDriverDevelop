@@ -28,7 +28,7 @@ static LocationViewModel* instance;
     HeartBeat* heartBeat = [[HeartBeat alloc]init];
     heartBeat.locationList = locationList;
     
-    [self sendRequest:HEART_BEAT_URL sendType:NetSendTypePost body:GetBody(heartBeat) fillHeader:YES returnBlock:returnBlock failureBlock:failureBlock];
+    [self sendRequest:HEART_BEAT_URL sendType:NetSendTypePost body:GetBody(heartBeat) fillHeader:YES responseJson:YES returnBlock:returnBlock failureBlock:failureBlock];
 }
 
 +(void)sendLocationPoints{

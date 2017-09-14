@@ -241,17 +241,22 @@
 
 -(void)headerRefresh:(HeaderRefreshHandler)handler{
     int64_t delay = 1.0 * NSEC_PER_SEC;
+    __weak __typeof(self) weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), ^{//
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if(!strongSelf){//界面已经被销毁
+            return;
+        }
         int count = (arc4random() % 6) + 1; //生成3-10范围的随机数
     
-        [self.tableView clearSource];
+        [strongSelf.tableView clearSource];
         
         for (NSInteger i = 0; i < count; i++) {
             NSMutableArray* sourceData = [NSMutableArray<CellVo*> array];
             ShipmentTaskBean* bean = [[ShipmentTaskBean alloc]init];
             int count2 = (arc4random() % 15) + 1; //生成1-3范围的随机数
             
-            if ([currentActivity.activityDefinitionCode isEqualToString:ACTIVITY_CODE_DELIVERY_RECEIPT]) {
+            if ([strongSelf->currentActivity.activityDefinitionCode isEqualToString:ACTIVITY_CODE_DELIVERY_RECEIPT]) {
                 [sourceData addObject:[CellVo initWithParams:ORDER_RECEIPT_CELL_HEIGHT cellClass:[OrderReceiptCell class] cellData:bean]];
             }else{
                 for (NSInteger j = 0; j < count2; j++) {
@@ -262,7 +267,7 @@
             }
             
             SourceVo* svo = [SourceVo initWithParams:sourceData headerHeight:ORDER_VIEW_SECTION_HEIGHT headerClass:[OrderViewSection class] headerData:bean];
-            [self.tableView addSource:svo];
+            [strongSelf.tableView addSource:svo];
         }
 //        [self.tabView setTotalCount:count];
         
@@ -322,7 +327,7 @@
 }
 
 -(void)didSelectRow:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    SourceVo* source =[self.tableView getSourceByIndex:indexPath.section];
+    SourceVo* source = [self.tableView getSourceByIndex:indexPath.section];
     CellVo* cellVo = source.data[indexPath.row];
     if ([NSStringFromClass(cellVo.cellClass) isEqualToString:NSStringFromClass([OrderNormalCell class])]) {
         OrderEditModelView* editView = [[OrderEditModelView alloc]init];

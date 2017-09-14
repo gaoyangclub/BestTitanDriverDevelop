@@ -99,6 +99,7 @@ static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不�
         case NetModeTypePersonZhu:return ConcatStrings(@"Zjd ",baseName);
         case NetModeTypePersonZheng:return ConcatStrings(@"Zxx ",baseName);
         case NetModeTypePersonGao:return ConcatStrings(@"Gy ",baseName);
+        case NetModeTypePersonGuo:return ConcatStrings(@"Glq ",baseName);
         case NetModeTypeDemo:return ConcatStrings(@"Demo ",baseName);
         case NetModeTypeTest:return ConcatStrings(@"Test ",baseName);
         case NetModeTypeUat:return ConcatStrings(@"Uat ",baseName);
@@ -117,6 +118,7 @@ static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不�
         case NetModeTypePersonZhu:return @"朱斯基";
         case NetModeTypePersonZheng:return @"郑斯基";
         case NetModeTypePersonGao:return @"高斯基";
+        case NetModeTypePersonGuo:return @"郭斯基";
         case NetModeTypeDemo:return @"Demo环境";
         case NetModeTypeTest:return @"Test环境";
         case NetModeTypeUat:return @"Uat环境";

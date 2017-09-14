@@ -158,6 +158,7 @@
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 if (strongSelf.refreshDelegate && [strongSelf.refreshDelegate respondsToSelector:@selector(footerLoadMore:)]){
                     [strongSelf.refreshDelegate footerLoadMore:^(BOOL hasData){
+//                        [strongSelf footerLoaded:hasData];
                         if (hasData) {
                             [strongSelf checkGaps];
                             strongSelf.refreshAll = NO;
@@ -188,6 +189,10 @@
 
 }
 
+//-(void)footerLoaded:(BOOL)hasData{
+//    
+//}
+
 -(void)setHeader:(MJRefreshHeader *)header{
     if (self.showHeader) {
         __weak __typeof(self) weakSelf = self;
@@ -196,7 +201,8 @@
             //            DiyCuteRefreshHeader* header = [DiyCuteRefreshHeader headerWithRefreshingBlock:^{
             if (strongSelf.refreshDelegate && [strongSelf.refreshDelegate respondsToSelector:@selector(headerRefresh:)]) {
                 [strongSelf.refreshDelegate headerRefresh:^(BOOL hasData){
-                    _hasFirstRefreshed = YES;
+//                    [strongSelf headerRefreshed:hasData];
+                    strongSelf->_hasFirstRefreshed = YES;
                     [strongSelf reloadMJData];
                     [strongSelf.mj_header endRefreshing];// 结束刷新
                     if (hasData) {
@@ -218,12 +224,16 @@
     }
 }
 
+//-(void)headerRefreshed:(BOOL)hasData{
+//    
+//}
+
 -(void)moveSelectedIndexPathToCenter{
     if(self.mj_header.isIdle){//不在刷新状态下可以使用
-        if (self.clickCellMoveToCenter && _selectedIndexPath) {
+        if (self.clickCellMoveToCenter && self->_selectedIndexPath) {
             //                MJTableViewCell* cell = [self cellForRowAtIndexPath:_selectedIndexPath];
             //                DDLog(@"selectedIndexPath.row:%ld",(long)_selectedIndexPath.row);
-            [self moveCellToCenter:_selectedIndexPath];
+            [self moveCellToCenter:self->_selectedIndexPath];
         }
     }
 }
@@ -378,8 +388,9 @@
 //    SourceVo* source = self.dataArray[indexPath.section];
 //    CellVo* cellVo = source.data[indexPath.row];
 //    cellVo.isSelect = YES;
-    
-    [self changeSelectIndexPath:indexPath];
+    if(self.clickCellHighlight){
+        [self changeSelectIndexPath:indexPath];
+    }
     
     [tableView deselectRowAtIndexPath:indexPath animated: false];//反选
     [self dispatchSelectRow:indexPath];
@@ -414,13 +425,13 @@
 }
 
 -(void)changeSelectIndexPath:(NSIndexPath *)selectedIndexPath{
-    if (_selectedIndexPath) {
-        MJTableViewCell* prevCell = [self cellForRowAtIndexPath:_selectedIndexPath];
+    if (self->_selectedIndexPath) {
+        MJTableViewCell* prevCell = [self cellForRowAtIndexPath:self->_selectedIndexPath];
         if (prevCell) {
             prevCell.selected = NO;
         }
     }
-    _selectedIndexPath = selectedIndexPath;
+    self->_selectedIndexPath = selectedIndexPath;
     MJTableViewCell* cell = [self cellForRowAtIndexPath:selectedIndexPath];
     if (cell) {
         cell.selected = YES;

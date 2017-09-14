@@ -36,6 +36,9 @@
 
 
 + (NSAttributedString *)simpleAttributedString:(UIColor*)color size:(CGFloat)size content:(NSString*)content{
+    
+    if(!content)return nil;
+    
     NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
     style.alignment = NSTextAlignmentCenter;
     

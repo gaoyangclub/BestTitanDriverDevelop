@@ -81,4 +81,9 @@
 //    [self.tableView headerBeginRefresh];
 }
 
+#pragma DZNEmptyDataSetDelegate 空白是否允许滚动视图
+-(BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView{
+    return YES;
+}
+
 @end

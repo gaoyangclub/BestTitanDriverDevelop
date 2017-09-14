@@ -76,8 +76,12 @@
     if (self.minHeight > 0 && contentHeight < self.minHeight) {
         contentHeight = self.minHeight;
     }
+    CGFloat contentWidth = CGRectGetWidth(self.bounds) - self.leftMargin * 2;
+    if (self.minWidth > 0 && contentWidth < self.minWidth) {
+        contentWidth = self.minWidth;
+    }
     self.contentView.frame = CGRectMake(0,0,
-                              CGRectGetWidth(self.bounds) - self.leftMargin * 2,
+                              contentWidth,
                               contentHeight);
     [self viewDidLoad];
     

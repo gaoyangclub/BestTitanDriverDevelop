@@ -10,14 +10,36 @@
 
 @interface ShipmentBean : NSObject
 
-@property(nonatomic,assign)int factor1;
-@property(nonatomic,assign)int factor2;
-@property(nonatomic,assign)int factor3;
-@property(nonatomic,assign)int pickupCount;
-@property(nonatomic,assign)int deliverCount;
-@property(nonatomic,assign)BOOL isComplete;
+//@property(nonatomic,assign)int factor1;
+//@property(nonatomic,assign)int factor2;
+//@property(nonatomic,assign)int factor3;
+//@property(nonatomic,assign)int pickupCount;
+//@property(nonatomic,assign)int deliverCount;
+//@property(nonatomic,assign)BOOL isComplete;
 @property(nonatomic,assign)BOOL isFollow;
-@property(nonatomic,retain)NSDate* dateTime;
+//@property(nonatomic,retain)NSDate* dateTime;
 
+@property(nonatomic,assign)long id;
+@property(nonatomic,copy)NSString* code;
+@property(nonatomic,copy)NSString* licencePlate;
+
+//@property(nonatomic,copy)NSString* costHour;// 运单规划行驶时间
+//@property(nonatomic,copy)NSString* distance;// 运单规划行驶距离
+//@property(nonatomic,copy)NSString* expense;// 参考运费
+@property(nonatomic,assign)long costHour;// 运单规划行驶时间
+@property(nonatomic,assign)long distance;// 运单规划行驶距离
+@property(nonatomic,assign)long expense;// 参考运费
+@property(nonatomic,copy)NSString* accountDriverType;// 对账主体类型
+@property(nonatomic,copy)NSString* status;
+@property(nonatomic,assign)CGFloat ordermovementCt;//订单数
+@property(nonatomic,copy)NSString* sourceLocationAddress;//起点地点
+@property(nonatomic,copy)NSString* destLocationAddress;//终点地点
+
+//@JsonProperty("dateTime")
+@property(nonatomic,assign)long dateTime; //最后更新时间时间戳
+@property(nonatomic,retain)NSDate* date; //dateTime 转换的时间
+
+-(BOOL)isComplete;
+-(BOOL)canShowMoney;//显示 行驶时间 里程数 运费
 
 @end

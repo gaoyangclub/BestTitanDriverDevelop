@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "MJTableViewController.h"
+#import "ShipmentBean.h"
 
 @interface TaskTripController : MJTableViewController
 
+@property(nonatomic,retain)ShipmentBean* shipmentBean;
 
 @end

@@ -24,7 +24,13 @@ typedef void (^FailureBlock) (NSString* errorCode,NSString* errorMsg);
                        WithParameter: (NSDictionary *) parameter
                              headers: (NSDictionary <NSString *, NSString *> *) headers
                 WithReturnValeuBlock: (ReturnValueBlock) block
-//                  WithErrorCodeBlock: (ErrorCodeBlock) errorBlock
+                    WithFailureBlock: (FailureBlock) failureBlock;
+#pragma GET请求
++ (void) NetRequestGETWithRequestURL: (NSString *) requestURLString
+                       WithParameter: (NSDictionary *) parameter
+                             headers: (NSDictionary <NSString *, NSString *> *) headers
+                        responseJson: (BOOL)responseJson
+                WithReturnValeuBlock: (ReturnValueBlock) block
                     WithFailureBlock: (FailureBlock) failureBlock;
 
 #pragma POST请求 body形式

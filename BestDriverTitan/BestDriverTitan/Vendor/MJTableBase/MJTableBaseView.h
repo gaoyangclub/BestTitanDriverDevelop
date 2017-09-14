@@ -60,6 +60,11 @@ typedef void(^FooterLoadMoreHandler)(BOOL hasData);
 @property(nonatomic,retain) NSIndexPath* selectedIndexPath;
 
 //@property (nonatomic,assign) BOOL pureTable;
+
+/**
+ *  点中cell高亮
+ */
+@property (nonatomic,assign) BOOL clickCellHighlight;
 /**
  *  点中cell自动居中
  */
