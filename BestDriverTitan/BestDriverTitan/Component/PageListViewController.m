@@ -45,6 +45,7 @@
         [self headerNetError:handler toast:@"网络出现异常，请检查网络状况!"];
         return;
     }
+    self.emptyDataSource.netError = NO;
     self->pageNumber = 1;
     [self headerRefresh:handler pageNumber:self->pageNumber];
 }

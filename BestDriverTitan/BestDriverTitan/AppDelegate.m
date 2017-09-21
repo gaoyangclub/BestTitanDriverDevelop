@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "GYTabBarController.h"
 #import "DIYTabBarItem.h"
 #import "ViewController.h"
 #import "SplashSourceDaDa.h"
@@ -36,6 +35,7 @@
 #import "TTSDataSource.h"
 #import "GeTuiDataSource.h"
 #import "BackgroundTimer.h"
+#import "MessageViewController.h"
 
 @interface AppDelegate ()
 
@@ -57,7 +57,7 @@
 /**
  *  mark 暂时使用NormalTabBar
  */
--(UITabBarController*)createNormalTabBar{
+-(GYTabBarController*)createNormalTabBar{
 //    [UIColor flatTealColor]
     
     UIViewController* itemCtrl1 = [[TaskHomeController alloc] init];
@@ -65,7 +65,7 @@
     UIViewController* itemCtrl2 = [[ViewController alloc] init];
 //    itemCtrl2.view.backgroundColor = [UIColor grayColor];
     
-    UIViewController* itemCtrl3 = [[ViewController alloc] init];
+    UIViewController* itemCtrl3 = [[MessageViewController alloc] init];
 //    itemCtrl3.view.backgroundColor = [UIColor greenColor];
     
     UIViewController* itemCtrl4 = [[UserHomeController alloc] init];
@@ -87,15 +87,15 @@
     GYTabBarController* tabBarCtl = [[GYTabBarController alloc] init];
     tabBarCtl.itemClass = [DIYTabBarItem class];
     tabBarCtl.dataArray = @[[TabData initWithParams:[DIYBarData initWithParams:TABBAR_TITLE_REN_WU image:ICON_DING_DAN selectedImage:ICON_DING_DAN_SELECTED] controller:itemCtrl1],
-                            [TabData initWithParams:[DIYBarData initWithParams:TABBAR_TITLE_DAI_FU_KUAN image:ICON_DAI_FU_KUAN selectedImage:ICON_DAI_FU_KUAN_SELECTED] controller:itemCtrl2],
+//                            [TabData initWithParams:[DIYBarData initWithParams:TABBAR_TITLE_DAI_FU_KUAN image:ICON_DAI_FU_KUAN selectedImage:ICON_DAI_FU_KUAN_SELECTED] controller:itemCtrl2],
                             [TabData initWithParams:[DIYBarData initWithParams:TABBAR_TITLE_XIAO_XI image:ICON_XIAO_XI selectedImage:ICON_XIAO_XI_SELECTED] controller:itemCtrl3],
                             [TabData initWithParams:[DIYBarData initWithParams:TABBAR_TITLE_WO image:ICON_WO_DE selectedImage:ICON_WO_DE_SELECTED] controller:itemCtrl4],
                             ];
     //    tabBarCtl.view.backgroundColor = [UIColor yellowColor];
     
     //\U00003439 \U000035ad \U000035ae \U000035af \U000035eb \U000035ec \U00003605"
-    [tabBarCtl setItemBadge:20 atIndex:0];
-    [tabBarCtl setItemBadge:5 atIndex:2];
+//    [tabBarCtl setItemBadge:20 atIndex:0];
+//    [tabBarCtl setItemBadge:5 atIndex:2];
     tabBarCtl.view.backgroundColor = [UIColor whiteColor];
 //    tabBarCtl.view.alpha = 0.3;
     //    [tabBarCtl setItemBadge:80 atIndex:2];
@@ -140,7 +140,10 @@
     navigationController.hairlineHidden = YES;
     navigationController.hairlineColor = COLOR_LINE;
     navigationController.navigationColor = [UIColor whiteColor];//COLOR_PRIMARY;
-    [navigationController setViewControllers:@[[self createNormalTabBar]]];
+    
+    self.rootTabBarController = [self createNormalTabBar];
+    
+    [navigationController setViewControllers:@[self.rootTabBarController]];
     
     ViewController* leftViewController = [[ViewController alloc]init];//AccountSideHomeController()
     [leftViewController showSwitchArea];
@@ -187,10 +190,12 @@
 //    UMConfigInstance.eSType = E_UM_GAME; //仅适用于游戏场景，应用统计不用设置
     [MobClick startWithConfigure:UMConfigInstance];//配置以上参数后调用此方法初始化SDK！
     
-//    [SpeechManager playSoundString:@"上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库"];
-    
 //    [[UIApplication sharedApplication] setKeepAliveTimeout:600 handler:^(void){}];//注册一个周期性执行的任务, 而不管是否运行在后台. timeout>=600
 //    //clearKeepAliveTimeout 清除计时器
+    
+//    self.rootImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.window.width / 2., self.window.height / 2.)];
+//    self.rootImage.image = [UIImage imageNamed:@"application"];
+//    [self.window addSubview:self.rootImage];
     
     return YES;
 }

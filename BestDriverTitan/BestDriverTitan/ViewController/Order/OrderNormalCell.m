@@ -11,6 +11,7 @@
 #import "FlatButton.h"
 #import "OrderEditModelView.h"
 #import "UIArrowView.h"
+#import "ShipmentActivityShipUnitBean.h"
 
 @interface OrderNormalCell()
 
@@ -26,9 +27,9 @@
 
 //@property(nonatomic,retain)FlatButton* editButton;//编辑 铅笔
 
-//@property(nonatomic,retain)ASTextNode* weightLabel;//重量
+@property(nonatomic,retain)ASTextNode* weightLabel;//重量
 
-//@property(nonatomic,retain)ASTextNode* volumeLabel;//体积
+@property(nonatomic,retain)ASTextNode* volumeLabel;//体积
 
 @property(nonatomic,retain)ASDisplayNode* bottomLine;//底部线
 
@@ -137,26 +138,25 @@
 //    }
 //    return _pieceNumberView;
 //}
-//
-//
-//-(ASTextNode *)weightLabel{
-//    if(!_weightLabel){
-//        _weightLabel = [[ASTextNode alloc]init];
-//        _weightLabel.layerBacked = YES;
-//        [self.contentView.layer addSublayer:_weightLabel.layer];
-//    }
-//    return _weightLabel;
-//}
 
-//-(ASTextNode *)volumeLabel{
-//    if(!_volumeLabel){
-//        _volumeLabel = [[ASTextNode alloc]init];
-//        _volumeLabel.layerBacked = YES;
-//        [self.contentView.layer addSublayer:_volumeLabel.layer];
-//    }
-//    return _volumeLabel;
-//}
-//
+-(ASTextNode *)weightLabel{
+    if(!_weightLabel){
+        _weightLabel = [[ASTextNode alloc]init];
+        _weightLabel.layerBacked = YES;
+        [self.contentView.layer addSublayer:_weightLabel.layer];
+    }
+    return _weightLabel;
+}
+
+-(ASTextNode *)volumeLabel{
+    if(!_volumeLabel){
+        _volumeLabel = [[ASTextNode alloc]init];
+        _volumeLabel.layerBacked = YES;
+        [self.contentView.layer addSublayer:_volumeLabel.layer];
+    }
+    return _volumeLabel;
+}
+
 -(ASDisplayNode *)bottomLine{
     if (!_bottomLine) {
         _bottomLine = [[ASDisplayNode alloc]init];
@@ -216,20 +216,22 @@
 -(void)showSubviews{
     self.backgroundColor = [UIColor whiteColor];
     
+    ShipmentActivityShipUnitBean* shipUnitBean = (ShipmentActivityShipUnitBean*)self.data;
+    
     CGFloat viewWidth = CGRectGetWidth(self.contentView.bounds);
     CGFloat viewHeight = CGRectGetHeight(self.contentView.bounds);
     
-    CGFloat lefftpadding = 5;
+    CGFloat leftpadding = 5;
     
     self.orderIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_BLACK_ORIGINAL size:20 content:ICON_BIAO_QIAN_DOWN];
     CGSize iconSize = [self.orderIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.orderIcon.frame = (CGRect){
-        CGPointMake(lefftpadding, (viewHeight  - iconSize.height) / 2.),iconSize
+        CGPointMake(leftpadding, (viewHeight  - iconSize.height) / 2.),iconSize
     };
     
     CGFloat labelLeftMargin = CGRectGetMaxX(self.orderIcon.frame) + 5;
     
-    self.titleLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_BLACK_ORIGINAL size:14 content:@"阿迪达斯毛巾啊"];
+    self.titleLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_BLACK_ORIGINAL size:14 content:shipUnitBean.itemName];
     CGSize titleSize = [self.titleLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.titleLabel.frame = (CGRect){
         CGPointMake(labelLeftMargin, viewHeight / 2. - 15),titleSize
@@ -237,23 +239,37 @@
     
     CGFloat bottomY = viewHeight / 2. + 1;
     
-    self.packageLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:12 content:@"包装12箱"];
+    UIColor* labelColor = shipUnitBean.orgPacakageUnitCount != shipUnitBean.pacakageUnitCount ? FlatOrange : FlatGray;
+    self.packageLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:labelColor size:12 content:[NSString stringWithFormat:@"包装%ld箱",(long)shipUnitBean.pacakageUnitCount]];
     CGSize packageSize = [self.packageLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.packageLabel.frame = (CGRect){ CGPointMake(labelLeftMargin, bottomY), packageSize};
     
-    self.pieceLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:12 content:@"内件12件"];
+    labelColor = shipUnitBean.orgItemCount != shipUnitBean.itemCount ? FlatOrange : FlatGray;
+    self.pieceLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:labelColor size:12 content:[NSString stringWithFormat:@"内件%ld件",(long)shipUnitBean.itemCount]];
     CGSize pieceSize = [self.pieceLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.pieceLabel.frame = (CGRect){ CGPointMake(CGRectGetMaxX(self.packageLabel.frame) + lefftpadding, CGRectGetMidY(self.packageLabel.frame) - pieceSize.height / 2.), pieceSize};
+    self.pieceLabel.frame = (CGRect){ CGPointMake(CGRectGetMaxX(self.packageLabel.frame) + leftpadding, CGRectGetMidY(self.packageLabel.frame) - pieceSize.height / 2.), pieceSize};
+    
+    labelColor = shipUnitBean.orgWeight != shipUnitBean.actualReceivedWeight ? FlatOrange : FlatGray;
+    self.weightLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:labelColor size:12 content:[NSString stringWithFormat:@"重量%gkg",shipUnitBean.actualReceivedWeight]];
+    self.weightLabel.size = [self.weightLabel measure:(CGSizeMake(FLT_MAX, FLT_MAX))];
+    self.weightLabel.x = self.pieceLabel.maxX + leftpadding;
+    self.weightLabel.centerY = self.packageLabel.centerY;
+    
+    labelColor = shipUnitBean.orgVolume != shipUnitBean.actualReceivedVolume ? FlatOrange : FlatGray;
+    self.volumeLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:labelColor size:12 content:[NSString stringWithFormat:@"体积%gm³",shipUnitBean.actualReceivedVolume]];
+    self.volumeLabel.size = [self.volumeLabel measure:(CGSizeMake(FLT_MAX, FLT_MAX))];
+    self.volumeLabel.x = self.weightLabel.maxX + leftpadding;
+    self.volumeLabel.centerY = self.packageLabel.centerY;
     
 //    CGFloat buttonWidth = viewHeight - 10;
 //    CGFloat buttonHeight = buttonWidth;
 //    self.editButton.frame = CGRectMake(viewWidth - buttonWidth - lefftpadding, (viewHeight - buttonHeight) / 2., buttonWidth, buttonHeight);
     
-    self.rightArrow.x = viewWidth - self.rightArrow.width - lefftpadding;
+    self.rightArrow.x = viewWidth - self.rightArrow.width - leftpadding;
     self.rightArrow.centerY = self.contentView.centerY;
 //    self.rightArrow.frame = CGRectMake(viewWidth - buttonWidth - lefftpadding, (viewHeight - buttonHeight) / 2., buttonWidth, buttonHeight);
     
-    self.bottomLine.frame = CGRectMake(lefftpadding, viewHeight - LINE_WIDTH, viewWidth - lefftpadding * 2, LINE_WIDTH);
+    self.bottomLine.frame = CGRectMake(leftpadding, viewHeight - LINE_WIDTH, viewWidth - leftpadding * 2, LINE_WIDTH);
 }
 
 //-(BOOL)showSelectionStyle{

@@ -111,6 +111,16 @@
     return self.dataArray.count;
 }
 
+-(NSUInteger)getTotalCellCount{
+    NSInteger cellCount = 0;
+    for (SourceVo* svo in self.dataArray) {
+        for (CellVo* cvo in svo.data) {
+            cellCount ++;
+        }
+    }
+    return cellCount;
+}
+
 -(void)setRefreshDelegate:(id<MJTableBaseViewDelegate>)refreshDelegate{
     _refreshDelegate = refreshDelegate;
     

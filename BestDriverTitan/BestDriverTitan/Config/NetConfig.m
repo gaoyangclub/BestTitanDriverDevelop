@@ -62,7 +62,8 @@ static NetModeType netMode;// = NetModeTypeRelease;//默认T8生产环境
 static NSArray* netModes;
 +(NSArray *)getNetModes{
     if (!netModes) {
-        netModes = @[@(NetModeTypeTest),@(NetModeTypeDemo),@(NetModeTypeUat),@(NetModeTypeRelease),@(NetModeTypeReleaseT9),@(NetModeTypePersonLiu),@(NetModeTypePersonWang),@(NetModeTypePersonZheng),@(NetModeTypePersonGao),@(NetModeTypePersonGuo)];
+        netModes = @[@(NetModeTypeTest),@(NetModeTypeDemo),@(NetModeTypeUat),@(NetModeTypeRelease),@(NetModeTypeReleaseT9),@(NetModeTypePersonLiu),@(NetModeTypePersonWang),@(NetModeTypePersonZheng),
+            @(NetModeTypePersonGuo),@(NetModeTypePersonGao)];
     }
     return netModes;
 }

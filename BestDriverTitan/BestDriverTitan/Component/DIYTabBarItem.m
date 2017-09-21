@@ -69,8 +69,8 @@
 }
 
 -(void)setBadgeValue:(NSString *)badgeValue{
-    [super setBadgeValue:badgeValue];
     badgeChange = YES;
+    [super setBadgeValue:badgeValue];
 }
 
 //-(NSString *)badgeValue{

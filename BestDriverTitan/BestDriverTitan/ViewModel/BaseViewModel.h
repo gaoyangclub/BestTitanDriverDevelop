@@ -13,6 +13,7 @@
 
 #import <Foundation/Foundation.h>
 #import "NetRequestClass.h"
+#import "PhotoTranslateUtils.h"
 
 #define GetBody(bean) [NSJSONSerialization dataWithJSONObject:[bean yy_modelToJSONObject] options:kNilOptions error:NULL]
 
@@ -50,5 +51,16 @@ typedef NS_ENUM(NSInteger,NetSendType) {
 
 -(void)sendRequest:(NSString*)url sendType:(NetSendType)sendType body:(NSData*)body fillHeader:(BOOL)fillHeader responseJson:(BOOL)responseJson returnBlock:(ReturnValueBlock)returnBlock failureBlock:(FailureBlock)failureBlock;
 
+-(NSDictionary <NSString *, NSString *> *)getHeaders;
+
+-(void)uploadRequest:(NSString *)url assetsArray:(NSMutableArray<PhotoAlbumVo*> *)assetsArray
+         returnBlock:(ReturnValueBlock)returnBlock
+       progressBlock:(ProgressValueBlock)progressBlock
+        failureBlock:(FailureBlock)failureBlock;
+
+-(void)uploadRequest:(NSString *)url assetsArray:(NSMutableArray<PhotoAlbumVo*> *)assetsArray fillHeader:(BOOL)fillHeader
+         returnBlock:(ReturnValueBlock)returnBlock
+       progressBlock:(ProgressValueBlock)progressBlock
+        failureBlock:(FailureBlock)failureBlock;
 
 @end

@@ -42,6 +42,7 @@
     if (index < _dataArray.count) {
         _dataArray[index].badge = badge;
     }
+    [self.tabBarView setItemBadge:badge atIndex:index];
 }
 
 -(GYTabBarView *)tabBarView{

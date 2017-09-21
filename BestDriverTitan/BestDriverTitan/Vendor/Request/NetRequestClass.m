@@ -230,7 +230,7 @@ static BOOL netState;
 {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     for (NSString *key in headers) {
-        NSLog(@"key: %@ value: %@", key, headers[key]);
+//        NSLog(@"key: %@ value: %@", key, headers[key]);
         [manager.requestSerializer setValue:headers[key] forHTTPHeaderField:key];
     }
     [manager POST:requestURLString parameters:parameter constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
@@ -256,25 +256,44 @@ static BOOL netState;
                               headers: (NSDictionary <NSString *, NSString *> *) headers
                                images: (NSArray<UIImage*>*) images
                  WithReturnValeuBlock: (ReturnValueBlock) block
-//                   WithErrorCodeBlock: (ErrorCodeBlock) errorBlock
+                    WithProgressBlock: (ProgressValueBlock) progressBlock
                      WithFailureBlock: (FailureBlock) failureBlock
 {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer.timeoutInterval = 3600;//延迟1小时
     for (NSString *key in headers) {
-        NSLog(@"key: %@ value: %@", key, headers[key]);
+//        NSLog(@"key: %@ value: %@", key, headers[key]);
         [manager.requestSerializer setValue:headers[key] forHTTPHeaderField:key];
     }
+    [manager.requestSerializer setValue:@"multipart/form-data" forHTTPHeaderField:@"Content-Type"];
+    
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];//设置服务器允许的请求格式内容
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"multipart/form-data", @"application/json", @"text/html", @"image/jpeg", @"image/png", @"application/octet-stream", @"text/json", nil];
     
     [manager POST:requestURLString parameters:parameter constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         for (UIImage* image in images) {
-            NSData *data = UIImageJPEGRepresentation(image, 0.1);
-            //NSData *data = UIImagePNGRepresentation(image);
-            //第一个代表文件转换后data数据，第二个代表图片的名字，第三个代表图片放入文件夹的名字，第四个代表文件的类型
-            [formData appendPartWithFileData:data name:@"file" fileName:@"image.jpg" mimeType:@"image/jpg"];
+            
+            NSData *data = UIImageJPEGRepresentation(image,0.1);
+//            if(data){
+                //            NSData *data = UIImagePNGRepresentation(image);
+                //第一个代表文件转换后data数据，第二个代表图片的名字，第三个代表图片放入文件夹的名字，第四个代表文件的类型
+                
+                // 在网络开发中，上传文件时，是文件不允许被覆盖，文件重名
+                // 要解决此问题，
+                // 可以在上传时使用当前的系统事件作为文件名
+                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                // 设置时间格式
+                formatter.dateFormat = @"yyyyMMddHHmmssSSS";
+                NSString *str = [formatter stringFromDate:[NSDate date]];
+                NSString *fileName = [NSString stringWithFormat:@"%@.jpg", str];
+                
+                [formData appendPartWithFileData:data name:@"file" fileName:fileName mimeType:@"image/jpeg"];
+//            }
         }
     } progress:^(NSProgress * progressValue){
-        
+        if (progressBlock) {
+            progressBlock(progressValue.completedUnitCount,progressValue.totalUnitCount,nil);
+        }
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         DDLog(@"%@", responseObject);
         block(responseObject);

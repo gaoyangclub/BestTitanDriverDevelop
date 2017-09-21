@@ -192,7 +192,7 @@
 @end
 
 @interface OrderTabView(){
-    NSInteger selectedIndex;
+//    NSInteger selectedIndex;
     BOOL needCheckMoveToCenter;
 }
 
@@ -210,13 +210,13 @@
 -(instancetype)init{
     self = [super init];
     if (self) {
-        self->selectedIndex = -1;//默认不选中
+        self->_selectedIndex = -1;//默认不选中
     }
     return self;
 }
 
 -(void)setSelectedIndex:(NSInteger)index{
-    if (self->selectedIndex != index) {
+    if (self->_selectedIndex != index) {
         TabButton* btn = self.subviews[index];
         [self changeTabButton:btn isClick:NO];
     }
@@ -230,9 +230,9 @@
         contentInset.left = (viewWidth - contentWidth) / 2;
         self.contentInset = contentInset;
     }else{
-        if (self->needCheckMoveToCenter && self->selectedIndex >= 0 && self->selectedIndex < self.subviews.count) {
+        if (self->needCheckMoveToCenter && self->_selectedIndex >= 0 && self->_selectedIndex < self.subviews.count) {
             self->needCheckMoveToCenter = NO;
-            UIView* clickBtn = self.subviews[self->selectedIndex];
+            UIView* clickBtn = self.subviews[self->_selectedIndex];
             [self moveTabButton:clickBtn];
         }
     }
@@ -275,6 +275,14 @@
     self.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 }
 
+-(void)refreshActivityByIndex:(NSInteger)index{
+    if (index < self.subviews.count && index < self.activityBeans.count) {
+        TabButton* btn = self.subviews[index];
+        ShipmentActivityBean* bean = self.activityBeans[index];
+        btn.activityBean = bean;
+    }
+}
+
 //-(void)setTotalCount:(NSInteger)count{
 //    [self removeAllSubViews];
 //    
@@ -307,10 +315,10 @@
 }
 
 -(void)changeTabButton:(TabButton*)clickBtn isClick:(BOOL)isClick{
-    if (self->selectedIndex == clickBtn.tag) {
+    if (self->_selectedIndex == clickBtn.tag) {
         return;//已经选中不需要在触发
     }
-    self->selectedIndex = clickBtn.tag;
+    self->_selectedIndex = clickBtn.tag;
     for (TabButton* btn in self.subviews) {
         if ([btn respondsToSelector:@selector(setSelect:)]) {
             if (btn != clickBtn) {
@@ -324,11 +332,11 @@
 //    [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_ADDRESS_SELECT object:[clickBtn getLabel]];
     if(isClick && self.tabDelegate){
         if ([self.tabDelegate respondsToSelector:@selector(didSelectIndex:)]) {
-            [self.tabDelegate didSelectIndex:self->selectedIndex];
+            [self.tabDelegate didSelectIndex:self->_selectedIndex];
         }
     }
     if ([self.tabDelegate respondsToSelector:@selector(didSelectItem:)]) {
-        [self.tabDelegate didSelectItem:_activityBeans[self->selectedIndex]];
+        [self.tabDelegate didSelectItem:_activityBeans[self->_selectedIndex]];
     }
     self->needCheckMoveToCenter = YES;
     [self setNeedsLayout];

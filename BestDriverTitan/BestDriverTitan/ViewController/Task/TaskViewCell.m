@@ -513,16 +513,17 @@ static TaskViewModel* viewModel;
     self.expenseText.attributedString = [NSString simpleAttributedString:[UIColor flatOrangeColor] size:14 content:expenseContent];
     CGSize expenseTextSize = [self.expenseText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
-    if ([bean canShowMoney]) {
+    if ([bean canShowMoney] && !bean.expense) {//个体司机且无数据
         __weak __typeof(self) weakSelf = self;
         [[TaskViewCell getTaskViewModel]getRate:bean.id returnBlock:^(id returnValue) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             
             NSString *aString = [[NSString alloc] initWithData:returnValue encoding:NSUTF8StringEncoding];
-            bean.expense =  [aString floatValue];
+            bean.expense = [aString floatValue];
             
-            if (((ShipmentBean*)strongSelf.data).id == bean.id) {
-                strongSelf.expenseText.attributedString = [NSString simpleAttributedString:[UIColor flatOrangeColor] size:14 content:[NSString stringWithFormat:@"%ld元",bean.expense]];
+            if (bean.expense > 0 && ((ShipmentBean*)strongSelf.data).id == bean.id) {
+//                strongSelf.expenseText.attributedString = [NSString simpleAttributedString:[UIColor flatOrangeColor] size:14 content:[NSString stringWithFormat:@"%ld元",bean.expense]];
+                [strongSelf initTopArea:topY topWidth:topWidth topHeight:topHeight];
             }
         } failureBlock:^(NSString *errorCode, NSString *errorMsg) {
             NSLog(@"%@",errorMsg);

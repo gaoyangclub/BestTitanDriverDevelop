@@ -10,6 +10,7 @@
 
 typedef void (^ReturnValueBlock) (id returnValue);
 typedef void (^FailureBlock) (NSString* errorCode,NSString* errorMsg);
+typedef void (^ProgressValueBlock) (float completed,float total,NSString* title);
 
 @interface NetRequestClass : NSObject
 
@@ -55,7 +56,7 @@ typedef void (^FailureBlock) (NSString* errorCode,NSString* errorMsg);
                                 headers: (NSDictionary <NSString *, NSString *> *) headers
                                  images: (NSArray<UIImage*>*) images
                    WithReturnValeuBlock: (ReturnValueBlock) block
-//                   WithErrorCodeBlock: (ErrorCodeBlock) errorBlock
+                      WithProgressBlock: (ProgressValueBlock) progressBlock
                        WithFailureBlock: (FailureBlock) failureBlock;
 
 @end

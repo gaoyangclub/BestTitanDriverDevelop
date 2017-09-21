@@ -48,7 +48,7 @@ static PHCachingImageManager* imageManager;
             [PhotoTranslateUtils translateImageByAsset:asset completeHandler:^{
                 [PhotoTranslateUtils translateImagesByAssets:currentIndex + 1 assets:assets completeHandler:completeHandler];
             }];
-        }else{
+        }else{//有image数据直接转换下一个
             [PhotoTranslateUtils translateImagesByAssets:currentIndex + 1 assets:assets completeHandler:completeHandler];
         }
     }else{

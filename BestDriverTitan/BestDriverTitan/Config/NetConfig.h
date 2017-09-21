@@ -38,11 +38,16 @@
 
 //获取运单列表
 #define SHIPMENT_RECENT_URL ConcatStrings(SERVER_DRIVER_URL,@"shipment/list/recent")
+//获取停靠站列表
 #define SHIPMENT_STOP_URL(shipmentId) ConcatStrings(SERVER_DRIVER_URL,@"shipment/list/stop/",@(shipmentId))
 //单独获取运费
 #define SHIPMENT_RATE_URL(shipmentId) ConcatStrings(SERVER_DRIVER_URL,@"shipment/list/rate/",@(shipmentId))
 //获取活动任务详情
 #define TASK_ACTIVITY_URL(shipmentActivityId) ConcatStrings(SERVER_DRIVER_URL,@"shipment/task/",@(shipmentActivityId))
+//上报货量活动
+#define TASK_SUBMIT_URL ConcatStrings(SERVER_DRIVER_URL,@"shipment/task")
+//上传回单(图片)
+#define TASK_RECEIPT_URL(shipmentActivityTaskId) ConcatStrings(SERVER_DRIVER_URL,@"shipment/receipt/",@(shipmentActivityTaskId))
 
 #define PGY_VERSION_GROUP_URL @"http://www.pgyer.com/apiv1/app/viewGroup"
 
@@ -54,8 +59,8 @@ typedef NS_ENUM(NSInteger,NetModeType) {
     NetModeTypePersonWang = 9,
     NetModeTypePersonZhu = 10,
     NetModeTypePersonZheng = 11,
-    NetModeTypePersonGao = 12,
-    NetModeTypePersonGuo = 13,
+    NetModeTypePersonGuo = 12,
+    NetModeTypePersonGao = 13,
     NetModeTypeDemo = 6,
     NetModeTypeUat = 3,
     NetModeTypeTest = 2,

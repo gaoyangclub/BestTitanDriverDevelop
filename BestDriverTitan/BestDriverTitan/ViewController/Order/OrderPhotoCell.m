@@ -36,7 +36,7 @@
         _photoView = [[PhotoSelectionView alloc]init];
 //        [[PhotoSelectionView alloc]initWithFrame:CGRectNull collectionViewLayout:[[UICollectionViewLayout alloc]init]];
         [self.contentView addSubview:_photoView];
-        _photoView.maxSelectCount = 6;//最多选6个
+//        _photoView.maxSelectCount = 6;//最多选6个
         _photoView.parentController = [OwnerViewController sharedInstance];
     }
     return _photoView;

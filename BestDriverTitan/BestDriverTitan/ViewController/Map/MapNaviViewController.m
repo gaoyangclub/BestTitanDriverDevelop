@@ -7,12 +7,14 @@
 //
 
 #import <AMapNaviKit/AMapNaviKit.h>
+#import <AMapSearchKit/AMapSearchKit.h>
 #import "MapNaviViewController.h"
 #import "AmapLocationService.h"
 #import <AVFoundation/AVFoundation.h>
 #import "SpeechManager.h"
+#import "HudManager.h"
 
-@interface MapNaviViewController ()<UIAlertViewDelegate,AMapNaviDriveManagerDelegate,MAMapViewDelegate,AMapNaviDriveViewDelegate>
+@interface MapNaviViewController ()<UIAlertViewDelegate,AMapNaviDriveManagerDelegate,MAMapViewDelegate,AMapNaviDriveViewDelegate,AMapSearchDelegate>
 
 @property(nonatomic,retain)UILabel* titleLabel;
 
@@ -21,7 +23,11 @@
 
 @property(nonatomic,retain)AMapNaviDriveView* driveView;
 
+@property(nonatomic,retain)AMapNaviPoint* startPoint;
+
 @property(nonatomic,retain)AMapNaviPoint* endPoint;
+
+@property(nonatomic,retain)AMapSearchAPI* searchAPI;
 
 @end
 
@@ -40,6 +46,14 @@
     return _titleLabel;
 }
 
+-(AMapSearchAPI *)searchAPI{
+    if (!_searchAPI) {
+        _searchAPI = [[AMapSearchAPI alloc]init];
+        _searchAPI.delegate = self;
+    }
+    return _searchAPI;
+}
+
 -(void)initTitleArea{
     self.navigationItem.leftBarButtonItem =
     [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
@@ -50,12 +64,12 @@
 
 //返回上层
 -(void)leftClick{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您确定要退出导航吗？" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您确定要退出导航吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"准奏", nil];
     [alert show];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 0) {
+    if (buttonIndex == 1) {
         [SpeechManager stopSound];
         [self.driveManager stopNavi];//停止导航
         
@@ -99,13 +113,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    self.endPoint = [AMapNaviPoint locationWithLatitude:30.17105 longitude:120.27121];
+    if(self.endLatitude && self.endLongitude){
+        self.endPoint = [AMapNaviPoint locationWithLatitude:self.endLatitude longitude:self.endLongitude];
+    }else{
+        AMapGeocodeSearchRequest *geo = [[AMapGeocodeSearchRequest alloc] init];
+        geo.address = self.endAddress;
+        [self.searchAPI AMapGeocodeSearch:geo];
+        [HudManager showToast:@"目标坐标点不存在!"];
+    }
     
     NSValue* coordinateValue = [AmapLocationService getLastLocationPoint];
     if (coordinateValue) {
         CLLocationCoordinate2D locationPoint = coordinateValue.MKCoordinateValue;
-        [self startCalculateDriveRoute:locationPoint];
+        self.startPoint = [AMapNaviPoint locationWithLatitude:locationPoint.latitude longitude:locationPoint.longitude];
+        [self checkStartCalculate];
     }else{
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(eventLocationChange:)
@@ -114,17 +135,40 @@
     }
 }
 
+#pragma AMapSearchDelegate
+- (void)onGeocodeSearchDone:(AMapGeocodeSearchRequest *)request response:(AMapGeocodeSearchResponse *)response
+{
+    if (response.geocodes.count == 0)
+    {
+        [HudManager showToast:@"该地址逆地理编码不存在，请检查该地址描述是否准确!"];
+        return;
+    }
+    //解析response获取地理信息，具体解析见 Demo
+    AMapGeocode* geoCode = response.geocodes.firstObject;
+    if (geoCode.location) {
+        self.endPoint = [AMapNaviPoint locationWithLatitude:geoCode.location.latitude longitude:geoCode.location.longitude];
+        [self checkStartCalculate];
+    }
+}
+
+-(void)checkStartCalculate{
+    if (self.startPoint && self.endPoint) {
+        [self startCalculateDriveRoute];
+    }
+}
+
 - (void)eventLocationChange:(NSNotification*)eventData{
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_LOCATION_CHANGE object:nil];
     
     NSValue * coordinateValue = eventData.object;
-    [self startCalculateDriveRoute:coordinateValue.MKCoordinateValue];
+    CLLocationCoordinate2D locationPoint = coordinateValue.MKCoordinateValue;
+    self.startPoint = [AMapNaviPoint locationWithLatitude:locationPoint.latitude longitude:locationPoint.longitude];
+    
+    [self checkStartCalculate];
 }
 
--(void)startCalculateDriveRoute:(CLLocationCoordinate2D)locationPoint{
-    AMapNaviPoint* startPoint = [AMapNaviPoint locationWithLatitude:locationPoint.latitude longitude:locationPoint.longitude];
-    [self.driveManager calculateDriveRouteWithStartPoints:@[startPoint]
+-(void)startCalculateDriveRoute{
+    [self.driveManager calculateDriveRouteWithStartPoints:@[self.startPoint]
                                                 endPoints:@[self.endPoint]
                                                 wayPoints:nil
                                           drivingStrategy:17];

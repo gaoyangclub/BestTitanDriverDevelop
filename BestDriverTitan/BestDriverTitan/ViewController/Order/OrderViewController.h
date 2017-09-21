@@ -8,9 +8,15 @@
 
 #import "MJTableViewController.h"
 #import "ShipmentActivityBean.h"
+#import "ShipmentStopBean.h"
+#import "ShipmentBean.h"
 
 @interface OrderViewController : MJTableViewController
 
+@property(nonatomic,retain)ShipmentBean* shipmentBean;
+@property(nonatomic,retain)ShipmentStopBean* stopBean;
 @property(nonatomic,retain)NSArray<ShipmentActivityBean*>* activityBeans;
+
+@property(nonatomic,copy)NSString* selectedTaskCode;//优先选中的活动类型
 
 @end

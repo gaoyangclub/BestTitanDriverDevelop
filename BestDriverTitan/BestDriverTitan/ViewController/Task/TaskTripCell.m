@@ -250,7 +250,11 @@ static CGFloat stateWidth = 20;
 }
 
 -(void)clickNaviButton{
+    ShipmentStopBean* stopBean = self.data;
     MapNaviViewController* naviController = [[MapNaviViewController alloc]init];
+    naviController.endLongitude = stopBean.longitude;
+    naviController.endLatitude = stopBean.latitude;
+    naviController.endAddress = stopBean.locationAddress;
     [[OwnerViewController sharedInstance]pushViewController:naviController animated:YES];
 }
 
@@ -528,8 +532,8 @@ static CGFloat stateWidth = 20;
     
     ShipmentStopBean* stopBean = self.data;
     
-    self.activityButton.fillColor = stopBean.isComplete ? COLOR_YI_WAN_CHENG : COLOR_DAI_WAN_CHENG;
-    self.activityButton.title = stopBean.isComplete ? @"已完成" : @"未完成(1)";
+    self.activityButton.fillColor = [stopBean isComplete] ? COLOR_YI_WAN_CHENG : COLOR_DAI_WAN_CHENG;
+    self.activityButton.title = [stopBean isComplete] ? @"已完成" : NAVIGATION_TITLE_ORDER_VIEW;
     
     self.activityButton.frame = CGRectMake(cellWidth - activityWidth - [TaskTripCell getMarginLeft],bottomY + 5, activityWidth, activityHeight);
 }

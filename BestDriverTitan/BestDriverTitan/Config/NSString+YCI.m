@@ -59,6 +59,7 @@
 + (NSAttributedString *)simpleAttributedString:(NSString*)face color:(UIColor*)color size:(CGFloat)size content:(NSString*)content{
 //    NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
 //    style.alignment = NSTextAlignmentCenter;
+    if(!content)return nil;
     
     NSMutableAttributedString* attrString =
     [[NSMutableAttributedString alloc]initWithString:content attributes:[NSDictionary dictionaryWithObjectsAndKeys:

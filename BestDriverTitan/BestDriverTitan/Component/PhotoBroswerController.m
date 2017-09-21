@@ -41,12 +41,12 @@
 }
 
 -(void)rightClick{
-    UIAlertView * alart = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"确定需要删除该图片吗？" delegate:self cancelButtonTitle:@"准奏" otherButtonTitles:@"容朕想想", nil];
+    UIAlertView * alart = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"确定需要删除该图片吗？" delegate:self cancelButtonTitle:@"容朕想想" otherButtonTitles:@"准奏", nil];
     [alart show];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 0) {//确定删除
+    if (buttonIndex == 1) {//确定删除
         if(self.delegate && [self.delegate respondsToSelector:@selector(photoBroswerDelete:index:)]){
             [self.delegate photoBroswerDelete:self index:self.broswer.index];
         }

@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "FlatButton.h"
 #import "UICreationUtils.h"
+#import "HudManager.h"
 
 @interface OrderEditModelView()
 
@@ -184,11 +185,43 @@
     return _returnButton;
 }
 
+-(BOOL)checkCanSubmit{
+    if (!self.weightText.text) {
+        [HudManager showToast:@"请先填入重量!"];
+        return NO;
+    }
+    if (!self.volumeText.text) {
+        [HudManager showToast:@"请先填入体积!"];
+        return NO;
+    }
+    return YES;
+}
+
 -(void)clickSubmitButton:(UIView*)sender{
-    [self dismiss];
+    if ([self checkCanSubmit]) {
+        
+//        if (self) {
+//            <#statements#>
+//        }
+        
+        self.shipUnitBean.pacakageUnitCount = self.packageNumberView.totalCount;
+        self.shipUnitBean.itemCount = self.pieceNumberView.totalCount;
+        
+        self.shipUnitBean.actualReceivedWeight = [self.weightText.text doubleValue];
+        self.shipUnitBean.actualReceivedVolume = [self.volumeText.text doubleValue];
+//        self.shipUnitBean.isEdited = YES;
+        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(orderEdited:)]) {
+            [self.delegate orderEdited:self.shipUnitIndexPath];
+        }
+        [self dismiss];
+    }
 }
 
 -(void)clickReturnButton:(UIView*)sender{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(orderCanceled:)]) {
+        [self.delegate orderCanceled:self.shipUnitIndexPath];
+    }
     [self dismiss];
 }
 
@@ -209,7 +242,7 @@
     CGFloat viewCenterY = self.contentView.centerY;
     CGFloat offsetY = 50 * SYSTEM_SCALE;
     
-    self.titleLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:14 content:@"阿迪达斯毛巾啊"];
+    self.titleLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_BLACK_ORIGINAL size:18 content:self.shipUnitBean.itemName];
     self.titleLabel.size = [self.titleLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.titleLabel.x = lefftpadding;
     self.titleLabel.centerY = titleHeight / 2.;
@@ -220,12 +253,14 @@
     self.packageLabel.y = viewCenterY - offsetY;
     
     self.packageNumberView.frame = CGRectMake(self.packageLabel.centerX - numberWidth / 2., self.packageLabel.maxY, numberWidth, numberHeight);
+    self.packageNumberView.totalCount = self.shipUnitBean.pacakageUnitCount;
     
     self.pieceLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:12 content:@"内件数量"];
     self.pieceLabel.size = [self.pieceLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.pieceLabel.centerX = gapWidth + gapWidth / 2.;
     self.pieceLabel.y = viewCenterY - offsetY;
     self.pieceNumberView.frame = CGRectMake(self.pieceLabel.centerX - numberWidth / 2., self.pieceLabel.maxY, numberWidth, numberHeight);
+    self.pieceNumberView.totalCount = self.shipUnitBean.itemCount;
     
     self.weightLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:12 content:@"重量(kg)"];
     self.weightLabel.size = [self.weightLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
@@ -233,7 +268,7 @@
     self.weightLabel.y = viewCenterY;// + offsetY / 2.;
     
     self.weightText.frame = CGRectMake(self.weightLabel.centerX - numberWidth / 2., self.weightLabel.maxY, numberWidth, numberHeight);
-    self.weightText.text = @"163.613";
+    self.weightText.text = [NSString stringWithFormat:@"%g",self.shipUnitBean.actualReceivedWeight];
     //        self.packageNumberView.y = self.weightLabel.maxY;//临时添加...
     
     self.volumeLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:12 content:@"体积(m³)"];
@@ -242,7 +277,7 @@
     self.volumeLabel.centerY = self.weightLabel.centerY;
     
     self.volumeText.frame = CGRectMake(self.volumeLabel.centerX - numberWidth / 2., self.volumeLabel.maxY, numberWidth, numberHeight);
-    self.volumeText.text = @"1.53";
+    self.volumeText.text = [NSString stringWithFormat:@"%g",self.shipUnitBean.actualReceivedVolume];
     
 //        self.bottomLine.hidden = self.isFirst;
 //        if (!self.isFirst) {

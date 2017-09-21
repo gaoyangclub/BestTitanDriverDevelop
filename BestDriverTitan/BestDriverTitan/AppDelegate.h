@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GYTabBarController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
+@property(nonatomic,retain)GYTabBarController* rootTabBarController;
+//@property(nonatomic,retain)UIImageView* rootImage;
 
 @end
 

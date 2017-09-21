@@ -29,6 +29,10 @@
     return @"";
 }
 
+-(BOOL)hasReport{
+    return self.status && ![self.status isEqualToString:ACTIVITY_STATUS_PENDING_REPORT];
+}
+
 #pragma 声明数组、字典或者集合里的元素类型时要重写
 + (nullable NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
     return @{@"shipUnits":[ShipmentActivityShipUnitBean class],@"contactList":[ContactBean class]};

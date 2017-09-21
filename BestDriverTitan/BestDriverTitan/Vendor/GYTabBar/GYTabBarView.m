@@ -125,6 +125,13 @@
     if (index < _dataArray.count) {
         _dataArray[index].badge = badge;
     }
+    if (index < self.subviews.count) {
+        GYTabBarItem *itemView = self.subviews[index];
+        if (itemView) {
+            itemView.badgeValue = [self getBadgeValue:badge];
+        }
+    }
+    
 }
 
 @end

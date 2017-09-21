@@ -36,6 +36,7 @@
     [window addSubview:hud];
     hud.mode = MBProgressHUDModeText;
     hud.label.text = value;
+    hud.label.numberOfLines = 0;
     hud.label.textColor = [UIColor whiteColor];
     hud.bezelView.color = [[UIColor blackColor]colorWithAlphaComponent:0.7];
     [hud showAnimated:YES];

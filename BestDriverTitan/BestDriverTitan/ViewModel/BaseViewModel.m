@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewModel.h"
+#import "AppDelegate.h"
 @implementation BaseViewModel
 
 
@@ -46,16 +47,56 @@
     }
     NSDictionary <NSString *, NSString *> * headers = nil;
     if (fillHeader) {
-        NSString* token = [Config getToken];
-        if (token) {
-            headers = @{@"TI-TOKEN":token};
-        }
+        headers = [self getHeaders];
     }
     if (sendType == NetSendTypeGet) {
         [NetRequestClass NetRequestGETWithRequestURL:url WithParameter:nil headers:headers responseJson:responseJson WithReturnValeuBlock:returnBlock WithFailureBlock:failureBlock];
     }else{
         [NetRequestClass NetRequestPOSTWithRequestURL:url WithParameter:nil headers:headers body:body WithReturnValeuBlock:returnBlock WithFailureBlock:failureBlock];
     }
+}
+
+-(NSDictionary <NSString *, NSString *> *)getHeaders{
+    NSString* token = [Config getToken];
+    if (token) {
+        return @{@"TI-TOKEN":token};
+    }
+    return nil;
+}
+
+-(void)uploadRequest:(NSString *)url assetsArray:(NSMutableArray<PhotoAlbumVo*> *)assetsArray
+         returnBlock:(ReturnValueBlock)returnBlock
+       progressBlock:(ProgressValueBlock)progressBlock
+        failureBlock:(FailureBlock)failureBlock{
+    [self uploadRequest:url assetsArray:assetsArray fillHeader:YES returnBlock:returnBlock progressBlock:progressBlock failureBlock:failureBlock];
+}
+
+-(void)uploadRequest:(NSString *)url assetsArray:(NSMutableArray<PhotoAlbumVo*> *)assetsArray fillHeader:(BOOL)fillHeader
+         returnBlock:(ReturnValueBlock)returnBlock
+       progressBlock:(ProgressValueBlock)progressBlock
+        failureBlock:(FailureBlock)failureBlock{
+    
+    __weak __typeof(self) weakSelf = self;
+    [PhotoTranslateUtils translateImagesByAssets:assetsArray completeHandler:^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        NSMutableArray<UIImage*>* images = [NSMutableArray<UIImage*> array];
+        for (PhotoAlbumVo* photoAlbum in assetsArray) {
+            if(photoAlbum.image){
+                [images addObject:photoAlbum.image];
+                
+//                ((AppDelegate*)[UIApplication sharedApplication].delegate).rootImage.image = photoAlbum.image;
+            }
+        }
+        if (images.count > 0) {
+            NSDictionary <NSString *, NSString *> * headers = nil;
+            if (fillHeader) {
+                headers = [strongSelf getHeaders];
+            }
+            [NetRequestClass NetRequestUploadWithRequestURL:url WithParameter:nil headers:headers images:images WithReturnValeuBlock:returnBlock WithProgressBlock:progressBlock WithFailureBlock:failureBlock];
+        }else{ //直接上传下一组
+            failureBlock(nil,@"传入的图片有问题，请确保上传的图片正常!");
+        }
+    }];
 }
 
 @end

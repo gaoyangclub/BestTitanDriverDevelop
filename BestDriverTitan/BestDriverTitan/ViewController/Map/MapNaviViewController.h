@@ -10,4 +10,8 @@
 
 @interface MapNaviViewController : UIViewController
 
+@property(nonatomic,assign)double endLongitude;
+@property(nonatomic,assign)double endLatitude;
+@property(nonatomic,copy)NSString* endAddress;//终点地址详细
+
 @end

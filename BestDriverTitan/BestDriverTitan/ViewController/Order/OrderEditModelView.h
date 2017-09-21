@@ -7,7 +7,20 @@
 //
 
 #import "CustomPopModelView.h"
+#import "ShipmentActivityShipUnitBean.h"
+
+@protocol OrderEditModelDelegate <NSObject>
+@optional
+-(void)orderEdited:(NSIndexPath*)indexPath;//确认编辑
+@optional
+-(void)orderCanceled:(NSIndexPath*)indexPath;//取消编辑
+@end
 
 @interface OrderEditModelView : CustomPopModelView
+
+@property(nonatomic,retain) NSIndexPath* shipUnitIndexPath;
+@property(nonatomic,retain) ShipmentActivityShipUnitBean* shipUnitBean;
+
+@property(nonatomic, weak) id<OrderEditModelDelegate> delegate;
 
 @end

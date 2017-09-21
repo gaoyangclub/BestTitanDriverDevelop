@@ -166,7 +166,7 @@
 -(void)refreshAndEmptyDataSource{
     [self.tableView headerBeginRefresh];
     
-    self.emptyDataSource.noDataDescription = @"对不起，暂时没有任何任务!";
+    self.emptyDataSource.noDataDescription = @"暂时没有任何任务!";
     self.emptyDataSource.buttonTitle = @"点我刷新";
     self.emptyDataSource.noDataIconName = ICON_EMPTY_NO_DATA;
     
@@ -221,6 +221,10 @@
         [strongSelf generateSourceDataByShipmentList:shipmentList svo:nil sourceData:nil startDate:nil];
 //        strongSelf->pageNumber ++;
         
+        if (!strongSelf.hasHistory) {//最新任务列表
+            [strongSelf showTaskBadge:strongSelf.tableView.getTotalCellCount];
+        }
+        
         handler(shipmentList.count > 0);
         
     } failureBlock:^(NSString *errorCode, NSString *errorMsg) {
@@ -261,6 +265,12 @@
 //        handler(shipmentList.count > 0);
 //    });
 }
+
+-(void)showTaskBadge:(NSInteger)count{
+    AppDelegate * appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    [appDelegate.rootTabBarController setItemBadge:count atIndex:0];
+}
+
 -(void)footerLoadMore:(FooterLoadMoreHandler)handler pageNumber:(NSInteger)pageNumber{
     __weak __typeof(self) weakSelf = self;
     [self.viewModel getRecentList:pageNumber isAll:self.hasHistory returnBlock:^(id returnValue) {
@@ -279,6 +289,10 @@
             [strongSelf generateSourceDataByShipmentList:shipmentList svo:svo sourceData:sourceData startDate:startDate];
             
 //            strongSelf->pageNumber ++;
+            if (!strongSelf.hasHistory) {//最新任务列表
+                [strongSelf showTaskBadge:strongSelf.tableView.getTotalCellCount];
+            }
+            
             handler(YES);
         }else{
             handler(NO);

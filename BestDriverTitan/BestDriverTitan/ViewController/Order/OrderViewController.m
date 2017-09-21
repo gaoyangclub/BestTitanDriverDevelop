@@ -17,6 +17,12 @@
 #import "ShipmentTaskBean.h"
 #import "OrderReceiptCell.h"
 #import "OrderEditModelView.h"
+#import "OrderViewModel.h"
+#import "PhotoSelectionView.h"
+#import "OwnerViewController.h"
+
+#define VIEW_MARGIN 4
+#define BUTTON_AREA_HEIGHT 55
 
 @interface TestTableViewCell3 : MJTableViewCell
 
@@ -31,15 +37,16 @@
 
 @end
 
-@interface OrderViewController()<OrderTabViewDelegate>{
+@interface OrderViewController()<OrderTabViewDelegate,OrderEditModelDelegate>{
     BOOL isClickTab;
     ShipmentActivityBean* currentActivity;//当前选中的活动
+    NSArray<ShipmentTaskBean*>* taskBeanList;//当前活动获取到的任务详情列表
 }
 
 @property(nonatomic,retain)OrderTabView* tabView;
 @property(nonatomic,retain)UILabel* titleLabel;
 
-@property (nonatomic,retain) ASDisplayNode* addressBottomY;
+@property (nonatomic,retain)ASDisplayNode* addressBottomY;
 //地址信息栏区域
 @property(nonatomic,retain)ASDisplayNode* addressView;
 //@property(nonatomic,retain)ASDisplayNode* addressLine;
@@ -47,6 +54,12 @@
 @property(nonatomic,retain)ASTextNode* textAddress;//起点图标
 
 @property(nonatomic,retain)FlatButton* submitButton;
+
+@property(nonatomic,retain)OrderViewModel* viewModel;
+
+@property(nonatomic,retain)PhotoSelectionView* photoView;
+
+@property(nonatomic,retain)UIView* photoContainer;
 
 @end
 
@@ -108,9 +121,36 @@
         _submitButton.titleFontName = ICON_FONT_NAME;
         _submitButton.fillColor = COLOR_PRIMARY;
         _submitButton.titleSize = 18;
+        [_submitButton addTarget:self action:@selector(clickSubmitButton:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:_submitButton];
     }
     return _submitButton;
+}
+
+-(PhotoSelectionView *)photoView{
+    if (!_photoView) {
+        _photoView = [[PhotoSelectionView alloc]init];
+        [self.photoContainer addSubview:_photoView];
+        //        _photoView.maxSelectCount = 6;//最多选6个
+        _photoView.parentController = [OwnerViewController sharedInstance];
+    }
+    return _photoView;
+}
+
+-(UIView *)photoContainer{
+    if (!_photoContainer) {
+        _photoContainer = [[UIView alloc]init];
+        _photoContainer.backgroundColor = [UIColor whiteColor];
+        [self.view addSubview:_photoContainer];
+    }
+    return _photoContainer;
+}
+
+-(OrderViewModel *)viewModel{
+    if (!_viewModel) {
+        _viewModel = [[OrderViewModel alloc]init];
+    }
+    return _viewModel;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -121,7 +161,7 @@
 
 -(UILabel *)titleLabel{
     if (!_titleLabel) {
-        _titleLabel = [UICreationUtils createNavigationTitleLabel:20 color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_TASK_TRIP superView:nil];
+        _titleLabel = [UICreationUtils createNavigationTitleLabel:20 color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_ORDER_VIEW superView:nil];
     }
     return _titleLabel;
 }
@@ -132,7 +172,7 @@
 //    [UICreationUtils createNavigationLeftButtonItem:[UIColor whiteColor] target:self action:@selector(leftClick)];
     
     //    self.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:[UIColor whiteColor] font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SHE_ZHI target:self action:@selector(rightItemClick)];
-    self.titleLabel.text = @"TO12451516161AAA";//标题显示TO号
+    self.titleLabel.text = NAVIGATION_TITLE_ORDER_VIEW;//self.shipmentBean.code;//标题显示TO号
     [self.titleLabel sizeToFit];
     self.navigationItem.titleView = self.titleLabel;
 }
@@ -151,7 +191,7 @@
 }
 
 -(CGRect)getTableViewFrame{
-    CGFloat margin = 4;
+    CGFloat margin = VIEW_MARGIN;
     CGFloat squareHeight = TASK_TRIP_SECTION_TOP_HEIGHT;
     
     CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
@@ -160,12 +200,76 @@
     self.addressView.frame = CGRectMake(0, 0, viewWidth, squareHeight);
     self.tabView.frame = CGRectMake(0, squareHeight, viewWidth, ORDER_TAB_HEIGHT);
     
-    CGFloat buttonAreaHeight = 55;
+    self.submitButton.frame = CGRectMake(margin, viewHeight - BUTTON_AREA_HEIGHT + margin, viewWidth - margin * 2, BUTTON_AREA_HEIGHT - margin * 2);
     
-    self.submitButton.frame = CGRectMake(margin, viewHeight - buttonAreaHeight + margin, viewWidth - margin * 2, buttonAreaHeight - margin * 2);
+    CGFloat tableHeight = self.view.height - BUTTON_AREA_HEIGHT - ORDER_TAB_HEIGHT - TASK_TRIP_SECTION_TOP_HEIGHT - margin;
+    if (_photoContainer && !_photoContainer.hidden) {
+        tableHeight -= ORDER_PHOTO_CELL_HEIGHT + margin;
+    }
+    return CGRectMake(margin, squareHeight + margin + ORDER_TAB_HEIGHT, viewWidth - margin * 2, tableHeight);
+}
+
+-(void)showPhotoView:(ShipmentTaskBean*)bean{
+//    CGFloat margin = VIEW_MARGIN;
     
-    CGFloat tabHeight = CGRectGetHeight(self.view.bounds) - squareHeight - ORDER_TAB_HEIGHT;
-    return CGRectMake(margin, squareHeight + margin + ORDER_TAB_HEIGHT, viewWidth - margin * 2, tabHeight - margin - buttonAreaHeight);
+    self.photoContainer.hidden = NO;
+    
+    self.photoContainer.frame = CGRectMake(0, self.view.height - BUTTON_AREA_HEIGHT - ORDER_PHOTO_CELL_HEIGHT, self.view.width, ORDER_PHOTO_CELL_HEIGHT);
+    
+    CGFloat padding = 5;
+    CGFloat itemHeight = self.photoContainer.height - padding * 2;
+    
+    self.photoView.frame = CGRectMake(padding, padding, self.photoContainer.width - padding * 2, itemHeight);
+    self.photoView.itemSize = CGSizeMake(itemHeight, itemHeight);
+    self.photoView.assetsArray = bean.assetsArray;
+    
+//    self.tableView.height = self.view.height - BUTTON_AREA_HEIGHT - ORDER_TAB_HEIGHT - ORDER_PHOTO_CELL_HEIGHT - TASK_TRIP_SECTION_TOP_HEIGHT;
+}
+
+-(void)hidePhotoView{
+    if (_photoContainer) {//说明初始化打开过了
+        self.photoContainer.hidden = YES;
+    }
+}
+
+//按顺序遍历获取没上报的项索引
+-(NSInteger)getPendingReportActivityIndex:(NSArray<ShipmentActivityBean*>*)activityBeans isNext:(BOOL)isNext{
+    if (!isNext) {
+        NSInteger firstSelectIndex = -1;
+        for (NSInteger i = 0; i < activityBeans.count; i++) {
+            ShipmentActivityBean* activityBean = activityBeans[i];
+            if (![activityBean hasReport]) {
+                if (self.selectedTaskCode) {
+                    if ([activityBean.activityDefinitionCode isEqualToString:self.selectedTaskCode]) {
+                        return i;
+                    }else{
+                        firstSelectIndex = i;
+                    }
+                }else{//没有优先选中的类型 直接选中
+                    return i;//未上报的先选中
+                }
+            }
+        }
+        if (firstSelectIndex >= 0) {//全部都找完了也没有优先选中的活动 但是有第一个找到的未选中项 就它了
+            return firstSelectIndex;
+        }
+    }else{
+        NSInteger midIndex = self.tabView.selectedIndex;
+        for (NSInteger i = midIndex + 1; i < activityBeans.count; i++) {
+            ShipmentActivityBean* activityBean = activityBeans[i];
+            if (![activityBean hasReport]) {
+                return i;//未上报的先选中
+            }
+        }
+        for (NSInteger i = 0; i < midIndex + 1; i++) {
+            ShipmentActivityBean* activityBean = activityBeans[i];
+            if (![activityBean hasReport]) {
+                return i;//未上报的先选中
+            }
+        }
+        return -1;//全部都完成了
+    }
+    return 0;
 }
 
 - (void)viewDidLoad {
@@ -174,9 +278,10 @@
     
     self.tableView.sectionGap = 5;
     self.tabView.tabDelegate = self;
-
+    
     [self.tabView setActivityBeans:self.activityBeans];
-    [self.tabView setSelectedIndex:arc4random() % self.activityBeans.count];
+
+    [self.tabView setSelectedIndex:[self getPendingReportActivityIndex:self.activityBeans isNext:NO]];
     
     CGFloat sectionWidth = self.view.bounds.size.width;
     CGFloat leftpadding = 10;
@@ -187,7 +292,7 @@
     
 //    self.addressLine.frame = CGRectMake(0, squareHeight - LINE_WIDTH * 4, sectionWidth, LINE_WIDTH * 4);
     
-    NSString* address = @"上海上海市松江区上海上海市松江区大港镇松镇公路1339号宝湾物流112号库";
+    NSString* address = self.stopBean.stopName;
     NSMutableAttributedString* textString = (NSMutableAttributedString*)[NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:address];
     NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
     style.alignment = NSTextAlignmentLeft;
@@ -200,22 +305,15 @@
     
     self.addressBottomY.frame = CGRectMake(0, squareHeight - LINE_WIDTH, sectionWidth, LINE_WIDTH);
     
-//    self.view.userInteractionEnabled = YES;
-    
-//    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fingerTapped:)];
-//    singleTap.cancelsTouchesInView = NO;
-//    [self.view addGestureRecognizer:singleTap];
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(eventOccurred:)
-                                                 name:EVENT_ORDER_PAGE_CHANGE
-                                               object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(eventOccurred:)
+//                                                 name:EVENT_ORDER_PAGE_CHANGE
+//                                               object:nil];
 }
 
--(void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_ORDER_PAGE_CHANGE object:nil];
-}
+//-(void)dealloc{
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_ORDER_PAGE_CHANGE object:nil];
+//}
 
 
 -(void)fingerTapped:(UITapGestureRecognizer *)gestureRecognizer
@@ -240,39 +338,120 @@
 }
 
 -(void)headerRefresh:(HeaderRefreshHandler)handler{
-    int64_t delay = 1.0 * NSEC_PER_SEC;
+    
+//    if (![NetRequestClass netWorkReachability]) {//网络异常
+//        self.emptyDataSource.netError = YES;
+//        [self.tableView clearSource];
+//        handler(NO);
+//        return;
+//    }
+    [self hidePhotoView];
+    
+    if ([self->currentActivity.activityDefinitionCode isEqualToString:ACTIVITY_CODE_COD]) {
+        [HudManager showToast:
+         ConcatStrings([Config getActivityLabelByCode:self->currentActivity.activityDefinitionCode],@"暂时无法上报!")
+         ];
+        self.submitButton.hidden = YES;
+        [self.tableView clearSource];
+        handler(NO);
+        return;
+    }else{
+        self.submitButton.hidden = NO;
+    }
+    
+    long shipmentActivityId = self->currentActivity.id;
+    
     __weak __typeof(self) weakSelf = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), ^{//
+    [self.viewModel getTaskActivity:shipmentActivityId returnBlock:^(id returnValue) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if(!strongSelf){//界面已经被销毁
             return;
         }
-        int count = (arc4random() % 6) + 1; //生成3-10范围的随机数
-    
+        if (shipmentActivityId != strongSelf->currentActivity.id) {
+            NSLog(@"界面已经被切换掉了");
+            return;
+        }
         [strongSelf.tableView clearSource];
+        
+        strongSelf->taskBeanList = [NSArray yy_modelArrayWithClass:[ShipmentTaskBean class] json:returnValue];
+        NSInteger count = strongSelf->taskBeanList.count;
+        if (count <= 0) {
+            handler(NO);
+            return;
+        }
+        [strongSelf checkShowPhotoArea];
         
         for (NSInteger i = 0; i < count; i++) {
             NSMutableArray* sourceData = [NSMutableArray<CellVo*> array];
-            ShipmentTaskBean* bean = [[ShipmentTaskBean alloc]init];
-            int count2 = (arc4random() % 15) + 1; //生成1-3范围的随机数
-            
+            ShipmentTaskBean* bean = strongSelf->taskBeanList[i];
             if ([strongSelf->currentActivity.activityDefinitionCode isEqualToString:ACTIVITY_CODE_DELIVERY_RECEIPT]) {
                 [sourceData addObject:[CellVo initWithParams:ORDER_RECEIPT_CELL_HEIGHT cellClass:[OrderReceiptCell class] cellData:bean]];
             }else{
-                for (NSInteger j = 0; j < count2; j++) {
-                    [sourceData addObject:[CellVo initWithParams:ORDER_VIEW_CELL_HEIGHT cellClass:[OrderNormalCell class] cellData:
-                                           @""]];
+                if(count == 1){//只有一个订单可以直接显示
+                    for (ShipmentActivityShipUnitBean* shipUnitBean in bean.shipUnits) {
+                        for (NSInteger i = 0; i < 100; i++) {
+                            [sourceData addObject:[CellVo initWithParams:ORDER_VIEW_CELL_HEIGHT cellClass:[OrderNormalCell class] cellData:[shipUnitBean copy]]];
+                        }
+                    }
+                }else{
+                    [sourceData addObject:[CellVo initWithParams:ORDER_PHOTO_CELL_HEIGHT cellClass:[OrderPhotoCell class] cellData:bean]];
                 }
-                [sourceData addObject:[CellVo initWithParams:ORDER_PHOTO_CELL_HEIGHT cellClass:[OrderPhotoCell class] cellData:bean]];
             }
-            
             SourceVo* svo = [SourceVo initWithParams:sourceData headerHeight:ORDER_VIEW_SECTION_HEIGHT headerClass:[OrderViewSection class] headerData:bean];
             [strongSelf.tableView addSource:svo];
         }
-//        [self.tabView setTotalCount:count];
         
         handler(count > 0);
-    });
+        
+    } failureBlock:^(NSString *errorCode, NSString *errorMsg) {
+        NSLog(@"%@",errorMsg);
+    }];
+//    int64_t delay = 1.0 * NSEC_PER_SEC;
+//    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), ^{//
+//        __strong typeof(weakSelf) strongSelf = weakSelf;
+//        if(!strongSelf){//界面已经被销毁
+//            return;
+//        }
+//        int count = (arc4random() % 6) + 1; //生成3-10范围的随机数
+//    
+//        [strongSelf.tableView clearSource];
+//        
+//        for (NSInteger i = 0; i < count; i++) {
+//            NSMutableArray* sourceData = [NSMutableArray<CellVo*> array];
+//            ShipmentTaskBean* bean = [[ShipmentTaskBean alloc]init];
+//            int count2 = (arc4random() % 15) + 1; //生成1-3范围的随机数
+//            
+//            if ([strongSelf->currentActivity.activityDefinitionCode isEqualToString:ACTIVITY_CODE_DELIVERY_RECEIPT]) {
+//                [sourceData addObject:[CellVo initWithParams:ORDER_RECEIPT_CELL_HEIGHT cellClass:[OrderReceiptCell class] cellData:bean]];
+//            }else{
+//                for (NSInteger j = 0; j < count2; j++) {
+//                    [sourceData addObject:[CellVo initWithParams:ORDER_VIEW_CELL_HEIGHT cellClass:[OrderNormalCell class] cellData:
+//                                           @""]];
+//                }
+//                [sourceData addObject:[CellVo initWithParams:ORDER_PHOTO_CELL_HEIGHT cellClass:[OrderPhotoCell class] cellData:bean]];
+//            }
+//            
+//            SourceVo* svo = [SourceVo initWithParams:sourceData headerHeight:ORDER_VIEW_SECTION_HEIGHT headerClass:[OrderViewSection class] headerData:bean];
+//            [strongSelf.tableView addSource:svo];
+//        }
+////        [self.tabView setTotalCount:count];
+//        
+//        handler(count > 0);
+//    });
+}
+
+-(void)checkShowPhotoArea{//检查是否要显示底部附件上传区域
+    NSInteger count = self->taskBeanList.count;
+    if ([self->currentActivity.activityDefinitionCode isEqualToString:ACTIVITY_CODE_DELIVERY_RECEIPT]) {
+        [self hidePhotoView];
+    }else{//普通活动上报
+        if (count > 1 || count == 0) {
+            [self hidePhotoView];
+        }else if(count > 0){
+            [self showPhotoView:self->taskBeanList.firstObject];
+        }
+    }
 }
 
 //-(void)didScrollToRow:(NSIndexPath *)indexPath{
@@ -285,23 +464,23 @@
     isClickTab = NO;
 }
 
-- (void)eventOccurred:(NSNotification*)eventData{
-    //    DDLog(@"eventOccurred:收到消息");
-    NSNumber* pageIndexValue = eventData.object;
-    NSInteger pageIndex = [pageIndexValue integerValue];
-    NSIndexPath * indexPath;
-    NSInteger sourceCount = [self.tableView getSourceCount];
-    if (sourceCount <= 1) {
-        [HudManager showToast:@"没有下一个订单!"];
-        return;
-    }
-    if (pageIndex < sourceCount - 1) {//下一个
-        indexPath = [NSIndexPath indexPathForRow:0 inSection:pageIndex + 1];
-    }else{//置顶
-        indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    }
-    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-}
+//- (void)eventOccurred:(NSNotification*)eventData{
+//    //    DDLog(@"eventOccurred:收到消息");
+//    NSNumber* pageIndexValue = eventData.object;
+//    NSInteger pageIndex = [pageIndexValue integerValue];
+//    NSIndexPath * indexPath;
+//    NSInteger sourceCount = [self.tableView getSourceCount];
+//    if (sourceCount <= 1) {
+//        [HudManager showToast:@"没有下一个订单!"];
+//        return;
+//    }
+//    if (pageIndex < sourceCount - 1) {//下一个
+//        indexPath = [NSIndexPath indexPathForRow:0 inSection:pageIndex + 1];
+//    }else{//置顶
+//        indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+//    }
+//    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+//}
 
 //-(void)didSelectIndex:(NSInteger)index{
 //    isClickTab = YES;
@@ -313,8 +492,136 @@
     return NO;
 }
 
+-(void)clickSubmitButton:(UIView*)sender{
+    if ([self->currentActivity.activityDefinitionCode isEqualToString:ACTIVITY_CODE_DELIVERY_RECEIPT]) {
+        if ([self checkCanSubmitReceipt:NO]) {
+            [self submitReceiptTask];
+        }
+    }else if ([self->currentActivity.activityDefinitionCode isEqualToString:ACTIVITY_CODE_PICKUP_HANDOVER]) {
+        //揽收也必须上传附件
+        if ([self checkCanSubmitReceipt:NO]) {
+            [self submitNormalTask];
+        }
+    }else{
+        [self submitNormalTask];
+    }
+}
+
+-(BOOL)checkCanSubmitReceipt:(BOOL)hasOne{
+    for (ShipmentTaskBean* taskBean in self->taskBeanList) {
+        if (taskBean.assetsArray.count > 0 && hasOne) {//只要有一个存在就可以上传
+            return YES;
+        }else if (taskBean.assetsArray.count <= 0 && !hasOne) {//必须每个task都添加文件
+            [HudManager showToast:[NSString stringWithFormat:@"订单:%@ 没有添加任何凭证，请添加后上报!",taskBean.orderBaseCode]];
+            return NO;
+        }
+    }
+    return YES;
+}
+
+-(void)submitNormalTask{
+    [SVProgressHUD showWithStatus:ConcatStrings([Config getActivityLabelByCode:self->currentActivity.activityDefinitionCode],@"上报中") maskType:SVProgressHUDMaskTypeBlack];
+    __weak __typeof(self) weakSelf = self;
+    [self.viewModel submitAllTasks:self->taskBeanList returnBlock:^(id returnValue) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        
+        ShipmentActivityBean* newActivity = [ShipmentActivityBean yy_modelWithJSON:returnValue];
+        strongSelf->currentActivity.status = newActivity.status;
+        strongSelf->currentActivity.itemStatus = newActivity.itemStatus;
+        
+        [strongSelf.tabView refreshActivityByIndex:strongSelf.tabView.selectedIndex];//重刷下
+        
+        if ([strongSelf checkCanSubmitReceipt:YES]) {
+            [strongSelf submitReceiptTask];
+        }else{
+            [strongSelf showNextActivityAlert];
+            [SVProgressHUD dismiss];
+        }
+    } failureBlock:^(NSString *errorCode, NSString *errorMsg) {
+        [SVProgressHUD dismiss];
+        [HudManager showToast:[NSString stringWithFormat:@"活动上报失败:%@",errorMsg]];
+    }];
+}
+
+-(void)showNextActivityAlert{
+    UIAlertController *alertController;
+    NSInteger nextIndex = [self getPendingReportActivityIndex:self.activityBeans isNext:YES];
+    
+    __weak __typeof(self) weakSelf = self;
+    if (nextIndex < 0) {//返回上一层
+//        NSInteger selectedIndex = self.tabView.selectedIndex;
+        NSString* alertMessage;
+//        UIAlertAction* nextAction;
+//        if (selectedIndex + 1 < self.activityBeans.count) {//有下一个活动
+//            nextIndex = selectedIndex + 1;
+//            ShipmentActivityBean* nextActivityBean = self.activityBeans[nextIndex];
+//             NSString* nextLabel = [Config getActivityLabelByCode:nextActivityBean.activityDefinitionCode];
+//            nextAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"去%@",[Config getActivityLabelByCode:nextActivityBean.activityDefinitionCode]] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//                [weakSelf.tabView setSelectedIndex:nextIndex];
+//            }];
+//            alertMessage = [NSString stringWithFormat:@"该停靠站下的活动已全部完成，是否仍然进入下一个%@活动，或者返回上一页？",nextLabel];
+//        }else{
+            alertMessage = @"该停靠站下的活动已全部完成，是否返回上一页？";
+//        }
+        alertController = [UIAlertController alertControllerWithTitle:@"提示" message:alertMessage preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"留在当前" style:UIAlertActionStyleDefault handler:nil]];
+//        if (nextAction) {
+//            [alertController addAction:nextAction];
+//        }
+        [alertController addAction:[UIAlertAction actionWithTitle:@"上一页" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [weakSelf leftClick];
+        }]];
+    }else{
+        ShipmentActivityBean* nextActivityBean = self.activityBeans[nextIndex];
+        NSString* nextLabel = [Config getActivityLabelByCode:nextActivityBean.activityDefinitionCode];
+        
+//        __weak __typeof(self) weakSelf = self;
+        alertController = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"活动上报完成，是否进入下一个%@活动？",nextLabel] preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"留在当前" style:UIAlertActionStyleCancel handler:nil]];
+        [alertController addAction:[UIAlertAction actionWithTitle:[NSString stringWithFormat:@"去%@",nextLabel] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [weakSelf.tabView setSelectedIndex:nextIndex];
+        }]];
+    }
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 1) {//确定
+        NSInteger nextIndex = [self getPendingReportActivityIndex:self.activityBeans isNext:YES];
+        if (nextIndex < 0) {//返回上一层
+            [self leftClick];
+        }else{
+            [self.tabView setSelectedIndex:nextIndex];
+        }
+    }
+}
+
+-(void)submitReceiptTask{
+    
+    [SVProgressHUD showWithStatus:ConcatStrings([Config getActivityLabelByCode:self->currentActivity.activityDefinitionCode],@"单据上传中") maskType:SVProgressHUDMaskTypeBlack];
+    __weak __typeof(self) weakSelf = self;
+    [self.viewModel uploadAllReceipts:self->taskBeanList returnBlock:^(id returnValue) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        
+        strongSelf->currentActivity.status = ACTIVITY_STATUS_REPORTED;//回单上传完成
+        [strongSelf.tabView refreshActivityByIndex:strongSelf.tabView.selectedIndex];//重刷下
+        
+        [strongSelf showNextActivityAlert];
+        
+        [SVProgressHUD dismiss];
+    } progressBlock:^(float completed, float total, NSString* title) {
+        
+        [SVProgressHUD showProgress:completed / total];
+        
+    } failureBlock:^(NSString *errorCode, NSString *errorMsg) {
+        [HudManager showToast:[NSString stringWithFormat:@"单据上传失败:%@",errorMsg]];
+        [SVProgressHUD dismiss];
+    }];
+}
+
+#pragma OrderTabViewDelegate
 -(void)didSelectItem:(ShipmentActivityBean *)activityBean{
-    currentActivity = activityBean;
+    self->currentActivity = activityBean;
     [self.tableView headerBeginRefresh];
     UIColor* statusColor;
     if ([activityBean hasReport]) {
@@ -331,19 +638,17 @@
     CellVo* cellVo = source.data[indexPath.row];
     if ([NSStringFromClass(cellVo.cellClass) isEqualToString:NSStringFromClass([OrderNormalCell class])]) {
         OrderEditModelView* editView = [[OrderEditModelView alloc]init];
+        editView.shipUnitIndexPath = indexPath;
+        editView.shipUnitBean = (ShipmentActivityShipUnitBean*)cellVo.cellData;
+        editView.delegate = self;
         [editView show];
     }
-//    [cellVo.class getName];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma OrderEditModelDelegate
+-(void)orderEdited:(NSIndexPath *)indexPath{
+    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];//这行数据刷新
 }
-*/
+
 
 @end

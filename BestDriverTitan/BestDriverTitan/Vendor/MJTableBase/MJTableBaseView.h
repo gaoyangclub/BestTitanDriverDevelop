@@ -112,6 +112,7 @@ typedef void(^FooterLoadMoreHandler)(BOOL hasData);
 
 -(SourceVo*)getSourceByIndex:(NSInteger)index;
 -(NSUInteger)getSourceCount;
+-(NSUInteger)getTotalCellCount;
 
 @end
 

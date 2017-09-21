@@ -92,6 +92,8 @@
 		846666781F2F21830033D489 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 846666771F2F21830033D489 /* AudioToolbox.framework */; };
 		8466667A1F2F218D0033D489 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 846666791F2F218D0033D489 /* AVFoundation.framework */; };
 		8466667C1F2F21950033D489 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8466667B1F2F21950033D489 /* SystemConfiguration.framework */; };
+		846689A11F7262DD00A0C4CF /* OrderDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 846689A01F7262DD00A0C4CF /* OrderDetailController.m */; };
+		846689A51F7285A100A0C4CF /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 846689A41F7285A100A0C4CF /* MessageViewController.m */; };
 		846D2B401F68D3F200A49A6D /* DateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 846D2B3F1F68D3F200A49A6D /* DateUtils.m */; };
 		846D2B431F69065F00A49A6D /* PageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 846D2B421F69065F00A49A6D /* PageListViewController.m */; };
 		846D2B461F69289A00A49A6D /* GeographyUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 846D2B451F69289A00A49A6D /* GeographyUtils.m */; };
@@ -360,6 +362,10 @@
 		846666771F2F21830033D489 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		846666791F2F218D0033D489 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		8466667B1F2F21950033D489 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		8466899F1F7262DD00A0C4CF /* OrderDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailController.h; sourceTree = "<group>"; };
+		846689A01F7262DD00A0C4CF /* OrderDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailController.m; sourceTree = "<group>"; };
+		846689A31F7285A100A0C4CF /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
+		846689A41F7285A100A0C4CF /* MessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
 		846D2B3E1F68D3F200A49A6D /* DateUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateUtils.h; sourceTree = "<group>"; };
 		846D2B3F1F68D3F200A49A6D /* DateUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateUtils.m; sourceTree = "<group>"; };
 		846D2B411F69065F00A49A6D /* PageListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageListViewController.h; sourceTree = "<group>"; };
@@ -998,6 +1004,7 @@
 		84495C961DF113D90017D2CA /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				846689A21F72858B00A0C4CF /* Message */,
 				8423FBB81F46F73D007C2CB0 /* Location */,
 				841CBC631F443549006BCC5B /* Map */,
 				847C9C471F21E69C00C22C36 /* User */,
@@ -1116,6 +1123,15 @@
 				847CEA5B1F302CED0028F7AA /* CustomPopListView.m */,
 			);
 			path = Presenting;
+			sourceTree = "<group>";
+		};
+		846689A21F72858B00A0C4CF /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				846689A31F7285A100A0C4CF /* MessageViewController.h */,
+				846689A41F7285A100A0C4CF /* MessageViewController.m */,
+			);
+			path = Message;
 			sourceTree = "<group>";
 		};
 		8470A4C11F5E3DA700AF1830 /* Empty */ = {
@@ -1381,6 +1397,8 @@
 				A910B1961F4076F600CCAFCD /* OrderEditModelView.m */,
 				847A26F51F4146A900C228FB /* OrderReceiptCell.h */,
 				847A26F61F4146A900C228FB /* OrderReceiptCell.m */,
+				8466899F1F7262DD00A0C4CF /* OrderDetailController.h */,
+				846689A01F7262DD00A0C4CF /* OrderDetailController.m */,
 			);
 			path = Order;
 			sourceTree = "<group>";
@@ -1559,6 +1577,7 @@
 				A9D9F49E1F11F36C000536F0 /* UIButton+Style.m in Sources */,
 				847EB6F61F6A269400BCA12B /* ShipmentActivityShipUnitBean.m in Sources */,
 				848A38101F3D4E1A00B15E4B /* QBVideoIconView.m in Sources */,
+				846689A51F7285A100A0C4CF /* MessageViewController.m in Sources */,
 				8470A4CB1F5E426F00AF1830 /* LocationViewModel.m in Sources */,
 				848A38111F3D4E1A00B15E4B /* QBVideoIndicatorView.m in Sources */,
 				847F3E591F1F412800C21C6A /* LoginViewController.m in Sources */,
@@ -1592,6 +1611,7 @@
 				848A38091F3D4E1A00B15E4B /* QBAlbumsViewController.m in Sources */,
 				848A38141F3D870800B15E4B /* PhotoSelectionView.m in Sources */,
 				841422581F4598E500C0299B /* MapNaviViewController.m in Sources */,
+				846689A11F7262DD00A0C4CF /* OrderDetailController.m in Sources */,
 				847CEA5C1F302CED0028F7AA /* CustomPopListView.m in Sources */,
 				8423FBBB1F46F763007C2CB0 /* LocationInfoViewController.m in Sources */,
 				845D2DF31F5D405000F4F95E /* GeTuiDataSource.m in Sources */,

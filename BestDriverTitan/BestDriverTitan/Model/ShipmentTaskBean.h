@@ -39,4 +39,6 @@
 
 -(NSString*)getStatusName;
 
+-(BOOL)hasReport;
+
 @end

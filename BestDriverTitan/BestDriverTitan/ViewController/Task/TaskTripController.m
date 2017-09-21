@@ -459,7 +459,7 @@ static NSArray<NSString*>* taskCodeArr;
 
 - (void)eventOccurredActivity:(NSNotification*)eventData{
     ShipmentStopBean* stopBean = eventData.object;
-    [self jumpOrderViewController:stopBean.shipmentActivityList];
+    [self jumpOrderViewController:stopBean];
 }
 
 //- (void)eventOccurred:(NSNotification*)eventData{
@@ -526,9 +526,12 @@ static NSArray<NSString*>* taskCodeArr;
     [self jumpOrderViewController:nil];
 }
 
--(void)jumpOrderViewController:(NSArray<ShipmentActivityBean*>*)activityBeans{
+-(void)jumpOrderViewController:(ShipmentStopBean*)stopBean{
     OrderViewController* controller = [[OrderViewController alloc]init];
-    controller.activityBeans = activityBeans;
+    controller.shipmentBean = self.shipmentBean;
+    controller.stopBean = stopBean;
+    controller.activityBeans = stopBean.shipmentActivityList;
+    controller.selectedTaskCode = self->selectedTaskCode;
     [[OwnerViewController sharedInstance] pushViewController:controller animated:YES];
 }
 
@@ -600,7 +603,7 @@ static NSArray<NSString*>* taskCodeArr;
 }
 
 -(void)activitySelected:(ShipmentActivityBean *)activityBean{
-    [self jumpOrderViewController:@[activityBean]];
+    [self jumpOrderViewController:nil];
 }
 
 -(void)didSelectRow:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
