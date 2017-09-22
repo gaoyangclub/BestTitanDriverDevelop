@@ -22,6 +22,8 @@ pod 'pop', '~> 1.0'
 
 pod 'YYModel'
 
+pod 'ReactiveCocoa'#支持FRP(函数响应式编程)的框架
+
 #蒲公英开放平台
 pod 'Pgyer'
 pod 'PgyUpdate'

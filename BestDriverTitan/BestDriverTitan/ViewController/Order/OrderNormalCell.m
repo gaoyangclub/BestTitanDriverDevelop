@@ -35,6 +35,13 @@
 
 @property(nonatomic,retain)UIArrowView* rightArrow;//向右箭头
 
+//@property(nonatomic,assign)double weightValue;
+
+@property(nonatomic,retain)__block RACDisposable *weightHandler;
+@property(nonatomic,retain)__block RACDisposable *volumeHandler;
+@property(nonatomic,retain)__block RACDisposable *packageHandler;
+@property(nonatomic,retain)__block RACDisposable *itemHandler;
+
 @end
 
 @implementation OrderNormalCell
@@ -239,27 +246,66 @@
     
     CGFloat bottomY = viewHeight / 2. + 1;
     
-    UIColor* labelColor = shipUnitBean.orgPacakageUnitCount != shipUnitBean.pacakageUnitCount ? FlatOrange : FlatGray;
-    self.packageLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:labelColor size:12 content:[NSString stringWithFormat:@"包装%ld箱",(long)shipUnitBean.pacakageUnitCount]];
-    CGSize packageSize = [self.packageLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.packageLabel.frame = (CGRect){ CGPointMake(labelLeftMargin, bottomY), packageSize};
+    __weak __typeof(self) weakSelf = self;
+//    [RACObserve(cell.textLabel, text) takeUntil:cell.rac_prepareForReuseSignal]
     
-    labelColor = shipUnitBean.orgItemCount != shipUnitBean.itemCount ? FlatOrange : FlatGray;
-    self.pieceLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:labelColor size:12 content:[NSString stringWithFormat:@"内件%ld件",(long)shipUnitBean.itemCount]];
-    CGSize pieceSize = [self.pieceLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.pieceLabel.frame = (CGRect){ CGPointMake(CGRectGetMaxX(self.packageLabel.frame) + leftpadding, CGRectGetMidY(self.packageLabel.frame) - pieceSize.height / 2.), pieceSize};
     
-    labelColor = shipUnitBean.orgWeight != shipUnitBean.actualReceivedWeight ? FlatOrange : FlatGray;
-    self.weightLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:labelColor size:12 content:[NSString stringWithFormat:@"重量%gkg",shipUnitBean.actualReceivedWeight]];
-    self.weightLabel.size = [self.weightLabel measure:(CGSizeMake(FLT_MAX, FLT_MAX))];
-    self.weightLabel.x = self.pieceLabel.maxX + leftpadding;
-    self.weightLabel.centerY = self.packageLabel.centerY;
+//    [shipUnitBean rac_valuesForKeyPath:@"pacakageUnitCount" observer:nil] takeUntil:deallocSignal]
+    if (self.packageHandler) {
+        [self.packageHandler dispose];
+    }
+    self.packageHandler = [[[shipUnitBean rac_valuesForKeyPath:@"pacakageUnitCount" observer:nil] takeUntil:self.rac_willDeallocSignal]
+     subscribeNext:^(id x) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        UIColor* labelColor = shipUnitBean.orgPacakageUnitCount != shipUnitBean.pacakageUnitCount ? FlatOrange : FlatGray;
+        strongSelf.packageLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:labelColor size:12 content:[NSString stringWithFormat:@"包装%ld箱",(long)shipUnitBean.pacakageUnitCount]];
+        CGSize packageSize = [strongSelf.packageLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+        strongSelf.packageLabel.frame = (CGRect){ CGPointMake(labelLeftMargin, bottomY), packageSize};
+    }];
     
-    labelColor = shipUnitBean.orgVolume != shipUnitBean.actualReceivedVolume ? FlatOrange : FlatGray;
-    self.volumeLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:labelColor size:12 content:[NSString stringWithFormat:@"体积%gm³",shipUnitBean.actualReceivedVolume]];
-    self.volumeLabel.size = [self.volumeLabel measure:(CGSizeMake(FLT_MAX, FLT_MAX))];
-    self.volumeLabel.x = self.weightLabel.maxX + leftpadding;
-    self.volumeLabel.centerY = self.packageLabel.centerY;
+    if (self.itemHandler) {
+        [self.itemHandler dispose];
+    }
+    self.itemHandler = [[shipUnitBean rac_valuesForKeyPath:@"itemCount" observer:nil] subscribeNext:^(id x) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        UIColor* labelColor = shipUnitBean.orgItemCount != shipUnitBean.itemCount ? FlatOrange : FlatGray;
+        strongSelf.pieceLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:labelColor size:12 content:[NSString stringWithFormat:@"内件%ld件",(long)shipUnitBean.itemCount]];
+        CGSize pieceSize = [self.pieceLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+        strongSelf.pieceLabel.frame = (CGRect){ CGPointMake(CGRectGetMaxX(strongSelf.packageLabel.frame) + leftpadding, CGRectGetMidY(strongSelf.packageLabel.frame) - pieceSize.height / 2.), pieceSize};
+    }];
+    
+    
+//    __block RACDisposable *handler = [RACObserve(self, username) subscribeNext:^(NSString *newName) {
+//        if ([newName isEqualToString:@"Stop"]) {
+//            //Do not observe any more
+//            [handler dispose]
+//        }
+//    }];
+    
+    if (self.weightHandler) {
+        [self.weightHandler dispose];
+    }
+    self.weightHandler = [[shipUnitBean rac_valuesForKeyPath:@"actualReceivedWeight" observer:nil] subscribeNext:^(id x) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        UIColor* labelColor = shipUnitBean.orgWeight != shipUnitBean.actualReceivedWeight ? FlatOrange : FlatGray;
+        strongSelf.weightLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:labelColor size:12 content:[NSString stringWithFormat:@"重量%gkg",shipUnitBean.actualReceivedWeight]];
+        strongSelf.weightLabel.size = [strongSelf.weightLabel measure:(CGSizeMake(FLT_MAX, FLT_MAX))];
+        strongSelf.weightLabel.x = strongSelf.pieceLabel.maxX + leftpadding;
+        strongSelf.weightLabel.centerY = strongSelf.packageLabel.centerY;
+    }];
+    
+//    RAC(self,weightValue) = [RACObserve(shipUnitBean, actualReceivedWeight) takeUntilReplacement:self.rac_prepareForReuseSignal];
+    if (self.volumeHandler) {
+        [self.volumeHandler dispose];
+    }
+    self.volumeHandler = [[shipUnitBean rac_valuesForKeyPath:@"actualReceivedVolume" observer:nil] subscribeNext:^(id x) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        UIColor* labelColor = shipUnitBean.orgVolume != shipUnitBean.actualReceivedVolume ? FlatOrange : FlatGray;
+        strongSelf.volumeLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:labelColor size:12 content:[NSString stringWithFormat:@"体积%gm³",shipUnitBean.actualReceivedVolume]];
+        strongSelf.volumeLabel.size = [strongSelf.volumeLabel measure:(CGSizeMake(FLT_MAX, FLT_MAX))];
+        strongSelf.volumeLabel.x = strongSelf.weightLabel.maxX + leftpadding;
+        strongSelf.volumeLabel.centerY = strongSelf.packageLabel.centerY;
+    }];
     
 //    CGFloat buttonWidth = viewHeight - 10;
 //    CGFloat buttonHeight = buttonWidth;
@@ -271,6 +317,18 @@
     
     self.bottomLine.frame = CGRectMake(leftpadding, viewHeight - LINE_WIDTH, viewWidth - leftpadding * 2, LINE_WIDTH);
 }
+
+//-(void)setWeightValue:(double)weightValue{
+//    _weightValue = weightValue;
+//    CGFloat leftpadding = 5;
+//    //        __strong typeof(weakSelf) strongSelf = weakSelf;
+//    ShipmentActivityShipUnitBean* shipUnitBean = (ShipmentActivityShipUnitBean*)self.data;
+//    UIColor* labelColor = shipUnitBean.orgWeight != shipUnitBean.actualReceivedWeight ? FlatOrange : FlatGray;
+//    self.weightLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:labelColor size:12 content:[NSString stringWithFormat:@"重量%gkg",shipUnitBean.actualReceivedWeight]];
+//    self.weightLabel.size = [self.weightLabel measure:(CGSizeMake(FLT_MAX, FLT_MAX))];
+//    self.weightLabel.x = self.pieceLabel.maxX + leftpadding;
+//    self.weightLabel.centerY = self.packageLabel.centerY;
+//}
 
 //-(BOOL)showSelectionStyle{
 //    return NO;

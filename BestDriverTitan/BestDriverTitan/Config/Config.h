@@ -196,7 +196,7 @@
 #define ORDER_TAB_WIDTH 120
 #define ORDER_TAB_HEIGHT 45
 #define ORDER_VIEW_CELL_HEIGHT 40//150
-#define ORDER_VIEW_SECTION_HEIGHT 50
+#define ORDER_VIEW_SECTION_HEIGHT 60
 
 #define ORDER_PHOTO_CELL_HEIGHT 100
 #define ORDER_RECEIPT_CELL_HEIGHT 0
@@ -241,8 +241,11 @@ static AppVersion* appVersion;
 +(NSString*)getActivityIconByCode:(NSString*)code;
 +(NSString*)getActivityLabelByCode:(NSString*)code;
 +(UIColor *)getActivityColorByCode:(NSString *)code;
++(NSString*)getActivityTypeName:(NSString*)code;
++(BOOL)getActivityIsPickupBean:(NSString*)code;//判断活动类型是否为"提"
 
 +(NSString*)getActivityStatusLabel:(NSString*)status;
+
 
 +(NSString*)getVersionDescription;
 

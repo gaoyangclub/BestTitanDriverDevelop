@@ -24,7 +24,8 @@
 @property(nonatomic,copy) NSString* orderBaseId;//订单Id
 @property(nonatomic,copy) NSString* orderBaseCode;//订单号
 @property(nonatomic,copy) NSString* customCode;//客户单号
-@property(nonatomic,copy) NSString* expectedPackageCount;//预计提货量
+@property(nonatomic,copy) NSString* expectedPackageCount;//预计提(送)货量
+
 @property(nonatomic,retain) NSMutableArray<ShipmentActivityShipUnitBean*>* shipUnits;//运输单元列表
 
 //@property(nonatomic,retain)NSMutableArray<ShipmentActivityParameter*>* shipmentActivityParameterList;//金额等相关信息
@@ -36,6 +37,8 @@
 @property(nonatomic,retain) NSMutableArray<ContactBean*>* contactList;//联系人列表
 
 @property(nonatomic,copy) NSString* shipmentArriveTime;//到达时间
+
+@property(nonatomic,assign) NSInteger actualPackageCount;//实际填入包装数
 
 -(NSString*)getStatusName;
 

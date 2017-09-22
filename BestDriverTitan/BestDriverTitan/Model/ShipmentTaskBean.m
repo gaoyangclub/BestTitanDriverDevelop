@@ -33,6 +33,17 @@
     return self.status && ![self.status isEqualToString:ACTIVITY_STATUS_PENDING_REPORT];
 }
 
+-(NSInteger)actualPackageCount{
+    if (!_actualPackageCount) {
+        int actualCount = 0;
+        for (ShipmentActivityShipUnitBean* shipunitBean in self.shipUnits) {
+            actualCount += shipunitBean.pacakageUnitCount;
+        }
+        _actualPackageCount = actualCount;
+    }
+    return _actualPackageCount;
+}
+
 #pragma 声明数组、字典或者集合里的元素类型时要重写
 + (nullable NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
     return @{@"shipUnits":[ShipmentActivityShipUnitBean class],@"contactList":[ContactBean class]};

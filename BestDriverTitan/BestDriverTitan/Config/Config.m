@@ -80,6 +80,18 @@ static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不�
     return @"未知";
 }
 
++(NSString*)getActivityTypeName:(NSString*)code{
+    if([Config getActivityIsPickupBean:code]){
+        return @"提";
+    }else{
+        return @"送";
+    }
+}
+
++(BOOL)getActivityIsPickupBean:(NSString*)code{
+    return [code isEqualToString:ACTIVITY_CODE_PICKUP_HANDOVER] || [code isEqualToString:ACTIVITY_CODE_LOAD];
+}
+
 +(NSString *)getVersionDescription{
     NSString* mode = @"";
     if (isUserProxyMode) {

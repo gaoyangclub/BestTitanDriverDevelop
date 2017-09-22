@@ -49,6 +49,13 @@ PODS:
   - Pgyer (2.8.4)
   - PgyUpdate (1.2)
   - pop (1.0.9)
+  - ReactiveCocoa (2.5):
+    - ReactiveCocoa/UI (= 2.5)
+  - ReactiveCocoa/Core (2.5):
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/no-arc (2.5)
+  - ReactiveCocoa/UI (2.5):
+    - ReactiveCocoa/Core
   - SDWebImage (3.8.2):
     - SDWebImage/Core (= 3.8.2)
   - SDWebImage/Core (3.8.2)
@@ -71,6 +78,7 @@ DEPENDENCIES:
   - Pgyer
   - PgyUpdate
   - pop (~> 1.0)
+  - ReactiveCocoa
   - SDWebImage
   - SVProgressHUD
   - UMengAnalytics
@@ -93,11 +101,12 @@ SPEC CHECKSUMS:
   Pgyer: 26edfcc8da6da6383fabfdbccd2f77c623b9d6eb
   PgyUpdate: a42e82cec5ad4e992af390e9d494f6fc62db65e4
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
+  ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   SVProgressHUD: 46088807596a795cbcb4affd92cf3f13b6ab3dda
   UMengAnalytics: 8d95752776c32f5b954d40edc7f23944882a7c14
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: d2c185365aa0de7ea1915365a8fcedab4871d825
+PODFILE CHECKSUM: eac1cc3bd1befc36eb4ec777c8f56496d376ba56
 
 COCOAPODS: 1.1.1

@@ -33,6 +33,8 @@
 
 @property(nonatomic,retain) ASTextNode* detailLabel;//详情两个字
 
+@property(nonatomic,retain) ASTextNode* shipUintTotalLabel;//预计(实际)提送货量
+
 @end
 
 @implementation OrderViewSection
@@ -73,6 +75,15 @@
         [self.square.layer addSublayer:_iconText.layer];
     }
     return _iconText;
+}
+
+-(ASTextNode *)shipUintTotalLabel{
+    if (!_shipUintTotalLabel) {
+        _shipUintTotalLabel = [[ASTextNode alloc]init];
+        _shipUintTotalLabel.layerBacked = YES;
+        [self.square.layer addSublayer:_shipUintTotalLabel.layer];
+    }
+    return _shipUintTotalLabel;
 }
 
 -(ASDisplayNode *)bottomLine{
@@ -138,17 +149,27 @@
 //}
 
 -(void)layoutSubviews{
-    ShipmentTaskBean* taskBean = (ShipmentTaskBean*)self.data;
-//    if(!hvo){
-//        return;
-//    }
-    BOOL isComplete = [taskBean hasReport];
     
     CGFloat leftpadding = 5;
     
     CGFloat sectionWidth = self.bounds.size.width;
     CGFloat sectionHeight = self.bounds.size.height;
     
+    self.square.frame = CGRectMake(0,0, sectionWidth, sectionHeight);
+    self.bottomLine.frame = CGRectMake(leftpadding, sectionHeight - LINE_WIDTH, sectionWidth - leftpadding * 2, LINE_WIDTH);
+    CGFloat topHeight = ORDER_VIEW_SECTION_HEIGHT * 2 / 3;
+    [self initTopArea:leftpadding topWidth:sectionWidth topHeight:topHeight];
+    
+    CGFloat bottomHeight = sectionHeight - topHeight;
+    [self initBottomArea:leftpadding bottomY:topHeight bottomWidth:sectionWidth bottomHeight:bottomHeight];
+    
+    [self initRightArea:leftpadding sectionWidth:sectionWidth];
+}
+
+-(void)initTopArea:(CGFloat)leftpadding topWidth:(CGFloat)topWidth topHeight:(CGFloat)topHeight{
+    ShipmentTaskBean* taskBean = (ShipmentTaskBean*)self.data;
+    
+    BOOL isComplete = [taskBean hasReport];
     UIColor* iconColor;
     if(isComplete){
         iconColor = COLOR_YI_WAN_CHENG;
@@ -160,57 +181,102 @@
     NSString* content = taskBean.orderBaseCode;
     NSString* customer = ConcatStrings(@"客户单号",taskBean.customCode);
     
-    self.square.frame = CGRectMake(0,0, sectionWidth, sectionHeight);
-    
-    self.bottomLine.frame = CGRectMake(leftpadding, sectionHeight - LINE_WIDTH, sectionWidth - leftpadding * 2, LINE_WIDTH);
-    
     self.iconText.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:24 content:iconName];
     CGSize iconSize = [self.iconText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.iconText.frame = (CGRect){ CGPointMake(leftpadding,(sectionHeight - iconSize.height) / 2. + 2),iconSize};
+    self.iconText.frame = (CGRect){ CGPointMake(leftpadding,(topHeight - iconSize.height) / 2. + 2),iconSize};
     
     self.title.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:content];
     CGSize titleSize = [self.title measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.title.frame = (CGRect){CGPointMake(self.iconText.frame.origin.x + self.iconText.frame.size.width + 3, sectionHeight / 2. - 15),titleSize};
+    self.title.frame = (CGRect){CGPointMake(self.iconText.frame.origin.x + self.iconText.frame.size.width + 3, topHeight / 2. - 15),titleSize};
     
     self.desLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColor] size:12 content:customer];
     CGSize desSize = [self.desLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.desLabel.frame = (CGRect){CGPointMake(self.iconText.frame.origin.x + self.iconText.frame.size.width + 3, sectionHeight / 2.),desSize};
+    self.desLabel.frame = (CGRect){CGPointMake(self.iconText.frame.origin.x + self.iconText.frame.size.width + 3, topHeight / 2.),desSize};
     
     self.stateArea.frame = CGRectMake(CGRectGetMaxX(self.title.frame) + leftpadding, 0, 50, 20);
-    self.stateArea.centerY = sectionHeight / 2.;
+    self.stateArea.centerY = topHeight / 2.;
     self.stateArea.titleColor = self.stateArea.strokeColor = iconColor;
     self.stateArea.title = isComplete ? @"已上报":@"未上报";
+}
+
+-(void)initBottomArea:(CGFloat)leftpadding bottomY:(CGFloat)bottomY bottomWidth:(CGFloat)bottomWidth bottomHeight:(CGFloat)bottomHeight{
+    ShipmentTaskBean* taskBean = (ShipmentTaskBean*)self.data;
     
+//    int actualCount = 0;
+//    for (ShipmentActivityShipUnitBean* shipunitBean in taskBean.shipUnits) {
+//        actualCount += shipunitBean.pacakageUnitCount;
+//    }
+    
+    self.shipUintTotalLabel.attributedString = [self generateShipUnitString:12 color:FlatOrange activityTypeLabel:[Config getActivityTypeName:taskBean.activityDefinitionCode] expectedCount:[taskBean.expectedPackageCount integerValue] actualCount:taskBean.actualPackageCount];
+    self.shipUintTotalLabel.size = [self.shipUintTotalLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    self.shipUintTotalLabel.y = bottomY;
+    self.shipUintTotalLabel.x = leftpadding;
+}
+
+-(NSAttributedString *)generateShipUnitString:(CGFloat)size color:(UIColor*)color activityTypeLabel:(NSString*)activityTypeLabel expectedCount:(NSInteger)expectedCount actualCount:(NSInteger)actualCount{
+    const NSString* gapString = @" ";
+    const NSString* expecteTailString = @" 箱 | ";
+    NSString* expectedString = NULL;
+    NSString* expectedTag = NULL;
+    if (expectedCount) {
+        expectedTag = ConcatStrings(@"预计",activityTypeLabel,gapString);
+        expectedString = ConcatStrings(expectedTag,@(expectedCount),expecteTailString);
+    }
+    NSString* actualString = NULL;
+    NSString* actualTag = NULL;
+    if (actualCount) {
+        actualTag = ConcatStrings(@"实际",activityTypeLabel,gapString);
+        actualString = ConcatStrings(actualTag,@(actualCount),@" 箱");
+    }
+    NSString* context = ConcatStrings(expectedString ? expectedString : @"", actualString ? actualString : @"");
+    NSMutableAttributedString* attrString = [[NSMutableAttributedString alloc]initWithString:context];
+    [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:size] range:NSMakeRange(0, context.length)];
+    [attrString addAttribute:NSForegroundColorAttributeName value:FlatGray range:NSMakeRange(0, context.length)];
+    NSUInteger loc = 0;
+    if (expectedCount) {
+        loc += expectedTag.length;
+        NSUInteger pickupLength = [NSString stringWithFormat:@"%li", (long)expectedCount].length;
+        [attrString addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(loc, pickupLength)];
+        loc += pickupLength + expecteTailString.length;
+    }
+    if (actualCount) {
+        loc += actualTag.length;
+        NSUInteger deliverLength = [NSString stringWithFormat:@"%li", (long)actualCount].length;
+        [attrString addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(loc, deliverLength)];
+    }
+    return attrString;
+}
+
+-(void)initRightArea:(CGFloat)rightpadding sectionWidth:(CGFloat)sectionWidth{
     if(self.itemCount > 1){//改成点击进入item详情页
         
-        self.rightArrow.x = sectionWidth - self.rightArrow.width - leftpadding;
-        self.rightArrow.centerY = self.stateArea.centerY;
+        self.rightArrow.x = sectionWidth - self.rightArrow.width - rightpadding;
+        self.rightArrow.centerY = self.square.centerY;
         self.rightArrow.hidden = NO;
         
         self.detailLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange size:14 content:@"详情"];
         self.detailLabel.size = [self.detailLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-        self.detailLabel.maxX = self.rightArrow.x - leftpadding;
+        self.detailLabel.maxX = self.rightArrow.x - rightpadding;
         self.detailLabel.centerY = self.rightArrow.centerY;
         self.detailLabel.hidden = NO;
         
         self.square.userInteractionEnabled = YES;//可以点击
         [self.square addTarget:self action:@selector(clickOrderSquare) forControlEvents:UIControlEventTouchUpInside];
         
-//        CGFloat buttonWidth = 65;
-//        CGFloat buttonHeight = 30;
-//        self.pageButton.frame = CGRectMake(sectionWidth - leftpadding - buttonWidth, (sectionHeight - buttonHeight) / 2., buttonWidth,buttonHeight);
-//        self.pageButton.fillColor = COLOR_ACCENT;// iconColor;
-//        if (self.isLast) {
-//            self.pageButton.title = @"回顶部";
-//        }else{
-//            self.pageButton.title = @"下一个";
-//        }
+        //        CGFloat buttonWidth = 65;
+        //        CGFloat buttonHeight = 30;
+        //        self.pageButton.frame = CGRectMake(sectionWidth - leftpadding - buttonWidth, (sectionHeight - buttonHeight) / 2., buttonWidth,buttonHeight);
+        //        self.pageButton.fillColor = COLOR_ACCENT;// iconColor;
+        //        if (self.isLast) {
+        //            self.pageButton.title = @"回顶部";
+        //        }else{
+        //            self.pageButton.title = @"下一个";
+        //        }
     }else{
         self.square.userInteractionEnabled = NO;
         self.rightArrow.hidden = YES;
         self.detailLabel.hidden = YES;
     }
-    
 }
 
 -(void)clickOrderSquare{

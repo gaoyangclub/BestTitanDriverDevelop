@@ -211,17 +211,17 @@
         self.shipUnitBean.actualReceivedVolume = [self.volumeText.text doubleValue];
 //        self.shipUnitBean.isEdited = YES;
         
-        if (self.delegate && [self.delegate respondsToSelector:@selector(orderEdited:)]) {
-            [self.delegate orderEdited:self.shipUnitIndexPath];
-        }
+//        if (self.delegate && [self.delegate respondsToSelector:@selector(orderEdited:)]) {
+//            [self.delegate orderEdited:self.shipUnitIndexPath];
+//        }
         [self dismiss];
     }
 }
 
 -(void)clickReturnButton:(UIView*)sender{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(orderCanceled:)]) {
-        [self.delegate orderCanceled:self.shipUnitIndexPath];
-    }
+//    if (self.delegate && [self.delegate respondsToSelector:@selector(orderCanceled:)]) {
+//        [self.delegate orderCanceled:self.shipUnitIndexPath];
+//    }
     [self dismiss];
 }
 

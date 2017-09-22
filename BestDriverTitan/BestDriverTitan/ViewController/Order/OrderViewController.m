@@ -37,7 +37,7 @@
 
 @end
 
-@interface OrderViewController()<OrderTabViewDelegate,OrderEditModelDelegate>{
+@interface OrderViewController()<OrderTabViewDelegate>{//,OrderEditModelDelegate
     BOOL isClickTab;
     ShipmentActivityBean* currentActivity;//当前选中的活动
     NSArray<ShipmentTaskBean*>* taskBeanList;//当前活动获取到的任务详情列表
@@ -381,6 +381,10 @@
         }
         [strongSelf checkShowPhotoArea];
         
+        for (NSInteger i = 0; i < 30; i++) {//临时测试代码
+            [strongSelf->taskBeanList.firstObject.shipUnits addObject:[taskBeanList.firstObject.shipUnits.firstObject copy]];
+        }
+        
         for (NSInteger i = 0; i < count; i++) {
             NSMutableArray* sourceData = [NSMutableArray<CellVo*> array];
             ShipmentTaskBean* bean = strongSelf->taskBeanList[i];
@@ -389,9 +393,7 @@
             }else{
                 if(count == 1){//只有一个订单可以直接显示
                     for (ShipmentActivityShipUnitBean* shipUnitBean in bean.shipUnits) {
-                        for (NSInteger i = 0; i < 100; i++) {
-                            [sourceData addObject:[CellVo initWithParams:ORDER_VIEW_CELL_HEIGHT cellClass:[OrderNormalCell class] cellData:[shipUnitBean copy]]];
-                        }
+                        [sourceData addObject:[CellVo initWithParams:ORDER_VIEW_CELL_HEIGHT cellClass:[OrderNormalCell class] cellData:shipUnitBean]];
                     }
                 }else{
                     [sourceData addObject:[CellVo initWithParams:ORDER_PHOTO_CELL_HEIGHT cellClass:[OrderPhotoCell class] cellData:bean]];
@@ -640,15 +642,15 @@
         OrderEditModelView* editView = [[OrderEditModelView alloc]init];
         editView.shipUnitIndexPath = indexPath;
         editView.shipUnitBean = (ShipmentActivityShipUnitBean*)cellVo.cellData;
-        editView.delegate = self;
+//        editView.delegate = self;
         [editView show];
     }
 }
 
-#pragma OrderEditModelDelegate
--(void)orderEdited:(NSIndexPath *)indexPath{
-    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];//这行数据刷新
-}
+//#pragma OrderEditModelDelegate
+//-(void)orderEdited:(NSIndexPath *)indexPath{
+//    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];//这行数据刷新
+//}
 
 
 @end
