@@ -8,6 +8,7 @@
 
 #import "MapViewController.h"
 #import <MAMapKit/MAMapKit.h>
+#import "CommonUtility.h"
 
 @interface MapViewController ()<MAMapViewDelegate>{
     MAPolyline *commonPolyline;
@@ -178,6 +179,38 @@ static MapViewController* instance;
     }
 }
 
+//static const NSString *RoutePlanningViewControllerStartTitle       = @"起点";
+//static const NSString *RoutePlanningViewControllerDestinationTitle = @"终点";
+static const NSInteger RoutePlanningPaddingEdge                    = 50;
+
+-(void)viewDidAppear:(BOOL)animated{
+    NSInteger count = 5;
+    
+    CLLocationCoordinate2D commonPolylineCoords[count];
+    commonPolylineCoords[0] = CLLocationCoordinate2DMake(24.2753400000,100.1654600000);
+    commonPolylineCoords[1] = CLLocationCoordinate2DMake(23.2753400000,115.2854600000);
+    commonPolylineCoords[2] = CLLocationCoordinate2DMake(26.2753400000,114.3654600000);
+    commonPolylineCoords[3] = CLLocationCoordinate2DMake(23.3753400000,116.9854600000);
+    commonPolylineCoords[4] = CLLocationCoordinate2DMake(22.2753400000,113.1654600000);
+    
+    NSMutableArray* annotaions = [NSMutableArray array];
+    for (NSInteger i = 0 ; i < count; i++) {
+        MAPointAnnotation *pointAnnotation = [[MAPointAnnotation alloc] init];
+        pointAnnotation.coordinate =  commonPolylineCoords[i];
+        
+        pointAnnotation.title = @"香港区政府";
+        pointAnnotation.subtitle = ConcatStrings(@"xxxx大街",@(i),@"号");
+        
+        [_mapView addAnnotation:pointAnnotation];
+        [annotaions addObject:pointAnnotation];
+    }
+    [annotaions addObject:self.mapView.userLocation];
+    /* 缩放地图使其适应polylines的展示. */
+    [self.mapView setVisibleMapRect:[CommonUtility minMapRectForAnnotations:annotaions]
+                        edgePadding:UIEdgeInsetsMake(RoutePlanningPaddingEdge, RoutePlanningPaddingEdge, RoutePlanningPaddingEdge, RoutePlanningPaddingEdge)
+                           animated:YES];
+}
+
 -(void)showRoutePoints{
     if (self->commonPolyline) {
         [self.mapView removeOverlay:self->commonPolyline];
@@ -248,6 +281,26 @@ static MapViewController* instance;
         annotationView.image = [UIImage imageNamed:@"userPosition"];
         
         self.userLocationAnnotationView = annotationView;
+        
+        return annotationView;
+    }
+    else if ([annotation isKindOfClass:[MAPointAnnotation class]])
+    {
+        static NSString *pointReuseIndentifier = @"pointReuseIndentifier";
+        MAPinAnnotationView*annotationView = (MAPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:pointReuseIndentifier];
+        if (annotationView == nil)
+        {
+            annotationView = [[MAPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:pointReuseIndentifier];
+        }
+        annotationView.canShowCallout = YES;       //设置气泡可以弹出，默认为NO
+        annotationView.animatesDrop = YES;        //设置标注动画显示，默认为NO
+//        annotationView.draggable = YES;        //设置标注可以拖动，默认为NO
+//        annotationView.pinColor = MAPinAnnotationColorPurple;
+        annotationView.image = [UIImage imageNamed:@"default_navi_route_waypoint"];
+        
+//        annotationView.image = [UIImage imageNamed:@"restaurant"];
+        //设置中心点偏移，使得标注底部中间点成为经纬度对应点
+        annotationView.centerOffset = CGPointMake(0, -18);
         
         return annotationView;
     }
