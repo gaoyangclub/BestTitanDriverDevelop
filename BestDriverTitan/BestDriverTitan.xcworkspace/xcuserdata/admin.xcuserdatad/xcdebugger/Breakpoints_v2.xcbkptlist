@@ -36,11 +36,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/Vendor/MJTableBase/MJTableBaseView.m"
-            timestampString = "527394959.076583"
+            timestampString = "528106564.174465"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "201"
-            endingLineNumber = "201"
+            startingLineNumber = "205"
+            endingLineNumber = "205"
             landmarkName = "@implementation MJTableBaseView"
             landmarkType = "3">
          </BreakpointContent>
@@ -52,11 +52,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/Vendor/MJTableBase/MJTableBaseView.m"
-            timestampString = "527394959.076583"
+            timestampString = "528106564.174465"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "206"
-            endingLineNumber = "206"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
             landmarkName = "-setHeader:"
             landmarkType = "5">
             <Locations>
@@ -100,11 +100,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/Vendor/MJTableBase/MJTableBaseView.m"
-            timestampString = "527394959.076583"
+            timestampString = "528106564.174465"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
+            startingLineNumber = "211"
+            endingLineNumber = "211"
             landmarkName = "-setHeader:"
             landmarkType = "5">
          </BreakpointContent>
@@ -164,11 +164,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Task/TaskTripCell.m"
-            timestampString = "527414071.582443"
+            timestampString = "528197950.525814"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "622"
-            endingLineNumber = "622"
+            startingLineNumber = "631"
+            endingLineNumber = "631"
             landmarkName = "-initRouteArea:"
             landmarkType = "5">
          </BreakpointContent>
@@ -228,11 +228,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/Vendor/MJTableBase/MJTableBaseView.m"
-            timestampString = "527394959.076583"
+            timestampString = "528106564.174465"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "399"
-            endingLineNumber = "399"
+            startingLineNumber = "403"
+            endingLineNumber = "403"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -259,22 +259,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BestDriverTitan/ViewController/Order/OrderViewController.m"
-            timestampString = "527760166.58583"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "632"
-            endingLineNumber = "632"
-            landmarkName = "-didSelectItem:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/Component/FlatButton.m"
             timestampString = "522841842.183454"
             startingColumnNumber = "9223372036854775807"
@@ -292,11 +276,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/Component/Presenting/CustomPopListView.m"
-            timestampString = "526813878.616592"
+            timestampString = "528196120.422412"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
             landmarkName = "-buttonClick:"
             landmarkType = "5">
          </BreakpointContent>
@@ -324,11 +308,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/Utils/UpdateVersionManager.m"
-            timestampString = "523436347.49074"
+            timestampString = "528453653.647636"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
             landmarkName = "-alertView:clickedButtonAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
@@ -340,11 +324,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/Utils/UpdateVersionManager.m"
-            timestampString = "523436347.49074"
+            timestampString = "528453653.647636"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
             landmarkName = "-alertView:clickedButtonAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
@@ -388,11 +372,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/Vendor/MJTableBase/MJTableBaseView.m"
-            timestampString = "527394959.076583"
+            timestampString = "528106564.174465"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "363"
-            endingLineNumber = "363"
+            startingLineNumber = "367"
+            endingLineNumber = "367"
             landmarkName = "-tableView:heightForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -436,11 +420,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Map/MapNaviViewController.m"
-            timestampString = "527416734.718795"
+            timestampString = "528354042.191967"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "178"
-            endingLineNumber = "178"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
             landmarkName = "-dealloc"
             landmarkType = "5">
          </BreakpointContent>
@@ -452,11 +436,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Map/MapNaviViewController.m"
-            timestampString = "527416734.718795"
+            timestampString = "528354042.191967"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
+            startingLineNumber = "194"
+            endingLineNumber = "194"
             landmarkName = "-eventLocationChange:"
             landmarkType = "5">
          </BreakpointContent>
@@ -468,11 +452,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Task/TaskViewController.m"
-            timestampString = "527395055.12262"
+            timestampString = "528093839.74396"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "346"
-            endingLineNumber = "346"
+            startingLineNumber = "367"
+            endingLineNumber = "367"
             landmarkName = "-generateSourceDataByShipmentList:svo:sourceData:startDate:"
             landmarkType = "5">
          </BreakpointContent>
@@ -500,11 +484,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Task/TaskTripController.m"
-            timestampString = "526986993.498977"
+            timestampString = "528430977.479238"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "250"
-            endingLineNumber = "250"
+            startingLineNumber = "281"
+            endingLineNumber = "281"
             landmarkName = "-headerRefresh:"
             landmarkType = "5">
          </BreakpointContent>
@@ -548,11 +532,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Task/TaskViewController.m"
-            timestampString = "527395055.12262"
+            timestampString = "528093839.74396"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "270"
-            endingLineNumber = "270"
+            startingLineNumber = "288"
+            endingLineNumber = "288"
             landmarkName = "-showTaskBadge:"
             landmarkType = "5">
          </BreakpointContent>
@@ -596,28 +580,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Order/OrderViewController.m"
-            timestampString = "527760166.58583"
+            timestampString = "528186486.953401"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "409"
-            endingLineNumber = "409"
+            startingLineNumber = "415"
+            endingLineNumber = "415"
             landmarkName = "-headerRefresh:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BestDriverTitan/ViewController/Map/MapNaviViewController.m"
-            timestampString = "527416734.718795"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
-            landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -660,11 +628,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Order/OrderViewController.m"
-            timestampString = "527760166.58583"
+            timestampString = "528377024.95335"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "616"
-            endingLineNumber = "616"
+            startingLineNumber = "647"
+            endingLineNumber = "647"
             landmarkName = "-submitReceiptTask"
             landmarkType = "5">
          </BreakpointContent>
@@ -723,13 +691,157 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BestDriverTitan/ViewController/Order/OrderViewController.m"
-            timestampString = "527689217.240881"
+            filePath = "BestDriverTitan/ViewController/Map/MapViewController.m"
+            timestampString = "528371544.345991"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "371"
-            endingLineNumber = "371"
+            startingLineNumber = "255"
+            endingLineNumber = "255"
+            landmarkName = "-showMarkPoints"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BestDriverTitan/ViewController/Order/OrderViewController.m"
+            timestampString = "528186475.951099"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "376"
+            endingLineNumber = "376"
             landmarkName = "-headerRefresh:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BestDriverTitan/ViewController/Order/OrderEditModelView.m"
+            timestampString = "528196120.422412"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "246"
+            endingLineNumber = "246"
+            landmarkName = "-clickSubmitButton:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BestDriverTitan/ViewController/Order/OrderEditModelView.m"
+            timestampString = "528196120.422412"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "306"
+            endingLineNumber = "306"
+            landmarkName = "-viewDidLoad"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BestDriverTitan/ViewController/Map/CustomAnnotationView.m"
+            timestampString = "528447936.89852"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
+            landmarkName = "-layoutSubviews"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BestDriverTitan/ViewController/Map/MapNaviViewController.m"
+            timestampString = "528354042.191967"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "-rightClick"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BestDriverTitan/AppDelegate.m"
+            timestampString = "528450473.955314"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "261"
+            endingLineNumber = "261"
+            landmarkName = "-application:didReceiveRemoteNotification:fetchCompletionHandler:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BestDriverTitan/AppDelegate.m"
+            timestampString = "528450473.955314"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "249"
+            endingLineNumber = "249"
+            landmarkName = "-application:didRegisterForRemoteNotificationsWithDeviceToken:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BestDriverTitan/AppDelegate.m"
+            timestampString = "528450473.955314"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "272"
+            endingLineNumber = "272"
+            landmarkName = "-GeTuiSdkDidRegisterClient:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BestDriverTitan/AppDelegate.m"
+            timestampString = "528450473.955314"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
+            landmarkName = "-registerRemoteNotification"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

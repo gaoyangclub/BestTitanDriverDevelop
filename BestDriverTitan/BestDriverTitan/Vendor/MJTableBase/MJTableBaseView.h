@@ -99,6 +99,11 @@ typedef void(^FooterLoadMoreHandler)(BOOL hasData);
  */
 -(void)addSource:(SourceVo*)sourceVo;
 /**
+ *  删除一节内容
+ *  @param sourceVo
+ */
+-(void)removeSourceAt:(NSInteger)index;
+/**
  *  重新刷新全部界面 类似源生的reloadData
  */
 -(void)reloadMJData;

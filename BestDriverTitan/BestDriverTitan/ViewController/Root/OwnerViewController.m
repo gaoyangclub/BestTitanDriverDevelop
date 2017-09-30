@@ -171,7 +171,6 @@ static OwnerViewController* instance;
     if ([user hasAudited]) {
         [self diapatchLoginComplete];
     }else{
-        [HudManager showToast:@"该用户暂未通过审核，请先到系统中录入用户信息!"];
 //        [self pushViewController:<#(nonnull UIViewController *)#> animated:YES];//进入审核界面
     }
 }

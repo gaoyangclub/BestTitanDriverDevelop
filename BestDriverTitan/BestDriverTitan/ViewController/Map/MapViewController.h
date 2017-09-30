@@ -17,7 +17,8 @@ typedef NS_ENUM(NSInteger, MapViewMode) {
 
 @interface MapViewController : UIViewController
 
-@property(nonatomic,retain)NSMutableArray<LocationInfo*>* routePoints;//轨迹坐标点
+@property(nonatomic,retain)NSArray<LocationInfo*>* routePoints;//轨迹坐标点
+@property(nonatomic,retain)NSArray<LocationInfo*>* markPoints;//覆盖物坐标数据
 @property(nonatomic,assign)MapViewMode mode;
 
 //-(instancetype)init __attribute__((unavailable("Disabled. Use +sharedInstance instead")));

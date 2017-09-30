@@ -76,6 +76,7 @@
         _packageNumberView.fillColor = [UIColor whiteColor];
         _packageNumberView.strokeWidth = 1;
         _packageNumberView.strokeColor = COLOR_LINE;
+        _packageNumberView.maxLength = 9;
     }
     return _packageNumberView;
 }
@@ -97,10 +98,10 @@
         _pieceNumberView.fillColor = [UIColor whiteColor];
         _pieceNumberView.strokeWidth = 1;
         _pieceNumberView.strokeColor = COLOR_LINE;
+        _pieceNumberView.maxLength = 9;
     }
     return _pieceNumberView;
 }
-
 
 -(ASTextNode *)weightLabel{
     if(!_weightLabel){
@@ -128,12 +129,13 @@
         _weightText.textColor = COLOR_BLACK_ORIGINAL;
         //        _weightText.delegate = self; //文本交互代理
         _weightText.placeholder = @"请输入重量";
-        _weightText.keyboardType = UIKeyboardTypeNumberPad;
+        _weightText.keyboardType = UIKeyboardTypeDecimalPad;
         _weightText.returnKeyType = UIReturnKeyDone; //键盘return键样式
         _weightText.backgroundColor = FlatWhite;
         _weightText.textAlignment = NSTextAlignmentCenter;
 //        _weightText
         [self.contentView addSubview:_weightText];
+        [_weightText addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     }
     return _weightText;
 }
@@ -146,14 +148,33 @@
         _volumeText.textColor = COLOR_BLACK_ORIGINAL;
         //        _volumeText.delegate = self; //文本交互代理
         _volumeText.placeholder = @"请输入体积";
-        _volumeText.keyboardType = UIKeyboardTypeNumberPad;
+        _volumeText.keyboardType = UIKeyboardTypeDecimalPad;
         _volumeText.returnKeyType = UIReturnKeyDone; //键盘return键样式
         _volumeText.backgroundColor = FlatWhite;
         _volumeText.textAlignment = NSTextAlignmentCenter;
         //        _weightText
         [self.contentView addSubview:_volumeText];
+        [_volumeText addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     }
     return _volumeText;
+}
+
+- (void)textFieldDidChange:(UITextField *)textField
+{
+    NSInteger maxLength = 12;
+//    if (textField == self.editText) {
+        if (maxLength && textField.text.length > maxLength) {
+            UITextRange *markedRange = [textField markedTextRange];
+            if (markedRange) {
+                return;
+            }
+            //Emoji占2个字符，如果是超出了半个Emoji，用15位置来截取会出现Emoji截为2半
+            //超出最大长度的那个字符序列(Emoji算一个字符序列)的range
+            NSRange range = [textField.text rangeOfComposedCharacterSequenceAtIndex:maxLength];
+            NSString* value = [textField.text substringToIndex:range.location];
+            textField.text = value;
+        }
+//    }
 }
 
 -(FlatButton *)submitButton{
@@ -188,10 +209,24 @@
 -(BOOL)checkCanSubmit{
     if (!self.weightText.text) {
         [HudManager showToast:@"请先填入重量!"];
+        [PopAnimateManager startShakeAnimation:self.weightText];
         return NO;
     }
     if (!self.volumeText.text) {
         [HudManager showToast:@"请先填入体积!"];
+        [PopAnimateManager startShakeAnimation:self.volumeText];
+        return NO;
+    }
+    NSArray<NSString *> * subStrings = [self.weightText.text componentsSeparatedByString:@"."];
+    if (subStrings.count > 2) {//有多个小数点
+        [HudManager showToast:@"重量中出现多个小数点，请确认输入格式!"];
+        [PopAnimateManager startShakeAnimation:self.weightText];
+        return NO;
+    }
+    subStrings = [self.volumeText.text componentsSeparatedByString:@"."];
+    if (subStrings.count > 2) {//有多个小数点
+        [HudManager showToast:@"体积中出现多个小数点，请确认输入格式!"];
+        [PopAnimateManager startShakeAnimation:self.volumeText];
         return NO;
     }
     return YES;
@@ -207,21 +242,21 @@
         self.shipUnitBean.pacakageUnitCount = self.packageNumberView.totalCount;
         self.shipUnitBean.itemCount = self.pieceNumberView.totalCount;
         
-        self.shipUnitBean.actualReceivedWeight = [self.weightText.text doubleValue];
-        self.shipUnitBean.actualReceivedVolume = [self.volumeText.text doubleValue];
+        self.shipUnitBean.actualReceivedWeight = self.weightText.text;
+        self.shipUnitBean.actualReceivedVolume = self.volumeText.text;
 //        self.shipUnitBean.isEdited = YES;
         
-//        if (self.delegate && [self.delegate respondsToSelector:@selector(orderEdited:)]) {
-//            [self.delegate orderEdited:self.shipUnitIndexPath];
-//        }
+        if (self.delegate && [self.delegate respondsToSelector:@selector(orderEdited:)]) {
+            [self.delegate orderEdited:self.shipUnitIndexPath];
+        }
         [self dismiss];
     }
 }
 
 -(void)clickReturnButton:(UIView*)sender{
-//    if (self.delegate && [self.delegate respondsToSelector:@selector(orderCanceled:)]) {
-//        [self.delegate orderCanceled:self.shipUnitIndexPath];
-//    }
+    if (self.delegate && [self.delegate respondsToSelector:@selector(orderCanceled:)]) {
+        [self.delegate orderCanceled:self.shipUnitIndexPath];
+    }
     [self dismiss];
 }
 
@@ -268,7 +303,7 @@
     self.weightLabel.y = viewCenterY;// + offsetY / 2.;
     
     self.weightText.frame = CGRectMake(self.weightLabel.centerX - numberWidth / 2., self.weightLabel.maxY, numberWidth, numberHeight);
-    self.weightText.text = [NSString stringWithFormat:@"%g",self.shipUnitBean.actualReceivedWeight];
+    self.weightText.text = self.shipUnitBean.actualReceivedWeight;
     //        self.packageNumberView.y = self.weightLabel.maxY;//临时添加...
     
     self.volumeLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:12 content:@"体积(m³)"];
@@ -277,7 +312,7 @@
     self.volumeLabel.centerY = self.weightLabel.centerY;
     
     self.volumeText.frame = CGRectMake(self.volumeLabel.centerX - numberWidth / 2., self.volumeLabel.maxY, numberWidth, numberHeight);
-    self.volumeText.text = [NSString stringWithFormat:@"%g",self.shipUnitBean.actualReceivedVolume];
+    self.volumeText.text = self.shipUnitBean.actualReceivedVolume;
     
 //        self.bottomLine.hidden = self.isFirst;
 //        if (!self.isFirst) {

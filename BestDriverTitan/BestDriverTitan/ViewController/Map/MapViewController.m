@@ -9,9 +9,30 @@
 #import "MapViewController.h"
 #import <MAMapKit/MAMapKit.h>
 #import "CommonUtility.h"
+#import "FlatButton.h"
+#import "MapNaviViewController.h"
+#import "OwnerViewController.h"
+#import "HudManager.h"
+#import "CustomAnnotationView.h"
 
-@interface MapViewController ()<MAMapViewDelegate>{
+
+@interface DiyPointAnnotation : MAPointAnnotation
+
+@property(nonatomic,assign) BOOL isFirst;
+@property(nonatomic,assign) BOOL isLast;
+//@property(nonatomic,assign) BOOL isSingle;//只有一个条目数据
+@property(nonatomic,assign) NSInteger index;//第几个索引
+
+@end
+
+@implementation DiyPointAnnotation
+
+@end
+
+@interface MapViewController ()<MAMapViewDelegate,AMapSearchDelegate>{
     MAPolyline *commonPolyline;
+    NSMutableArray<id<MAAnnotation>>* markAnnotaions;
+    BOOL firstUserLocation;//初次定位成功
 }
 
 @property(nonatomic,retain)UILabel* titleLabel;
@@ -23,6 +44,8 @@
 @property (nonatomic, retain) UIButton *gpsButton;
 
 @property (nonatomic, retain) UIView *zoomPannelView;
+
+@property(nonatomic,retain)AMapSearchAPI* searchAPI;
 
 @end
 
@@ -59,6 +82,14 @@ static MapViewController* instance;
     self.titleLabel.text = @"地图";//标题显示TO号
     [self.titleLabel sizeToFit];
     self.navigationItem.titleView = self.titleLabel;
+}
+
+-(AMapSearchAPI *)searchAPI{
+    if (!_searchAPI) {
+        _searchAPI = [[AMapSearchAPI alloc]init];
+        _searchAPI.delegate = self;
+    }
+    return _searchAPI;
 }
 
 //返回上层
@@ -172,7 +203,7 @@ static MapViewController* instance;
         self.mapView.userTrackingMode = MAUserTrackingModeFollowWithHeading;
     }else if(self.mode == MapViewModeMark){
         self.mapView.userTrackingMode = MAUserTrackingModeFollow;
-//        [self showMarks];
+        [self showMarkPoints];
     }else if(self.mode == MapViewModeRoute){
         self.mapView.userTrackingMode = MAUserTrackingModeFollow;
         [self showRoutePoints];
@@ -182,34 +213,6 @@ static MapViewController* instance;
 //static const NSString *RoutePlanningViewControllerStartTitle       = @"起点";
 //static const NSString *RoutePlanningViewControllerDestinationTitle = @"终点";
 static const NSInteger RoutePlanningPaddingEdge                    = 50;
-
--(void)viewDidAppear:(BOOL)animated{
-    NSInteger count = 5;
-    
-    CLLocationCoordinate2D commonPolylineCoords[count];
-    commonPolylineCoords[0] = CLLocationCoordinate2DMake(24.2753400000,100.1654600000);
-    commonPolylineCoords[1] = CLLocationCoordinate2DMake(23.2753400000,115.2854600000);
-    commonPolylineCoords[2] = CLLocationCoordinate2DMake(26.2753400000,114.3654600000);
-    commonPolylineCoords[3] = CLLocationCoordinate2DMake(23.3753400000,116.9854600000);
-    commonPolylineCoords[4] = CLLocationCoordinate2DMake(22.2753400000,113.1654600000);
-    
-    NSMutableArray* annotaions = [NSMutableArray array];
-    for (NSInteger i = 0 ; i < count; i++) {
-        MAPointAnnotation *pointAnnotation = [[MAPointAnnotation alloc] init];
-        pointAnnotation.coordinate =  commonPolylineCoords[i];
-        
-        pointAnnotation.title = @"香港区政府";
-        pointAnnotation.subtitle = ConcatStrings(@"xxxx大街",@(i),@"号");
-        
-        [_mapView addAnnotation:pointAnnotation];
-        [annotaions addObject:pointAnnotation];
-    }
-    [annotaions addObject:self.mapView.userLocation];
-    /* 缩放地图使其适应polylines的展示. */
-    [self.mapView setVisibleMapRect:[CommonUtility minMapRectForAnnotations:annotaions]
-                        edgePadding:UIEdgeInsetsMake(RoutePlanningPaddingEdge, RoutePlanningPaddingEdge, RoutePlanningPaddingEdge, RoutePlanningPaddingEdge)
-                           animated:YES];
-}
 
 -(void)showRoutePoints{
     if (self->commonPolyline) {
@@ -231,7 +234,88 @@ static const NSInteger RoutePlanningPaddingEdge                    = 50;
         self->commonPolyline = [MAPolyline polylineWithCoordinates:commonPolylineCoords count:count];
         //在地图上添加折线对象
         [self.mapView addOverlay:commonPolyline];
-        [self.mapView setVisibleMapRect:commonPolyline.boundingMapRect animated:YES];
+        [self.mapView setVisibleMapRect:commonPolyline.boundingMapRect
+                            edgePadding:UIEdgeInsetsMake(RoutePlanningPaddingEdge, RoutePlanningPaddingEdge, RoutePlanningPaddingEdge, RoutePlanningPaddingEdge)
+                               animated:YES];
+    }
+}
+
+-(void)showMarkPoints{
+    self->markAnnotaions = [NSMutableArray<id<MAAnnotation>> array];
+    NSInteger count = self.markPoints.count;
+    
+    for (NSInteger i = 0 ; i < count; i++) {
+        LocationInfo* markPoint = self.markPoints[i];
+        CLLocationCoordinate2D coordinate = markPoint.locationPoint.MKCoordinateValue;
+        if (coordinate.latitude && coordinate.longitude) {
+            [self createDiyPointAnnotationByIndex:i];
+        }else{
+            AMapGeocodeSearchRequest *geo = [[AMapGeocodeSearchRequest alloc] init];
+            geo.address = markPoint.detailInfo;
+            [self.searchAPI AMapGeocodeSearch:geo];
+        }
+    }
+//    [self->markAnnotaions addObject:self.mapView.userLocation];
+    /* 缩放地图使其适应markAnnotaions的展示. */
+    [self.mapView setVisibleMapRect:[CommonUtility minMapRectForAnnotations:self->markAnnotaions]
+                        edgePadding:UIEdgeInsetsMake(RoutePlanningPaddingEdge, RoutePlanningPaddingEdge, RoutePlanningPaddingEdge, RoutePlanningPaddingEdge)
+                           animated:YES];
+}
+
+-(void)createDiyPointAnnotationByIndex:(NSInteger)index{
+    if (index < self.markPoints.count) {
+        LocationInfo* markPoint = self.markPoints[index];
+        
+        DiyPointAnnotation *pointAnnotation = [[DiyPointAnnotation alloc] init];
+        CLLocationCoordinate2D coordinate = markPoint.locationPoint.MKCoordinateValue;
+        pointAnnotation.coordinate = coordinate;
+        
+        pointAnnotation.title = markPoint.markInfo;
+        pointAnnotation.subtitle = markPoint.detailInfo;//ConcatStrings(@"xxxx大街",@(i),@"号");
+        pointAnnotation.isFirst = index == 0;
+        pointAnnotation.isLast = index == self.markPoints.count - 1;
+        pointAnnotation.index = index;
+        
+        [_mapView addAnnotation:pointAnnotation];
+        [self->markAnnotaions addObject:pointAnnotation];
+    }
+}
+
+-(NSInteger)getMarkPointIndexByAddress:(NSString*)detailInfo{
+    NSInteger count = self.markPoints.count;
+    for (NSInteger i = 0; i < count; i++) {
+        LocationInfo* markPoint = self.markPoints[i];
+        if (markPoint.detailInfo && [markPoint.detailInfo isEqualToString:detailInfo]) {//搜索到了
+            CLLocationCoordinate2D coordinate = markPoint.locationPoint.MKCoordinateValue;
+            if (!coordinate.latitude || !coordinate.longitude) {
+                return i;
+            }
+        }
+    }
+    return -1;
+}
+
+#pragma AMapSearchDelegate
+- (void)onGeocodeSearchDone:(AMapGeocodeSearchRequest *)request response:(AMapGeocodeSearchResponse *)response
+{
+    if (response.geocodes.count == 0)
+    {
+        [HudManager showToast:@"该地址逆地理编码不存在，请检查该地址描述是否准确!"];
+        return;
+    }
+    //解析response获取地理信息，具体解析见 Demo
+    AMapGeocode* geoCode = response.geocodes.firstObject;
+    if (geoCode.location) {
+        NSInteger index = [self getMarkPointIndexByAddress:request.address];
+        if (index >= 0) {
+            LocationInfo* markPoint = self.markPoints[index];
+            markPoint.locationPoint = [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(geoCode.location.latitude, geoCode.location.longitude)];
+            [self createDiyPointAnnotationByIndex:index];
+            /* 缩放地图使其适应markAnnotaions的展示. */
+            [self.mapView setVisibleMapRect:[CommonUtility minMapRectForAnnotations:self->markAnnotaions]
+                                edgePadding:UIEdgeInsetsMake(RoutePlanningPaddingEdge, RoutePlanningPaddingEdge, RoutePlanningPaddingEdge, RoutePlanningPaddingEdge)
+                                   animated:YES];
+        }
     }
 }
 
@@ -284,29 +368,102 @@ static const NSInteger RoutePlanningPaddingEdge                    = 50;
         
         return annotationView;
     }
-    else if ([annotation isKindOfClass:[MAPointAnnotation class]])
+    else if ([annotation isKindOfClass:[DiyPointAnnotation class]])
     {
         static NSString *pointReuseIndentifier = @"pointReuseIndentifier";
-        MAPinAnnotationView*annotationView = (MAPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:pointReuseIndentifier];
+        CustomAnnotationView*annotationView = (CustomAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:pointReuseIndentifier];
         if (annotationView == nil)
         {
-            annotationView = [[MAPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:pointReuseIndentifier];
+            annotationView = [[CustomAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:pointReuseIndentifier];
         }
         annotationView.canShowCallout = YES;       //设置气泡可以弹出，默认为NO
         annotationView.animatesDrop = YES;        //设置标注动画显示，默认为NO
+        
+        FlatButton* rightButton = [[FlatButton alloc]init];
+        rightButton.frame = CGRectMake(0, 0, 30, 50);
+        rightButton.titleFontName = ICON_FONT_NAME;
+        rightButton.title = ICON_DAO_HANG;
+        rightButton.titleColor = FlatSkyBlue;
+        rightButton.titleSize = 28;
+        rightButton.fillColor = [UIColor clearColor];
+        
+        annotationView.rightCalloutAccessoryView = rightButton;
+        
 //        annotationView.draggable = YES;        //设置标注可以拖动，默认为NO
 //        annotationView.pinColor = MAPinAnnotationColorPurple;
-        annotationView.image = [UIImage imageNamed:@"default_navi_route_waypoint"];
+        DiyPointAnnotation* diyAnnotation = (DiyPointAnnotation*)annotation;
         
+        LocationInfo* locationInfo = self.markPoints[diyAnnotation.index];
+        UIColor* completeColor;
+        if (locationInfo.markType == LocationMarkTypeDebug) {//已完成
+            completeColor = FlatGrayDark;
+        }
+        if(diyAnnotation.isFirst){
+            annotationView.title = @"起";
+            annotationView.titleSize = 14;
+            annotationView.backColor = completeColor ? completeColor : FlatSkyBlue;
+//            annotationView.image = [UIImage imageNamed:@"default_navi_route_startpoint"];
+        }else if(diyAnnotation.isLast){
+//            annotationView.image = [UIImage imageNamed:@"default_navi_route_endpoint"];
+            annotationView.title = @"终";
+            annotationView.titleSize = 14;
+            annotationView.backColor = completeColor ? completeColor : FlatRed;
+        }else{
+//            annotationView.image = [UIImage imageNamed:@"default_navi_route_waypoint"];
+            annotationView.title = [NSString stringWithFormat:@"%ld",(long)(diyAnnotation.index + 1)];
+            annotationView.titleSize = 18;
+            annotationView.backColor = completeColor ? completeColor : FlatGreen;
+        }
 //        annotationView.image = [UIImage imageNamed:@"restaurant"];
         //设置中心点偏移，使得标注底部中间点成为经纬度对应点
-        annotationView.centerOffset = CGPointMake(0, -18);
+//        annotationView.centerOffset = CGPointMake(0, -18);
         
         return annotationView;
     }
     
     return nil;
 }
+
+-(void)mapView:(MAMapView *)mapView annotationView:(MAAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
+    id<MAAnnotation> annotation = view.annotation;
+    MapNaviViewController* naviController = [[MapNaviViewController alloc]init];
+    //            MAPointAnnotation *pointAnnotation = [[MAPointAnnotation alloc] init];
+    naviController.endLongitude = annotation.coordinate.longitude;
+    naviController.endLatitude = annotation.coordinate.latitude;
+    naviController.endAddress = annotation.subtitle;
+    [[OwnerViewController sharedInstance]pushViewController:naviController animated:YES];
+}
+
+//-(UIControl*)getNaviButton{
+//    UIControl* naviButton = [[UIControl alloc]init];
+//    naviButton.frame = CGRectMake(0,0,50,50);
+////    naviButton.width = 50;
+////    naviButton.height = 80;
+//    
+//    ASTextNode* naviIcon = [[ASTextNode alloc]init];
+//    naviIcon.layerBacked = YES;
+//    [naviButton.layer addSublayer:naviIcon.layer];
+//    naviIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:26 content:ICON_DAO_HANG];
+//    naviIcon.size = [naviIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+//    
+//    ASTextNode* naviLabel = [[ASTextNode alloc]init];
+//    naviLabel.layerBacked = YES;
+//    [naviButton.layer addSublayer:naviLabel.layer];
+//    naviLabel.attributedString = [NSString simpleAttributedString:FlatGray  size:12 content:@"去这里"];
+//    naviLabel.size = [naviLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+//    
+//    naviIcon.centerX = naviLabel.centerX = naviButton.width / 2.;
+//    
+//    naviIcon.y = (naviButton.height - naviIcon.height - naviLabel.height) / 2.;
+//    naviLabel.y = naviIcon.maxY;
+//    
+////    self.naviLabel.frame = (CGRect){ CGPointMake((naviWidth - naviLabelSize.width) / 2.,naviIconY + naviIconSize.height),naviLabelSize};
+//    return naviButton;
+//}
+//
+//-(void)clickNaviButton{
+//    NSLog(@"点击rightCalloutAccessoryView");
+//}
 
 - (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation
 {
@@ -318,6 +475,14 @@ static const NSInteger RoutePlanningPaddingEdge                    = 50;
             self.userLocationAnnotationView.transform = CGAffineTransformMakeRotation(degree * M_PI / 180.f );
             
         }];
+        if (!firstUserLocation && self->markAnnotaions) {
+            [self->markAnnotaions addObject:self.mapView.userLocation];
+            /* 缩放地图使其适应markAnnotaions的展示. */
+            [self.mapView setVisibleMapRect:[CommonUtility minMapRectForAnnotations:self->markAnnotaions]
+                                edgePadding:UIEdgeInsetsMake(RoutePlanningPaddingEdge, RoutePlanningPaddingEdge, RoutePlanningPaddingEdge, RoutePlanningPaddingEdge)
+                                   animated:YES];
+        }
+        firstUserLocation = YES;
     }
 }
 

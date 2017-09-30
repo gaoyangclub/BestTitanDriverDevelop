@@ -25,6 +25,6 @@
 
 //-(void)setTotalCount:(NSInteger)count;
 //-(void)setSelectedIndex:(NSInteger)index;
--(void)refreshActivityByIndex:(NSInteger)index;//刷新一下某个条目
+//-(void)refreshActivityByIndex:(NSInteger)index;//刷新一下某个条目
 
 @end

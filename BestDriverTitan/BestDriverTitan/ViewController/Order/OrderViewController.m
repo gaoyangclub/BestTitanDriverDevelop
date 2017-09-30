@@ -180,6 +180,11 @@
 //返回上层
 -(void)leftClick{
     [self.navigationController popViewControllerAnimated:YES];
+    if (self.stopBean.isComplete) {//已经全部完成
+        if (self.returnBlock) {
+            self.returnBlock([NSNumber numberWithBool:YES]);
+        }
+    }
 }
 
 -(OrderTabView *)tabView{
@@ -369,6 +374,7 @@
         }
         if (shipmentActivityId != strongSelf->currentActivity.id) {
             NSLog(@"界面已经被切换掉了");
+            handler(NO);
             return;
         }
         [strongSelf.tableView clearSource];
@@ -381,9 +387,9 @@
         }
         [strongSelf checkShowPhotoArea];
         
-        for (NSInteger i = 0; i < 30; i++) {//临时测试代码
-            [strongSelf->taskBeanList.firstObject.shipUnits addObject:[taskBeanList.firstObject.shipUnits.firstObject copy]];
-        }
+//        for (NSInteger i = 0; i < 30; i++) {//临时测试代码
+//            [strongSelf->taskBeanList.firstObject.shipUnits addObject:[taskBeanList.firstObject.shipUnits.firstObject copy]];
+//        }
         
         for (NSInteger i = 0; i < count; i++) {
             NSMutableArray* sourceData = [NSMutableArray<CellVo*> array];
@@ -499,8 +505,8 @@
         if ([self checkCanSubmitReceipt:NO]) {
             [self submitReceiptTask];
         }
-    }else if ([self->currentActivity.activityDefinitionCode isEqualToString:ACTIVITY_CODE_PICKUP_HANDOVER]) {
-        //揽收也必须上传附件
+    }else if ([self->currentActivity.activityDefinitionCode isEqualToString:ACTIVITY_CODE_PICKUP_HANDOVER]
+              && ![self->currentActivity hasReport]) {//揽收还未上报过 必须上传凭证
         if ([self checkCanSubmitReceipt:NO]) {
             [self submitNormalTask];
         }
@@ -510,11 +516,34 @@
 }
 
 -(BOOL)checkCanSubmitReceipt:(BOOL)hasOne{
-    for (ShipmentTaskBean* taskBean in self->taskBeanList) {
+    NSInteger count = self->taskBeanList.count;
+    for (NSInteger i = 0; i < count; i++) {
+//    for (ShipmentTaskBean* taskBean in self->taskBeanList) {
+        ShipmentTaskBean* taskBean = self->taskBeanList[i];
         if (taskBean.assetsArray.count > 0 && hasOne) {//只要有一个存在就可以上传
             return YES;
         }else if (taskBean.assetsArray.count <= 0 && !hasOne) {//必须每个task都添加文件
             [HudManager showToast:[NSString stringWithFormat:@"订单:%@ 没有添加任何凭证，请添加后上报!",taskBean.orderBaseCode]];
+            NSInteger count = self->taskBeanList.count;
+            if (count > 1) {//2个以上的订单
+                NSIndexPath* indexPath = [NSIndexPath indexPathForRow:0 inSection:i];
+                [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                UITableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
+                if (cell) {
+                    [PopAnimateManager startShakeAnimation:cell];
+                }else{
+                    double delayInSeconds = 0.3;
+                    __weak __typeof(self) weakSelf = self;
+                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC); dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                        UITableViewCell * cell = [weakSelf.tableView cellForRowAtIndexPath:indexPath];
+                        if (cell) {
+                            [PopAnimateManager startShakeAnimation:cell];
+                        }
+                    });
+                }
+            }else if(count > 0){//单个订单
+                [PopAnimateManager startShakeAnimation:self.photoContainer];
+            }
             return NO;
         }
     }
@@ -527,11 +556,12 @@
     [self.viewModel submitAllTasks:self->taskBeanList returnBlock:^(id returnValue) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         
-        ShipmentActivityBean* newActivity = [ShipmentActivityBean yy_modelWithJSON:returnValue];
-        strongSelf->currentActivity.status = newActivity.status;
-        strongSelf->currentActivity.itemStatus = newActivity.itemStatus;
+//        ShipmentActivityBean* newActivity = [ShipmentActivityBean yy_modelWithJSON:returnValue];
+//        strongSelf->currentActivity.status = newActivity.status;
+//        strongSelf->currentActivity.itemStatus = newActivity.itemStatus;
         
-        [strongSelf.tabView refreshActivityByIndex:strongSelf.tabView.selectedIndex];//重刷下
+//        [strongSelf.tabView refreshActivityByIndex:strongSelf.tabView.selectedIndex];//重刷下
+        [strongSelf changeActivityStatusComplete];
         
         if ([strongSelf checkCanSubmitReceipt:YES]) {
             [strongSelf submitReceiptTask];
@@ -604,9 +634,10 @@
     __weak __typeof(self) weakSelf = self;
     [self.viewModel uploadAllReceipts:self->taskBeanList returnBlock:^(id returnValue) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
+//        strongSelf->currentActivity.status = ACTIVITY_STATUS_REPORTED;//回单上传完成
+//        [strongSelf.tabView refreshActivityByIndex:strongSelf.tabView.selectedIndex];//重刷下
         
-        strongSelf->currentActivity.status = ACTIVITY_STATUS_REPORTED;//回单上传完成
-        [strongSelf.tabView refreshActivityByIndex:strongSelf.tabView.selectedIndex];//重刷下
+        [strongSelf changeActivityStatusComplete];
         
         [strongSelf showNextActivityAlert];
         
@@ -621,18 +652,36 @@
     }];
 }
 
+-(void)changeActivityStatusComplete{
+    NSString* reportedStatus = ACTIVITY_STATUS_REPORTED;
+    self->currentActivity.status = reportedStatus;//回单上传完成
+    for (ShipmentTaskBean* taskBean in self->taskBeanList) {
+        taskBean.status = reportedStatus;
+    }
+    [self changeSubmitButtonStatus];
+    
+//    NSInteger nextIndex = [self getPendingReportActivityIndex:self.activityBeans isNext:YES];
+//    if (nextIndex < 0) {//全部活动都已上报完成
+//        self.stopBean.isComplete = [self.stopBean getIsComplete];
+//    }
+}
+
 #pragma OrderTabViewDelegate
 -(void)didSelectItem:(ShipmentActivityBean *)activityBean{
     self->currentActivity = activityBean;
     [self.tableView headerBeginRefresh];
+    [self changeSubmitButtonStatus];
+}
+
+-(void)changeSubmitButtonStatus{
     UIColor* statusColor;
-    if ([activityBean hasReport]) {
+    if ([self->currentActivity hasReport]) {
         statusColor = COLOR_YI_WAN_CHENG;
     }else{
         statusColor = COLOR_DAI_WAN_CHENG;
     }
     self.submitButton.fillColor = statusColor;
-    self.submitButton.title = ConcatStrings([Config getActivityIconByCode:activityBean.activityDefinitionCode],@"   确认",[Config getActivityLabelByCode:activityBean.activityDefinitionCode],@"(",[Config getActivityStatusLabel:activityBean.status],@")");
+    self.submitButton.title = ConcatStrings([Config getActivityIconByCode:self->currentActivity.activityDefinitionCode],@"   确认",[Config getActivityLabelByCode:self->currentActivity.activityDefinitionCode]);//,@"(",[Config getActivityStatusLabel:self->currentActivity.status],@")"
 }
 
 -(void)didSelectRow:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

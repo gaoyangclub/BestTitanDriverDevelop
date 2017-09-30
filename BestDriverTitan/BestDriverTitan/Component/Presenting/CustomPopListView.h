@@ -32,5 +32,6 @@
 
 @property(nonatomic,retain) Class cellClass;
 
+-(CGRect)getTableViewFrame;
 
 @end

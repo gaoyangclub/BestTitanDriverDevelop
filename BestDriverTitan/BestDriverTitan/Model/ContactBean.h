@@ -12,7 +12,7 @@
 
 @property(nonatomic,copy)NSString* name;
 @property(nonatomic,copy)NSString* telePhone;
-@property(nonatomic,copy)NSString* mobel;
+@property(nonatomic,copy)NSString* mobile;
 
 -(NSString*)getPhoneCall;
 

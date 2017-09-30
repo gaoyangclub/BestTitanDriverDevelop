@@ -13,6 +13,9 @@
 #import <AVFoundation/AVFoundation.h>
 #import "SpeechManager.h"
 #import "HudManager.h"
+#import "MMDrawerController.h"
+#import "AppDelegate.h"
+#import "MapNaviSettingController.h"
 
 @interface MapNaviViewController ()<UIAlertViewDelegate,AMapNaviDriveManagerDelegate,MAMapViewDelegate,AMapNaviDriveViewDelegate,AMapSearchDelegate>
 
@@ -57,6 +60,8 @@
 -(void)initTitleArea{
     self.navigationItem.leftBarButtonItem =
     [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
+    self.navigationItem.rightBarButtonItem =
+    [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SHE_ZHI target:self action:@selector(rightClick)];
     self.titleLabel.text = @"导航";//标题显示TO号
     [self.titleLabel sizeToFit];
     self.navigationItem.titleView = self.titleLabel;
@@ -66,6 +71,26 @@
 -(void)leftClick{
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您确定要退出导航吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"准奏", nil];
     [alert show];
+}
+
+-(void)rightClick{
+    MMDrawerController* drawerController = (MMDrawerController*)((AppDelegate*)[UIApplication sharedApplication].delegate).window.rootViewController;
+    [drawerController setDrawerVisualStateBlock:nil];//先清除掉
+    
+    AMapNaviDrivingStrategy strategy = [MapNaviSettingController getNaviDrivingStrategy];
+    __weak __typeof(self) weakSelf = self;
+    [drawerController toggleDrawerSide:(MMDrawerSideRight) animated:YES completion:^(BOOL finished) {
+        if (finished) {
+            [drawerController setDrawerVisualStateBlock:^(MMDrawerController *drawerController, MMDrawerSide drawerSide, CGFloat percentVisible) {
+                if(!percentVisible && strategy != [MapNaviSettingController getNaviDrivingStrategy]){//side关闭完毕 且 设置有变化
+                    __strong typeof(weakSelf) strongSelf = weakSelf;
+                    [SpeechManager stopSound];//停止声音
+                    [strongSelf.driveManager stopNavi];//停止导航
+                    [strongSelf viewDidLoad];
+                }
+            }];
+        }
+    }];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -113,13 +138,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    if(self.endLatitude && self.endLongitude){
-        self.endPoint = [AMapNaviPoint locationWithLatitude:self.endLatitude longitude:self.endLongitude];
-    }else{
-        AMapGeocodeSearchRequest *geo = [[AMapGeocodeSearchRequest alloc] init];
-        geo.address = self.endAddress;
-        [self.searchAPI AMapGeocodeSearch:geo];
-        [HudManager showToast:@"目标坐标点不存在!"];
+    if(!self.endPoint){
+        if(self.endLatitude && self.endLongitude){
+            self.endPoint = [AMapNaviPoint locationWithLatitude:self.endLatitude longitude:self.endLongitude];
+        }else{
+            AMapGeocodeSearchRequest *geo = [[AMapGeocodeSearchRequest alloc] init];
+            geo.address = self.endAddress;
+            [self.searchAPI AMapGeocodeSearch:geo];
+            [HudManager showToast:@"目标坐标点不存在!"];
+        }
     }
     
     NSValue* coordinateValue = [AmapLocationService getLastLocationPoint];
@@ -146,7 +173,9 @@
     //解析response获取地理信息，具体解析见 Demo
     AMapGeocode* geoCode = response.geocodes.firstObject;
     if (geoCode.location) {
-        self.endPoint = [AMapNaviPoint locationWithLatitude:geoCode.location.latitude longitude:geoCode.location.longitude];
+        self.endLatitude = geoCode.location.latitude;
+        self.endLongitude = geoCode.location.longitude;
+        self.endPoint = [AMapNaviPoint locationWithLatitude:self.endLatitude longitude:self.endLongitude];
         [self checkStartCalculate];
     }
 }
@@ -168,10 +197,11 @@
 }
 
 -(void)startCalculateDriveRoute{
+    AMapNaviDrivingStrategy strategy = [MapNaviSettingController getNaviDrivingStrategy];
     [self.driveManager calculateDriveRouteWithStartPoints:@[self.startPoint]
                                                 endPoints:@[self.endPoint]
                                                 wayPoints:nil
-                                          drivingStrategy:17];
+                                          drivingStrategy:strategy];
 }
 
 -(void)dealloc{

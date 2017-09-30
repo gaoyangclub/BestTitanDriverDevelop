@@ -19,15 +19,30 @@
 #import "TaskViewModel.h"
 #import "ShipmentBean.h"
 
-@interface TestTableViewCell : MJTableViewCell
+//@interface TestTableViewCell : MJTableViewCell
+//
+//@end
+//@implementation TestTableViewCell
+//
+//-(void)showSubviews{
+//    //    self.backgroundColor = [UIColor magentaColor];
+//    
+//    self.textLabel.text = (NSString*)self.data;
+//}
+//
+//@end
+
+@interface ShipmentPageBean:NSObject
+
+@property(nonatomic,retain)NSMutableArray<ShipmentBean*>* shipmentBeans;
+@property(nonatomic,assign)NSInteger totalCount;
 
 @end
-@implementation TestTableViewCell
+@implementation ShipmentPageBean
 
--(void)showSubviews{
-    //    self.backgroundColor = [UIColor magentaColor];
-    
-    self.textLabel.text = (NSString*)self.data;
+#pragma 声明数组、字典或者集合里的元素类型时要重写
++ (nullable NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
+    return @{@"shipmentBeans":[ShipmentBean class]};
 }
 
 @end
@@ -213,20 +228,23 @@
         if(!strongSelf){//界面已经被销毁
             return;
         }
-        NSArray<ShipmentBean*>* shipmentList = [NSArray yy_modelArrayWithClass:[ShipmentBean class] json:returnValue];
-        
-//        ShipmentBean* bean = [ShipmentBean yy_modelWithJSON:returnValue];
         [strongSelf.tableView clearSource];
         
-        [strongSelf generateSourceDataByShipmentList:shipmentList svo:nil sourceData:nil startDate:nil];
-//        strongSelf->pageNumber ++;
-        
-        if (!strongSelf.hasHistory) {//最新任务列表
-            [strongSelf showTaskBadge:strongSelf.tableView.getTotalCellCount];
+        ShipmentPageBean* pageBean = [ShipmentPageBean yy_modelWithJSON:returnValue];
+//        NSArray<ShipmentBean*>* shipmentList = [NSArray yy_modelArrayWithClass:[ShipmentBean class] json:returnValue];
+        if(!pageBean.shipmentBeans || pageBean.shipmentBeans.count <= 0){
+            if (!strongSelf.hasHistory) {//最新任务列表
+                [strongSelf showTaskBadge:pageBean.totalCount];
+            }
+            handler(NO);
+            return;
         }
-        
-        handler(shipmentList.count > 0);
-        
+//        ShipmentBean* bean = [ShipmentBean yy_modelWithJSON:returnValue];
+        [strongSelf generateSourceDataByShipmentList:pageBean.shipmentBeans svo:nil sourceData:nil startDate:nil];
+        if (!strongSelf.hasHistory) {//最新任务列表
+            [strongSelf showTaskBadge:pageBean.totalCount];
+        }
+        handler(pageBean.shipmentBeans.count > 0);
     } failureBlock:^(NSString *errorCode, NSString *errorMsg) {
         [weakSelf headerNetError:handler toast:errorMsg];
     }];
@@ -269,6 +287,8 @@
 -(void)showTaskBadge:(NSInteger)count{
     AppDelegate * appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
     [appDelegate.rootTabBarController setItemBadge:count atIndex:0];
+    
+    [UIApplication sharedApplication].applicationIconBadgeNumber = count;
 }
 
 -(void)footerLoadMore:(FooterLoadMoreHandler)handler pageNumber:(NSInteger)pageNumber{
@@ -278,15 +298,16 @@
         if(!strongSelf){//界面已经被销毁
             return;
         }
-        NSArray<ShipmentBean*>* shipmentList = [NSArray yy_modelArrayWithClass:[ShipmentBean class] json:returnValue];
-        if (shipmentList && shipmentList.count > 0) {
+        ShipmentPageBean* pageBean = [ShipmentPageBean yy_modelWithJSON:returnValue];
+//        NSArray<ShipmentBean*>* shipmentList = [NSArray yy_modelArrayWithClass:[ShipmentBean class] json:returnValue];
+        if (pageBean.shipmentBeans && pageBean.shipmentBeans.count > 0) {
             SourceVo* svo = strongSelf.tableView.getLastSource;
             
             TaskViewSectionVo* hvo = (TaskViewSectionVo*)svo.headerData;
             NSDate* startDate = hvo.dateTime;
             NSMutableArray<CellVo*>* sourceData = svo.data;
             
-            [strongSelf generateSourceDataByShipmentList:shipmentList svo:svo sourceData:sourceData startDate:startDate];
+            [strongSelf generateSourceDataByShipmentList:pageBean.shipmentBeans svo:svo sourceData:sourceData startDate:startDate];
             
 //            strongSelf->pageNumber ++;
             if (!strongSelf.hasHistory) {//最新任务列表
@@ -386,13 +407,42 @@
 //    if (pushCount == 0) {
 //        controller = [[ViewController alloc]init];
     TaskTripController* controller = [[TaskTripController alloc]init];
-    controller.shipmentBean = (ShipmentBean*)cellVo.cellData;
+    ShipmentBean* shipmentBean = (ShipmentBean*)cellVo.cellData;
+    controller.shipmentBean = shipmentBean;
     [[OwnerViewController sharedInstance] pushViewController:controller animated:YES];
 //    }else{
 //        
 //    }
-    
+    __weak __typeof(self) weakSelf = self;
+    controller.returnBlock = ^(id returnValue){
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        shipmentBean.status = ACTIVITY_STATUS_REPORTED;//运单状态为完成
+        if (!strongSelf.hasHistory) {
+            [strongSelf.tableView beginUpdates];
+            [source.data removeObjectAtIndex:indexPath.row];
+            [strongSelf.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];//移除tableView中的数据
+            if (source.data.count <= 0) {//数据被清了
+                [strongSelf.tableView removeSourceAt:indexPath.section];//头也清了
+                [strongSelf.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section]withRowAnimation:UITableViewRowAnimationTop];
+            }
+            [strongSelf.tableView endUpdates];
+        }else{
+            [strongSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            //重新刷新即可
+        }
+    };
 }
+
+//-(NSIndexPath*)getShipmentIndexPath:(ShipmentBean*)shipmentBean{
+//    SourceVo* svo = self.tableView.dataSourceArray;
+//    for (NSInteger i = 0; i < svo.data.count; i++) {
+//        CellVo* cvo = svo.data[i];
+//        if (cvo.cellData == stopBean) {
+//            return i;
+//        }
+//    }
+//    return -1;
+//}
 
 
 @end

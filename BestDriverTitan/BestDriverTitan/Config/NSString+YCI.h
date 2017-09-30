@@ -30,5 +30,7 @@
 + (NSAttributedString *)simpleAttributedString:(NSString*)face color:(UIColor*)color size:(CGFloat)size content:(NSString*)content;
 + (NSString *)joinedWithSubStrings:(NSString *)firstStr,...NS_REQUIRES_NIL_TERMINATION;
 
+//- (NSString *)formartScientificNotationWithString;
+
 
 @end

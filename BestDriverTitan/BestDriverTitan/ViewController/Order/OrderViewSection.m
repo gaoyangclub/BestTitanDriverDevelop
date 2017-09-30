@@ -35,6 +35,8 @@
 
 @property(nonatomic,retain) ASTextNode* shipUintTotalLabel;//预计(实际)提送货量
 
+@property(nonatomic,retain)__block RACDisposable *statusHandler;
+
 @end
 
 @implementation OrderViewSection
@@ -169,19 +171,12 @@
 -(void)initTopArea:(CGFloat)leftpadding topWidth:(CGFloat)topWidth topHeight:(CGFloat)topHeight{
     ShipmentTaskBean* taskBean = (ShipmentTaskBean*)self.data;
     
-    BOOL isComplete = [taskBean hasReport];
-    UIColor* iconColor;
-    if(isComplete){
-        iconColor = COLOR_YI_WAN_CHENG;
-    }else{
-        iconColor = COLOR_DAI_WAN_CHENG;
-    }
     NSString* iconName = ICON_DING_DAN;
     
     NSString* content = taskBean.orderBaseCode;
     NSString* customer = ConcatStrings(@"客户单号",taskBean.customCode);
     
-    self.iconText.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:24 content:iconName];
+    self.iconText.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:24 content:iconName];
     CGSize iconSize = [self.iconText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.iconText.frame = (CGRect){ CGPointMake(leftpadding,(topHeight - iconSize.height) / 2. + 2),iconSize};
     
@@ -193,10 +188,28 @@
     CGSize desSize = [self.desLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.desLabel.frame = (CGRect){CGPointMake(self.iconText.frame.origin.x + self.iconText.frame.size.width + 3, topHeight / 2.),desSize};
     
-    self.stateArea.frame = CGRectMake(CGRectGetMaxX(self.title.frame) + leftpadding, 0, 50, 20);
-    self.stateArea.centerY = topHeight / 2.;
-    self.stateArea.titleColor = self.stateArea.strokeColor = iconColor;
-    self.stateArea.title = isComplete ? @"已上报":@"未上报";
+    __weak __typeof(self) weakSelf = self;
+    if (self.statusHandler) {
+        [self.statusHandler dispose];
+    }
+    self.statusHandler = [[taskBean rac_valuesForKeyPath:@"status" observer:nil] subscribeNext:^(id x) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        BOOL isComplete = [taskBean hasReport];
+        UIColor* iconColor;
+        if(isComplete){
+            iconColor = COLOR_YI_WAN_CHENG;
+        }else{
+            iconColor = COLOR_DAI_WAN_CHENG;
+        }
+        strongSelf.stateArea.frame = CGRectMake(CGRectGetMaxX(self.title.frame) + leftpadding, 0, 50, 20);
+        strongSelf.stateArea.centerY = topHeight / 2.;
+        strongSelf.stateArea.titleColor = strongSelf.stateArea.strokeColor = iconColor;
+        strongSelf.stateArea.title = isComplete ? @"已上报":@"未上报";
+        
+        strongSelf.iconText.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:24 content:iconName];
+    }];
+    
+    
 }
 
 -(void)initBottomArea:(CGFloat)leftpadding bottomY:(CGFloat)bottomY bottomWidth:(CGFloat)bottomWidth bottomHeight:(CGFloat)bottomHeight{
@@ -206,11 +219,15 @@
 //    for (ShipmentActivityShipUnitBean* shipunitBean in taskBean.shipUnits) {
 //        actualCount += shipunitBean.pacakageUnitCount;
 //    }
+    __weak __typeof(self) weakSelf = self;
+    [[taskBean rac_valuesForKeyPath:@"actualPackageCount" observer:nil] subscribeNext:^(id x) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        strongSelf.shipUintTotalLabel.attributedString = [strongSelf generateShipUnitString:12 color:FlatOrange activityTypeLabel:[Config getActivityTypeName:taskBean.activityDefinitionCode] expectedCount:[taskBean.expectedPackageCount integerValue] actualCount:taskBean.actualPackageCount];
+        strongSelf.shipUintTotalLabel.size = [strongSelf.shipUintTotalLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+        strongSelf.shipUintTotalLabel.y = bottomY;
+        strongSelf.shipUintTotalLabel.x = leftpadding;
+    }];
     
-    self.shipUintTotalLabel.attributedString = [self generateShipUnitString:12 color:FlatOrange activityTypeLabel:[Config getActivityTypeName:taskBean.activityDefinitionCode] expectedCount:[taskBean.expectedPackageCount integerValue] actualCount:taskBean.actualPackageCount];
-    self.shipUintTotalLabel.size = [self.shipUintTotalLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.shipUintTotalLabel.y = bottomY;
-    self.shipUintTotalLabel.x = leftpadding;
 }
 
 -(NSAttributedString *)generateShipUnitString:(CGFloat)size color:(UIColor*)color activityTypeLabel:(NSString*)activityTypeLabel expectedCount:(NSInteger)expectedCount actualCount:(NSInteger)actualCount{

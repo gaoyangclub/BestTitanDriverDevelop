@@ -225,6 +225,23 @@ static NSArray<NSString*>* taskCodeArr;
 //进入地图详情页
 -(void)rightClick{
     MapViewController* mapController = [[MapViewController alloc]init];//[MapViewController sharedInstance];
+    if (self->stopBeanList && self->stopBeanList.count > 0) {
+        mapController.mode = MapViewModeMark;
+        NSMutableArray<LocationInfo*>* markPoints = [NSMutableArray<LocationInfo*> array];
+        for (ShipmentStopBean* stopBean in self->stopBeanList) {
+            LocationInfo* markPoint = [[LocationInfo alloc]init];
+            markPoint.locationPoint = [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(stopBean.latitude, stopBean.longitude)];
+            markPoint.markInfo = stopBean.stopName;
+            markPoint.detailInfo = stopBean.locationAddress;
+            if (stopBean.isComplete) {
+                markPoint.markType = LocationMarkTypeDebug;//表示已完成
+            }
+            [markPoints addObject:markPoint];
+        }
+        mapController.markPoints = markPoints;
+    }else{
+        mapController.mode = MapViewModeNormal;
+    }
 //    mapController.locationPoints = [AmapLocationService getAllLocationInfos];
     [self.navigationController pushViewController:mapController animated:YES];
 }
@@ -232,6 +249,20 @@ static NSArray<NSString*>* taskCodeArr;
 //返回上层
 -(void)leftClick{
     [self.navigationController popViewControllerAnimated:YES];
+    if ([self isAllStopComplete]) {
+        if (self.returnBlock) {
+            self.returnBlock([NSNumber numberWithBool:YES]);
+        }
+    }
+}
+
+-(BOOL)isAllStopComplete{
+    for (ShipmentStopBean* stopBean in self->stopBeanList) {
+        if (!stopBean.isComplete) {
+            return NO;
+        }
+    }
+    return YES;
 }
 
 -(void)headerRefresh:(HeaderRefreshHandler)handler{
@@ -421,7 +452,7 @@ static NSArray<NSString*>* taskCodeArr;
 }
 
 -(void)didRefreshComplete{
-    if (!self->selectedTaskCode && [self.tableView getSourceCount] > 0) {//全部
+    if (!self->selectedTaskCode && [self.tableView getSourceCount] > 0 && ![self isAllStopComplete]) {//还未全部完成)
         SourceVo* sourceVo = self.tableView.dataSourceArray[0];
         if(sourceVo.data.count){//有数据
             NSInteger selectIndex = [self getLatestStopIndexByLocation];
@@ -533,6 +564,41 @@ static NSArray<NSString*>* taskCodeArr;
     controller.activityBeans = stopBean.shipmentActivityList;
     controller.selectedTaskCode = self->selectedTaskCode;
     [[OwnerViewController sharedInstance] pushViewController:controller animated:YES];
+    
+    __weak __typeof(self) weakSelf = self;
+    controller.returnBlock = ^(id returnValue){//检查stopBean状态
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        NSInteger index = [strongSelf getStopIndexByObject:stopBean];
+        if (index >= 0) {
+            if(strongSelf->selectedTaskCode){//移除掉
+                SourceVo* svo = [strongSelf.tableView getFirstSource];
+                [svo.data removeObjectAtIndex:index];//删除掉数据
+                [strongSelf.tableView beginUpdates];
+                [strongSelf.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationTop];//移除tableView中的数据
+                [strongSelf.tableView endUpdates];
+            }else{//刷新
+                [strongSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            }
+            if (![strongSelf isAllStopComplete]) {//还未全部完成
+                double delayInSeconds = 0.3;
+                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                    [strongSelf didRefreshComplete];
+                });
+            }
+        }
+    };
+}
+
+-(NSInteger)getStopIndexByObject:(ShipmentStopBean*)stopBean{
+    SourceVo* svo = [self.tableView getFirstSource];
+    for (NSInteger i = 0; i < svo.data.count; i++) {
+        CellVo* cvo = svo.data[i];
+        if (cvo.cellData == stopBean) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 -(UIButton *)attachmentButton{

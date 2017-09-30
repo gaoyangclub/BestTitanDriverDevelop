@@ -55,11 +55,15 @@
 		841CBC6A1F44387F006BCC5B /* icon_location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 841CBC681F44387F006BCC5B /* icon_location@2x.png */; };
 		841CBC6B1F44387F006BCC5B /* icon_location@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 841CBC691F44387F006BCC5B /* icon_location@3x.png */; };
 		8423FBBB1F46F763007C2CB0 /* LocationInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8423FBBA1F46F763007C2CB0 /* LocationInfoViewController.m */; };
+		843009C01F7B9E240097CB55 /* TaskPhoneListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 843009BF1F7B9E240097CB55 /* TaskPhoneListView.m */; };
 		84343C311E559D42000E26C2 /* libPods-BestDriverTitan.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84343C2B1E559D42000E26C2 /* libPods-BestDriverTitan.a */; };
 		843589281F0DE14800135991 /* FollowAnimateManager..m in Sources */ = {isa = PBXBuildFile; fileRef = 843589271F0DE14800135991 /* FollowAnimateManager..m */; };
 		8439A1C41F25C9F500E629C8 /* AppVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 8439A1C31F25C9F500E629C8 /* AppVersion.m */; };
 		8439A1C71F25CE2D00E629C8 /* VersionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8439A1C61F25CE2D00E629C8 /* VersionManager.m */; };
 		8439A1CC1F25D93300E629C8 /* LocalBundleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8439A1CB1F25D93300E629C8 /* LocalBundleManager.m */; };
+		8446216A1F7CC8030044BB39 /* CustomAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 844621691F7CC8030044BB39 /* CustomAnnotationView.m */; };
+		8446216D1F7CE8B00044BB39 /* SystemAuthorityUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 8446216C1F7CE8B00044BB39 /* SystemAuthorityUtils.m */; };
+		844621701F7CF3CD0044BB39 /* MapNaviSettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8446216F1F7CF3CD0044BB39 /* MapNaviSettingController.m */; };
 		84495C981DF113D90017D2CA /* NSString+YCI.m in Sources */ = {isa = PBXBuildFile; fileRef = 84495C901DF113D90017D2CA /* NSString+YCI.m */; };
 		84495CA41DF117E40017D2CA /* LCTabBarBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 84495C9C1DF117E40017D2CA /* LCTabBarBadge.m */; };
 		84495CA51DF117E40017D2CA /* GYTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84495C9F1DF117E40017D2CA /* GYTabBarController.m */; };
@@ -311,6 +315,8 @@
 		841CBC691F44387F006BCC5B /* icon_location@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_location@3x.png"; sourceTree = "<group>"; };
 		8423FBB91F46F763007C2CB0 /* LocationInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationInfoViewController.h; sourceTree = "<group>"; };
 		8423FBBA1F46F763007C2CB0 /* LocationInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationInfoViewController.m; sourceTree = "<group>"; };
+		843009BE1F7B9E240097CB55 /* TaskPhoneListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskPhoneListView.h; sourceTree = "<group>"; };
+		843009BF1F7B9E240097CB55 /* TaskPhoneListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskPhoneListView.m; sourceTree = "<group>"; };
 		84343C271E559D42000E26C2 /* libAFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAFNetworking.a; path = "Pods/../build/Debug-iphoneos/AFNetworking/libAFNetworking.a"; sourceTree = "<group>"; };
 		84343C281E559D42000E26C2 /* libAsyncDisplayKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAsyncDisplayKit.a; path = "Pods/../build/Debug-iphoneos/AsyncDisplayKit/libAsyncDisplayKit.a"; sourceTree = "<group>"; };
 		84343C291E559D42000E26C2 /* libChameleonFramework.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libChameleonFramework.a; path = "Pods/../build/Debug-iphoneos/ChameleonFramework/libChameleonFramework.a"; sourceTree = "<group>"; };
@@ -325,6 +331,12 @@
 		8439A1C61F25CE2D00E629C8 /* VersionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionManager.m; sourceTree = "<group>"; };
 		8439A1CA1F25D93300E629C8 /* LocalBundleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalBundleManager.h; sourceTree = "<group>"; };
 		8439A1CB1F25D93300E629C8 /* LocalBundleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalBundleManager.m; sourceTree = "<group>"; };
+		844621681F7CC8030044BB39 /* CustomAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnnotationView.h; sourceTree = "<group>"; };
+		844621691F7CC8030044BB39 /* CustomAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnnotationView.m; sourceTree = "<group>"; };
+		8446216B1F7CE8B00044BB39 /* SystemAuthorityUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemAuthorityUtils.h; sourceTree = "<group>"; };
+		8446216C1F7CE8B00044BB39 /* SystemAuthorityUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAuthorityUtils.m; sourceTree = "<group>"; };
+		8446216E1F7CF3CD0044BB39 /* MapNaviSettingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapNaviSettingController.h; sourceTree = "<group>"; };
+		8446216F1F7CF3CD0044BB39 /* MapNaviSettingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapNaviSettingController.m; sourceTree = "<group>"; };
 		84495C8E1DF113D90017D2CA /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		84495C8F1DF113D90017D2CA /* NSString+YCI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+YCI.h"; sourceTree = "<group>"; };
 		84495C901DF113D90017D2CA /* NSString+YCI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+YCI.m"; sourceTree = "<group>"; };
@@ -664,6 +676,8 @@
 				846217C31F15BCC100B2C46B /* TaskActivityView.m */,
 				849065371F667C410041B829 /* TaskContactCell.h */,
 				849065381F667C410041B829 /* TaskContactCell.m */,
+				843009BE1F7B9E240097CB55 /* TaskPhoneListView.h */,
+				843009BF1F7B9E240097CB55 /* TaskPhoneListView.m */,
 			);
 			path = Task;
 			sourceTree = "<group>";
@@ -872,6 +886,10 @@
 				841CBC651F44356A006BCC5B /* MapViewController.m */,
 				841422561F4598E500C0299B /* MapNaviViewController.h */,
 				841422571F4598E500C0299B /* MapNaviViewController.m */,
+				844621681F7CC8030044BB39 /* CustomAnnotationView.h */,
+				844621691F7CC8030044BB39 /* CustomAnnotationView.m */,
+				8446216E1F7CF3CD0044BB39 /* MapNaviSettingController.h */,
+				8446216F1F7CF3CD0044BB39 /* MapNaviSettingController.m */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -948,6 +966,8 @@
 				846D2B3F1F68D3F200A49A6D /* DateUtils.m */,
 				846D2B441F69289A00A49A6D /* GeographyUtils.h */,
 				846D2B451F69289A00A49A6D /* GeographyUtils.m */,
+				8446216B1F7CE8B00044BB39 /* SystemAuthorityUtils.h */,
+				8446216C1F7CE8B00044BB39 /* SystemAuthorityUtils.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1492,6 +1512,7 @@
 				TargetAttributes = {
 					840DEF651DED6E3100963524 = {
 						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = XZATG76F8M;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -1630,6 +1651,7 @@
 				846D2B461F69289A00A49A6D /* GeographyUtils.m in Sources */,
 				A9D9F49E1F11F36C000536F0 /* UIButton+Style.m in Sources */,
 				847EB6F61F6A269400BCA12B /* ShipmentActivityShipUnitBean.m in Sources */,
+				843009C01F7B9E240097CB55 /* TaskPhoneListView.m in Sources */,
 				848A38101F3D4E1A00B15E4B /* QBVideoIconView.m in Sources */,
 				846689A51F7285A100A0C4CF /* MessageViewController.m in Sources */,
 				8470A4CB1F5E426F00AF1830 /* LocationViewModel.m in Sources */,
@@ -1642,6 +1664,7 @@
 				84129A211E54579700151672 /* MJRefreshAutoGifFooter.m in Sources */,
 				A9D9D6451F3F3D8B002096C8 /* ShipmentTaskBean.m in Sources */,
 				847CF8F71F20B04200EB27EA /* User.m in Sources */,
+				8446216A1F7CC8030044BB39 /* CustomAnnotationView.m in Sources */,
 				8439A1C71F25CE2D00E629C8 /* VersionManager.m in Sources */,
 				8478A2191E641F300076E8B4 /* TaskTripCell.m in Sources */,
 				A9D9F49B1F11EC38000536F0 /* PopAnimateManager.m in Sources */,
@@ -1685,6 +1708,7 @@
 				846217C41F15BCC100B2C46B /* TaskActivityView.m in Sources */,
 				A9CF264A1E5071B100D11B59 /* RoundRectNode.m in Sources */,
 				8407DF311DF1527E00E47E73 /* SplashSourceDaDa.m in Sources */,
+				8446216D1F7CE8B00044BB39 /* SystemAuthorityUtils.m in Sources */,
 				84495CAB1DF119DA0017D2CA /* DIYTabBarItem.m in Sources */,
 				847EB6F31F6A208C00BCA12B /* OrderViewModel.m in Sources */,
 				8485AA841F298F76002D27A6 /* FlatButton.m in Sources */,
@@ -1713,6 +1737,7 @@
 				847609E01F31817E003C6359 /* VersionInfoController.m in Sources */,
 				849740A91F0A459A008D3030 /* YYFPSLabel.m in Sources */,
 				847278B01DF1715A00C1BACB /* DIYSplashViewModel.m in Sources */,
+				844621701F7CF3CD0044BB39 /* MapNaviSettingController.m in Sources */,
 				A910B18E1F3FEBE400CCAFCD /* STPhotoBroswer.m in Sources */,
 				849161CC1E34B10B0063CD80 /* TaskViewCell.m in Sources */,
 				84129A251E54579700151672 /* MJRefreshBackNormalFooter.m in Sources */,

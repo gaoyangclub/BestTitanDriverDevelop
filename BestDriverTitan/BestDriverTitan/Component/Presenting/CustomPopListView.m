@@ -62,8 +62,12 @@
 //    return _scrollView;
 //}
 
+-(CGRect)getTableViewFrame{
+    return self.contentView.bounds;
+}
+
 -(void)viewDidLoad{
-    self.tableView.frame = self.contentView.bounds;
+    self.tableView.frame = [self getTableViewFrame];
     
 //    CGFloat buttonWidth = CGRectGetWidth(self.contentView.bounds);
 //    CGFloat buttonHeight = 50;

@@ -130,28 +130,29 @@
     self.titleNode.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:content];
     CGSize titleSize = [self.titleNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
-    UIColor* statusColor;
-    NSString* statusIcon;
-    if ([activityBean hasReport]) {
-        statusColor = COLOR_YI_WAN_CHENG;
-        statusIcon = ICON_YI_SHANG_BAO;
-    }else{
-        statusColor = COLOR_DAI_WAN_CHENG;
-        statusIcon = ICON_DAI_SHANG_BAO;
-    }
-    self.statusNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:statusColor size:20 content:statusIcon];
-    CGSize statusSize = [self.statusNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    
-    CGFloat gap = 5;
-    CGFloat baseX = (viewWidth - titleSize.width - statusSize.width - gap) / 2.;
-    
-    self.statusNode.frame = (CGRect){
-        CGPointMake(baseX, (viewHeight - statusSize.height) / 2.),statusSize
-    };
-    self.titleNode.frame = (CGRect){
-        CGPointMake(baseX + statusSize.width + gap, (viewHeight - titleSize.height) / 2.),titleSize
-    };
-    
+    __weak __typeof(self) weakSelf = self;
+    [[activityBean rac_valuesForKeyPath:@"status" observer:nil] subscribeNext:^(id x) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        UIColor* statusColor;
+        NSString* statusIcon;
+        if ([activityBean hasReport]) {
+            statusColor = COLOR_YI_WAN_CHENG;
+            statusIcon = ICON_YI_SHANG_BAO;
+        }else{
+            statusColor = COLOR_DAI_WAN_CHENG;
+            statusIcon = ICON_DAI_SHANG_BAO;
+        }
+        strongSelf.statusNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:statusColor size:20 content:statusIcon];
+        CGSize statusSize = [self.statusNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+        CGFloat gap = 5;
+        CGFloat baseX = (viewWidth - titleSize.width - statusSize.width - gap) / 2.;
+        strongSelf.statusNode.frame = (CGRect){
+            CGPointMake(baseX, (viewHeight - statusSize.height) / 2.),statusSize
+        };
+        strongSelf.titleNode.frame = (CGRect){
+            CGPointMake(baseX + statusSize.width + gap, (viewHeight - titleSize.height) / 2.),titleSize
+        };
+    }];
     self.backgroundColor = [UIColor whiteColor];
 //    CGFloat radius = LINE_WIDTH * 4.;
 //    self.leftLine.cornerRadius = self.rightLine.cornerRadius = radius;

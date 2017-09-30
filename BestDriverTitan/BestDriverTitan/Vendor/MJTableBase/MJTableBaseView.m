@@ -103,6 +103,10 @@
     [self.dataArray addObject:sourceVo];
 }
 
+-(void)removeSourceAt:(NSInteger)index{
+    [self.dataArray removeObjectAtIndex:index];
+}
+
 -(SourceVo*)getSourceByIndex:(NSInteger)index{
     return self.dataArray[index];
 }

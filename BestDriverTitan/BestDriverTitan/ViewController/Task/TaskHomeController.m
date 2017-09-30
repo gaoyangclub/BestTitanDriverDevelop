@@ -50,11 +50,14 @@
 }
 
 -(void)initTitleArea{
-    self.tabBarController.navigationItem.leftBarButtonItem =
-    [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SHE_ZHI target:self action:@selector(leftItemClick)];
-    
-    self.tabBarController.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SAO_MIAO target:self action:@selector(rightItemClick)];
-    
+    if (DEBUG_MODE) {
+        self.tabBarController.navigationItem.leftBarButtonItem =
+        [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SHE_ZHI target:self action:@selector(leftItemClick)];
+        
+        self.tabBarController.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SAO_MIAO target:self action:@selector(rightItemClick)];
+    }else{
+        self.tabBarController.navigationItem.leftBarButtonItem = self.tabBarController.navigationItem.rightBarButtonItem = nil;
+    }
     self.tabBarController.navigationItem.titleView = self.titleView;
 }
 

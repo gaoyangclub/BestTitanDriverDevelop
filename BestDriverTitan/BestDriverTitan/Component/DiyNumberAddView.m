@@ -140,8 +140,29 @@
         _editText.minimumFontSize = 6;
         _editText.delegate = self;
         [self addSubview:_editText];
+        [_editText addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     }
     return _editText;
+}
+
+- (void)textFieldDidChange:(UITextField *)textField
+{
+    if (textField == self.editText) {
+        if (self.maxLength && textField.text.length > self.maxLength) {
+            UITextRange *markedRange = [textField markedTextRange];
+            if (markedRange) {
+                return;
+            }
+            //Emoji占2个字符，如果是超出了半个Emoji，用15位置来截取会出现Emoji截为2半
+            //超出最大长度的那个字符序列(Emoji算一个字符序列)的range
+            NSRange range = [textField.text rangeOfComposedCharacterSequenceAtIndex:self.maxLength];
+            NSString* value = [textField.text substringToIndex:range.location];
+            textField.text = value;
+            self.totalCount = [value integerValue];
+        }else{
+            self.totalCount = [textField.text integerValue];
+        }
+    }
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{

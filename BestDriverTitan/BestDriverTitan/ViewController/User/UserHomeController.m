@@ -321,14 +321,13 @@ typedef NS_ENUM(NSInteger,ItemPostion){
     //        _userBack.arrowSize = CGSizeMake(10, 22);
     normalItem.iconName = icon;
     normalItem.iconSize = 20;
-    normalItem.iconColor = iconBackColor;
+    normalItem.iconColor = handler ? iconBackColor : FlatGray;
     normalItem.iconBackColor = [UIColor clearColor];
     normalItem.showIconLine = NO;
     
     normalItem.labelName = label;
     normalItem.labelSize = 14;
-    normalItem.labelColor = COLOR_BLACK_ORIGINAL;
-    
+    normalItem.labelColor = handler ? COLOR_BLACK_ORIGINAL : COLOR_LINE;
 //    normalItem.lineLeftMargin = 50;
     if (itemPostion == ItemPostionTop) {
         normalItem.showTopLine = YES;

@@ -116,7 +116,17 @@
 
 //进入地图详情页
 -(void)rightClick{
+//    NSMutableArray<LocationInfo *> * markPoints = [NSMutableArray<LocationInfo *> array];
+//    for (NSInteger i = 0;  i < 6; i++) {
+//        LocationInfo* markPoint = [[LocationInfo alloc]init];
+//        markPoint.locationPoint = [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(23.989631 + i * 2, 112.481018 + i * 0.1)];
+//        markPoint.markInfo = ConcatStrings(@"北京大院",@(i));
+//        markPoint.detailInfo = ConcatStrings(@"北京大院详情",@(i));
+//        [markPoints addObject:markPoint];
+//    }
     MapViewController* mapController = [[MapViewController alloc]init];//[MapViewController sharedInstance];
+//    mapController.markPoints = markPoints;
+    
     mapController.routePoints = [AmapLocationService getAllLocationPoints];
     mapController.mode = MapViewModeRoute;
     [self.navigationController pushViewController:mapController animated:YES];

@@ -506,7 +506,7 @@
     
     CGFloat leftpadding = 10;
     
-    self.timeText.attributedString = [NSString simpleAttributedString:FlatGray size:14 content:@"预计送达:2017-07-13 12:00:00"];
+    self.timeText.attributedString = [NSString simpleAttributedString:FlatGray size:14 content:@"预计到达:2017-07-13 12:00:00"];
     CGSize timeSize = [self.timeText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
     self.timeText.frame = (CGRect){CGPointMake(leftpadding, bottomY + (bottomHeight - timeSize.height) / 2.),timeSize};

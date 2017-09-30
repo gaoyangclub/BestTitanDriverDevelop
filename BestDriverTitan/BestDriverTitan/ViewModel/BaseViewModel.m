@@ -59,7 +59,7 @@
 -(NSDictionary <NSString *, NSString *> *)getHeaders{
     NSString* token = [Config getToken];
     if (token) {
-        return @{@"TI-TOKEN":token};
+        return @{@"TI-TOKEN":token,@"reportChannel":@"IOS"};
     }
     return nil;
 }

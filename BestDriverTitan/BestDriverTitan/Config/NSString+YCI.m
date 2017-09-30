@@ -75,8 +75,20 @@
 //    attrString removeAttribute:NSForegroundColorAttributeName range:NSMakeRange(0, context.length)
     return attrString;
 }
-     
-     
+
+////使用此方法转换即可
+//- (NSString *)formartScientificNotationWithString{
+//    
+//    long double num = [[NSString stringWithFormat:@"%@",self] longValue];
+//    
+//    NSNumberFormatter * formatter = [[NSNumberFormatter alloc]init];
+//    
+//    formatter.numberStyle = kCFNumberFormatterNoStyle;
+//    
+//    NSString * string = [formatter stringFromNumber:[NSNumber numberWithDouble:num]];
+//    return string;
+//}
+
      
 
 @end

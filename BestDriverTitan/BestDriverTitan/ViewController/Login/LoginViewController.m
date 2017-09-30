@@ -409,6 +409,11 @@
         __strong typeof(weakSelf) strongSelf = weakSelf;
         User *user = [strongSelf analyzeLoginResult:returnValue canSave:YES];
         [SVProgressHUD dismiss];
+        
+        if (![user hasAudited]) {
+            [HudManager showToast:@"该用户暂未通过审核，请先到系统中录入用户信息!"];
+            return;
+        }
         if(strongSelf.delegate && [strongSelf.delegate respondsToSelector:@selector(loginWillDismiss:)]){
             [strongSelf.delegate loginWillDismiss:user];
         }

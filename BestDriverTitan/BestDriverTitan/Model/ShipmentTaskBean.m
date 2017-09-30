@@ -8,6 +8,12 @@
 
 #import "ShipmentTaskBean.h"
 
+@interface ShipmentTaskBean(){
+//    NSInteger _actualPackageCount;
+}
+
+@end
+
 @implementation ShipmentTaskBean
 
 
@@ -33,15 +39,23 @@
     return self.status && ![self.status isEqualToString:ACTIVITY_STATUS_PENDING_REPORT];
 }
 
+//-(void)setActualPackageCount:(NSInteger)actualPackageCount{
+//    _actualPackageCount = actualPackageCount;
+//}
+
 -(NSInteger)actualPackageCount{
     if (!_actualPackageCount) {
-        int actualCount = 0;
-        for (ShipmentActivityShipUnitBean* shipunitBean in self.shipUnits) {
-            actualCount += shipunitBean.pacakageUnitCount;
-        }
-        _actualPackageCount = actualCount;
+        _actualPackageCount = [self getActualTotalPackageCount];
     }
     return _actualPackageCount;
+}
+
+-(NSInteger)getActualTotalPackageCount{
+    int actualCount = 0;
+    for (ShipmentActivityShipUnitBean* shipunitBean in self.shipUnits) {
+        actualCount += shipunitBean.pacakageUnitCount;
+    }
+    return actualCount;
 }
 
 #pragma 声明数组、字典或者集合里的元素类型时要重写

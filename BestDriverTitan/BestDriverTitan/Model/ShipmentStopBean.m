@@ -18,6 +18,13 @@
 }
 
 -(BOOL)isComplete{
+    if (!_isComplete) {
+        _isComplete = [self getIsComplete];
+    }
+    return _isComplete;
+}
+
+-(BOOL)getIsComplete{
     for (ShipmentActivityBean* activityBean in self.shipmentActivityList) {
         if (![activityBean hasReport]) {//一个没报全部没报
             return NO;

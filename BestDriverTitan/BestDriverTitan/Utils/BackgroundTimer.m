@@ -8,6 +8,7 @@
 
 #import "BackgroundTimer.h"
 #import "LocationViewModel.h"
+#import "SystemAuthorityUtils.h"
 
 static dispatch_source_t _timer;//timer必须是全局变量handler才会生效
 
@@ -55,6 +56,7 @@ static dispatch_source_t _timer;//timer必须是全局变量handler才会生效
 
 +(void)submitLocationPoints{//上传轨迹数据
     NSLog(@"开始上传定位数据");
+    [SystemAuthorityUtils checkLocationAuthority];
     [LocationViewModel sendLocationPoints];
 }
 

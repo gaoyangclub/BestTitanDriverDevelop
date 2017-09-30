@@ -23,6 +23,7 @@ typedef NS_ENUM(NSInteger,LocationMarkType) {
 @property(nonatomic,retain)NSValue* locationPoint;
 @property(nonatomic,copy)NSString* dateString;
 @property(nonatomic,copy)NSString* markInfo;
+@property(nonatomic,copy)NSString* detailInfo;
 @property(nonatomic,assign)LocationMarkType markType;
 
 -(void)addLocationPoint:(NSValue*)locationPoint;

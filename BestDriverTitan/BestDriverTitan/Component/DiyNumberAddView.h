@@ -16,5 +16,6 @@
 @property(nonatomic,retain) UIColor* fillColor;
 @property(nonatomic,retain) UIColor* strokeColor;
 @property(nonatomic,assign) CGFloat strokeWidth;
+@property(nonatomic,assign) NSInteger maxLength;
 
 @end

@@ -42,14 +42,18 @@
 
 //蒲公英appId
 #define PGY_APPID [Config getPgyerAppID]
-
-#define UM_APPID [Config getUMengAppID]
-
-#define AMAP_APIKEY [Config getAmapApiKey]
-
 #define PGY_APIKEY @"72fabb9ca801817be273e54018a6b42d"
 
+#define UM_APPID [Config getUMengAppID]//友盟
+
+#define AMAP_APIKEY [Config getAmapApiKey]//高德
+
 #define FLY_APIKEY @"59a926de"//讯飞
+
+//个推
+#define GETUI_APPID @"OdBNNMqWTg7nLnhmPZS9D9"
+#define GETUI_APPSECRET @"tZVK96MCHV5FkrmmUWzNd4"
+#define GETUI_APPKEY @"NZ8JCVEp1K99LTyhkpr561"
 
 #define DEBUG_MODE [Config isDebugMode]
 
@@ -138,8 +142,10 @@
 #define ICON_EMPTY_WANG_LUO @"\U0000e68c"//@"\U0000e62d"
 #define ICON_EMPTY_NO_DATA @"\U0000e601"
 
+#define ICON_MAP_MARK @"\U0000e62a"
+
 #define APPLICATION_NAME [LocalBundleManager getAppName]//@"百世通"
-#define APPLICATION_NAME_EN @"BestTitan"
+#define APPLICATION_NAME_EN @"Beston"
 
 #define TABBAR_TITLE_TI_HUO @"揽收"
 #define TABBAR_TITLE_ZHUANG_CHE @"装车"
@@ -233,6 +239,7 @@
 #define PHONE_KEY @"phone_key"
 #define NET_MODE_KEY @"net_mode_key"
 #define PROXY_PHONE_KEY @"proxy_phone_key"
+#define NAVI_DRIVING_STRATEGY_KEY @"navi_driving_strategy_key"
 
 static AppVersion* appVersion;
 

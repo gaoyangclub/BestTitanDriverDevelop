@@ -36,14 +36,15 @@
 #import "GeTuiDataSource.h"
 #import "BackgroundTimer.h"
 #import "MessageViewController.h"
+#import "MapNaviSettingController.h"
 
-@interface AppDelegate ()
+@interface AppDelegate ()<GeTuiSdkDelegate>
 
 @end
 
 @implementation AppDelegate
 
-- (void)configureAPIKey
+- (void)configureAmapAPIKey
 {
     if ([AMAP_APIKEY length] == 0)
     {
@@ -124,17 +125,20 @@
 //    [self configureAudit];
     [SpeechManager setDataSource:[[TTSDataSource alloc]init]];
     
-    [self configureAPIKey];
+    [self configureAmapAPIKey];
     
     [NetRequestClass initNetWorkStatus];
     
     [IQKeyboardManager sharedManager].enable = YES;
     
-    double version = [UIDevice currentDevice].systemVersion.doubleValue;
-    if (version >= 8.0) { //添加通知图标等信任设置
-        UIUserNotificationSettings* settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge|UIUserNotificationTypeSound|UIUserNotificationTypeAlert categories:nil];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-    }
+    [GeTuiSdk startSdkWithAppId:GETUI_APPID appKey:GETUI_APPKEY appSecret:GETUI_APPSECRET delegate:self];
+    // 注册 APNs
+    [self registerRemoteNotification];
+//    double version = [UIDevice currentDevice].systemVersion.doubleValue;
+//    if (version >= 8.0) { //添加通知图标等信任设置
+//        UIUserNotificationSettings* settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge|UIUserNotificationTypeSound|UIUserNotificationTypeAlert categories:nil];
+//        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+//    }
     
     OwnerViewController* navigationController = [OwnerViewController sharedInstance];
     navigationController.hairlineHidden = YES;
@@ -151,8 +155,7 @@
     MMDrawerController* drawerController = [[MMDrawerController alloc]init];
     drawerController.leftDrawerViewController = leftViewController;
     drawerController.centerViewController = navigationController;
-//    drawerController.rightDrawerViewController = rightViewController;
-    
+    drawerController.rightDrawerViewController = [[MapNaviSettingController alloc]init];//导航设置
     
     drawerController.showsShadow = YES;
     drawerController.maximumLeftDrawerWidth = drawerController.maximumRightDrawerWidth = DRAWER_WIDTH;
@@ -200,6 +203,46 @@
     return YES;
 }
 
+/** 注册 APNs */
+- (void)registerRemoteNotification {
+    /*
+     警告：Xcode8 需要手动开启"TARGETS -> Capabilities -> Push Notifications"
+     */
+    
+    /*
+     警告：该方法需要开发者自定义，以下代码根据 APP 支持的 iOS 系统不同，代码可以对应修改。
+     以下为演示代码，注意根据实际需要修改，注意测试支持的 iOS 系统都能获取到 DeviceToken
+     */
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
+//#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0 // Xcode 8编译会调用
+////        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+////        center.delegate = self;
+////        [center requestAuthorizationWithOptions:(UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionCarPlay) completionHandler:^(BOOL granted, NSError *_Nullable error) {
+////            if (!error) {
+////                NSLog(@"request authorization succeeded!");
+////            }
+////        }];
+////        
+////        [[UIApplication sharedApplication] registerForRemoteNotifications];
+//#else // Xcode 7编译会调用
+        UIUserNotificationType types = (UIUserNotificationTypeAlert | UIUserNotificationTypeSound | UIUserNotificationTypeBadge);
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+//#endif
+    } else if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+        UIUserNotificationType types = (UIUserNotificationTypeAlert | UIUserNotificationTypeSound | UIUserNotificationTypeBadge);
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+    } else {
+        UIRemoteNotificationType apn_type = (UIRemoteNotificationType)(UIRemoteNotificationTypeAlert |
+                                                                       UIRemoteNotificationTypeSound |
+                                                                       UIRemoteNotificationTypeBadge);
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:apn_type];
+    }
+}
+
 //为了免除开发者维护DeviceToken的麻烦，个推SDK可以帮开发者管理好这些繁琐的事务。应用开发者只需调用个推SDK的接口汇报最新的DeviceToken，即可通过个推平台推送 APNs 消息。示例代码如下：
 /** 远程通知注册成功委托 */
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(nonnull NSData *)deviceToken{
@@ -220,6 +263,13 @@
     // 将收到的APNs信息传给个推统计
     [GeTuiSdk handleRemoteNotification:userInfo];
     completionHandler(UIBackgroundFetchResultNewData);
+}
+
+#pragma GeTuiSdkDelegate
+/** SDK启动成功返回cid */
+-(void)GeTuiSdkDidRegisterClient:(NSString *)clientId{
+    //    //个推SDK已注册，返回clientId
+    NSLog(@"\n>>>[GeTuiSdk RegisterClient]:%@\n\n", clientId);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

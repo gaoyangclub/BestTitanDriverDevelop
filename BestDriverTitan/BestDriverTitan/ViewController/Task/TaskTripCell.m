@@ -18,6 +18,7 @@
 #import "CustomPopListView.h"
 #import "TaskContactCell.h"
 #import "HudManager.h"
+#import "TaskPhoneListView.h"
 
 @interface TaskTripCell(){
     
@@ -279,13 +280,12 @@ static CGFloat stateWidth = 20;
 -(void)clickPhoneButton{
     ShipmentStopBean* stopBean = self.data;
     if(stopBean.contactList && stopBean.contactList.count > 0){
-        CustomPopListView* popListView = [[CustomPopListView alloc]init];
-        popListView.minWidth = 300;
+        CustomPopListView* popListView = [[TaskPhoneListView alloc]init];//[[CustomPopListView alloc]init];
+//        popListView.minWidth = 300;
         popListView.dataArray = stopBean.contactList;
-        //    popListView.delegate = self;
-        popListView.cellClass = [TaskContactCell class];
-        popListView.clickItemDismiss = NO;
-        
+//        //    popListView.delegate = self;
+//        popListView.cellClass = [TaskContactCell class];
+//        popListView.clickItemDismiss = NO;
         [popListView show];
     }else{
         [HudManager showToast:@"该停靠站暂时没有联系人信息!"];
@@ -384,11 +384,17 @@ static CGFloat stateWidth = 20;
     
     CGFloat padding = 5;
     
-    self.orderCountIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatGray size:18 content:ICON_DING_DAN];
-    self.orderCountIcon.size = [self.orderCountIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-
-    self.orderCountNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange size:16 content:[NSString stringWithFormat:@"%ld个",(long)stopBean.ordermovementCt]];
-    self.orderCountNode.size = [self.orderCountNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize orderCountSize =
+    if (stopBean.ordermovementCt > 1) {//多于2个的展示
+        self.orderCountIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatGray size:18 content:ICON_DING_DAN];
+        self.orderCountIcon.size = [self.orderCountIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+        
+        self.orderCountNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange size:16 content:[NSString stringWithFormat:@"%ld个",(long)stopBean.ordermovementCt]];
+        self.orderCountNode.size = [self.orderCountNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize orderCountSize =
+        
+        self.orderCountIcon.hidden = self.orderCountNode.hidden = NO;
+    }else{
+        self.orderCountIcon.hidden = self.orderCountNode.hidden = YES;
+    }
 
     NSString* stopName = ConcatStrings([NSString stringWithFormat:@"%li",(long)self.indexPath.row + 1],@".",stopBean.stopName);
     UIColor* titleColor;//,@"上海市松江区上海市松江区啦啦啦啦啦啦"
@@ -405,16 +411,19 @@ static CGFloat stateWidth = 20;
     style.alignment = NSTextAlignmentLeft;
     [textString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, stopName.length)];
     self.titleNode.attributedString = textString;
-    CGFloat maxStartWidth = cellWidth - leftMargin - naviWidth - [TaskTripCell getMarginLeft] - self.orderCountIcon.width - padding - self.orderCountNode.width;
+    CGFloat maxStartWidth = cellWidth - leftMargin - naviWidth - [TaskTripCell getMarginLeft] - (self.orderCountIcon.hidden ? 0 : self.orderCountIcon.width) - padding - (self.orderCountNode.hidden ? 0 : self.orderCountNode.width);
     self.titleNode.size = [self.titleNode measure:CGSizeMake(maxStartWidth, FLT_MAX)];//CGSize textStartSize =
     self.titleNode.x = leftMargin;
     self.titleNode.maxY = topAreaHeight;
     
-    self.orderCountIcon.x = self.titleNode.maxX + padding;
-    self.orderCountIcon.centerY = self.titleNode.centerY;
-    
-    self.orderCountNode.x = self.orderCountIcon.maxX;
-    self.orderCountNode.centerY = self.orderCountIcon.centerY;
+    if (!self.orderCountIcon.hidden) {
+        self.orderCountIcon.x = self.titleNode.maxX + padding;
+        self.orderCountIcon.centerY = self.titleNode.centerY;
+    }
+    if (!self.orderCountNode.hidden) {
+        self.orderCountNode.x = self.orderCountIcon.maxX;
+        self.orderCountNode.centerY = self.orderCountIcon.centerY;
+    }
 }
 
 -(void)initCenterArea:(CGFloat)cellWidth cellHeight:(CGFloat)cellHeight{
@@ -489,7 +498,7 @@ static CGFloat stateWidth = 20;
     ShipmentStopBean* stopBean = self.data;
     
     self.timeLabel.attributedString = [NSString simpleAttributedString:FlatGray size:bottomSize content:
-                                       ConcatStrings(@"送达:",stopBean.deliveryDate)];
+                                       ConcatStrings(@"到达:",stopBean.deliveryDate)];
     self.timeLabel.size = [self.timeLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize timeSize =
     self.timeLabel.x = leftMargin;
     self.timeLabel.y = bottomY;

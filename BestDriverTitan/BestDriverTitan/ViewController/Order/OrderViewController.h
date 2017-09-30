@@ -19,4 +19,6 @@
 
 @property(nonatomic,copy)NSString* selectedTaskCode;//优先选中的活动类型
 
+@property(nonatomic,copy)__block ReturnValueBlock returnBlock;
+
 @end

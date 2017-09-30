@@ -508,7 +508,7 @@ static TaskViewModel* viewModel;
     self.expenseLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:16 content:ICON_JIN_QIAN];
     CGSize expenseLabelSize = [self.expenseLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
-    NSString* expenseContent = [bean canShowMoney] && bean.expense ? [NSString stringWithFormat:@"%ld元",bean.expense] : @"--元";
+    NSString* expenseContent = [bean canShowMoney] && bean.expense ? [NSString stringWithFormat:@"%ld元(参)",bean.expense] : @"--元";
     
     self.expenseText.attributedString = [NSString simpleAttributedString:[UIColor flatOrangeColor] size:14 content:expenseContent];
     CGSize expenseTextSize = [self.expenseText measure:CGSizeMake(FLT_MAX, FLT_MAX)];

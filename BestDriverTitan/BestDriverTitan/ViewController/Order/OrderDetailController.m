@@ -151,12 +151,19 @@
     CGSize customCodeSize = [self.customCodeLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.customCodeLabel.frame = (CGRect){CGPointMake(self.orderIcon.frame.origin.x + self.orderIcon.frame.size.width + 3, topHeight / 2.),customCodeSize};
     
+    
+    
+    
     CGFloat bottomY = topHeight;
 //    CGFloat bottomHeight = ORDER_VIEW_SECTION_HEIGHT - topHeight;
-    self.shipUintTotalLabel.attributedString = [self generateShipUnitString:12 color:FlatOrange activityTypeLabel:[Config getActivityTypeName:self.taskBean.activityDefinitionCode] expectedCount:[self.taskBean.expectedPackageCount integerValue] actualCount:self.taskBean.actualPackageCount];
-    self.shipUintTotalLabel.size = [self.shipUintTotalLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.shipUintTotalLabel.y = bottomY;
-    self.shipUintTotalLabel.x = leftpadding;
+    __weak __typeof(self) weakSelf = self;
+    [[self.taskBean rac_valuesForKeyPath:@"actualPackageCount" observer:nil] subscribeNext:^(id x) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            strongSelf.shipUintTotalLabel.attributedString = [strongSelf generateShipUnitString:12 color:FlatOrange activityTypeLabel:[Config getActivityTypeName:strongSelf.taskBean.activityDefinitionCode] expectedCount:[strongSelf.taskBean.expectedPackageCount integerValue] actualCount:strongSelf.taskBean.actualPackageCount];
+            strongSelf.shipUintTotalLabel.size = [strongSelf.shipUintTotalLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+            strongSelf.shipUintTotalLabel.y = bottomY;
+            strongSelf.shipUintTotalLabel.x = leftpadding;
+     }];
     
     self.orderBottomY.frame = CGRectMake(0, ORDER_VIEW_SECTION_HEIGHT - LINE_WIDTH, sectionWidth, LINE_WIDTH);
     
@@ -217,15 +224,16 @@
         OrderEditModelView* editView = [[OrderEditModelView alloc]init];
         editView.shipUnitIndexPath = indexPath;
         editView.shipUnitBean = (ShipmentActivityShipUnitBean*)cellVo.cellData;
-//        editView.delegate = self;
+        editView.delegate = self;
         [editView show];
     }
 }
 
 #pragma OrderEditModelDelegate
-//-(void)orderEdited:(NSIndexPath *)indexPath{
+-(void)orderEdited:(NSIndexPath *)indexPath{
 //    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];//这行数据刷新
-//}
+    self.taskBean.actualPackageCount = [self.taskBean getActualTotalPackageCount];//继续统计一遍
+}
 
 //- (void)didReceiveMemoryWarning {
 //    [super didReceiveMemoryWarning];

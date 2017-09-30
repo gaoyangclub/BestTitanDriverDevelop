@@ -11,8 +11,8 @@
 @implementation ContactBean
 
 -(NSString *)getPhoneCall{
-    if (self.mobel) {
-        return self.mobel;
+    if (self.mobile) {
+        return self.mobile;
     }
     return self.telePhone;
 }

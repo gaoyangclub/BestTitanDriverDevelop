@@ -118,20 +118,12 @@
         iconName = ICON_DAI_WAN_CHENG;
     }
     
-//    NSDate* dateNow = [[NSDate alloc]init];
-//    NSString* timeContent = nil;
-    NSString* timeContent = [DateUtils getUTCFormateName:hvo.dateTime];
-    if (!timeContent) {
-//    if (dateNow.timeIntervalSince1970 - hvo.dateTime.timeIntervalSince1970 < 24 * 3600) {
-//        timeContent = @"今天";
-//    }else if(dateNow.timeIntervalSince1970 - hvo.dateTime.timeIntervalSince1970 < 24 * 3600 * 2){
-//        timeContent = @"昨天";
-//    }else if(dateNow.timeIntervalSince1970 - hvo.dateTime.timeIntervalSince1970 < 24 * 3600 * 3){
-//        timeContent = @"前天";
-//    }else{
-        NSDateFormatter* dateFormatter = [[NSDateFormatter alloc]init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd"];//"yyyy-MM-dd HH:mm:ss"
-        timeContent = [dateFormatter stringFromDate:hvo.dateTime];
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];//"yyyy-MM-dd HH:mm:ss"
+    NSString* timeContent = [dateFormatter stringFromDate:hvo.dateTime];
+    NSString* timeUTCName = [DateUtils getUTCFormateName:hvo.dateTime];
+    if (timeUTCName) {
+        timeContent = ConcatStrings(timeUTCName,@"(",timeContent,@")");
     }
     
     CGFloat squareHeight = sectionHeight - 8;

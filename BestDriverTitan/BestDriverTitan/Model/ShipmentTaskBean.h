@@ -44,4 +44,6 @@
 
 -(BOOL)hasReport;
 
+-(NSInteger)getActualTotalPackageCount;
+
 @end

@@ -40,11 +40,14 @@
 //}
 
 +(void)startClickAnimation:(UIView*)sender{
-    POPSpringAnimation* _buttonClickAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
-    _buttonClickAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0, 1.0)];
-    _buttonClickAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(3.0, 3.0)];
-    _buttonClickAnimation.springBounciness = 18.0;
-    [sender.layer pop_addAnimation:_buttonClickAnimation forKey:@"buttonClickAnimation"];
+    id animation = [sender.layer pop_animationForKey:@"buttonClickAnimation"];
+    if (!animation) {//动画不存在
+        POPSpringAnimation* _buttonClickAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
+        _buttonClickAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0, 1.0)];
+        _buttonClickAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(3.0, 3.0)];
+        _buttonClickAnimation.springBounciness = 18.0;
+        [sender.layer pop_addAnimation:_buttonClickAnimation forKey:@"buttonClickAnimation"];
+    }
 }
 
 +(void)startShakeAnimation:(UIView *)sender{
@@ -52,10 +55,14 @@
 }
 
 +(void)startShakeAnimation:(UIView *)sender bounciness:(CGFloat)bounciness{
-    POPSpringAnimation *shake = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
-    shake.springBounciness = bounciness;
-    shake.velocity = @(1000);
-    [sender.layer pop_addAnimation:shake forKey:@"shakeAnimation"];
+    id animation = [sender.layer pop_animationForKey:@"shakeAnimation"];
+//    [sender.layer pop_removeAnimationForKey:@"shakeAnimation"];//先移除掉此动画
+    if (!animation) {//动画不存在
+        POPSpringAnimation *shake = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+        shake.springBounciness = bounciness;
+        shake.velocity = @(1000);
+        [sender.layer pop_addAnimation:shake forKey:@"shakeAnimation"];
+    }
 }
 
 

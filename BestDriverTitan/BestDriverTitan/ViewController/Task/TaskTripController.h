@@ -14,4 +14,6 @@
 
 @property(nonatomic,retain)ShipmentBean* shipmentBean;
 
+@property(nonatomic,copy)__block ReturnValueBlock returnBlock;
+
 @end

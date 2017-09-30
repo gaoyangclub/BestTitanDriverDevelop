@@ -21,8 +21,6 @@
 
 @property(nonatomic,assign)int pickupCount;
 @property(nonatomic,assign)int deliverCount;
-//@property(nonatomic,assign)BOOL isComplete;
-//@property(nonatomic,assign)BOOL isFollow;
 
 @property(nonatomic,copy)NSString* deliveryDate;
 
@@ -38,6 +36,9 @@
 
 @property(nonatomic,assign)CGFloat ordermovementCt;//订单数
 
--(BOOL)isComplete;
+-(BOOL)getIsComplete;
+
+@property(nonatomic,assign)BOOL isComplete;
+//@property(nonatomic,assign)BOOL isFollow;
 
 @end

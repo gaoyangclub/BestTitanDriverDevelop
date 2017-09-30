@@ -54,8 +54,9 @@ static UpdateVersionManager* instance;
     if(updateInfo){
         NSString* updateVersionName = [updateInfo valueForKey:@"versionName"];
         NSInteger updateVersionCode = [[updateInfo valueForKey:@"versionCode"] integerValue];
-        int compare = [VersionManager versionComparison:updateVersionName andVersionLocal:[LocalBundleManager getAppVersion]];
-        if (compare > 0 || (compare == 0 && updateVersionCode > [LocalBundleManager getAppCode])) {//真正需要更新
+//        int compare = [VersionManager versionComparison:updateVersionName andVersionLocal:[LocalBundleManager getAppVersion]];
+//        compare > 0 || (compare == 0 && //只判断versionCode
+        if (updateVersionCode > [LocalBundleManager getAppCode]) {//真正需要更新
             self->updateUrl = [updateInfo valueForKey:@"appUrl"];
             self->updateNote = [updateInfo valueForKey:@"releaseNote"];
             [self showUpdateAlert];
