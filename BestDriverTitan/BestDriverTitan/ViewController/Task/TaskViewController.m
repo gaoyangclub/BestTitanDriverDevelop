@@ -18,6 +18,9 @@
 #import "EmptyDataSource.h"
 #import "TaskViewModel.h"
 #import "ShipmentBean.h"
+#import "SpeechManager.h"
+#import "AppPushMsg.h"
+#import "LocalBundleManager.h"
 
 //@interface TestTableViewCell : MJTableViewCell
 //
@@ -201,12 +204,17 @@
                                              selector:@selector(eventLogout)
                                                  name:EVENT_LOGOUT
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(eventRefresh)
+                                                 name:EVENT_REFRESH_SHIPMENTS
+                                               object:nil];
 }
 
 -(void)dealloc{
 //    if (!self.hasHistory) {
 //        [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_LOGIN_COMPLETE object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_LOGOUT object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_REFRESH_SHIPMENTS object:nil];
 //    }
 }
 
@@ -216,6 +224,10 @@
     [self.tableView clearSource];
     [self.tableView reloadData];
 //    [self.tableView headerBeginRefresh];
+}
+
+-(void)eventRefresh{
+    [self refreshAndEmptyDataSource];//重新刷新列表
 }
 
 //-(void)eventLoginComplete{

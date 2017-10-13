@@ -17,7 +17,7 @@
 
 -(NSDate *)date{
     if (!_date && self.dateTime > 0) {
-        _date = [NSDate dateWithTimeIntervalSince1970:self.dateTime / 1000];
+        _date = [NSDate dateWithTimeIntervalSince1970:self.dateTime / 1000.];
     }
     return _date;
 }

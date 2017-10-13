@@ -190,10 +190,14 @@
         if (self.data.image) {
             self.imageView.image = self.data.image;
         }else{
+            self.imageView.image = nil;//先清空掉
             __weak __typeof(self) weakSelf = self;
             [PhotoTranslateUtils translateImageByAsset:self.data completeHandler:^{
                 weakSelf.imageView.image = weakSelf.data.image;
             }];
+//            [PhotoTranslateUtils translateImageByAsset:self.data completeHandler:^{
+//                NSLog(@"测试转换完成");
+//            }];
         }
     }
     self.operateButton.hidden = YES;

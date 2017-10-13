@@ -257,6 +257,9 @@ static NSArray<NSString*>* taskCodeArr;
 }
 
 -(BOOL)isAllStopComplete{
+    if (!self->stopBeanList || self->stopBeanList.count <= 0) {
+        return NO;
+    }
     for (ShipmentStopBean* stopBean in self->stopBeanList) {
         if (!stopBean.isComplete) {
             return NO;
@@ -559,7 +562,7 @@ static NSArray<NSString*>* taskCodeArr;
 
 -(void)jumpOrderViewController:(ShipmentStopBean*)stopBean{
     OrderViewController* controller = [[OrderViewController alloc]init];
-    controller.shipmentBean = self.shipmentBean;
+//    controller.shipmentBean = self.shipmentBean;
     controller.stopBean = stopBean;
     controller.activityBeans = stopBean.shipmentActivityList;
     controller.selectedTaskCode = self->selectedTaskCode;

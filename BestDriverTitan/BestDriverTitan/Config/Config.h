@@ -207,9 +207,13 @@
 #define ORDER_PHOTO_CELL_HEIGHT 100
 #define ORDER_RECEIPT_CELL_HEIGHT 0
 
+#define MESSAGE_VIEW_SECTION_HEIGHT 40
+
 #define EVENT_ADDRESS_SELECT @"EVENT_ADDRESS_SELECT"
 #define EVENT_LOGIN_COMPLETE @"EVENT_LOGIN_COMPLETE"
 #define EVENT_LOGOUT @"EVENT_LOGOUT"
+#define EVENT_REFRESH_SHIPMENTS @"EVENT_REFRESH_SHIPMENTS"//重新刷新运单列表
+
 #define EVENT_ACTIVITY_SELECT @"EVENT_ACTIVITY_SELECT"
 #define EVENT_ORDER_PAGE_CHANGE @"EVENT_ORDER_PAGE_CHANGE"
 
@@ -241,6 +245,13 @@
 #define PROXY_PHONE_KEY @"proxy_phone_key"
 #define NAVI_DRIVING_STRATEGY_KEY @"navi_driving_strategy_key"
 
+#define PUSH_TYPE_CREATE @"CREATE"
+#define PUSH_TYPE_RESCHEDULE @"RESCHEDULE"//重新调度
+#define PUSH_TYPE_CHANGE @"CHANGE"
+#define PUSH_TYPE_TERMINATE @"TERMINATE"//运单有变化
+#define PUSH_TYPE_PAYSUCCESS @"PAYSUCCESS"
+#define PUSH_TYPE_PAYFAIL @"PAYFAIL"
+
 static AppVersion* appVersion;
 
 @interface Config : NSObject
@@ -250,6 +261,8 @@ static AppVersion* appVersion;
 +(UIColor *)getActivityColorByCode:(NSString *)code;
 +(NSString*)getActivityTypeName:(NSString*)code;
 +(BOOL)getActivityIsPickupBean:(NSString*)code;//判断活动类型是否为"提"
+
++(NSString*)getPushTypeTitle:(NSString*)type;
 
 +(NSString*)getActivityStatusLabel:(NSString*)status;
 

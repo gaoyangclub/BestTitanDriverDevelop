@@ -16,15 +16,17 @@
 #import "FollowAnimateManager.h"
 #import "FlatButton.h"
 #import "TaskViewModel.h"
+#import "RoundBackView.h"
+#import "HotMarkView.h"
 
-@interface RoundBackView:UIView
-
-@property (nonatomic,retain) RoundRectNode* backNode;
-
-@end
-
-@implementation RoundBackView
-@end
+//@interface RoundBackView:UIView
+//
+//@property (nonatomic,retain) RoundRectNode* backNode;
+//
+//@end
+//
+//@implementation RoundBackView
+//@end
 
 static TaskViewModel* viewModel;
 
@@ -41,6 +43,7 @@ static TaskViewModel* viewModel;
 @property (nonatomic,retain) ASTextNode* codeText;//运单号
 @property (nonatomic,retain) FlatButton* stateArea;//未完成
 //@property (nonatomic,retain) ASTextNode* stateText;//未完成
+@property (nonatomic,retain) HotMarkView* hotArea;//最新mark
 
 @property (nonatomic,retain) ASTextNode* licencePlateText;//车牌号
 @property (nonatomic,retain) DiyLicensePlateNode* licencePlateView;//车牌背景图
@@ -101,11 +104,12 @@ static TaskViewModel* viewModel;
 //        _normalBackView.backgroundColor = [UIColor blueColor];
 //        [self.contentView addSubview:_normalBackView];
         
-        RoundRectNode* back = _normalBackView.backNode = [[RoundRectNode alloc]init];
-        back.fillColor = [UIColor whiteColor];
-        back.cornerRadius = 0;//5;
-        back.layerBacked = YES;
-        [_normalBackView.layer addSublayer:back.layer];
+        _normalBackView.fillColor = [UIColor whiteColor];
+//        RoundRectNode* back = _normalBackView.backNode = [[RoundRectNode alloc]init];
+//        back.fillColor = [UIColor whiteColor];
+//        back.cornerRadius = 0;//5;
+//        back.layerBacked = YES;
+//        [_normalBackView.layer addSublayer:back.layer];
     }
     return _normalBackView;
 }
@@ -113,14 +117,14 @@ static TaskViewModel* viewModel;
 -(RoundBackView *)selectBackView{
     if (!_selectBackView) {
         _selectBackView = [[RoundBackView alloc]init];
-//        _selectBackView.backgroundColor = [UIColor grayColor];
+        _selectBackView.fillColor = FlatWhite;
 //        [self.contentView addSubview:_selectBackView];
         
-        RoundRectNode* back = _selectBackView.backNode = [[RoundRectNode alloc]init];
-        back.fillColor = FlatWhite;
-        back.cornerRadius = 0;//5;
-        back.layerBacked = YES;
-        [_selectBackView.layer addSublayer:back.layer];
+//        RoundRectNode* back = _selectBackView.backNode = [[RoundRectNode alloc]init];
+//        back.fillColor = FlatWhite;
+//        back.cornerRadius = 0;//5;
+//        back.layerBacked = YES;
+//        [_selectBackView.layer addSublayer:back.layer];
     }
     return _selectBackView;
 }
@@ -337,6 +341,19 @@ static TaskViewModel* viewModel;
     return _stateArea;
 }
 
+-(HotMarkView *)hotArea{
+    if (!_hotArea) {
+        _hotArea = [[HotMarkView alloc]init];
+        _hotArea.fillColor = FlatRed;
+        _hotArea.title = @"hot";
+        _hotArea.titleSize = 12;
+        _hotArea.titleColor = [UIColor whiteColor];
+        _hotArea.width = _hotArea.height = 40;
+        [self.contentView addSubview:_hotArea];
+    }
+    return _hotArea;
+}
+
 //-(ASTextNode *)stateText{
 //    if(!_stateText){
 //        _stateText = [[ASTextNode alloc]init];
@@ -542,7 +559,7 @@ static TaskViewModel* viewModel;
     CGFloat areaX2 = areaX1 + areaWith;
     self.distanceLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:16 content:ICON_JU_LI];
     CGSize distanceLabelSize = [self.distanceLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    NSString* distanceContent = [bean canShowMoney] && bean.distance ? [NSString stringWithFormat:@"%ld公里",bean.distance] : @"--公里";
+    NSString* distanceContent = [bean canShowMoney] && bean.distance ? [NSString stringWithFormat:@"%.1f公里",bean.distance] : @"--公里";
     self.distanceText.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content: distanceContent];
     CGSize distanceTextSize = [self.distanceText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
@@ -558,7 +575,7 @@ static TaskViewModel* viewModel;
     CGFloat areaX3 = areaX2 + areaWith;
     self.costHourLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:16 content:ICON_SHI_JIAN];
     CGSize hourLabelSize = [self.costHourLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    NSString* hourContent = [bean canShowMoney] && bean.costHour ? [NSString stringWithFormat:@"%ld小时",bean.costHour] : @"--小时";
+    NSString* hourContent = [bean canShowMoney] && bean.costHour ? [NSString stringWithFormat:@"%.1f小时",bean.costHour] : @"--小时";
     self.costHourText.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:hourContent];
     CGSize hourTextSize = [self.costHourText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
@@ -916,7 +933,7 @@ static TaskViewModel* viewModel;
     
     self.backNode.frame = CGRectMake(leftMargin, 0, backWidth, backHeight);
     
-    self.normalBackView.backNode.frame = self.selectBackView.backNode.frame = self.backNode.frame;
+//    self.normalBackView.backNode.frame = self.selectBackView.backNode.frame = self.backNode.frame;
     
 //    self.lineTopY.frame = CGRectMake(padding, topY + topHeight, backWidth - padding * 2, LINE_WIDTH);
 //    self.lineBottomY.frame = CGRectMake(padding, topY + topHeight + centerHeight, backWidth - padding * 2, LINE_WIDTH);
@@ -1007,8 +1024,26 @@ static TaskViewModel* viewModel;
     self.stateArea.size = CGSizeMake(50, 20);
     self.stateArea.x = self.codeText.maxX + padding;
     self.stateArea.y = 5;//self.codeText.centerY;
-    self.stateArea.titleColor = self.stateArea.strokeColor = iconColor;
-    self.stateArea.title = [bean isComplete] ? @"已完成":@"未完成";
+    
+    self.hotArea.hidden = self.indexPath.row != 0;
+    if (!self.hotArea.hidden) {
+        self.hotArea.x = self.hotArea.y = 0;//左上角
+    }
+//        self.stateArea.titleColor = [UIColor whiteColor];
+//        self.stateArea.fillColor = FlatRed;
+//        self.stateArea.title = @"新";
+//        self.stateArea.strokeWidth = 0;
+//        self.stateArea.width = 20;
+//        self.stateArea.cornerRadius = 10;
+//    }else{
+        self.stateArea.titleColor = self.stateArea.strokeColor = iconColor;
+        self.stateArea.title = [bean isComplete] ? @"已完成":@"未完成";
+//        self.stateArea.fillColor = [UIColor whiteColor];
+//        self.stateArea.strokeWidth = 1;
+//        self.stateArea.width = 50;
+//        self.stateArea.cornerRadius = 3;
+//    }
+    
     
 //    if (!bean.isComplete) {
 //        self.stateText.attributedString = [NSString simpleAttributedString:[UIColor whiteColor] size:12 content:@"未完成"];

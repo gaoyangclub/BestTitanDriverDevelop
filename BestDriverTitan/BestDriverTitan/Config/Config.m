@@ -140,6 +140,18 @@ static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不�
     return @"Test环境";
 }
 
++(NSString *)getPushTypeTitle:(NSString *)type{
+    if ([PUSH_TYPE_CREATE isEqual:type]) {
+        return @"您收到新的调度任务";
+    }else if ([PUSH_TYPE_RESCHEDULE isEqual:type]) {
+        return @"您的任务已重新调度";
+    }else if ([PUSH_TYPE_CHANGE isEqual:type] ||
+              [PUSH_TYPE_TERMINATE isEqual:type] ) {
+        return @"您的任务信息有变更";
+    }
+    return nil;
+}
+
 +(void)setUser:(User *)value{
     user = value;
 }

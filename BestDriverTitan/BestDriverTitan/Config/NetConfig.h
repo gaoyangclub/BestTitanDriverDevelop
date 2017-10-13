@@ -35,6 +35,7 @@
 #define CHECK_VERSION_URL ConcatStrings(SERVER_DRIVER_URL,@"version/detail/ios")
 #define LOGIN_URL(phone,authcode) ConcatStrings(SERVER_DRIVER_URL,@"token/driver/",phone,@"/",authcode)
 #define HEART_BEAT_URL ConcatStrings(SERVER_DRIVER_URL,@"shipment/heartbeat")
+#define REGISTER_APPCLIENT_URL(clientId) ConcatStrings(SERVER_DRIVER_URL,@"driver/registerGeTuiAppClient/",clientId)
 
 //获取运单列表
 #define SHIPMENT_RECENT_URL ConcatStrings(SERVER_DRIVER_URL,@"shipment/list/recent")
@@ -48,6 +49,8 @@
 #define TASK_SUBMIT_URL ConcatStrings(SERVER_DRIVER_URL,@"shipment/task")
 //上传回单(图片)
 #define TASK_RECEIPT_URL(shipmentActivityTaskId) ConcatStrings(SERVER_DRIVER_URL,@"shipment/receipt/",@(shipmentActivityTaskId))
+
+
 
 #define PGY_VERSION_GROUP_URL @"http://www.pgyer.com/apiv1/app/viewGroup"
 

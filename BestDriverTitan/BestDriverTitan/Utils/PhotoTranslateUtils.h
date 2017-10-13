@@ -8,7 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PhotoAlbumVo : NSObject
+typedef void (^TranslateCompletionHandler)();//定义block结构
+
+@interface PhotoAlbumVo : NSObject<NSCopying>
+
+@property (unsafe_unretained) NSUInteger myHash;
 
 @property(nonatomic,retain)UIImage* image;
 @property(nonatomic,retain)PHAsset* phAsset;
@@ -17,7 +21,7 @@
 
 @interface PhotoTranslateUtils : NSObject
 
-+(void)translateImageByAsset:(PhotoAlbumVo*)asset completeHandler:(void(^)())completeHandler;
++(void)translateImageByAsset:(PhotoAlbumVo*)asset completeHandler:(TranslateCompletionHandler)completeHandler; //void(^)()
 +(void)translateImagesByAssets:(NSMutableArray<PhotoAlbumVo*>*)assets completeHandler:(void(^)())completeHandler;
 
 @end

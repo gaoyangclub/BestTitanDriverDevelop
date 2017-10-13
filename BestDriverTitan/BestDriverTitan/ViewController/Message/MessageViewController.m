@@ -8,6 +8,11 @@
 
 #import "MessageViewController.h"
 #import "EmptyDataSource.h"
+#import "AppPushMsg.h"
+#import "SpeechManager.h"
+#import "MessageViewCell.h"
+#import "MessageViewSection.h"
+#import "AppDelegate.h"
 
 @interface MessageViewController ()
 
@@ -18,6 +23,14 @@
 @end
 
 @implementation MessageViewController
+
+-(BOOL)getShowHeader{
+    return NO;
+}
+
+-(BOOL)getShowFooter{
+    return NO;
+}
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -63,15 +76,133 @@
     
     self.tableView.emptyDataSetSource = self.emptyDataSource;
     self.tableView.emptyDataSetDelegate = self.emptyDataSource;
+    self.tableView.cellGap = 10;
     [self.tableView reloadData];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(eventMessage:)
+                                                 name:EVENT_REFRESH_SHIPMENTS
+                                               object:nil];
+    
+    
+//    AppPushMsg* pushMsg = [[AppPushMsg alloc]init];//测试专用
+//    pushMsg.type = PUSH_TYPE_CREATE;
+//    pushMsg.msg = @"您有新的任务，啊哈哈哈哈哈哈\n差个我啊high啊改我高哈根我哦化工我过后爱国hi哦啊个哈哈够i好嗲后端哈哈哈!";
+//    
+//    [self createPushMsgSource:pushMsg];
 }
 
--(BOOL)getShowHeader{
-    return NO;
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_REFRESH_SHIPMENTS object:nil];
 }
 
--(BOOL)getShowFooter{
-    return NO;
+-(void)eventMessage:(NSNotification*)eventData{
+    AppPushMsg* pushMsg = eventData.object;
+    if ([pushMsg.type isEqualToString: PUSH_TYPE_CREATE]) {
+        [SpeechManager playSoundString:
+         ConcatStrings(@"您有新的",[LocalBundleManager getAppName],@"调度任务，请及时查收")
+         ];//播放语音提示
+    }else{
+        [SpeechManager playSoundString:pushMsg.msg];//播放语音提示
+    }
+    [self addLocalNotification:pushMsg.msg];
+    [self createPushMsgSource:pushMsg];
+}
+
+-(void)createPushMsgSource:(AppPushMsg*)pushMsg{//倒序排列消息
+    if (!pushMsg) {
+        return;
+    }
+    
+    CellVo* cvo = [CellVo initWithParams:0 cellClass:[MessageViewCell class] cellData:pushMsg];
+    
+    SourceVo* svo = [self.tableView getFirstSource];//从头部找最新的
+    MessageViewSectionVo* mvo = (MessageViewSectionVo*)svo.headerData;
+    NSDate* startDate = mvo.dateTime;
+    
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];//"yyyy-MM-dd HH:mm:ss"
+    if (![[dateFormatter stringFromDate:startDate] isEqual:[dateFormatter stringFromDate:pushMsg.createTime]]) {//时间不一致
+        mvo = [[MessageViewSectionVo alloc]init];
+        mvo.dateTime = pushMsg.createTime;
+        
+        NSMutableArray<CellVo*>* sourceData = [NSMutableArray<CellVo*> array];
+        //    for (NSUInteger i = 0; i < sortStopList.count; i++) {
+        [sourceData addObject:cvo];
+        [self.tableView insertSource:[SourceVo initWithParams:sourceData headerHeight:MESSAGE_VIEW_SECTION_HEIGHT headerClass:[MessageViewSection class] headerData:mvo] atIndex:0];//在头部插入
+    }else{
+        [svo.data insertObject:cvo atIndex:0];//直接并在上一组头部
+    }
+    
+    [self.tableView reloadMJData];//直接刷新
+    
+    [self showMessageBadge:[self getNotReadMessageCount]];
+}
+
+-(NSInteger)getNotReadMessageCount{
+    NSInteger readCount = 0;
+    NSInteger count = [self.tableView getSourceCount];
+    for (NSInteger i = 0; i < count; i++) {
+        SourceVo* svo = [self.tableView getSourceByIndex:i];
+        for (CellVo* cvo in svo.data) {
+            AppPushMsg* pushMsg = cvo.cellData;
+            if (pushMsg && !pushMsg.isRead) {
+                readCount ++;
+            }
+        }
+    }
+    return readCount;
+}
+
+-(void)showMessageBadge:(NSInteger)count{
+    AppDelegate * appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    [appDelegate.rootTabBarController setItemBadge:count atIndex:1];
+}
+
+-(void)didSelectRow:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    CellVo* cvo = [self.tableView getCellVoByIndexPath:indexPath];
+    if (cvo && cvo.cellData) {
+        AppPushMsg* pushMsg = cvo.cellData;
+        pushMsg.isRead = YES;
+        
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        
+        [self showMessageBadge:[self getNotReadMessageCount]];
+    }
+    
+}
+
+#pragma mark 添加本地通知
+-(void)addLocalNotification:(NSString*)msg{
+    
+    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+    localNotification.alertBody = msg;
+    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:0.1]; // 3秒钟后
+    
+    //--------------------可选属性------------------------------
+    //    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.2) {
+    //        localNotification.alertTitle = @"推送通知提示标题：alertTitle"; // iOS8.2
+    //    }
+    
+    // 锁屏时在推送消息的最下方显示设置的提示字符串
+    localNotification.alertAction = @"查看";//滑动来+查看
+    
+    // 当点击推送通知消息时，首先显示启动图片，然后再打开App, 默认是直接打开App的
+    localNotification.alertLaunchImage = @"splashLogo.png";
+    
+    // 默认是没有任何声音的 UILocalNotificationDefaultSoundName：声音类似于震动的声音
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    
+    // 传递参数
+    //    localNotification.userInfo = @{@"type": @"1"};
+    
+    //重复间隔：类似于定时器，每隔一段时间就发送通知
+    //  localNotification.repeatInterval = kCFCalendarUnitSecond;
+    
+    //    localNotification.category = @"choose"; // 附加操作
+    
+    // 定时发送
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 }
 
 @end

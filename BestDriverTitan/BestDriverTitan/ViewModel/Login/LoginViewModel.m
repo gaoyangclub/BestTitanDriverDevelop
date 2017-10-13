@@ -22,4 +22,10 @@
     [self sendRequest:LOGIN_URL(phone,ConcatStrings(AUTH_CODE_PREV,authcode)) sendType:NetSendTypeGet body:nil fillHeader:NO responseJson:YES returnBlock:returnBlock failureBlock:failureBlock];
 }
 
+-(void)registerGeTuiAppClient:(NSString *)clientId returnBlock:(ReturnValueBlock)returnBlock failureBlock:(FailureBlock)failureBlock{
+    if([self getHeaders]){//有token的情况下才可以
+        [self sendRequest:REGISTER_APPCLIENT_URL(clientId) responseJson:NO returnBlock:returnBlock failureBlock:failureBlock];
+    }
+}
+
 @end

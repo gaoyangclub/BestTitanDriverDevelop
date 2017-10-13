@@ -21,15 +21,21 @@
 #import "AmapLocationService.h"
 #import "BackgroundTimer.h"
 #import "LocationViewModel.h"
+#import "GeTuiSdk.h"
+#import "LoginViewModel.h"
+#import "AppDelegate.h"
+#import "AppPushMsg.h"
 
 
 static OwnerViewController* instance;
 
-@interface OwnerViewController ()<UIAlertViewDelegate,LoginViewDelegate,AdminViewDelegate>{
+@interface OwnerViewController ()<UIAlertViewDelegate,LoginViewDelegate,AdminViewDelegate,GeTuiSdkDelegate>{
 //    SplashWillFinishHandler splashWillFinishHandler;
 //    NSString* updateUrl;
 //    NSString* updateNote;
 }
+
+@property(nonatomic,retain)LoginViewModel* loginViewModel;
 
 @end
 
@@ -43,6 +49,13 @@ static OwnerViewController* instance;
         }
     }
     return instance;
+}
+
+-(LoginViewModel *)loginViewModel{
+    if (!_loginViewModel) {
+        _loginViewModel = [[LoginViewModel alloc]init];
+    }
+    return _loginViewModel;
 }
 
 -(void)showSplashView{
@@ -180,6 +193,13 @@ static OwnerViewController* instance;
         self.navigationColor = COLOR_USER_PROXY;
     }else{
         self.navigationColor = [UIColor whiteColor];
+        
+        // 主线程执行：
+//        dispatch_async(dispatch_get_main_queue(), ^{
+        [self startGeTuiSdk];
+//            [(AppDelegate*)[UIApplication sharedApplication].delegate startGeTuiSdk];
+//        });
+        
         [AmapLocationService startUpdatingLocation];//定位开启
         [BackgroundTimer start:HEART_BEAT_INTERVAL];
         // 延迟2秒执行：
@@ -198,13 +218,78 @@ static OwnerViewController* instance;
     if ([Config getIsUserProxyMode]) {
         [self popAdminView:YES completion:completion];
     }else{
+        [GeTuiSdk destroy];//关闭推送
         [AmapLocationService stopUpdatingLocation];//关闭定位
         [BackgroundTimer clear];
         [UserDefaultsUtils removeObject:USER_KEY];//清除数据
         [self popLoginview:YES completion:completion];
+        
+        [UIApplication sharedApplication].applicationIconBadgeNumber = 0;//登出后清除掉
     }
     self.isLogin = NO;
     [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_LOGOUT object:nil];
+}
+
+
+-(void)startGeTuiSdk{
+    [GeTuiSdk startSdkWithAppId:GETUI_APPID appKey:GETUI_APPKEY appSecret:GETUI_APPSECRET delegate:self];//开启推送
+    [GeTuiSdk runBackgroundEnable:YES];
+    
+    NSString* clientId = [GeTuiSdk clientId];
+    if(clientId){//sdk早就注册了
+        [self registerGeTuiAppClient:clientId];
+    }
+}
+
+#pragma GeTuiSdkDelegate
+/** SDK启动成功返回cid */
+-(void)GeTuiSdkDidRegisterClient:(NSString *)clientId{
+    //    //个推SDK已注册，返回clientId
+    NSLog(@"\n>>>[GeTuiSdk RegisterClient]:%@\n\n", clientId);
+    [self registerGeTuiAppClient:clientId];
+}
+
+-(void)registerGeTuiAppClient:(NSString*)clientId{
+    LoginViewModel* loginViewModel = [[LoginViewModel alloc]init];
+    __weak __typeof(self) weakSelf = self;
+    [loginViewModel registerGeTuiAppClient:clientId returnBlock:^(id returnValue) {
+        NSString *aString = [[NSString alloc] initWithData:returnValue encoding:NSUTF8StringEncoding];
+        if ([@"true" isEqualToString:aString]) {
+            NSLog(@"registerGeTuiAppClient --------------------------------------> onSuccess result:%@ \n clientId:%@",returnValue,clientId);
+        }else{
+            NSLog(@"注册个推客户端返回异常 返回值result:%@",returnValue);
+        }
+    } failureBlock:^(NSString *errorCode, NSString *errorMsg) {
+        if (errorMsg) {
+            [HudManager showToast:errorMsg];
+        }
+        [weakSelf registerGeTuiAppClient:clientId];//继续注册
+    }];
+}
+
+#pragma GeTuiSdkDelegate
+-(void)GeTuiSdkDidReceivePayloadData:(NSData *)payloadData andTaskId:(NSString *)taskId andMsgId:(NSString *)msgId andOffLine:(BOOL)offLine fromGtAppId:(NSString *)appId{
+    if (payloadData) {
+//        NSString *payloadMsg = [[NSString alloc] initWithBytes:payloadData.bytes
+//                                              length:payloadData.length
+//                                            encoding:NSUTF8StringEncoding];
+        AppPushMsg* pushMsg = [AppPushMsg yy_modelWithJSON:payloadData];
+        [self sendPushMsg:pushMsg];
+    }
+//    NSLog(@"Payload Msg:%@", payloadMsg);
+    
+    // 汇报个推自定义事件
+    [GeTuiSdk sendFeedbackMessage:90001 andTaskId:taskId andMsgId:msgId];
+}
+
+-(void)sendPushMsg:(AppPushMsg*)pushMsg{
+    if ([pushMsg.type isEqual:PUSH_TYPE_CREATE] ||
+        [pushMsg.type isEqual:PUSH_TYPE_RESCHEDULE] ||
+        [pushMsg.type isEqual:PUSH_TYPE_CHANGE] ||
+        [pushMsg.type isEqual:PUSH_TYPE_TERMINATE]
+        ) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_REFRESH_SHIPMENTS object:pushMsg];
+    }
 }
 
 @end

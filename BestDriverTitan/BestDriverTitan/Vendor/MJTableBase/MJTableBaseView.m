@@ -103,12 +103,24 @@
     [self.dataArray addObject:sourceVo];
 }
 
+-(void)insertSource:(SourceVo *)sourceVo atIndex:(NSInteger)index{
+    [self.dataArray insertObject:sourceVo atIndex:index];
+}
+
 -(void)removeSourceAt:(NSInteger)index{
     [self.dataArray removeObjectAtIndex:index];
 }
 
 -(SourceVo*)getSourceByIndex:(NSInteger)index{
     return self.dataArray[index];
+}
+
+-(CellVo *)getCellVoByIndexPath:(NSIndexPath *)indexPath{
+    SourceVo* source = [self getSourceByIndex:indexPath.section];
+    if (source.data && indexPath.row < source.data.count) {
+        return source.data[indexPath.row];
+    }
+    return nil;
 }
 
 -(NSUInteger)getSourceCount{

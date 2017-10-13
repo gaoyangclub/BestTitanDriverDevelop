@@ -99,6 +99,11 @@ typedef void(^FooterLoadMoreHandler)(BOOL hasData);
  */
 -(void)addSource:(SourceVo*)sourceVo;
 /**
+ *  在某个索引插入一节内容
+ *  @param sourceVo
+ */
+-(void)insertSource:(SourceVo*)sourceVo atIndex:(NSInteger)index;
+/**
  *  删除一节内容
  *  @param sourceVo
  */
@@ -116,6 +121,7 @@ typedef void(^FooterLoadMoreHandler)(BOOL hasData);
 -(SourceVo*)getFirstSource;
 
 -(SourceVo*)getSourceByIndex:(NSInteger)index;
+-(CellVo*)getCellVoByIndexPath:(NSIndexPath*)indexPath;
 -(NSUInteger)getSourceCount;
 -(NSUInteger)getTotalCellCount;
 
@@ -138,8 +144,8 @@ typedef void(^FooterLoadMoreHandler)(BOOL hasData);
 
 @interface CellVo : NSObject
 
-+ (instancetype)initWithParams:(CGFloat)cellHeight cellClass:(Class)cellClass cellData:(NSObject*)cellData;
-+ (instancetype)initWithParams:(CGFloat)cellHeight cellClass:(Class)cellClass cellData:(NSObject*)cellData cellTag:(NSInteger)cellTag isUnique:(BOOL)isUnique;
++ (instancetype)initWithParams:(CGFloat)cellHeight cellClass:(Class)cellClass cellData:(id)cellData;
++ (instancetype)initWithParams:(CGFloat)cellHeight cellClass:(Class)cellClass cellData:(id)cellData cellTag:(NSInteger)cellTag isUnique:(BOOL)isUnique;
 
 #define CELL_TAG_NORMAL 0 //中间的
 #define CELL_TAG_FIRST 1 //第一个
@@ -149,7 +155,7 @@ typedef void(^FooterLoadMoreHandler)(BOOL hasData);
 
 @property (nonatomic,assign)CGFloat cellHeight;
 @property (nonatomic,retain)Class cellClass;
-@property (nonatomic,retain)NSObject* cellData;
+@property (nonatomic,retain)id cellData;
 @property (nonatomic,assign)NSInteger cellTag;
 @property (nonatomic,assign)BOOL isUnique;
 @property (nonatomic,assign)BOOL isSelect;

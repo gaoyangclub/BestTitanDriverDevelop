@@ -508,9 +508,9 @@ static CGFloat stateWidth = 20;
 //    };
     
     int pickupCount = stopBean.pickupCount; //生成0-15范围的随机数
-    int deliverCount = stopBean.deliverCount; //生成0-15范围的随机数
+    int deliveryCount = stopBean.deliveryCount; //生成0-15范围的随机数
     
-    self.shipUintCountText.attributedString = [self generateShipUnitString:bottomSize color:FlatOrange pickupCount:pickupCount deliverCount:deliverCount];
+    self.shipUintCountText.attributedString = [self generateShipUnitString:bottomSize color:FlatOrange pickupCount:pickupCount deliveryCount:deliveryCount];
     self.shipUintCountText.size = [self.shipUintCountText measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize shipUnitSize =
     self.shipUintCountText.x = leftMargin;
     self.shipUintCountText.y = self.timeLabel.maxY + 5;
@@ -665,14 +665,14 @@ static CGFloat stateWidth = 20;
     }
 }
 
--(NSAttributedString *)generateShipUnitString:(CGFloat)size color:(UIColor*)color pickupCount:(int)pickupCount deliverCount:(int)deliverCount{
+-(NSAttributedString *)generateShipUnitString:(CGFloat)size color:(UIColor*)color pickupCount:(int)pickupCount deliveryCount:(int)deliveryCount{
     NSString* pickupString = NULL;
     if (pickupCount) {
         pickupString = ConcatStrings(@"提 ",[NSNumber numberWithInt:pickupCount],@" ");
     }
     NSString* deliverString = NULL;
-    if (deliverCount) {
-        deliverString = ConcatStrings(@"送 ",[NSNumber numberWithInt:deliverCount]);
+    if (deliveryCount) {
+        deliverString = ConcatStrings(@"送 ",[NSNumber numberWithInt:deliveryCount]);
     }
     NSString* context = ConcatStrings(pickupString ? pickupString : @"", deliverString ? deliverString : @"");
     NSMutableAttributedString* attrString = [[NSMutableAttributedString alloc]initWithString:context];
@@ -688,11 +688,11 @@ static CGFloat stateWidth = 20;
         [attrString addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(loc, pickupLength)];
         loc += pickupLength + 1;
     }
-    if (deliverCount) {
+    if (deliveryCount) {
 //        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(loc, 2)];
         [attrString addAttribute:NSForegroundColorAttributeName value:FlatGray range:NSMakeRange(loc, 2)];
         loc += 2;
-        NSUInteger deliverLength = [NSString stringWithFormat:@"%i", deliverCount].length;
+        NSUInteger deliverLength = [NSString stringWithFormat:@"%i", deliveryCount].length;
 //        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(loc, deliverLength)];
         [attrString addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(loc, deliverLength)];
         //        loc += deliverLength;

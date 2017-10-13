@@ -671,6 +671,15 @@
     self->currentActivity = activityBean;
     [self.tableView headerBeginRefresh];
     [self changeSubmitButtonStatus];
+    
+//    if ([activityBean.activityDefinitionCode isEqualToString:ACTIVITY_CODE_DELIVERY_RECEIPT]) {//测试回单...
+//        double delayInSeconds = 10.0;
+//        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+//        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//            [self submitReceiptTask];
+//            [self submitReceiptTask];
+//        });
+//    }
 }
 
 -(void)changeSubmitButtonStatus{

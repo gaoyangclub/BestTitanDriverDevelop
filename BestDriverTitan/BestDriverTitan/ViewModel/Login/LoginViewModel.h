@@ -15,5 +15,6 @@
 
 -(void)logon:(NSString*)phone authcode:(NSString*)authcode returnBlock:(ReturnValueBlock)returnBlock failureBlock:(FailureBlock)failureBlock;
 
+-(void)registerGeTuiAppClient:(NSString*)clientId returnBlock:(ReturnValueBlock)returnBlock failureBlock:(FailureBlock)failureBlock;
 
 @end

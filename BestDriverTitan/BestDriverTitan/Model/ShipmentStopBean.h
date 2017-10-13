@@ -20,7 +20,7 @@
 @property(nonatomic,assign)int orderCount;//订单数
 
 @property(nonatomic,assign)int pickupCount;
-@property(nonatomic,assign)int deliverCount;
+@property(nonatomic,assign)int deliveryCount;
 
 @property(nonatomic,copy)NSString* deliveryDate;
 

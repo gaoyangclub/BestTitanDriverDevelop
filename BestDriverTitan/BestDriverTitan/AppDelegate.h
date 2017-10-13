@@ -16,5 +16,7 @@
 @property(nonatomic,retain)GYTabBarController* rootTabBarController;
 //@property(nonatomic,retain)UIImageView* rootImage;
 
+//-(void)startGeTuiSdk;
+
 @end
 

@@ -26,6 +26,6 @@
 
 -(BOOL)showSelectionStyle;
 
--(CGFloat)getCellHeight;
+-(CGFloat)getCellHeight:(CGFloat)cellWidth;
 
 @end

@@ -1,6 +1,6 @@
 //
 //  AppDelegate.m
-//  BestDriverTitan 百事通 司机APP
+//  BestDriverTitan 百世通 司机APP
 //
 //  Created by admin on 16/11/29.
 //  Copyright © 2016年 admin. All rights reserved.
@@ -37,8 +37,9 @@
 #import "BackgroundTimer.h"
 #import "MessageViewController.h"
 #import "MapNaviSettingController.h"
+#import "LoginViewModel.h"
 
-@interface AppDelegate ()<GeTuiSdkDelegate>
+@interface AppDelegate ()//<GeTuiSdkDelegate>
 
 @end
 
@@ -63,7 +64,7 @@
     
     UIViewController* itemCtrl1 = [[TaskHomeController alloc] init];
     
-    UIViewController* itemCtrl2 = [[ViewController alloc] init];
+//    UIViewController* itemCtrl2 = [[ViewController alloc] init];
 //    itemCtrl2.view.backgroundColor = [UIColor grayColor];
     
     UIViewController* itemCtrl3 = [[MessageViewController alloc] init];
@@ -131,7 +132,9 @@
     
     [IQKeyboardManager sharedManager].enable = YES;
     
-    [GeTuiSdk startSdkWithAppId:GETUI_APPID appKey:GETUI_APPKEY appSecret:GETUI_APPSECRET delegate:self];
+//    [self startGeTuiSdk];
+    
+//    [GeTuiSdk clientId];
     // 注册 APNs
     [self registerRemoteNotification];
 //    double version = [UIDevice currentDevice].systemVersion.doubleValue;
@@ -203,6 +206,11 @@
     return YES;
 }
 
+//-(void)startGeTuiSdk{
+//    [GeTuiSdk startSdkWithAppId:GETUI_APPID appKey:GETUI_APPKEY appSecret:GETUI_APPSECRET delegate:self];
+////    [GeTuiSdk runBackgroundEnable:YES];
+//}
+
 /** 注册 APNs */
 - (void)registerRemoteNotification {
     /*
@@ -263,13 +271,6 @@
     // 将收到的APNs信息传给个推统计
     [GeTuiSdk handleRemoteNotification:userInfo];
     completionHandler(UIBackgroundFetchResultNewData);
-}
-
-#pragma GeTuiSdkDelegate
-/** SDK启动成功返回cid */
--(void)GeTuiSdkDidRegisterClient:(NSString *)clientId{
-    //    //个推SDK已注册，返回clientId
-    NSLog(@"\n>>>[GeTuiSdk RegisterClient]:%@\n\n", clientId);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

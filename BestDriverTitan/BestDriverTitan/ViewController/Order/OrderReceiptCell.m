@@ -43,11 +43,11 @@ static CGFloat minOrderReceiptHeight;
     return NO;
 }
 
--(CGFloat)getCellHeight{
+-(CGFloat)getCellHeight:(CGFloat)cellWidth{
     
     ShipmentTaskBean* bean = self.data;
     self.contentView.backgroundColor = [UIColor whiteColor];
-    CGFloat viewWidth = self.tableView.width;
+//    CGFloat viewWidth = self.tableView.width;
     CGFloat padding = RECEIPT_PHOTO_GAP;
     NSInteger hCount = 3;//一排3个
 //    NSLog(@"屏幕宽度%f",[UIScreen mainScreen].nativeBounds.size.width);
@@ -57,12 +57,12 @@ static CGFloat minOrderReceiptHeight;
 //    if (SYSTEM_SCALE > 2) {//3倍大小多一个
 //    }
     
-    CGFloat itemWidth = (viewWidth - padding * 2 - padding * (hCount - 1)) / hCount;
+    CGFloat itemWidth = (cellWidth - padding * 2 - padding * (hCount - 1)) / hCount;
     self.photoView.hGap = padding;
     self.photoView.itemSize = CGSizeMake(itemWidth, itemWidth);
     self.photoView.assetsArray = bean.assetsArray;
     if(self.cellVo.cellHeight > 0){
-        self.photoView.frame = CGRectMake(padding, padding, viewWidth - padding * 2, self.cellVo.cellHeight - padding * 2);
+        self.photoView.frame = CGRectMake(padding, padding, cellWidth - padding * 2, self.cellVo.cellHeight - padding * 2);
         return 0;
     }else{
         NSInteger itemCount = 2;
@@ -72,7 +72,7 @@ static CGFloat minOrderReceiptHeight;
         if (!minOrderReceiptHeight) {
             minOrderReceiptHeight = itemWidth * itemCount + padding * (itemCount - 1);
         }
-        self.photoView.frame = CGRectMake(padding, padding, viewWidth - padding * 2, minOrderReceiptHeight);
+        self.photoView.frame = CGRectMake(padding, padding, cellWidth - padding * 2, minOrderReceiptHeight);
         return minOrderReceiptHeight + padding * 2;
     }
 }

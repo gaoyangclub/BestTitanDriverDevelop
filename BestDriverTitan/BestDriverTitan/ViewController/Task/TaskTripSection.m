@@ -452,10 +452,10 @@
     };
     
     int pickupCount = bean.pickupCount; //生成0-15范围的随机数
-    int deliverCount = bean.deliverCount; //生成0-15范围的随机数
+    int deliveryCount = bean.deliveryCount; //生成0-15范围的随机数
     
     CGFloat areaX2 = areaWith;
-    self.shipUintCountText.attributedString = [self generateShipUnitString:iconColor pickupCount:pickupCount deliverCount:deliverCount];
+    self.shipUintCountText.attributedString = [self generateShipUnitString:iconColor pickupCount:pickupCount deliveryCount:deliveryCount];
     //[NSString simpleAttributedString:iconColor size:30 context:@"提50送50"];
     CGSize shipSize = [self.shipUintCountText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.shipUintCountText.frame = (CGRect){
@@ -472,14 +472,14 @@
 }
 
 
--(NSAttributedString *)generateShipUnitString:(UIColor*)color pickupCount:(int)pickupCount deliverCount:(int)deliverCount{
+-(NSAttributedString *)generateShipUnitString:(UIColor*)color pickupCount:(int)pickupCount deliveryCount:(int)deliveryCount{
     NSString* pickupString = NULL;
     if (pickupCount) {
         pickupString = ConcatStrings(@"提 ",[NSNumber numberWithInt:pickupCount],@" ");
     }
     NSString* deliverString = NULL;
-    if (deliverCount) {
-        deliverString = ConcatStrings(@"送 ",[NSNumber numberWithInt:deliverCount]);
+    if (deliveryCount) {
+        deliverString = ConcatStrings(@"送 ",[NSNumber numberWithInt:deliveryCount]);
     }
     NSString* context = ConcatStrings(pickupString ? pickupString : @"", deliverString ? deliverString : @"");
     NSMutableAttributedString* attrString = [[NSMutableAttributedString alloc]initWithString:context];
@@ -492,10 +492,10 @@
         [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:30] range:NSMakeRange(loc, pickupLength)];
         loc += pickupLength + 1;
     }
-    if (deliverCount) {
+    if (deliveryCount) {
         [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(loc, 2)];
         loc += 2;
-        NSUInteger deliverLength = [NSString stringWithFormat:@"%i", deliverCount].length;
+        NSUInteger deliverLength = [NSString stringWithFormat:@"%i", deliveryCount].length;
         [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:30] range:NSMakeRange(loc, deliverLength)];
         //        loc += deliverLength;
     }

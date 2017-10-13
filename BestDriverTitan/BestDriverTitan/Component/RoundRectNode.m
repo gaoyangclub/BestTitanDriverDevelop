@@ -83,6 +83,15 @@
                                  self.strokeColor,@"strokeColor",
                                  [NSNumber numberWithFloat:self.strokeWidth],@"strokeWidth",
                                  nil];
+//    NSDictionary * dictionary = @{@"fillColor":self.fillColor,
+//             @"cornerRadius":@(self.cornerRadius),
+//             @"topLeftRadius":@(self.topLeftRadius),
+//             @"topRightRadius":@(self.topRightRadius),
+//             @"bottomRightRadius":@(self.bottomRightRadius),
+//             @"bottomLeftRadius":@(self.bottomLeftRadius),
+//             @"strokeColor":self.strokeColor,
+//             @"strokeWidth":@(self.strokeWidth)
+//             };
     return dictionary;
 }
 

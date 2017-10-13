@@ -13,7 +13,7 @@
 
 @interface OrderViewController : MJTableViewController
 
-@property(nonatomic,retain)ShipmentBean* shipmentBean;
+//@property(nonatomic,retain)ShipmentBean* shipmentBean;
 @property(nonatomic,retain)ShipmentStopBean* stopBean;
 @property(nonatomic,retain)NSArray<ShipmentActivityBean*>* activityBeans;
 
