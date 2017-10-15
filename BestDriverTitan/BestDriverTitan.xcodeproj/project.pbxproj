@@ -181,6 +181,7 @@
 		84D1F8681E6567DF007C1307 /* ASControlNode+GY.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D1F8671E6567DF007C1307 /* ASControlNode+GY.m */; };
 		84FF1A201DF7E3A2000AEBC0 /* UICreationUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FF1A1F1DF7E3A2000AEBC0 /* UICreationUtils.m */; };
 		84FF1A241DF7EADE000AEBC0 /* UIArrowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FF1A231DF7EADE000AEBC0 /* UIArrowView.m */; };
+		A90C53001F920FB000416ABB /* MathUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A90C52FF1F920FB000416ABB /* MathUtils.m */; };
 		A910B18D1F3FEBE400CCAFCD /* STImageVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = A910B18A1F3FEBE400CCAFCD /* STImageVIew.m */; };
 		A910B18E1F3FEBE400CCAFCD /* STPhotoBroswer.m in Sources */ = {isa = PBXBuildFile; fileRef = A910B18C1F3FEBE400CCAFCD /* STPhotoBroswer.m */; };
 		A910B1911F401C9F00CCAFCD /* PhotoBroswerController.m in Sources */ = {isa = PBXBuildFile; fileRef = A910B1901F401C9F00CCAFCD /* PhotoBroswerController.m */; };
@@ -551,6 +552,8 @@
 		84FF1A1F1DF7E3A2000AEBC0 /* UICreationUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICreationUtils.m; sourceTree = "<group>"; };
 		84FF1A221DF7EADE000AEBC0 /* UIArrowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIArrowView.h; sourceTree = "<group>"; };
 		84FF1A231DF7EADE000AEBC0 /* UIArrowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIArrowView.m; sourceTree = "<group>"; };
+		A90C52FE1F920FB000416ABB /* MathUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathUtils.h; sourceTree = "<group>"; };
+		A90C52FF1F920FB000416ABB /* MathUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MathUtils.m; sourceTree = "<group>"; };
 		A910B1891F3FEBE400CCAFCD /* STImageVIew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STImageVIew.h; sourceTree = "<group>"; };
 		A910B18A1F3FEBE400CCAFCD /* STImageVIew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STImageVIew.m; sourceTree = "<group>"; };
 		A910B18B1F3FEBE400CCAFCD /* STPhotoBroswer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPhotoBroswer.h; sourceTree = "<group>"; };
@@ -983,6 +986,8 @@
 				846D2B451F69289A00A49A6D /* GeographyUtils.m */,
 				8446216B1F7CE8B00044BB39 /* SystemAuthorityUtils.h */,
 				8446216C1F7CE8B00044BB39 /* SystemAuthorityUtils.m */,
+				A90C52FE1F920FB000416ABB /* MathUtils.h */,
+				A90C52FF1F920FB000416ABB /* MathUtils.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1807,6 +1812,7 @@
 				8478A2161E6407260076E8B4 /* TaskTripSection.m in Sources */,
 				84129A291E54579700151672 /* MJRefreshStateHeader.m in Sources */,
 				84AF249C1E94D88E00AF200D /* OrderNormalCell.m in Sources */,
+				A90C53001F920FB000416ABB /* MathUtils.m in Sources */,
 				84129A311E54579700151672 /* MJTableViewCell.m in Sources */,
 				8470A4C71F5E3E6100AF1830 /* BackgroundTimer.m in Sources */,
 				849CB35E1F5965BD00D77137 /* AVSpeechDataSource.m in Sources */,

@@ -345,10 +345,11 @@ static TaskViewModel* viewModel;
     if (!_hotArea) {
         _hotArea = [[HotMarkView alloc]init];
         _hotArea.fillColor = FlatRed;
-        _hotArea.title = @"hot";
+        _hotArea.title = @"新";
         _hotArea.titleSize = 12;
         _hotArea.titleColor = [UIColor whiteColor];
-        _hotArea.width = _hotArea.height = 40;
+        _hotArea.width = 30;
+        _hotArea.height = 30;
         [self.contentView addSubview:_hotArea];
     }
     return _hotArea;
