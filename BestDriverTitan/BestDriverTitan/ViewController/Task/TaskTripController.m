@@ -213,7 +213,7 @@ static NSArray<NSString*>* taskCodeArr;
     
     self.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_DI_TU target:self action:@selector(rightClick)];
     
-    self.titleLabel.text = self.shipmentBean.code;//@"TO12451516161";//标题显示TO号
+    self.titleLabel.text = self.shipmentCode;//@"TO12451516161";//标题显示TO号
     [self.titleLabel sizeToFit];
 //    self.titleView.bounds = titleLabel.bounds;
     self.navigationItem.titleView = self.titleLabel;//self.titleView;
@@ -276,7 +276,7 @@ static NSArray<NSString*>* taskCodeArr;
         return;
     }
     __weak __typeof(self) weakSelf = self;
-    [self.viewModel getStopList:self.shipmentBean.id returnBlock:^(id returnValue) {
+    [self.viewModel getStopList:self.shipmentId returnBlock:^(id returnValue) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if(!strongSelf){//界面已经被销毁
             return;

@@ -144,17 +144,17 @@
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AssetCell" id="fc0-k1-HNL" customClass="QBAssetCell">
-                                <rect key="frame" x="0.0" y="119" width="77.5" height="77.5"/>
+                                <rect key="frame" x="0.0" y="119" width="78" height="77"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="77.5" height="77.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="78" height="77"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0aq-fn-r9R">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0aq-fn-r9R">
                                             <rect key="frame" x="0.0" y="-10" width="78" height="88"/>
                                             <animations/>
                                         </imageView>
-                                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BwJ-KE-LWZ" customClass="QBVideoIndicatorView">
+                                        <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BwJ-KE-LWZ" customClass="QBVideoIndicatorView">
                                             <rect key="frame" x="0.0" y="58" width="78" height="20"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rKh-6o-xw7" customClass="QBVideoIconView">
@@ -201,10 +201,10 @@
                                                 <outlet property="videoIcon" destination="rKh-6o-xw7" id="5VY-OW-Y7V"/>
                                             </connections>
                                         </view>
-                                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uyS-Tg-Iyl">
+                                        <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uyS-Tg-Iyl">
                                             <rect key="frame" x="0.0" y="0.0" width="78" height="78"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m99-yj-HSc" customClass="QBCheckmarkView">
+                                                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m99-yj-HSc" customClass="QBCheckmarkView">
                                                     <rect key="frame" x="50" y="50" width="24" height="24"/>
                                                     <animations/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -263,12 +263,24 @@
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <button opaque="NO" tag="2" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VeO-Ud-Fgu">
+                                    <rect key="frame" x="513" y="12" width="80" height="30"/>
+                                    <animations/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="30" id="Ct7-8K-wbV"/>
+                                        <constraint firstAttribute="width" constant="80" id="Xhj-EV-TSu"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="17"/>
+                                    <state key="normal" title="全选"/>
+                                </button>
                             </subviews>
                             <animations/>
                             <constraints>
                                 <constraint firstItem="ECb-IR-iDS" firstAttribute="leadingMargin" secondItem="VE0-04-rKq" secondAttribute="leadingMargin" constant="10" id="FEv-X5-jjs"/>
                                 <constraint firstAttribute="trailing" secondItem="ECb-IR-iDS" secondAttribute="trailing" id="J81-RT-Aa4"/>
                                 <constraint firstItem="ECb-IR-iDS" firstAttribute="centerY" secondItem="VE0-04-rKq" secondAttribute="centerY" id="V8B-ko-Cer"/>
+                                <constraint firstItem="VeO-Ud-Fgu" firstAttribute="centerY" secondItem="VE0-04-rKq" secondAttribute="centerY" id="fue-Im-AEZ"/>
+                                <constraint firstAttribute="trailingMargin" secondItem="VeO-Ud-Fgu" secondAttribute="trailing" constant="10" id="x31-vd-tLw"/>
                             </constraints>
                         </collectionReusableView>
                         <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FooterView" id="sqR-h3-lW1">

@@ -339,22 +339,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BestDriverTitan/Component/PhotoSelectionView.m"
-            timestampString = "524147109.150525"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
-            landmarkName = "-initPhotoArea"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Order/OrderReceiptCell.m"
             timestampString = "524458603.105955"
             startingColumnNumber = "9223372036854775807"
@@ -452,11 +436,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Task/TaskViewController.m"
-            timestampString = "529383333.571051"
+            timestampString = "529829344.761132"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "379"
-            endingLineNumber = "379"
+            startingLineNumber = "380"
+            endingLineNumber = "380"
             landmarkName = "-generateSourceDataByShipmentList:svo:sourceData:startDate:"
             landmarkType = "5">
          </BreakpointContent>
@@ -516,11 +500,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Task/TaskViewCell.m"
-            timestampString = "529581383.532445"
+            timestampString = "529916546.09557"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "546"
-            endingLineNumber = "546"
+            startingLineNumber = "550"
+            endingLineNumber = "550"
             landmarkName = "-initTopArea:topWidth:topHeight:"
             landmarkType = "5">
          </BreakpointContent>
@@ -532,11 +516,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Task/TaskViewController.m"
-            timestampString = "529383333.571051"
+            timestampString = "529829344.761132"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "300"
-            endingLineNumber = "300"
+            startingLineNumber = "301"
+            endingLineNumber = "301"
             landmarkName = "-showTaskBadge:"
             landmarkType = "5">
          </BreakpointContent>
@@ -548,11 +532,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Task/TaskViewCell.m"
-            timestampString = "529581383.532445"
+            timestampString = "529829344.761132"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "534"
-            endingLineNumber = "534"
+            startingLineNumber = "536"
+            endingLineNumber = "536"
             landmarkName = "-initTopArea:topWidth:topHeight:"
             landmarkType = "5">
          </BreakpointContent>
@@ -564,11 +548,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Task/TaskViewCell.m"
-            timestampString = "529581383.532445"
+            timestampString = "529916546.09557"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "543"
-            endingLineNumber = "543"
+            startingLineNumber = "547"
+            endingLineNumber = "547"
             landmarkName = "-initTopArea:topWidth:topHeight:"
             landmarkType = "5">
          </BreakpointContent>
@@ -580,7 +564,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Order/OrderViewController.m"
-            timestampString = "528186486.953401"
+            timestampString = "530009525.259305"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "415"
@@ -628,11 +612,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Order/OrderViewController.m"
-            timestampString = "528377024.95335"
+            timestampString = "530009525.259305"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "647"
-            endingLineNumber = "647"
+            startingLineNumber = "648"
+            endingLineNumber = "648"
             landmarkName = "-submitReceiptTask"
             landmarkType = "5">
          </BreakpointContent>
@@ -659,13 +643,13 @@
                   symbolName = "+[NetRequestClass NetRequestUploadWithRequestURL:WithParameter:headers:images:WithReturnValeuBlock:WithProgressBlock:WithFailureBlock:]"
                   moduleName = "BestDriverTitan"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/admin/Documents/BestTitanDriverDevelop/BestDriverTitan/BestDriverTitan/Vendor/Request/NetRequestClass.m"
-                  timestampString = "527503848.597173"
+                  urlString = "file:///Users/admin/beston-ios/BestDriverTitan/BestDriverTitan/Vendor/Request/NetRequestClass.m"
+                  timestampString = "529921960.166884"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "272"
-                  endingLineNumber = "272"
-                  offsetFromSymbolStart = "1208">
+                  startingLineNumber = "273"
+                  endingLineNumber = "273"
+                  offsetFromSymbolStart = "1284">
                </Location>
                <Location
                   shouldBeEnabled = "No"
@@ -674,12 +658,12 @@
                   symbolName = "__135+[NetRequestClass NetRequestUploadWithRequestURL:WithParameter:headers:images:WithReturnValeuBlock:WithProgressBlock:WithFailureBlock:]_block_invoke"
                   moduleName = "BestDriverTitan"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/admin/Documents/BestTitanDriverDevelop/BestDriverTitan/BestDriverTitan/Vendor/Request/NetRequestClass.m"
-                  timestampString = "527503848.597441"
+                  urlString = "file:///Users/admin/beston-ios/BestDriverTitan/BestDriverTitan/Vendor/Request/NetRequestClass.m"
+                  timestampString = "529921960.167233"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "272"
-                  endingLineNumber = "272"
+                  startingLineNumber = "273"
+                  endingLineNumber = "273"
                   offsetFromSymbolStart = "80">
                </Location>
             </Locations>
@@ -688,7 +672,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Map/MapViewController.m"
@@ -851,22 +835,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BestDriverTitan/Component/PhotoSelectionView.m"
-            timestampString = "529297934.443726"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "196"
-            endingLineNumber = "196"
-            landmarkName = "-initPhotoArea"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/AppDelegate.m"
             timestampString = "529310698.002213"
             startingColumnNumber = "9223372036854775807"
@@ -884,27 +852,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Root/OwnerViewController.m"
-            timestampString = "529488753.478612"
+            timestampString = "529829344.761132"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "272"
-            endingLineNumber = "272"
-            landmarkName = "-GeTuiSdkDidReceivePayloadData:andTaskId:andMsgId:andOffLine:fromGtAppId:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BestDriverTitan/ViewController/Root/OwnerViewController.m"
-            timestampString = "529488753.478612"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "240"
-            endingLineNumber = "240"
+            startingLineNumber = "242"
+            endingLineNumber = "242"
             landmarkName = "-startGeTuiSdk"
             landmarkType = "5">
          </BreakpointContent>
@@ -916,11 +868,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Root/OwnerViewController.m"
-            timestampString = "529488753.478612"
+            timestampString = "529829344.761132"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "263"
-            endingLineNumber = "263"
+            startingLineNumber = "265"
+            endingLineNumber = "265"
             landmarkName = "-registerGeTuiAppClient:"
             landmarkType = "5">
          </BreakpointContent>
@@ -932,11 +884,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Task/TaskViewController.m"
-            timestampString = "529320143.208346"
+            timestampString = "529829344.761132"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
             landmarkName = "-eventRefresh"
             landmarkType = "5">
          </BreakpointContent>
@@ -948,11 +900,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Message/MessageViewController.m"
-            timestampString = "529490140.395761"
+            timestampString = "530096516.461781"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
             landmarkName = "-eventMessage:"
             landmarkType = "5">
          </BreakpointContent>
@@ -964,11 +916,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BestDriverTitan/ViewController/Root/OwnerViewController.m"
-            timestampString = "529488753.478612"
+            timestampString = "529829344.761132"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "255"
-            endingLineNumber = "255"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
             landmarkName = "-registerGeTuiAppClient:"
             landmarkType = "5">
             <Locations>
@@ -1043,13 +995,29 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BestDriverTitan/ViewController/Task/TaskViewCell.m"
-            timestampString = "529582272.172313"
+            filePath = "BestDriverTitan/Component/PhotoSelectionView.m"
+            timestampString = "529921596.99443"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1029"
-            endingLineNumber = "1029"
-            landmarkName = "-initTitleArea:"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
+            landmarkName = "-initPhotoArea"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BestDriverTitan/Component/PhotoSelectionView.m"
+            timestampString = "530072403.294463"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "515"
+            endingLineNumber = "515"
+            landmarkName = "-showPhotoByIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

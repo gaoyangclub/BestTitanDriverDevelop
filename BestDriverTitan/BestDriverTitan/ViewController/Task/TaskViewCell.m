@@ -18,6 +18,7 @@
 #import "TaskViewModel.h"
 #import "RoundBackView.h"
 #import "HotMarkView.h"
+#import "PushMessageHelper.h"
 
 //@interface RoundBackView:UIView
 //
@@ -345,11 +346,11 @@ static TaskViewModel* viewModel;
     if (!_hotArea) {
         _hotArea = [[HotMarkView alloc]init];
         _hotArea.fillColor = FlatRed;
-        _hotArea.title = @"新";
+        _hotArea.title = @"新";//@"hot";
         _hotArea.titleSize = 12;
         _hotArea.titleColor = [UIColor whiteColor];
-        _hotArea.width = 30;
-        _hotArea.height = 30;
+        _hotArea.width = _hotArea.height = 30;
+        _hotArea.x = _hotArea.y = 0;//左上角
         [self.contentView addSubview:_hotArea];
     }
     return _hotArea;
@@ -538,7 +539,9 @@ static TaskViewModel* viewModel;
             
             NSString *aString = [[NSString alloc] initWithData:returnValue encoding:NSUTF8StringEncoding];
             bean.expense = [aString floatValue];
-            
+//            if([bean.code isEqual:@"TO1710110015677482"]){
+//                NSLog(@"aaa");
+//            }
             if (bean.expense > 0 && ((ShipmentBean*)strongSelf.data).id == bean.id) {
 //                strongSelf.expenseText.attributedString = [NSString simpleAttributedString:[UIColor flatOrangeColor] size:14 content:[NSString stringWithFormat:@"%ld元",bean.expense]];
                 [strongSelf initTopArea:topY topWidth:topWidth topHeight:topHeight];
@@ -1008,7 +1011,8 @@ static TaskViewModel* viewModel;
     //    NSMutableAttributedString* attrString = [[NSMutableAttributedString alloc]initWithString:context];
     //    [attrString addAttribute:NSForegroundColorAttributeName value:COLOR_BLACK_ORIGINAL range:NSMakeRange(0, context.length)];
     //    [attrString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16] range:NSMakeRange(0, context.length)];
-    self.codeText.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:16 content:context];
+    CGFloat codeFontSize = 16;//SCREEN_WIDTH > IPHONE_5S_WIDTH ? 16 : 14;
+    self.codeText.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:codeFontSize content:context];
     //    [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:16 context:@"TO1251616161"];
     self.codeText.size = [self.codeText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.codeText.x = self.orderCountIcon.x;
@@ -1026,9 +1030,11 @@ static TaskViewModel* viewModel;
     self.stateArea.x = self.codeText.maxX + padding;
     self.stateArea.y = 5;//self.codeText.centerY;
     
-    self.hotArea.hidden = self.indexPath.row != 0;
-    if (!self.hotArea.hidden) {
-        self.hotArea.x = self.hotArea.y = 0;//左上角
+    AppPushMsg* pushMsg = [PushMessageHelper getPushMsgByLinkId:bean.id];
+    if (pushMsg && !pushMsg.isRead) {//未读显示
+        self.hotArea.hidden = NO;
+    }else if(self->_hotArea){
+        self.hotArea.hidden = YES;
     }
 //        self.stateArea.titleColor = [UIColor whiteColor];
 //        self.stateArea.fillColor = FlatRed;
@@ -1057,7 +1063,8 @@ static TaskViewModel* viewModel;
 //    }
 //    self.stateArea.hidden = bean.isComplete;
     
-    self.licencePlateText.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:bean.licencePlate];
+    CGFloat plateFontSize = SCREEN_WIDTH > IPHONE_5S_WIDTH ? 14 : 12;
+    self.licencePlateText.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:plateFontSize content:bean.licencePlate];
     CGSize liceneSize = [self.licencePlateText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     CGFloat plateWidth = liceneSize.width + 10;
     CGFloat plateHeight = liceneSize.height + 10;

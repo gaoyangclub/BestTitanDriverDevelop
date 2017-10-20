@@ -8,6 +8,9 @@
 
 #import "PhotoTranslateUtils.h"
 
+@interface PhotoAlbumVo()
+@property (unsafe_unretained) NSUInteger myHash;
+@end
 @implementation PhotoAlbumVo
 
 - (id)copyWithZone:(NSZone *)zone
@@ -15,8 +18,10 @@
     PhotoAlbumVo *aCopy = [[PhotoAlbumVo allocWithZone:zone] init];
     if(aCopy)
     {
+        aCopy.picture = self.picture;
         aCopy.phAsset = self.phAsset;
-        aCopy.image = self.image;
+//        aCopy.image = self.image;
+        aCopy.imageData = self.imageData;
     }
     return aCopy;
 }
@@ -43,12 +48,12 @@
 
 @implementation PhotoTranslateUtils
 
-static PHCachingImageManager* imageManager;
+static PHImageManager* imageManager;
 static NSCache* callBackCache;
 
 +(void)load{
     callBackCache = [[NSCache alloc]init];
-    imageManager = [[PHCachingImageManager alloc]init];
+    imageManager = [PHCachingImageManager defaultManager];
 }
 
 //+(PHCachingImageManager*)getImageManager{
@@ -72,7 +77,7 @@ static NSCache* callBackCache;
 //                                           }
 //                                       }];
 //        NSLog(@"phAsset burstIdentifier:%@",asset.phAsset.burstIdentifier);
-        if(asset.image){//直接回调
+        if(asset.imageData){//直接回调
             if (completeHandler) {
                 completeHandler();
             }
@@ -92,8 +97,8 @@ static NSCache* callBackCache;
         
         if (canTranslate) {//开始转换 [PhotoTranslateUtils getImageManager]
             [imageManager requestImageDataForAsset:asset.phAsset options:nil resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-                UIImage * result = [UIImage imageWithData:imageData];
-                asset.image = result;
+//                UIImage * result = [UIImage imageWithData:imageData];
+                asset.imageData = imageData;
 //                if (completeHandler) {
 //                    completeHandler();
 //                }
@@ -116,7 +121,7 @@ static NSCache* callBackCache;
 +(void)translateImagesByAssets:(NSInteger)currentIndex assets:(NSMutableArray<PhotoAlbumVo *> *)assets completeHandler:(void (^)())completeHandler{
     if (currentIndex < assets.count) {
         PhotoAlbumVo * asset = assets[currentIndex];
-        if (asset.phAsset && !asset.image) {//开始解析
+        if (!asset.picture && asset.phAsset && !asset.imageData) {//开始解析
             [PhotoTranslateUtils translateImageByAsset:asset completeHandler:^{
                 [PhotoTranslateUtils translateImagesByAssets:currentIndex + 1 assets:assets completeHandler:completeHandler];
             }];

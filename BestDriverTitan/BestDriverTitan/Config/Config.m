@@ -219,10 +219,18 @@ static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不�
 }
 
 +(NSString *)getPgyerAppID{
-//    if (DEBUG_MODE) {
+    if (DEBUG_MODE) {
 //        return @"0e8c9bf2a0d8fcbaf37a90353405c6c0";
-//    }
-    return @"dba51660a44c3e00888ce2a4b24af81a";
+        return @"dba51660a44c3e00888ce2a4b24af81a";
+    }
+    return @"5953c90ad7c4d2e8ca9450269c1d81ea";
+}
+
++(NSString *)getPgyerApiKey{
+    if (DEBUG_MODE) {
+        return @"72fabb9ca801817be273e54018a6b42d";
+    }
+    return @"0e11b5e0eaa8fe91f7e3a60efc8fb744";
 }
 
 +(NSString *)getUMengAppID{

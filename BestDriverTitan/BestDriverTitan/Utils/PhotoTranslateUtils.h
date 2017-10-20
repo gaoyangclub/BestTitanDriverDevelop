@@ -12,9 +12,9 @@ typedef void (^TranslateCompletionHandler)();//定义block结构
 
 @interface PhotoAlbumVo : NSObject<NSCopying>
 
-@property (unsafe_unretained) NSUInteger myHash;
-
-@property(nonatomic,retain)UIImage* image;
+@property(nonatomic,retain)UIImage* picture;//用拍照的
+//图片原始二进制数据
+@property(nonatomic,retain)NSData* imageData;
 @property(nonatomic,retain)PHAsset* phAsset;
 
 @end

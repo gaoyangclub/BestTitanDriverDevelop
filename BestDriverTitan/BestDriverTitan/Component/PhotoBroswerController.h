@@ -17,7 +17,7 @@
 
 @interface PhotoBroswerController : UIViewController
 
-@property (nonatomic, strong) NSArray<UIImage*> * imageArray;
+@property (nonatomic, retain) NSArray* imageArray;
 @property (nonatomic, assign) NSInteger selectedIndex;
 @property (nonatomic, weak) id<PhotoBroswerDelegate> delegate;
 

@@ -54,7 +54,7 @@ typedef void (^ProgressValueBlock) (float completed,float total,NSString* title)
 + (void) NetRequestUploadWithRequestURL: (NSString *) requestURLString
                           WithParameter: (NSDictionary *) parameter
                                 headers: (NSDictionary <NSString *, NSString *> *) headers
-                                 images: (NSArray<UIImage*>*) images
+                                 images: (NSArray*) images
                    WithReturnValeuBlock: (ReturnValueBlock) block
                       WithProgressBlock: (ProgressValueBlock) progressBlock
                        WithFailureBlock: (FailureBlock) failureBlock;

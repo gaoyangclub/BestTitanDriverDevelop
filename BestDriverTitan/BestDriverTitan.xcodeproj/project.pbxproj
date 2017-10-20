@@ -65,6 +65,8 @@
 		8439A1C41F25C9F500E629C8 /* AppVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 8439A1C31F25C9F500E629C8 /* AppVersion.m */; };
 		8439A1C71F25CE2D00E629C8 /* VersionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8439A1C61F25CE2D00E629C8 /* VersionManager.m */; };
 		8439A1CC1F25D93300E629C8 /* LocalBundleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8439A1CB1F25D93300E629C8 /* LocalBundleManager.m */; };
+		84415F0A1F9455E400562C6E /* MathUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 84415F091F9455E400562C6E /* MathUtils.m */; };
+		84415F0D1F94620300562C6E /* PushMessageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 84415F0C1F94620300562C6E /* PushMessageHelper.m */; };
 		844345E71F8F0C78004FA4B7 /* RoundBackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 844345E61F8F0C78004FA4B7 /* RoundBackView.m */; };
 		8446216A1F7CC8030044BB39 /* CustomAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 844621691F7CC8030044BB39 /* CustomAnnotationView.m */; };
 		8446216D1F7CE8B00044BB39 /* SystemAuthorityUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 8446216C1F7CE8B00044BB39 /* SystemAuthorityUtils.m */; };
@@ -181,7 +183,6 @@
 		84D1F8681E6567DF007C1307 /* ASControlNode+GY.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D1F8671E6567DF007C1307 /* ASControlNode+GY.m */; };
 		84FF1A201DF7E3A2000AEBC0 /* UICreationUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FF1A1F1DF7E3A2000AEBC0 /* UICreationUtils.m */; };
 		84FF1A241DF7EADE000AEBC0 /* UIArrowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FF1A231DF7EADE000AEBC0 /* UIArrowView.m */; };
-		A90C53001F920FB000416ABB /* MathUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A90C52FF1F920FB000416ABB /* MathUtils.m */; };
 		A910B18D1F3FEBE400CCAFCD /* STImageVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = A910B18A1F3FEBE400CCAFCD /* STImageVIew.m */; };
 		A910B18E1F3FEBE400CCAFCD /* STPhotoBroswer.m in Sources */ = {isa = PBXBuildFile; fileRef = A910B18C1F3FEBE400CCAFCD /* STPhotoBroswer.m */; };
 		A910B1911F401C9F00CCAFCD /* PhotoBroswerController.m in Sources */ = {isa = PBXBuildFile; fileRef = A910B1901F401C9F00CCAFCD /* PhotoBroswerController.m */; };
@@ -345,6 +346,10 @@
 		8439A1C61F25CE2D00E629C8 /* VersionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionManager.m; sourceTree = "<group>"; };
 		8439A1CA1F25D93300E629C8 /* LocalBundleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalBundleManager.h; sourceTree = "<group>"; };
 		8439A1CB1F25D93300E629C8 /* LocalBundleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalBundleManager.m; sourceTree = "<group>"; };
+		84415F081F9455E400562C6E /* MathUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathUtils.h; sourceTree = "<group>"; };
+		84415F091F9455E400562C6E /* MathUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MathUtils.m; sourceTree = "<group>"; };
+		84415F0B1F94620300562C6E /* PushMessageHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushMessageHelper.h; sourceTree = "<group>"; };
+		84415F0C1F94620300562C6E /* PushMessageHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushMessageHelper.m; sourceTree = "<group>"; };
 		844345E51F8F0C78004FA4B7 /* RoundBackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundBackView.h; sourceTree = "<group>"; };
 		844345E61F8F0C78004FA4B7 /* RoundBackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundBackView.m; sourceTree = "<group>"; };
 		844621681F7CC8030044BB39 /* CustomAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnnotationView.h; sourceTree = "<group>"; };
@@ -552,8 +557,6 @@
 		84FF1A1F1DF7E3A2000AEBC0 /* UICreationUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICreationUtils.m; sourceTree = "<group>"; };
 		84FF1A221DF7EADE000AEBC0 /* UIArrowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIArrowView.h; sourceTree = "<group>"; };
 		84FF1A231DF7EADE000AEBC0 /* UIArrowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIArrowView.m; sourceTree = "<group>"; };
-		A90C52FE1F920FB000416ABB /* MathUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathUtils.h; sourceTree = "<group>"; };
-		A90C52FF1F920FB000416ABB /* MathUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MathUtils.m; sourceTree = "<group>"; };
 		A910B1891F3FEBE400CCAFCD /* STImageVIew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STImageVIew.h; sourceTree = "<group>"; };
 		A910B18A1F3FEBE400CCAFCD /* STImageVIew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STImageVIew.m; sourceTree = "<group>"; };
 		A910B18B1F3FEBE400CCAFCD /* STPhotoBroswer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPhotoBroswer.h; sourceTree = "<group>"; };
@@ -986,8 +989,10 @@
 				846D2B451F69289A00A49A6D /* GeographyUtils.m */,
 				8446216B1F7CE8B00044BB39 /* SystemAuthorityUtils.h */,
 				8446216C1F7CE8B00044BB39 /* SystemAuthorityUtils.m */,
-				A90C52FE1F920FB000416ABB /* MathUtils.h */,
-				A90C52FF1F920FB000416ABB /* MathUtils.m */,
+				84415F081F9455E400562C6E /* MathUtils.h */,
+				84415F091F9455E400562C6E /* MathUtils.m */,
+				84415F0B1F94620300562C6E /* PushMessageHelper.h */,
+				84415F0C1F94620300562C6E /* PushMessageHelper.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1542,6 +1547,7 @@
 				TargetAttributes = {
 					840DEF651DED6E3100963524 = {
 						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = XZATG76F8M;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -1794,6 +1800,7 @@
 				848A380A1F3D4E1A00B15E4B /* QBAssetCell.m in Sources */,
 				84129A241E54579700151672 /* MJRefreshBackGifFooter.m in Sources */,
 				A910B18D1F3FEBE400CCAFCD /* STImageVIew.m in Sources */,
+				84415F0D1F94620300562C6E /* PushMessageHelper.m in Sources */,
 				847278B71DF1767300C1BACB /* BaseViewModel.m in Sources */,
 				8432C1411F90C00100C46E6D /* HotMarkView.m in Sources */,
 				841299DB1E542D0D00151672 /* DiyLicensePlateNode.m in Sources */,
@@ -1812,7 +1819,7 @@
 				8478A2161E6407260076E8B4 /* TaskTripSection.m in Sources */,
 				84129A291E54579700151672 /* MJRefreshStateHeader.m in Sources */,
 				84AF249C1E94D88E00AF200D /* OrderNormalCell.m in Sources */,
-				A90C53001F920FB000416ABB /* MathUtils.m in Sources */,
+				84415F0A1F9455E400562C6E /* MathUtils.m in Sources */,
 				84129A311E54579700151672 /* MJTableViewCell.m in Sources */,
 				8470A4C71F5E3E6100AF1830 /* BackgroundTimer.m in Sources */,
 				849CB35E1F5965BD00D77137 /* AVSpeechDataSource.m in Sources */,

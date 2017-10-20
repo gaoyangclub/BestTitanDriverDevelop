@@ -11,7 +11,7 @@
 @interface STPhotoBroswer : UIView
 
 
-@property (nonatomic, strong) NSArray<UIImage*> * imageArray;
+@property (nonatomic, strong) NSArray* imageArray;//UIImage实例或NSData二进制实例
 @property (nonatomic, assign) NSInteger index;
 
 

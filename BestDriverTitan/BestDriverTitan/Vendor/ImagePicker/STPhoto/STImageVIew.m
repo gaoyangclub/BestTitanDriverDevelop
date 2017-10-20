@@ -10,6 +10,9 @@
 
 @interface STImageVIew()<UIGestureRecognizerDelegate>{
     CGFloat _lastScale;//记录最后一次的图片放大倍数
+    BOOL isShow;
+//    BOOL isTranslate;//图片正在转换中
+//    PHImageRequestID rid;
 }
 /**手机屏幕高度不够用的时候 用于显示完整图片*/
 @property (nonatomic, strong) UIScrollView * scrollView;
@@ -20,6 +23,7 @@
 /**用于显示 放大缩小的 图片*/
 @property (nonatomic, strong) UIImageView * scaleImgV;
 @property (nonatomic, assign) BOOL doubleAction;
+
 @end
 @implementation STImageVIew
 - (instancetype)initWithFrame:(CGRect)frame{
@@ -157,4 +161,63 @@
     self.scaleScrollView = nil;
     self.scaleImgV = nil;
 }
+
+//-(void)setPhAsset:(PHAsset *)phAsset{
+//    _phAsset = phAsset;
+//    self.imageData = nil;//清除掉
+//}
+
+//-(void)translateAssetImage:(CGSize)targetSize completeHandler:(void (^)(STImageVIew*))completeHandler{
+//    if (self.imageData) {
+//        [self showImage];
+//        if (completeHandler) {
+//            completeHandler(self);
+//        }
+//    }else if (self.phAsset && !self.imageData && !self->isTranslate) {//还没有图片
+//        __weak __typeof(self) weakSelf = self;
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0), ^{//后台线程执行
+//            __strong typeof(weakSelf) strongSelf = weakSelf;
+//            strongSelf->isTranslate = YES;
+//            strongSelf->rid = [[PHCachingImageManager defaultManager] requestImageForAsset:strongSelf.phAsset
+//                                                              targetSize:targetSize
+//                                                             contentMode:PHImageContentModeAspectFill
+//                                                                 options:nil
+//                                                           resultHandler:^(UIImage *result, NSDictionary *info) {
+//                                                               strongSelf.imageData = UIImageJPEGRepresentation(result, 0.1);
+//                                                               strongSelf->isTranslate = NO;//转换结束
+//                                                               if (completeHandler) {
+//                                                                   completeHandler(strongSelf);
+//                                                               }
+//                                                               if (strongSelf->isShow) {//需要显示
+//                                                                   dispatch_async(dispatch_get_main_queue(),^{//主线程刷新
+//                                                                       strongSelf.image = result;
+//                                                                   });
+//                                                               }
+//                                                           }];
+//        });
+//    }else{
+//        if (completeHandler) {
+//            completeHandler(self);
+//        }
+//    }
+//}
+
+-(void)showImage{
+    self->isShow = YES;
+    if (!self.image && self.imageData) {
+        self.image = [UIImage imageWithData:self.imageData];//转换一次即可
+    }
+}
+
+-(void)hideImage{
+    self->isShow = NO;
+    self.image = nil;
+//    if (self->isTranslate) {
+//        [[PHCachingImageManager defaultManager] cancelImageRequest:self->rid];//停止转换
+//        self->isTranslate = NO;
+//    }
+}
+
+
+
 @end

@@ -12,7 +12,9 @@
 
 @interface TaskTripController : MJTableViewController
 
-@property(nonatomic,retain)ShipmentBean* shipmentBean;
+//@property(nonatomic,retain)ShipmentBean* shipmentBean;
+@property(nonatomic,assign)long shipmentId;
+@property(nonatomic,copy)NSString* shipmentCode;
 
 @property(nonatomic,copy)__block ReturnValueBlock returnBlock;
 

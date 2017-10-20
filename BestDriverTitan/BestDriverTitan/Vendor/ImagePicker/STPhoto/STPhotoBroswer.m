@@ -13,7 +13,9 @@
 //#define Screen_Height [UIScreen mainScreen].bounds.size.height
 //图片距离左右 间距
 #define SpaceWidth    0
-@interface STPhotoBroswer ()<STImageViewDelegate,UIScrollViewDelegate>
+@interface STPhotoBroswer ()<STImageViewDelegate,UIScrollViewDelegate>{
+    BOOL imagesChange;
+}
 @property (nonatomic, strong) UIScrollView * scrollView;
 //@property (nonatomic, strong) UILabel * numberLabel;
 @end
@@ -38,6 +40,7 @@
 - (void)setImageArray:(NSArray *)imageArray
 {
     _imageArray = imageArray;
+    imagesChange = YES;
     [self setNeedsLayout];
 }
 
@@ -66,31 +69,41 @@
 //}
 - (void)setUpView{
     int index = 0;
-    [self removeAllSubLayers:self.scrollView];
-    for (UIImage * image in self.imageArray) {
-        if (![image isKindOfClass:[UIImage class]]) {
-            continue;
+    [self removeAllSubViews];
+//    [self removeAllSubviews:self.scrollView];
+    for (id data in self.imageArray) {
+        NSData* imageData;
+        PHAsset* asset;
+        if ([data isKindOfClass:[UIImage class]]) {
+            imageData = UIImageJPEGRepresentation(data, 1);//转换成二进制数据
+        }else if([data isKindOfClass:[NSData class]]){
+            imageData = data;//[UIImage imageWithData:data];
+        }else if([data isKindOfClass:[PHAsset class]]){
+            asset = data;
+        }else{
+            continue;//其他类型暂不支持
         }
         STImageVIew * imageView = [[STImageVIew alloc]init];
         imageView.contentMode = UIViewContentModeScaleAspectFit;
         imageView.delegate = self;
-        imageView.image = image;
+//        imageView.phAsset = asset;
+        imageView.imageData = imageData;
+//        imageView.image = image;
         imageView.tag = index;
         [self.scrollView addSubview:imageView];
         index ++;
     }
 }
 
-- (void)removeAllSubLayers:(UIView *)parent
-{
-    if (parent.subviews == nil || parent.subviews.count == 0) {
-        return;
-    }
-    for (UIView* sub in parent.subviews) {
-        [sub removeFromSuperview];
-    }
-}
-
+//- (void)removeAllSubViews:(UIView *)parent
+//{
+//    if (parent.subviews == nil || parent.subviews.count == 0) {
+//        return;
+//    }
+//    for (UIView* sub in parent.subviews) {
+//        [sub removeFromSuperview];
+//    }
+//}
 
 #pragma mark ---UIScrollViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
@@ -105,23 +118,78 @@
     }];
 //    self.numberLabel.text = [NSString stringWithFormat:@"%d/%d",self.index + 1,self.imageArray.count];
 }
+
+-(void)checkPhotoFrame:(UIScrollView *)scrollView{
+//    CGFloat scale = [[UIScreen mainScreen] scale];
+    CGRect nowRect = CGRectMake(scrollView.contentOffset.x, 0, scrollView.frame.size.width, scrollView.frame.size.height);
+    [scrollView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:[STImageVIew class]]) {
+            if(CGRectIntersectsRect(obj.frame,nowRect)){//有重叠 显示
+//                if ([(STImageVIew*)obj phAsset]) {
+//                    //                    CGSize itemSize = obj.frame.size;
+//                    CGSize targetSize = CGSizeMake(nowRect.size.width * scale,nowRect.size.height * scale);
+////                    scrollView.userInteractionEnabled = NO;//不能交互
+//                    [(STImageVIew*)obj translateAssetImage:targetSize completeHandler:nil];
+//                }else{
+                    [(STImageVIew*)obj showImage];
+//                }
+            }else{
+                [(STImageVIew*)obj hideImage];
+            }
+        }
+    }];
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    [self checkPhotoFrame:scrollView];
+}
+
 - (void)layoutSubviews{
     [super layoutSubviews];
     
-    CGFloat Screen_Width = self.frame.size.width;
-    CGFloat Screen_Height = self.frame.size.height;
+    CGFloat const Screen_Width = self.frame.size.width;
+    CGFloat const Screen_Height = self.frame.size.height;
     
-    //主要为了设置每个图片的间距，并且使 图片铺满整个屏幕，实际上就是scrollview每一页的宽度是 屏幕宽度+2*Space  居中。图片左边从每一页的 Space开始，达到间距且居中效果。
-    [self setUpView];
-    _scrollView.frame = CGRectMake(0, 0, Screen_Width + 2 * SpaceWidth,Screen_Height);
-    _scrollView.contentSize = CGSizeMake((Screen_Width + 2 * SpaceWidth) * self.imageArray.count, Screen_Height);
-    _scrollView.contentOffset = CGPointMake((Screen_Width + 2 * SpaceWidth) * self.index, 0);
-//    _scrollView.center = self.center;
-    [self.scrollView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        obj.frame = CGRectMake(SpaceWidth + (Screen_Width + 2 * SpaceWidth) * idx, 0,Screen_Width,Screen_Height);
-//        obj.frame = CGRectMake(SpaceWidth + (Screen_Width + 20) * idx, 0,Screen_Width,Screen_Height);
-    }];
+    if (imagesChange) {
+        imagesChange = NO;//图片变化了触发
+        //主要为了设置每个图片的间距，并且使 图片铺满整个屏幕，实际上就是scrollview每一页的宽度是 屏幕宽度+2*Space  居中。图片左边从每一页的 Space开始，达到间距且居中效果。
+        [self setUpView];
+        _scrollView.frame = CGRectMake(0, 0, Screen_Width + 2 * SpaceWidth,Screen_Height);
+        _scrollView.contentSize = CGSizeMake((Screen_Width + 2 * SpaceWidth) * self.imageArray.count, Screen_Height);
+        _scrollView.contentOffset = CGPointMake((Screen_Width + 2 * SpaceWidth) * self.index, 0);
+        //    _scrollView.center = self.center;
+        [self.scrollView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            obj.frame = CGRectMake(SpaceWidth + (Screen_Width + 2 * SpaceWidth) * idx, 0,Screen_Width,Screen_Height);
+            //        obj.frame = CGRectMake(SpaceWidth + (Screen_Width + 20) * idx, 0,Screen_Width,Screen_Height);
+        }];
+        
+//        CGFloat scale = [[UIScreen mainScreen] scale];
+//        CGSize targetSize = CGSizeMake(Screen_Width * scale,Screen_Height * scale);
+//        
+//        [self checkNextImageView:0 targetSize:targetSize];
+        
+        [self checkPhotoFrame:self.scrollView];
+    }
 }
+
+//-(void)checkNextImageView:(NSInteger)index targetSize:(CGSize)targetSize{
+//    if (index < self.scrollView.subviews.count) {
+//        id obj = self.scrollView.subviews[index];
+//        if([obj isKindOfClass:[STImageVIew class]]){
+//            STImageVIew* imageView = obj;
+//            __weak __typeof(self) weakSelf = self;
+//            [imageView translateAssetImage:targetSize completeHandler:^(STImageVIew *nowView) {
+//                [weakSelf checkNextImageView:index + 1 targetSize:targetSize];
+//            }];
+//        }else{
+//            [self checkNextImageView:index + 1 targetSize:targetSize];
+//        }
+//    }else{//解析结束
+//        [self checkPhotoFrame:self.scrollView];
+//    }
+//}
+
+
 - (void)show{
     CGFloat Screen_Width = self.frame.size.width;
     CGFloat Screen_Height = self.frame.size.height;

@@ -31,7 +31,7 @@ static CGFloat minOrderReceiptHeight;
         _photoView = [[PhotoSelectionView alloc]init];
         //        [[PhotoSelectionView alloc]initWithFrame:CGRectNull collectionViewLayout:[[UICollectionViewLayout alloc]init]];
         [self.contentView addSubview:_photoView];
-//        _photoView.maxSelectCount = 6;//最多选6个//不做限制
+        _photoView.maxSelectCount = 50;//最多选6个//不做限制
         _photoView.parentController = [OwnerViewController sharedInstance];
         _photoView.scrollDirection = UICollectionViewScrollDirectionVertical;
         _photoView.selectionDelegate = self;

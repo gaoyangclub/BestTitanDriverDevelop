@@ -131,7 +131,7 @@
     if (!_photoView) {
         _photoView = [[PhotoSelectionView alloc]init];
         [self.photoContainer addSubview:_photoView];
-        //        _photoView.maxSelectCount = 6;//最多选6个
+        _photoView.maxSelectCount = 50;//最多选50个
         _photoView.parentController = [OwnerViewController sharedInstance];
     }
     return _photoView;
@@ -412,7 +412,8 @@
         handler(count > 0);
         
     } failureBlock:^(NSString *errorCode, NSString *errorMsg) {
-        NSLog(@"%@",errorMsg);
+//        NSLog(@"%@",errorMsg);
+        [HudManager showToast:errorMsg];
     }];
 //    int64_t delay = 1.0 * NSEC_PER_SEC;
 //    

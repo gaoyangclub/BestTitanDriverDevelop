@@ -728,11 +728,102 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
         [formatter setDateFormat:@"yyyy-MM-dd"];
         
         UILabel *label = (UILabel *)[headerView viewWithTag:1];
+        UIButton *button = (UIButton *)[headerView viewWithTag:2];
+        if(self.imagePickerController.allowsMultipleSelection){
+            button.hidden = NO;
+//            [button setTitle:@"试试啊" forState:UIControlStateNormal];
+            objc_setAssociatedObject(button, "indexPath", indexPath, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+            [button addTarget:self action:@selector(buttonAllSeletionClick:) forControlEvents:UIControlEventTouchUpInside];
+        }else{
+            button.hidden = YES;
+        }
         
         label.text = [formatter stringFromDate:assetCollection.startDate];
         return headerView;
     }
     return nil;
+}
+
+-(void)buttonAllSeletionClick:(UIButton*)button{
+    NSIndexPath *indexPath = objc_getAssociatedObject(button, "indexPath");
+    if (indexPath) {
+        
+        QBImagePickerController *imagePickerController = self.imagePickerController;
+        NSMutableOrderedSet *selectedAssets = imagePickerController.selectedAssets;
+        
+        PHFetchResult* result = [self getFetchResultByIndexPath:indexPath];
+        NSInteger resultCount = result.count;
+        
+        if ([[button titleForState:UIControlStateNormal] isEqual:@"全选"]) {
+            [button setTitle:@"取消全选" forState:UIControlStateNormal];
+//            if ([self isAutoDeselectEnabled] && selectedAssets.count > 0) {
+//                // Remove previous selected asset from set
+//                [selectedAssets removeObjectAtIndex:0];
+//                
+//                // Deselect previous selected asset
+//                if (self.lastSelectedItemIndexPath) {
+//                    [collectionView deselectItemAtIndexPath:self.lastSelectedItemIndexPath animated:NO];
+//                }
+//            }
+            
+//            indexPath.section
+            for (NSInteger i = 0; i < resultCount;  i ++) {
+                PHAsset *asset = result[i];
+                //        PHAsset *asset = result[indexPath.item];
+                // Add asset to set
+                [selectedAssets addObject:asset];
+//                [self.collectionView deselectItemAtIndexPath:self.lastSelectedItemIndexPath animated:NO];
+                [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:i inSection:indexPath.section] animated:YES scrollPosition:UICollectionViewScrollPositionNone];
+            }
+            
+            self.lastSelectedItemIndexPath = indexPath;
+            
+            [self updateDoneButtonState];
+            
+            if (self.imagePickerController.showsNumberOfSelectedAssets) {
+                [self updateSelectionInfo];
+                
+                if (selectedAssets.count == 1) {
+                    // Show toolbar
+                    [self.navigationController setToolbarHidden:NO animated:YES];
+                }
+            }
+            
+//            if ([imagePickerController.delegate respondsToSelector:@selector(qb_imagePickerController:didSelectAsset:)]) {
+//                [imagePickerController.delegate qb_imagePickerController:imagePickerController didSelectAsset:asset];
+//            }
+            
+        }else if ([[button titleForState:UIControlStateNormal] isEqual:@"取消全选"]) {
+            
+            [button setTitle:@"全选" forState:UIControlStateNormal];
+            
+            
+            for (NSInteger i = 0; i < resultCount;  i ++) {
+                PHAsset *asset = result[i];
+                //        PHAsset *asset = result[indexPath.item];
+                // Add asset to set
+                [selectedAssets removeObject:asset];
+                [self.collectionView deselectItemAtIndexPath:[NSIndexPath indexPathForItem:i inSection:indexPath.section] animated:NO];
+            }
+            
+            self.lastSelectedItemIndexPath = nil;
+            
+            [self updateDoneButtonState];
+            
+            if (imagePickerController.showsNumberOfSelectedAssets) {
+                [self updateSelectionInfo];
+                
+                if (selectedAssets.count == 0) {
+                    // Hide toolbar
+                    [self.navigationController setToolbarHidden:YES animated:YES];
+                }
+            }
+            
+//            if ([imagePickerController.delegate respondsToSelector:@selector(qb_imagePickerController:didDeselectAsset:)]) {
+//                [imagePickerController.delegate qb_imagePickerController:imagePickerController didDeselectAsset:asset];
+//            }
+        }
+    }
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{

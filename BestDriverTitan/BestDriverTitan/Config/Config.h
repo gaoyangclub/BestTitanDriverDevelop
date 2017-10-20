@@ -42,7 +42,7 @@
 
 //蒲公英appId
 #define PGY_APPID [Config getPgyerAppID]
-#define PGY_APIKEY @"72fabb9ca801817be273e54018a6b42d"
+#define PGY_APIKEY [Config getPgyerApiKey]
 
 #define UM_APPID [Config getUMengAppID]//友盟
 
@@ -81,7 +81,7 @@
 #define ICON_DAI_WAN_CHENG @"\U0000e699"
 #define ICON_SHI_JIAN @"\U0000e65b" //@"\U0000e610"
 #define ICON_JU_LI @"\U0000e60a"//@"\U0000e63c"
-#define ICON_JIN_QIAN @"\U0000e605"//@"\U0000e642"
+#define ICON_JIN_QIAN @"\U0000e637"//@"\U0000e605"//@"\U0000e642"
 #define ICON_QI_DIAN @"\U0000e674"
 #define ICON_ZHONG_DIAN @"\U0000e673"
 
@@ -288,6 +288,8 @@ static AppVersion* appVersion;
 +(BOOL)isDebugMode;
 
 +(NSString*)getPgyerAppID;
+
++(NSString *)getPgyerApiKey;
 
 +(NSString*)getUMengAppID;
 

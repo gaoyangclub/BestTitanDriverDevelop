@@ -25,6 +25,7 @@
 #import "LoginViewModel.h"
 #import "AppDelegate.h"
 #import "AppPushMsg.h"
+#import "PushMessageHelper.h"
 
 
 static OwnerViewController* instance;
@@ -140,12 +141,12 @@ static OwnerViewController* instance;
 }
 
 -(void)autoLoginComplete:(User *)user{
-    
-    NSNumber* modeValue = [UserDefaultsUtils getObject:NET_MODE_KEY];
-    if (modeValue) {
-        [NetConfig setCurrentNetMode:[modeValue integerValue]];
+    if (DEBUG_MODE) {//调试版要自动设置存储的线路
+        NSNumber* modeValue = [UserDefaultsUtils getObject:NET_MODE_KEY];
+        if (modeValue) {
+            [NetConfig setCurrentNetMode:[modeValue integerValue]];
+        }
     }
-    
     if ([user isAdmin]) {//管理员权限
         [self popAdminView:YES completion:nil];
     }else{
@@ -199,7 +200,7 @@ static OwnerViewController* instance;
         [self startGeTuiSdk];
 //            [(AppDelegate*)[UIApplication sharedApplication].delegate startGeTuiSdk];
 //        });
-        
+        [PushMessageHelper start];//开启推送存储
         [AmapLocationService startUpdatingLocation];//定位开启
         [BackgroundTimer start:HEART_BEAT_INTERVAL];
         // 延迟2秒执行：
@@ -219,6 +220,7 @@ static OwnerViewController* instance;
         [self popAdminView:YES completion:completion];
     }else{
         [GeTuiSdk destroy];//关闭推送
+        [PushMessageHelper stop];//停止并清除数据
         [AmapLocationService stopUpdatingLocation];//关闭定位
         [BackgroundTimer clear];
         [UserDefaultsUtils removeObject:USER_KEY];//清除数据
@@ -270,14 +272,13 @@ static OwnerViewController* instance;
 #pragma GeTuiSdkDelegate
 -(void)GeTuiSdkDidReceivePayloadData:(NSData *)payloadData andTaskId:(NSString *)taskId andMsgId:(NSString *)msgId andOffLine:(BOOL)offLine fromGtAppId:(NSString *)appId{
     if (payloadData) {
-//        NSString *payloadMsg = [[NSString alloc] initWithBytes:payloadData.bytes
-//                                              length:payloadData.length
-//                                            encoding:NSUTF8StringEncoding];
+        NSString *payloadMsg = [[NSString alloc] initWithBytes:payloadData.bytes
+                                              length:payloadData.length
+                                            encoding:NSUTF8StringEncoding];
+        NSLog(@"Payload Msg:%@", payloadMsg);
         AppPushMsg* pushMsg = [AppPushMsg yy_modelWithJSON:payloadData];
         [self sendPushMsg:pushMsg];
     }
-//    NSLog(@"Payload Msg:%@", payloadMsg);
-    
     // 汇报个推自定义事件
     [GeTuiSdk sendFeedbackMessage:90001 andTaskId:taskId andMsgId:msgId];
 }

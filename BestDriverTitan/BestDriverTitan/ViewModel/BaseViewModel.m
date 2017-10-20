@@ -79,11 +79,12 @@
     __weak __typeof(self) weakSelf = self;
     [PhotoTranslateUtils translateImagesByAssets:assetsArray completeHandler:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        NSMutableArray<UIImage*>* images = [NSMutableArray<UIImage*> array];
+        NSMutableArray* images = [NSMutableArray array];
         for (PhotoAlbumVo* photoAlbum in assetsArray) {
-            if(photoAlbum.image){
-                [images addObject:photoAlbum.image];
-                
+            if(photoAlbum.picture){
+                [images addObject:photoAlbum.picture];
+            }else if(photoAlbum.imageData){
+                [images addObject:photoAlbum.imageData];
 //                ((AppDelegate*)[UIApplication sharedApplication].delegate).rootImage.image = photoAlbum.image;
             }
         }

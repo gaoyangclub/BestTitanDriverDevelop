@@ -254,7 +254,7 @@ static BOOL netState;
 + (void) NetRequestUploadWithRequestURL: (NSString *) requestURLString
                         WithParameter: (NSDictionary *) parameter
                               headers: (NSDictionary <NSString *, NSString *> *) headers
-                               images: (NSArray<UIImage*>*) images
+                               images: (NSArray*) images
                  WithReturnValeuBlock: (ReturnValueBlock) block
                     WithProgressBlock: (ProgressValueBlock) progressBlock
                      WithFailureBlock: (FailureBlock) failureBlock
@@ -271,9 +271,15 @@ static BOOL netState;
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"multipart/form-data", @"application/json", @"text/html", @"image/jpeg", @"image/png", @"application/octet-stream", @"text/json", nil];
     
     [manager POST:requestURLString parameters:parameter constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        for (UIImage* image in images) {
-            
-            NSData *data = UIImageJPEGRepresentation(image,0.1);
+//        for (UIImage* image in images) {
+        for (id imageData in images) {
+            NSData* data;
+            if ([imageData isKindOfClass:[NSData class]]) {
+                data = UIImageJPEGRepresentation([UIImage imageWithData:imageData],0.1);//压缩质量
+            }else if([imageData isKindOfClass:[UIImage class]]){
+                data = UIImageJPEGRepresentation(imageData,0.1);
+            }
+//            NSData *data = UIImageJPEGRepresentation(image,0.1);
 //            if(data){
                 //            NSData *data = UIImagePNGRepresentation(image);
                 //第一个代表文件转换后data数据，第二个代表图片的名字，第三个代表图片放入文件夹的名字，第四个代表文件的类型

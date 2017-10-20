@@ -183,23 +183,42 @@
 -(void)initPhotoArea{
     self.photoButton.frame = self.imageView.frame = self.contentView.bounds;
     
-//    CGSize itemSize = self.contentView.size;
-//    CGFloat scale = [[UIScreen mainScreen] scale];
-//    CGSize targetSize = CGSizeMake(itemSize.width * scale,itemSize.height * scale);
-    if (self.data) {
-        if (self.data.image) {
-            self.imageView.image = self.data.image;
-        }else{
-            self.imageView.image = nil;//先清空掉
-            __weak __typeof(self) weakSelf = self;
-            [PhotoTranslateUtils translateImageByAsset:self.data completeHandler:^{
-                weakSelf.imageView.image = weakSelf.data.image;
-            }];
-//            [PhotoTranslateUtils translateImageByAsset:self.data completeHandler:^{
-//                NSLog(@"测试转换完成");
-//            }];
-        }
+    CGSize itemSize = self.contentView.size;
+    CGFloat scale = [[UIScreen mainScreen] scale];
+    CGSize targetSize = CGSizeMake(itemSize.width * scale,itemSize.height * scale);
+    
+    self.imageView.image = nil;//先清空
+    if(self.data.picture){
+        self.imageView.image = self.data.picture;//直接显示拍照数据
+    }else{
+        NSIndexPath* nowPath = self.indexPath;
+        __weak __typeof(self) weakSelf = self;
+        [[PHCachingImageManager defaultManager] requestImageForAsset:self.data.phAsset
+                                                          targetSize:targetSize
+                                                         contentMode:PHImageContentModeAspectFill
+                                                             options:nil
+                                                       resultHandler:^(UIImage *result, NSDictionary *info) {
+                                                           __strong typeof(weakSelf) strongSelf = weakSelf;
+                                                           if (nowPath == strongSelf.indexPath) {
+                                                               strongSelf.imageView.image = result;
+                                                           }
+                                                       }];
     }
+//    if (self.data) {
+//        if (self.data.imageData) {
+//            self.imageView.image = [UIImage imageWithData:self.data.imageData];//self.data.image;
+//        }else{
+//            self.imageView.image = nil;//先清空掉
+//            __weak __typeof(self) weakSelf = self;
+//            [PhotoTranslateUtils translateImageByAsset:self.data completeHandler:^{
+//                __strong typeof(weakSelf) strongSelf = weakSelf;
+//                strongSelf.imageView.image = [UIImage imageWithData:strongSelf.data.imageData];//weakSelf.data.image;
+//            }];
+////            [PhotoTranslateUtils translateImageByAsset:self.data completeHandler:^{
+////                NSLog(@"测试转换完成");
+////            }];
+//        }
+//    }
     self.operateButton.hidden = YES;
     self.photoButton.hidden = NO;
 }
@@ -236,6 +255,13 @@
 
 //-(instancetype)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout{
 //    return [self initWithFrame:frame];
+//}
+
+//-(NSInteger)maxSelectCount{
+//    if (!_maxSelectCount) {
+//        _maxSelectCount = 50;
+//    }
+//    return _maxSelectCount;//最多50
 //}
 
 -(void)setContentSize:(CGSize)contentSize{
@@ -418,7 +444,8 @@
 
 -(void)addCameraAssets:(UIImage*)image{
     PhotoAlbumVo* vo = [[PhotoAlbumVo alloc]init];
-    vo.image = image;
+    vo.picture = image;
+//    vo.imageData = UIImageJPEGRepresentation(image, 1);//UIImagePNGRepresentation(image);
     [self.assetsArray addObject:vo];
     [self.dataArray addObject:vo];
     [self reloadData];
@@ -483,10 +510,12 @@
 //    NSMutableArray* copyArray = [self.dataArray copy];
     
     [PhotoTranslateUtils translateImagesByAssets:self.dataArray completeHandler:^{
-        NSMutableArray<UIImage*>* imageArr = [[NSMutableArray<UIImage*> alloc]init];
+        NSMutableArray* imageArr = [NSMutableArray array];
         for (PhotoAlbumVo* vo in self.dataArray) {
-            if (vo.image) {
-                [imageArr addObject:vo.image];
+            if (vo.picture) {
+                [imageArr addObject:vo.picture];
+            }else if (vo.imageData) {
+                [imageArr addObject:vo.imageData];//直接传二进制数据
             }
         }
         PhotoBroswerController* broswerController = [[PhotoBroswerController alloc]init];

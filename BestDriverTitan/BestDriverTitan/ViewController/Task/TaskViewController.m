@@ -21,6 +21,7 @@
 #import "SpeechManager.h"
 #import "AppPushMsg.h"
 #import "LocalBundleManager.h"
+#import "PushMessageHelper.h"
 
 //@interface TestTableViewCell : MJTableViewCell
 //
@@ -420,11 +421,14 @@
 //        controller = [[ViewController alloc]init];
     TaskTripController* controller = [[TaskTripController alloc]init];
     ShipmentBean* shipmentBean = (ShipmentBean*)cellVo.cellData;
-    controller.shipmentBean = shipmentBean;
+    controller.shipmentId = shipmentBean.id;
+    controller.shipmentCode = shipmentBean.code;
     [[OwnerViewController sharedInstance] pushViewController:controller animated:YES];
 //    }else{
 //        
 //    }
+    [PushMessageHelper setPushMessageIsRead:shipmentBean.id];
+    
     __weak __typeof(self) weakSelf = self;
     controller.returnBlock = ^(id returnValue){
         __strong typeof(weakSelf) strongSelf = weakSelf;
