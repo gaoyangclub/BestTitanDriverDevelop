@@ -56,6 +56,8 @@
     self.navBarHairlineImageView.hidden = true;
     
     self.hairlineProxy.backgroundColor = self.hairlineColor;
+//    self.navigationBar.backIndicatorImage = self.navigationBar.backIndicatorTransitionMaskImage = [UIImage new];
+//    [self.navigationBar setShadowImage:[UIImage new]];//去掉navigationbar下面的那条线,并且如果是用storyboard来创建的Viewcontroller一定要加这句话
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

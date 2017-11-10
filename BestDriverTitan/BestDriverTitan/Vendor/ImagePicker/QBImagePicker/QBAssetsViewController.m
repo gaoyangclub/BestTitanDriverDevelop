@@ -14,6 +14,9 @@
 #import "QBAssetCell.h"
 #import "QBVideoIndicatorView.h"
 
+#define ALL_SELECTED_LABEL @"全选"
+#define CANCEL_ALL_SELECTED_LABEL @"取消全选"
+
 static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     return CGSizeMake(size.width * scale, size.height * scale);
 }
@@ -54,7 +57,9 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
 
 @end
 
-@interface QBAssetsViewController () <PHPhotoLibraryChangeObserver, UICollectionViewDelegateFlowLayout>
+@interface QBAssetsViewController () <PHPhotoLibraryChangeObserver, UICollectionViewDelegateFlowLayout>{
+//    NSMutableSet* feachAllSelectionSet;
+}
 
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *doneButton;
 
@@ -70,6 +75,17 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
 @end
 
 @implementation QBAssetsViewController
+
+//-(void)setFetchResult:(NSObject *)fetchResult{
+//    _fetchResult = fetchResult;
+//    if ([fetchResult isKindOfClass:[NSMutableArray class]]) {//数组格式的
+//        if (feachAllSelectionSet) {
+//            [feachAllSelectionSet removeAllObjects];
+//        }else{
+//            feachAllSelectionSet = [NSMutableSet set];
+//        }
+//    }
+//}
 
 - (void)viewDidLoad
 {
@@ -712,6 +728,14 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
                                                                                   withReuseIdentifier:@"HeaderView"
                                                                                          forIndexPath:indexPath];
         
+        UILabel *label = (UILabel *)[headerView viewWithTag:1];
+        UIButton *button = (UIButton *)[headerView viewWithTag:2];
+        
+        if ([self.fetchResult isKindOfClass:[PHFetchResult class]]) {//单个就隐藏
+            label.hidden = button.hidden = YES;
+            return headerView;
+        }
+        
         PHAssetCollection* assetCollection = nil;
         if ([self.data isKindOfClass:[PHAssetCollection class]]) {
             assetCollection = (PHAssetCollection*)self.data;
@@ -726,14 +750,12 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
         NSDateFormatter * formatter = [[NSDateFormatter alloc]init];
         //指定输出的格式   这里格式必须是和上面定义字符串的格式相同，否则输出空
         [formatter setDateFormat:@"yyyy-MM-dd"];
-        
-        UILabel *label = (UILabel *)[headerView viewWithTag:1];
-        UIButton *button = (UIButton *)[headerView viewWithTag:2];
         if(self.imagePickerController.allowsMultipleSelection){
             button.hidden = NO;
 //            [button setTitle:@"试试啊" forState:UIControlStateNormal];
             objc_setAssociatedObject(button, "indexPath", indexPath, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
             [button addTarget:self action:@selector(buttonAllSeletionClick:) forControlEvents:UIControlEventTouchUpInside];
+            [self setButtonTitle:button title:[self.imagePickerController.selectedAllFetchAssets containsIndex:indexPath.section] ? CANCEL_ALL_SELECTED_LABEL : ALL_SELECTED_LABEL];
         }else{
             button.hidden = YES;
         }
@@ -742,6 +764,13 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
         return headerView;
     }
     return nil;
+}
+
+-(void)setButtonTitle:(UIButton*)button title:(NSString*)title{
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:title];
+    NSRange strRange = {0,[str length]};
+    [str addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:strRange];
+    [button setAttributedTitle:str forState:UIControlStateNormal];
 }
 
 -(void)buttonAllSeletionClick:(UIButton*)button{
@@ -754,8 +783,9 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
         PHFetchResult* result = [self getFetchResultByIndexPath:indexPath];
         NSInteger resultCount = result.count;
         
-        if ([[button titleForState:UIControlStateNormal] isEqual:@"全选"]) {
-            [button setTitle:@"取消全选" forState:UIControlStateNormal];
+        if (![self.imagePickerController.selectedAllFetchAssets containsIndex:indexPath.section]) {//选中全选
+            [self.imagePickerController.selectedAllFetchAssets addIndex:indexPath.section];
+            [self setButtonTitle:button title:CANCEL_ALL_SELECTED_LABEL];
 //            if ([self isAutoDeselectEnabled] && selectedAssets.count > 0) {
 //                // Remove previous selected asset from set
 //                [selectedAssets removeObjectAtIndex:0];
@@ -776,15 +806,14 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
                 [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:i inSection:indexPath.section] animated:YES scrollPosition:UICollectionViewScrollPositionNone];
             }
             
-            self.lastSelectedItemIndexPath = indexPath;
+//            self.lastSelectedItemIndexPath = indexPath;
             
             [self updateDoneButtonState];
             
             if (self.imagePickerController.showsNumberOfSelectedAssets) {
                 [self updateSelectionInfo];
                 
-                if (selectedAssets.count == 1) {
-                    // Show toolbar
+                if (selectedAssets.count >= 1) {// Show toolbar
                     [self.navigationController setToolbarHidden:NO animated:YES];
                 }
             }
@@ -793,10 +822,9 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
 //                [imagePickerController.delegate qb_imagePickerController:imagePickerController didSelectAsset:asset];
 //            }
             
-        }else if ([[button titleForState:UIControlStateNormal] isEqual:@"取消全选"]) {
-            
-            [button setTitle:@"全选" forState:UIControlStateNormal];
-            
+        }else{//选中取消
+            [self.imagePickerController.selectedAllFetchAssets removeIndex:indexPath.section];
+            [self setButtonTitle:button title:ALL_SELECTED_LABEL];
             
             for (NSInteger i = 0; i < resultCount;  i ++) {
                 PHAsset *asset = result[i];
@@ -900,7 +928,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
         if (imagePickerController.showsNumberOfSelectedAssets) {
             [self updateSelectionInfo];
             
-            if (selectedAssets.count == 1) {
+            if (selectedAssets.count >= 1) {
                 // Show toolbar
                 [self.navigationController setToolbarHidden:NO animated:YES];
             }

@@ -318,24 +318,16 @@ static TaskViewModel* viewModel;
     return _codeText;
 }
 
-//-(RoundRectNode *)stateArea{
-//    if (!_stateArea) {
-//        _stateArea = [[RoundRectNode alloc]init];
-//        _stateArea.layerBacked = YES;
-//        _stateArea.cornerRadius = 3;
-//        _stateArea.fillColor = COLOR_DAI_WAN_CHENG;
-//        [self.backNode addSubnode:_stateArea];
-//    }
-//    return _stateArea;
-//}
-
 -(FlatButton *)stateArea{
     if (!_stateArea) {
         _stateArea = [[FlatButton alloc]init];
         _stateArea.userInteractionEnabled = NO;
-        _stateArea.cornerRadius = 3;
+        _stateArea.cornerRadius = 0;
         _stateArea.fillColor = [UIColor whiteColor];
-        _stateArea.strokeWidth = 1;
+        _stateArea.strokeWidth = 2;
+        _stateArea.titleSize = 16;
+        _stateArea.angle = -10;
+        _stateArea.size = CGSizeMake(80, 30);
         //        _stateArea.fillColor = COLOR_DAI_WAN_CHENG;
         [self.contentView addSubview:_stateArea];
     }
@@ -915,6 +907,8 @@ static TaskViewModel* viewModel;
     self.backgroundView = self.normalBackView;
     self.selectedBackgroundView = self.selectBackView;
     
+    ShipmentBean* bean = self.data;
+    
     CGFloat cellHeight = self.contentView.bounds.size.height;
     CGFloat cellWidth = self.contentView.bounds.size.width;
 //    CGFloat gap = 1;
@@ -935,6 +929,18 @@ static TaskViewModel* viewModel;
     
     CGFloat centerHeight = 0;//backHeight - topY - topHeight - bottomHeight;
     
+    if ([bean isComplete]) {
+        self.stateArea.hidden = NO;
+        //    self.stateArea.x = 0;//-self.stateArea.width / 2.;//self.codeText.maxX + padding;
+        //    self.stateArea.y = 0;//-self.stateArea.height / 2.;//5;//self.codeText.centerY;
+        self.stateArea.maxX = self.contentView.width - 30;
+        self.stateArea.centerY = self.contentView.height / 2. + 5;
+        self.stateArea.titleColor = self.stateArea.strokeColor = [bean isComplete] ? [COLOR_YI_WAN_CHENG colorWithAlphaComponent:0.5] : [COLOR_DAI_WAN_CHENG colorWithAlphaComponent:0.5];
+        self.stateArea.title = [bean isComplete] ? @"已完成":@"未完成";
+    }else if(self->_stateArea){
+        self.stateArea.hidden = YES;
+    }
+    
     self.backNode.frame = CGRectMake(leftMargin, 0, backWidth, backHeight);
     
 //    self.normalBackView.backNode.frame = self.selectBackView.backNode.frame = self.backNode.frame;
@@ -946,6 +952,7 @@ static TaskViewModel* viewModel;
 //    }
 //    self.lineBottomY.hidden = self.isLast;
 //    self.lineCenterX.frame = CGRectMake((backWidth - LINE_WIDTH) / 2., centerY + padding, LINE_WIDTH, centerHeight - padding * 2);
+    
     
     CGFloat bottomY = centerY + centerHeight;
     
@@ -1019,62 +1026,31 @@ static TaskViewModel* viewModel;
     self.codeText.y = padding;
 //    self.codeText.frame = (CGRect){ CGPointMake(padding * 2, padding), codeSize };
     
-    UIColor* iconColor;
-    if([bean isComplete]){
-        iconColor = COLOR_YI_WAN_CHENG;
-    }else{
-        iconColor = COLOR_DAI_WAN_CHENG;
-    }
-    
-    self.stateArea.size = CGSizeMake(50, 20);
-    self.stateArea.x = self.codeText.maxX + padding;
-    self.stateArea.y = 5;//self.codeText.centerY;
-    
     AppPushMsg* pushMsg = [PushMessageHelper getPushMsgByLinkId:bean.id];
     if (pushMsg && !pushMsg.isRead) {//未读显示
         self.hotArea.hidden = NO;
     }else if(self->_hotArea){
         self.hotArea.hidden = YES;
     }
-//        self.stateArea.titleColor = [UIColor whiteColor];
-//        self.stateArea.fillColor = FlatRed;
-//        self.stateArea.title = @"新";
-//        self.stateArea.strokeWidth = 0;
-//        self.stateArea.width = 20;
-//        self.stateArea.cornerRadius = 10;
-//    }else{
-        self.stateArea.titleColor = self.stateArea.strokeColor = iconColor;
-        self.stateArea.title = [bean isComplete] ? @"已完成":@"未完成";
-//        self.stateArea.fillColor = [UIColor whiteColor];
-//        self.stateArea.strokeWidth = 1;
-//        self.stateArea.width = 50;
-//        self.stateArea.cornerRadius = 3;
-//    }
     
+    if (bean.licencePlate) {
+        self.licencePlateView.hidden = NO;
+        CGFloat const plateFontSize = 14;//SCREEN_WIDTH > IPHONE_5S_WIDTH ? 14 : 12;
+        self.licencePlateText.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:plateFontSize content:bean.licencePlate];
+        CGSize const liceneSize = [self.licencePlateText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+        CGFloat const plateWidth = liceneSize.width + 10;
+        CGFloat const plateHeight = liceneSize.height + 10;
+        self.licencePlateView.frame = CGRectMake(cellWidth - plateWidth - padding, 3, plateWidth, plateHeight);
+        //    self.licencePlateView.cornerRadius = 30;
+        
+        self.licencePlateText.frame = (CGRect){
+            CGPointMake((self.licencePlateView.frame.size.width - liceneSize.width) / 2., (self.licencePlateView.frame.size.height - liceneSize.height) / 2.),
+            liceneSize
+        };
+    }else if(self->_licencePlateView){
+        self.licencePlateView.hidden = YES;
+    }
     
-//    if (!bean.isComplete) {
-//        self.stateText.attributedString = [NSString simpleAttributedString:[UIColor whiteColor] size:12 content:@"未完成"];
-//        CGSize stateSize = [self.stateText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-//        self.stateText.frame = (CGRect){ CGPointMake(padding, padding / 2.), stateSize };
-//        
-//        CGFloat stateHeight = stateSize.height + padding;
-//        
-//        self.stateArea.frame = CGRectMake(CGRectGetMinX(self.codeText.frame) + codeSize.width + padding, padding + (CGRectGetHeight(self.codeText.bounds) - stateHeight) / 2., stateSize.width + padding * 2, stateHeight);
-//    }
-//    self.stateArea.hidden = bean.isComplete;
-    
-    CGFloat plateFontSize = SCREEN_WIDTH > IPHONE_5S_WIDTH ? 14 : 12;
-    self.licencePlateText.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:plateFontSize content:bean.licencePlate];
-    CGSize liceneSize = [self.licencePlateText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    CGFloat plateWidth = liceneSize.width + 10;
-    CGFloat plateHeight = liceneSize.height + 10;
-    self.licencePlateView.frame = CGRectMake(cellWidth - plateWidth - padding, 3, plateWidth, plateHeight);
-    //    self.licencePlateView.cornerRadius = 30;
-    
-    self.licencePlateText.frame = (CGRect){
-        CGPointMake((self.licencePlateView.frame.size.width - liceneSize.width) / 2., (self.licencePlateView.frame.size.height - liceneSize.height) / 2.),
-        liceneSize
-    };
 }
 
 -(NSAttributedString *)generateCostString:(NSString*)distance hour:(NSString*)hour expense:(NSString*)expense{

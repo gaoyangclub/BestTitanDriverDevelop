@@ -63,7 +63,6 @@ static AmapLocationService* instance;
         
         //该模式是抵抗程序在后台被杀，申明不能够被暂停
         _nativeLocationManager.pausesLocationUpdatesAutomatically = NO;
-        
         if ([[UIDevice currentDevice]systemVersion].floatValue >= 8) {
             [_nativeLocationManager requestAlwaysAuthorization];        //NSLocationAlwaysUsageDescription
             //        [_nativeLocationManager requestWhenInUseAuthorization];     //NSLocationWhenInUseDescription

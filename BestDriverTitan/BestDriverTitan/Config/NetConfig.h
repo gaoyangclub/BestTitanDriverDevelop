@@ -49,8 +49,12 @@
 #define TASK_SUBMIT_URL ConcatStrings(SERVER_DRIVER_URL,@"shipment/task")
 //上传回单(图片)
 #define TASK_RECEIPT_URL(shipmentActivityTaskId) ConcatStrings(SERVER_DRIVER_URL,@"shipment/receipt/",@(shipmentActivityTaskId))
-
-
+//根据用户扫描code上报活动 揽收
+#define SCAN_TASK_PICKUP_URL ConcatStrings(SERVER_DRIVER_URL,@"shipment/task/scanTask4Item")
+//根据用户扫描code上报活动 签收
+#define SCAN_TASK_SIGN_URL ConcatStrings(SERVER_DRIVER_URL,@"shipment/task/scanTask")
+//根据单据获取揽收货量信息
+#define SCAN_CODE_PICKUP_URL ConcatStrings(SERVER_DRIVER_URL,@"shipment/task/getItemByCode")
 
 #define PGY_VERSION_GROUP_URL @"http://www.pgyer.com/apiv1/app/viewGroup"
 

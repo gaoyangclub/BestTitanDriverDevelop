@@ -41,6 +41,7 @@
     self.fillColor = [UIColor grayColor];
     self.titleSize = 12;
     self.cornerRadius = 5;
+//    self.angle = -30;
     self.title = @"";
     [self setShowTouch:YES];
 }
@@ -111,6 +112,10 @@
     CGSize titleSize = [self.titleLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
     self.titleLabel.frame = (CGRect){ CGPointMake((viewWidth - titleSize.width) / 2.,(viewHeight - titleSize.height) / 2.),titleSize};
+    if(self.angle){
+        CATransform3D transform = CATransform3DMakeRotation(self.angle * M_PI / 180,0,0,1);
+        self.backArea.transform = self.titleLabel.transform = transform;
+    }
 }
 
 

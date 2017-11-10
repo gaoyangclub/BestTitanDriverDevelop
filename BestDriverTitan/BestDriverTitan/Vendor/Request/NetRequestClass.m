@@ -22,11 +22,16 @@ static BOOL netState;
         switch (status) {
             case AFNetworkReachabilityStatusReachableViaWWAN:
                 netState = YES;
+                break;
             case AFNetworkReachabilityStatusReachableViaWiFi:
                 netState = YES;
                 break;
             case AFNetworkReachabilityStatusNotReachable:
                 netState = NO;
+                break;
+            case AFNetworkReachabilityStatusUnknown:
+                netState = NO;
+                break;
             default:
                 break;
         }

@@ -10,6 +10,9 @@
 #import "UserDefaultsUtils.h"
 #import "LocalBundleManager.h"
 
+#define DEBUG_TAG @"debug"
+#define T9_TAG @"t9"
+
 static User* user;
 static User* userProxy;//被观察的用户临时信息
 static BOOL isUserProxyMode = NO;//是否监控模式
@@ -212,9 +215,20 @@ static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不�
 }
 
 +(BOOL)isDebugMode{
-    NSString* tag = @"debug";
+    NSString* tag = DEBUG_TAG;
     NSString* identifier = [LocalBundleManager getAppVersion];
     NSString* lastTag = [identifier substringWithRange:NSMakeRange(identifier.length - tag.length, tag.length)];
+    return [lastTag isEqualToString:tag];
+}
+
++(BOOL)isT9Environment{
+    NSInteger lastOffSet = 0;
+    if (DEBUG_MODE) {
+        lastOffSet = DEBUG_TAG.length;
+    }
+    NSString* identifier = [LocalBundleManager getAppVersion];
+    NSString* tag = T9_TAG;
+    NSString* lastTag = [identifier substringWithRange:NSMakeRange(identifier.length - tag.length - lastOffSet, tag.length)];
     return [lastTag isEqualToString:tag];
 }
 
@@ -222,6 +236,8 @@ static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不�
     if (DEBUG_MODE) {
 //        return @"0e8c9bf2a0d8fcbaf37a90353405c6c0";
         return @"dba51660a44c3e00888ce2a4b24af81a";
+    }else if(T9_Environment){
+        return @"d0d592c39e4d75348ded19395698058b";
     }
     return @"5953c90ad7c4d2e8ca9450269c1d81ea";
 }
@@ -229,6 +245,8 @@ static BOOL hasPermission = YES;//在监控模式(isUserProxyMode = YES)下 不�
 +(NSString *)getPgyerApiKey{
     if (DEBUG_MODE) {
         return @"72fabb9ca801817be273e54018a6b42d";
+    }else if(T9_Environment){
+        return @"6422db4bf374e613062ec9bf9c0b8b85";
     }
     return @"0e11b5e0eaa8fe91f7e3a60efc8fb744";
 }

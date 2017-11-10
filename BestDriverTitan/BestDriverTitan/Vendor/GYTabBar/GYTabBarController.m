@@ -1,7 +1,7 @@
 //
 //  GYTabBarController.m
 //  CustomTabViewController
-//
+//  ---------- 替换UISegmentedControl 更加松散和灵活的方法 --------
 //  Created by admin on 16/10/24.
 //  Copyright © 2016年 admin. All rights reserved.
 //
@@ -97,7 +97,7 @@
 }
 
 -(void)ensureControllers:(CGRect)bounds{
-    NSMutableArray<UIViewController *> *ctrls = [[NSMutableArray alloc] init];
+    NSMutableArray<UIViewController *> *ctrls = [NSMutableArray<UIViewController *> array];
     for (TabData* tabData in _dataArray) {
         [ctrls addObject:tabData.controller];
         tabData.controller.view.frame = bounds;

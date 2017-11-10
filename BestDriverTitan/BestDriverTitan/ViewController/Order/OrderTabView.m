@@ -154,39 +154,17 @@
         };
     }];
     self.backgroundColor = [UIColor whiteColor];
-//    CGFloat radius = LINE_WIDTH * 4.;
-//    self.leftLine.cornerRadius = self.rightLine.cornerRadius = radius;
-//    self.leftLine.frame = CGRectMake(- radius, (viewHeight - radius * 2) / 2., radius * 2, radius * 2);
-//    self.rightLine.frame = CGRectMake(viewWidth - radius, (viewHeight - radius * 2) / 2., radius * 2, radius * 2);
 }
 
 -(void)setSelect:(BOOL)isSelect{
-//    UIColor* color;
-//    if (isSelect) {
-////        if ([self.activityBean hasReport]) {
-////            color = COLOR_YI_WAN_CHENG;
-////        }else{
-////            color = COLOR_DAI_WAN_CHENG;
-////        }
-//        color = FlatOrange;
-//    }else{
-//        color = COLOR_BLACK_ORIGINAL;
-//    }
 //    NSString* content = [Config getActivityLabelByCode:self.activityBean.activityDefinitionCode];
-//    self.titleNode.attributedString = [NSString simpleAttributedString:color size:14 content:content];
-    
-//    CGFloat viewWidth = CGRectGetWidth(self.bounds);
-//    CGFloat viewHeight = CGRectGetHeight(self.bounds);
     if (isSelect) {
-//        self.backgroundColor = COLOR_BACKGROUND;
-        self.backNode.fillColor = COLOR_BACKGROUND;
-//        self.square.frame = CGRectMake(0, viewHeight - 2, viewWidth, 2);
+        self.backNode.fillColor = self.backNode.strokeColor;//COLOR_BACKGROUND;
+//        self.titleNode.attributedString = [NSString simpleAttributedString:[UIColor whiteColor] size:14 content:content];
     }else{
-//        self.backgroundColor = [UIColor whiteColor];
         self.backNode.fillColor = [UIColor whiteColor];
-//        self.square.frame = CGRectMake(0, 0, viewWidth, 0);
+//        self.titleNode.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:content];
     }
-//    self.square.backgroundColor = color;
 }
 
 
@@ -257,7 +235,7 @@
     
     self.contentSize = CGSizeMake(contentWidth, tabHeight);
     
-    TabButton* selectBtn;
+//    TabButton* selectBtn;
     for (NSInteger i = 0; i < count; i++) {
         ShipmentActivityBean* bean = activityBeans[i];
         
@@ -267,12 +245,12 @@
         [self addSubview:btn];
         
         btn.activityBean = bean;
-        if (i == 0) {
-            selectBtn = btn;
-        }
+//        if (i == 0) {
+//            selectBtn = btn;
+//        }
         [btn addTarget:self action:@selector(clickTabButton:) forControlEvents:UIControlEventTouchUpInside];
     }
-    [self changeTabButton:selectBtn isClick:NO];
+//    [self changeTabButton:selectBtn isClick:NO];
     self.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 }
 
@@ -312,7 +290,11 @@
 //}
 
 -(void)clickTabButton:(TabButton*)clickBtn{
-    [self changeTabButton:clickBtn isClick:YES];
+    if (!self.tabDelegate || (self.tabDelegate &&
+                    [self.tabDelegate respondsToSelector:@selector(shouldSelectIndex:)] &&
+                    [self.tabDelegate shouldSelectIndex:clickBtn.tag])) {
+        [self changeTabButton:clickBtn isClick:YES];
+    }
 }
 
 -(void)changeTabButton:(TabButton*)clickBtn isClick:(BOOL)isClick{

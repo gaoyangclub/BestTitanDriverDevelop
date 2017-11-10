@@ -58,6 +58,17 @@
     return actualCount;
 }
 
+-(BOOL)isEdited{
+    if (self.shipUnits && self.shipUnits.count > 0) {
+        for (ShipmentActivityShipUnitBean* shipunitBean in self.shipUnits) {
+            if (shipunitBean.isEdited) {
+                return YES;
+            }
+        }
+    }
+    return self.assetsArray.count > 0;//或者存在新增的附件
+}
+
 #pragma 声明数组、字典或者集合里的元素类型时要重写
 + (nullable NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
     return @{@"shipUnits":[ShipmentActivityShipUnitBean class],@"contactList":[ContactBean class]};

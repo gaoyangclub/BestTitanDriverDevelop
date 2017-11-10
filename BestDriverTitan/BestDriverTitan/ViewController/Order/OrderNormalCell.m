@@ -249,7 +249,7 @@
     __weak __typeof(self) weakSelf = self;
 //    [RACObserve(cell.textLabel, text) takeUntil:cell.rac_prepareForReuseSignal]
     
-    
+    CGFloat const fontSize = 13;
 //    [shipUnitBean rac_valuesForKeyPath:@"pacakageUnitCount" observer:nil] takeUntil:deallocSignal]
     if (self.packageHandler) {
         [self.packageHandler dispose];
@@ -257,7 +257,7 @@
     self.packageHandler = [[shipUnitBean rac_valuesForKeyPath:@"pacakageUnitCount" observer:nil] subscribeNext:^(id x) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         UIColor* labelColor = shipUnitBean.orgPacakageUnitCount != shipUnitBean.pacakageUnitCount ? FlatOrange : FlatGray;
-        strongSelf.packageLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:labelColor size:12 content:[NSString stringWithFormat:@"包装%ld箱",(long)shipUnitBean.pacakageUnitCount]];
+        strongSelf.packageLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:labelColor size:fontSize content:[NSString stringWithFormat:@"包装%ld箱",(long)shipUnitBean.pacakageUnitCount]];
         CGSize packageSize = [strongSelf.packageLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
         strongSelf.packageLabel.frame = (CGRect){ CGPointMake(labelLeftMargin, bottomY), packageSize};
     }];
@@ -268,7 +268,7 @@
     self.itemHandler = [[shipUnitBean rac_valuesForKeyPath:@"itemCount" observer:nil] subscribeNext:^(id x) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         UIColor* labelColor = shipUnitBean.orgItemCount != shipUnitBean.itemCount ? FlatOrange : FlatGray;
-        strongSelf.pieceLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:labelColor size:12 content:[NSString stringWithFormat:@"内件%ld件",(long)shipUnitBean.itemCount]];
+        strongSelf.pieceLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:labelColor size:fontSize content:[NSString stringWithFormat:@"内件%ld件",(long)shipUnitBean.itemCount]];
         CGSize pieceSize = [self.pieceLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
         strongSelf.pieceLabel.frame = (CGRect){ CGPointMake(CGRectGetMaxX(strongSelf.packageLabel.frame) + leftpadding, CGRectGetMidY(strongSelf.packageLabel.frame) - pieceSize.height / 2.), pieceSize};
     }];
@@ -286,7 +286,7 @@
     self.weightHandler = [[shipUnitBean rac_valuesForKeyPath:@"actualReceivedWeight" observer:nil] subscribeNext:^(id x) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         UIColor* labelColor = [shipUnitBean.orgWeight isEqualToString:shipUnitBean.actualReceivedWeight] ? FlatGray : FlatOrange;
-        strongSelf.weightLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:labelColor size:12 content:[NSString stringWithFormat:@"重量%@kg",shipUnitBean.actualReceivedWeight]];
+        strongSelf.weightLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:labelColor size:fontSize content:[NSString stringWithFormat:@"重量%@kg",shipUnitBean.actualReceivedWeight]];
         strongSelf.weightLabel.size = [strongSelf.weightLabel measure:(CGSizeMake(FLT_MAX, FLT_MAX))];
         strongSelf.weightLabel.x = strongSelf.pieceLabel.maxX + leftpadding;
         strongSelf.weightLabel.centerY = strongSelf.packageLabel.centerY;
@@ -299,7 +299,7 @@
     self.volumeHandler = [[shipUnitBean rac_valuesForKeyPath:@"actualReceivedVolume" observer:nil] subscribeNext:^(id x) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         UIColor* labelColor = [shipUnitBean.orgVolume isEqualToString:shipUnitBean.actualReceivedVolume] ? FlatGray : FlatOrange;
-        strongSelf.volumeLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:labelColor size:12 content:[NSString stringWithFormat:@"体积%@m³",shipUnitBean.actualReceivedVolume]];
+        strongSelf.volumeLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:labelColor size:fontSize content:[NSString stringWithFormat:@"体积%@m³",shipUnitBean.actualReceivedVolume]];
         strongSelf.volumeLabel.size = [strongSelf.volumeLabel measure:(CGSizeMake(FLT_MAX, FLT_MAX))];
         strongSelf.volumeLabel.x = strongSelf.weightLabel.maxX + leftpadding;
         strongSelf.volumeLabel.centerY = strongSelf.packageLabel.centerY;

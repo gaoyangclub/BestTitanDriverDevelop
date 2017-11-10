@@ -113,7 +113,7 @@
 
 -(void)setSelect:(BOOL)isSelect{
     if (isSelect) {
-        self.backNode.fillColor = COLOR_BACKGROUND;
+        self.backNode.fillColor = self.backNode.strokeColor;
     }else{
         self.backNode.fillColor = [UIColor whiteColor];
     }

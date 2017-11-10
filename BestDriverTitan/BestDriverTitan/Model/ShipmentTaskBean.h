@@ -15,6 +15,7 @@
 
 @property(nonatomic,assign) long id;
 @property(nonatomic,retain) NSMutableArray<PhotoAlbumVo*>* assetsArray; // 图片信息//暂时保存
+@property(nonatomic,assign,readonly) BOOL isEdited;//是否已经编辑过运输单元
 
 @property(nonatomic,copy) NSString* activityDefinitionCode;//活动编码 'PICKUP_HANDOVER', ' LOAD', ' UNLOAD', ' SIGN_FOR_RECEIPT', ' DELIVERY_RECEIPT'
 

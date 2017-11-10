@@ -15,6 +15,7 @@
 #import "FlatButton.h"
 #import "LocationInfoViewController.h"
 #import "OwnerViewController.h"
+#import "ScanHomeController.h"
 
 @interface ViewController ()
 
@@ -126,6 +127,8 @@
 -(void)rightItemClick{
     MMDrawerController* drawerController = (MMDrawerController*)((AppDelegate*)[UIApplication sharedApplication].delegate).window.rootViewController;
     [drawerController toggleDrawerSide:(MMDrawerSideRight) animated:YES completion:nil];
+    
+//    [[OwnerViewController sharedInstance]pushViewController:[ScanHomeController alloc] animated:YES];
 }
 
 

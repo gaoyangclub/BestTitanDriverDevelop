@@ -161,7 +161,7 @@
 
 - (void)textFieldDidChange:(UITextField *)textField
 {
-    NSInteger maxLength = 12;
+    NSInteger const maxLength = 12;
 //    if (textField == self.editText) {
         if (maxLength && textField.text.length > maxLength) {
             UITextRange *markedRange = [textField markedTextRange];
@@ -239,12 +239,14 @@
 //            <#statements#>
 //        }
         
-        self.shipUnitBean.pacakageUnitCount = self.packageNumberView.totalCount;
-        self.shipUnitBean.itemCount = self.pieceNumberView.totalCount;
-        
-        self.shipUnitBean.actualReceivedWeight = self.weightText.text;
-        self.shipUnitBean.actualReceivedVolume = self.volumeText.text;
+//        self.shipUnitBean.pacakageUnitCount = self.packageNumberView.totalCount;
+//        self.shipUnitBean.itemCount = self.pieceNumberView.totalCount;
+//        
+//        self.shipUnitBean.actualReceivedWeight = self.weightText.text;
+//        self.shipUnitBean.actualReceivedVolume = self.volumeText.text;
 //        self.shipUnitBean.isEdited = YES;
+        
+        [self.shipUnitBean changeEditValue:self.packageNumberView.totalCount actualReceivedWeight:self.weightText.text actualReceivedVolume:self.volumeText.text itemCount:self.pieceNumberView.totalCount];
         
         if (self.delegate && [self.delegate respondsToSelector:@selector(orderEdited:)]) {
             [self.delegate orderEdited:self.shipUnitIndexPath];

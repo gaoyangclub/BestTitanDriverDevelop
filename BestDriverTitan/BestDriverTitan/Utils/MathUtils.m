@@ -10,6 +10,10 @@
 
 @implementation MathUtils
 
++(CGFloat)goldenSection{
+    return 0.618;
+}
+
 //外接圆圆心
 +(CGPoint)getTriangleOutCenter:(float)x1 _:(float)y1 _:(float)x2 _:(float)y2 _:(float)x3 _:(float)y3{
     return (CGPoint){

@@ -7,7 +7,7 @@
 #import "AppVersion.h"
 #import "LocalBundleManager.h"
 
-#define COLOR_USER_PROXY FlatNavyBlue//监控模式下的色调
+#define COLOR_USER_PROXY FlatSand//监控模式下的色调
 
 #define COLOR_BLACK_ORIGINAL rgba(95,95,95,1)
 #define COLOR_NAVI_TITLE COLOR_BLACK_ORIGINAL//FlatGrayDark
@@ -57,11 +57,14 @@
 
 #define DEBUG_MODE [Config isDebugMode]
 
+#define T9_Environment [Config isT9Environment]
+
 #define HEART_BEAT_INTERVAL DEBUG_MODE ? 60 * 1000 : 5 * 60 * 1000 //生产环境5分钟
 
 #define ICON_FAN_HUI @"\U0000e730"//@"\U0000e614"
 #define ICON_SHE_ZHI @"\U0000e628"
 #define ICON_SAO_MIAO @"\U0000e8b3"
+#define ICON_SAO_MA @"\U0000e612"
 #define ICON_DI_TU @"\U0000e643"//@"\U0000e603"
 
 //#define ICON_LOGO_SPLASH @"\U0000e7a9"
@@ -142,6 +145,11 @@
 #define ICON_EMPTY_WANG_LUO @"\U0000e68c"//@"\U0000e62d"
 #define ICON_EMPTY_NO_DATA @"\U0000e601"
 
+#define ICON_XIANG_CHE @"\U0000e833"
+#define ICON_DIAN_SHI @"\U0000e6c1"
+#define ICON_DIAN_KUANG @"\U0000e6c2"
+#define ICON_TIAO_MA @"\U0000e607"
+
 #define ICON_MAP_MARK @"\U0000e62a"
 
 #define APPLICATION_NAME [LocalBundleManager getAppName]//@"百世通"
@@ -159,7 +167,6 @@
 #define TABBAR_TITLE_XIAO_XI @"消息"
 #define TABBAR_TITLE_WO @"我"
 
-
 #define NAVIGATION_TITLE_HOME @"主页"
 #define NAVIGATION_TITLE_TASK_HOME @"我的任务"
 #define NAVIGATION_TITLE_TASK_TRIP @"我的行程"
@@ -168,6 +175,10 @@
 #define NAVIGATION_TITLE_MESSAGE @"消息提醒"
 #define NAVIGATION_TITLE_VERSION @"版本信息"
 #define NAVIGATION_TITLE_ADMIN @"管理员大帝"
+
+#define NAVIGATION_TITLE_SCAN @"扫描货量"
+#define NAVIGATION_TITLE_SCAN_CARGO @"填写货量信息"
+
 
 #define NAVIGATION_TITLE_USER @"我的"
 
@@ -189,7 +200,7 @@
 #define LOCATION_INFO_CELL_HEIGHT 50
 
 #define TASK_VIEW_CELL_HEIGHT 135 //240
-#define TASK_VIEW_SECTION_HEIGHT 25
+#define TASK_VIEW_SECTION_HEIGHT (SCREEN_WIDTH > IPHONE_5S_WIDTH ? 35 : 25)
 
 //#define TASK_TRIP_AREA_HEIGHT 140
 
@@ -219,6 +230,8 @@
 
 #define EVENT_LOCATION_CHANGE @"EVENT_LOCATION_CHANGE"
 
+#define EVENT_APP_BECOME_ACTIVE @"EVENT_APP_BECOME_ACTIVE" //app从后台挂起后恢复
+
 #define ACTIVITY_CODE_PICKUP_HANDOVER @"PICKUP_HANDOVER" //揽收
 #define ACTIVITY_CODE_LOAD @"LOAD" //装车
 #define ACTIVITY_CODE_UNLOAD @"UNLOAD" //卸货
@@ -235,6 +248,9 @@
 #define ACTIVITY_STATUS_REPORTING @"REPORTING"
 #define ACTIVITY_STATUS_REPORTED @"REPORTED"
 #define ACTIVITY_STATUS_CANCELED @"CANCELED"
+
+#define SCAN_SOURCETYPE_PICKUP @"PICKUP_CODE"
+#define SCAN_SOURCETYPE_SIGN @"SIGN_CODE"
 
 #define ACCOUNT_DRIVER_TYPE_INDIVIDUAL @"INDIVIDUAL"//个体司机
 #define ACCOUNT_DRIVER_TYPE_SUBORDINATE @"SUBORDINATE"//挂靠承运商
@@ -286,6 +302,8 @@ static AppVersion* appVersion;
 +(NSString*)getToken;
 
 +(BOOL)isDebugMode;
+
++(BOOL)isT9Environment;
 
 +(NSString*)getPgyerAppID;
 

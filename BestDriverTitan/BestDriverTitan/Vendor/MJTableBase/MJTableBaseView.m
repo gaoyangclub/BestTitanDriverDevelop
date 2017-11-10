@@ -112,12 +112,15 @@
 }
 
 -(SourceVo*)getSourceByIndex:(NSInteger)index{
-    return self.dataArray[index];
+    if (index < self.dataArray.count) {
+        return self.dataArray[index];
+    }
+    return nil;
 }
 
 -(CellVo *)getCellVoByIndexPath:(NSIndexPath *)indexPath{
     SourceVo* source = [self getSourceByIndex:indexPath.section];
-    if (source.data && indexPath.row < source.data.count) {
+    if (source && source.data && indexPath.row < source.data.count) {
         return source.data[indexPath.row];
     }
     return nil;
@@ -291,13 +294,13 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    SourceVo* source = self.dataArray[section];
-    return source.headerHeight;
+    SourceVo* source = [self getSourceByIndex:section];
+    return source ? source.headerHeight : 0;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    SourceVo* source = self.dataArray[section];
-    return source.data.count;
+    SourceVo* source = [self getSourceByIndex:section];
+    return source && source.data ? source.data.count : 0;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -308,7 +311,7 @@
         NSLog(@"产生无效UITableViewCell 可能是一个刷新列表正在进行中 另一个刷新就来了引起的");
         return [[UITableViewCell alloc] init];
     }
-    SourceVo* source = self.dataArray[section];
+    SourceVo* source = [self getSourceByIndex:section];
     CellVo* cellVo = source.data[row];//获取的数据给cell显示
     Class cellClass = cellVo.cellClass;
 //    if(autoCellClass != nil){
@@ -376,13 +379,15 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    SourceVo* source = self.dataArray[indexPath.section];
-    CellVo* cellVo = source.data[indexPath.row];
-    return cellVo.cellHeight;
+    CellVo* cellVo = [self getCellVoByIndexPath:indexPath];
+    if (cellVo) {
+        return cellVo.cellHeight;
+    }
+    return 0;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    SourceVo* source = self.dataArray[section];
+    SourceVo* source = [self getSourceByIndex:section];
     Class headerClass = source.headerClass;
     MJTableViewSection* sectionView;
     if (headerClass != NULL) {
@@ -411,8 +416,7 @@
 ////        tableView
 //        cell.needRefresh = NO; //不需要刷新
 //    }
-//    SourceVo* source = self.dataArray[indexPath.section];
-//    CellVo* cellVo = source.data[indexPath.row];
+//    CellVo* cellVo = [self getCellVoByIndexPath:indexPath];
 //    cellVo.isSelect = YES;
     if(self.clickCellHighlight){
         [self changeSelectIndexPath:indexPath];
@@ -481,8 +485,8 @@
 -(void)checkGaps {
     //遍历整个数据链 判断头尾标记和gap是否存在
     for (NSInteger i = 0; i < self.dataArray.count; i ++) {
-        SourceVo* svo = self.dataArray[i];
-        if (svo.data != nil && svo.data.count > 0) {
+        SourceVo* svo = [self getSourceByIndex:i];
+        if (svo && svo.data != nil && svo.data.count > 0) {
             BOOL hasFirst = NO;
             BOOL hasLast = NO;
             for (NSInteger j = svo.data.count - 1; j >= 0; j --) {
@@ -514,9 +518,9 @@
     
     if(self.sectionGap > 0 || self.cellGap > 0){
         for (NSInteger i = 0; i < self.dataArray.count; i ++) {
-            SourceVo* svo = self.dataArray[i];
+            SourceVo* svo = [self getSourceByIndex:i];
             //            var preCellVo:CellVo? = nil
-            if(svo.data != nil && svo.data.count > 0){
+            if(svo && svo.data != nil && svo.data.count > 0){
                 for (NSInteger j = svo.data.count - 1; j >= 0; j --) {
                     if(self.sectionGap > 0 && j == svo.data.count - 1 && i != self.dataArray.count - 1){//非最后一节 且最后一个实体存到最后
                         [svo.data addObject:[self getSectionGapCellVo]];

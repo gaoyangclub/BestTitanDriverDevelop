@@ -12,6 +12,7 @@
 @protocol OrderTabViewDelegate<NSObject>
 
 @optional
+-(BOOL)shouldSelectIndex:(NSInteger)index;//是否可以选中
 -(void)didSelectIndex:(NSInteger)index;
 -(void)didSelectItem:(ShipmentActivityBean*)activityBean;
 

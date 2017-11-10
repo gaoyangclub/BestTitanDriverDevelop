@@ -116,9 +116,12 @@
     if (!_stateArea) {
         _stateArea = [[FlatButton alloc]init];
         _stateArea.userInteractionEnabled = NO;
-        _stateArea.cornerRadius = 3;
+        _stateArea.cornerRadius = 0;
         _stateArea.fillColor = [UIColor whiteColor];
-        _stateArea.strokeWidth = 1;
+        _stateArea.strokeWidth = 2;
+        _stateArea.titleSize = 16;
+        _stateArea.angle = -10;
+        _stateArea.size = CGSizeMake(80, 30);
         //        _stateArea.fillColor = COLOR_DAI_WAN_CHENG;
         [self.square addSubview:_stateArea];
     }
@@ -152,13 +155,14 @@
 
 -(void)layoutSubviews{
     
-    CGFloat leftpadding = 5;
+    CGFloat const leftpadding = 5;
     
-    CGFloat sectionWidth = self.bounds.size.width;
-    CGFloat sectionHeight = self.bounds.size.height;
+    CGFloat const sectionWidth = self.bounds.size.width;
+    CGFloat const sectionHeight = self.bounds.size.height;
     
     self.square.frame = CGRectMake(0,0, sectionWidth, sectionHeight);
     self.bottomLine.frame = CGRectMake(leftpadding, sectionHeight - LINE_WIDTH, sectionWidth - leftpadding * 2, LINE_WIDTH);
+    
     CGFloat topHeight = ORDER_VIEW_SECTION_HEIGHT * 2 / 3;
     [self initTopArea:leftpadding topWidth:sectionWidth topHeight:topHeight];
     
@@ -195,16 +199,16 @@
     self.statusHandler = [[taskBean rac_valuesForKeyPath:@"status" observer:nil] subscribeNext:^(id x) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         BOOL isComplete = [taskBean hasReport];
-        UIColor* iconColor;
-        if(isComplete){
-            iconColor = COLOR_YI_WAN_CHENG;
-        }else{
-            iconColor = COLOR_DAI_WAN_CHENG;
+//        strongSelf.stateArea.frame = CGRectMake(CGRectGetMaxX(self.title.frame) + leftpadding, 0, 50, 20);//
+        if (isComplete) {
+            strongSelf.stateArea.hidden = NO;
+            strongSelf.stateArea.maxX = self.square.width - 50;// - leftpadding;
+            strongSelf.stateArea.centerY = self.square.height / 2.;
+            strongSelf.stateArea.titleColor = strongSelf.stateArea.strokeColor = isComplete ? [COLOR_YI_WAN_CHENG colorWithAlphaComponent:0.5] : [COLOR_DAI_WAN_CHENG colorWithAlphaComponent:0.5];
+            strongSelf.stateArea.title = isComplete ? @"已上报" : @"未上报";
+        }else if(strongSelf->_stateArea){
+            strongSelf.stateArea.hidden = YES;
         }
-        strongSelf.stateArea.frame = CGRectMake(CGRectGetMaxX(self.title.frame) + leftpadding, 0, 50, 20);
-        strongSelf.stateArea.centerY = topHeight / 2.;
-        strongSelf.stateArea.titleColor = strongSelf.stateArea.strokeColor = iconColor;
-        strongSelf.stateArea.title = isComplete ? @"已上报":@"未上报";
         
         strongSelf.iconText.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:24 content:iconName];
     }];

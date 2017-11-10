@@ -179,6 +179,15 @@
 
 //返回上层
 -(void)leftClick{
+    if ([self checkCanLeaveTask]) {//可以返回上一页
+        [self popToPrevController];
+    }else{
+        [self showEditedActivityAlert:-1];
+    }
+}
+
+//跳转到上一层
+-(void)popToPrevController{
     [self.navigationController popViewControllerAnimated:YES];
     if (self.stopBean.isComplete) {//已经全部完成
         if (self.returnBlock) {
@@ -229,11 +238,13 @@
     self.photoView.assetsArray = bean.assetsArray;
     
 //    self.tableView.height = self.view.height - BUTTON_AREA_HEIGHT - ORDER_TAB_HEIGHT - ORDER_PHOTO_CELL_HEIGHT - TASK_TRIP_SECTION_TOP_HEIGHT;
+    [self.view setNeedsLayout];//重新布局高度位置
 }
 
 -(void)hidePhotoView{
     if (_photoContainer) {//说明初始化打开过了
         self.photoContainer.hidden = YES;
+        [self.view setNeedsLayout];//重新布局高度位置
     }
 }
 
@@ -338,18 +349,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(BOOL)getShowHeader{
+    return NO;
+}
+
 -(BOOL)getShowFooter{
     return NO;
 }
 
--(void)headerRefresh:(HeaderRefreshHandler)handler{
-    
-//    if (![NetRequestClass netWorkReachability]) {//网络异常
-//        self.emptyDataSource.netError = YES;
-//        [self.tableView clearSource];
-//        handler(NO);
-//        return;
-//    }
+-(void)loadOrderData{
     [self hidePhotoView];
     
     if ([self->currentActivity.activityDefinitionCode isEqualToString:ACTIVITY_CODE_COD]) {
@@ -358,13 +366,19 @@
          ];
         self.submitButton.hidden = YES;
         [self.tableView clearSource];
-        handler(NO);
+//        handler(NO);
+        [self.tableView reloadMJData];
         return;
     }else{
         self.submitButton.hidden = NO;
     }
     
     long shipmentActivityId = self->currentActivity.id;
+    
+    [SVProgressHUD showWithStatus:@"数据获取中" maskType:SVProgressHUDMaskTypeBlack];
+    
+    [self.tableView clearSource];//先清除掉
+    [self.tableView reloadMJData];
     
     __weak __typeof(self) weakSelf = self;
     [self.viewModel getTaskActivity:shipmentActivityId returnBlock:^(id returnValue) {
@@ -373,23 +387,25 @@
             return;
         }
         if (shipmentActivityId != strongSelf->currentActivity.id) {
-            NSLog(@"界面已经被切换掉了");
-            handler(NO);
+//            NSLog(@"界面已经被切换掉了");
+            [HudManager showToast:@"界面已经被切换掉了"];
+//            handler(NO);
+            [SVProgressHUD dismiss];
             return;
         }
-        [strongSelf.tableView clearSource];
         
         strongSelf->taskBeanList = [NSArray yy_modelArrayWithClass:[ShipmentTaskBean class] json:returnValue];
         NSInteger count = strongSelf->taskBeanList.count;
         if (count <= 0) {
-            handler(NO);
+//            handler(NO);
+            [SVProgressHUD dismiss];
             return;
         }
         [strongSelf checkShowPhotoArea];
         
-//        for (NSInteger i = 0; i < 30; i++) {//临时测试代码
-//            [strongSelf->taskBeanList.firstObject.shipUnits addObject:[taskBeanList.firstObject.shipUnits.firstObject copy]];
-//        }
+//                for (NSInteger i = 0; i < 30; i++) {//临时测试代码
+//                    [strongSelf->taskBeanList.firstObject.shipUnits addObject:[taskBeanList.firstObject.shipUnits.firstObject copy]];
+//                }
         
         for (NSInteger i = 0; i < count; i++) {
             NSMutableArray* sourceData = [NSMutableArray<CellVo*> array];
@@ -409,12 +425,25 @@
             [strongSelf.tableView addSource:svo];
         }
         
-        handler(count > 0);
-        
+//        handler(count > 0);
+        [self.tableView reloadMJData];
+        [SVProgressHUD dismiss];
     } failureBlock:^(NSString *errorCode, NSString *errorMsg) {
-//        NSLog(@"%@",errorMsg);
+        //        NSLog(@"%@",errorMsg);
         [HudManager showToast:errorMsg];
+        [SVProgressHUD dismiss];
     }];
+}
+
+-(void)headerRefresh:(HeaderRefreshHandler)handler{
+    
+//    if (![NetRequestClass netWorkReachability]) {//网络异常
+//        self.emptyDataSource.netError = YES;
+//        [self.tableView clearSource];
+//        handler(NO);
+//        return;
+//    }
+    
 //    int64_t delay = 1.0 * NSEC_PER_SEC;
 //    
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), ^{//
@@ -576,6 +605,31 @@
     }];
 }
 
+-(void)showEditedActivityAlert:(NSInteger)nextIndex{
+    UIAlertController *alertController;
+    NSString* alertMessage;
+    __weak __typeof(self) weakSelf = self;
+    if(nextIndex < 0){//返回上一层
+        alertMessage = @"您当前有正在编辑的订单，确定离开当前页面？";
+        alertController = [UIAlertController alertControllerWithTitle:@"提示" message:alertMessage preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"留在当前" style:UIAlertActionStyleCancel handler:nil]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [weakSelf popToPrevController];
+        }]];
+    }else{
+        ShipmentActivityBean* nextActivityBean = self.activityBeans[nextIndex];
+        NSString* nextLabel = [Config getActivityLabelByCode:nextActivityBean.activityDefinitionCode];
+        alertMessage = [NSString stringWithFormat:@"您当前有正在编辑的订单，确定是否跳转%@活动页面？\n(跳转会清除编辑过的数据)",nextLabel];
+        alertController = [UIAlertController alertControllerWithTitle:@"提示" message:alertMessage preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"留在当前" style:UIAlertActionStyleCancel handler:nil]];
+        [alertController addAction:[UIAlertAction actionWithTitle:[NSString stringWithFormat:@"去%@",nextLabel] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [weakSelf.tabView setSelectedIndex:nextIndex];
+        }]];
+    }
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
 -(void)showNextActivityAlert{
     UIAlertController *alertController;
     NSInteger nextIndex = [self getPendingReportActivityIndex:self.activityBeans isNext:YES];
@@ -602,7 +656,7 @@
 //            [alertController addAction:nextAction];
 //        }
         [alertController addAction:[UIAlertAction actionWithTitle:@"上一页" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [weakSelf leftClick];
+            [weakSelf popToPrevController];
         }]];
     }else{
         ShipmentActivityBean* nextActivityBean = self.activityBeans[nextIndex];
@@ -622,7 +676,7 @@
     if (buttonIndex == 1) {//确定
         NSInteger nextIndex = [self getPendingReportActivityIndex:self.activityBeans isNext:YES];
         if (nextIndex < 0) {//返回上一层
-            [self leftClick];
+            [self popToPrevController];
         }else{
             [self.tabView setSelectedIndex:nextIndex];
         }
@@ -667,10 +721,33 @@
 //    }
 }
 
+-(BOOL)checkCanLeaveTask{
+    if (self->taskBeanList) {
+        for (ShipmentTaskBean* taskBean in self->taskBeanList) {
+            if (taskBean.isEdited) {//已经被编辑过了
+                return NO;
+            }
+        }
+    }
+    return YES;
+}
+
+#pragma OrderTabViewDelegate
+-(BOOL)shouldSelectIndex:(NSInteger)index{
+    if ([self checkCanLeaveTask]) {
+        return YES;
+    }else{
+        [self showEditedActivityAlert:index];
+        return NO;
+    }
+}
+
 #pragma OrderTabViewDelegate
 -(void)didSelectItem:(ShipmentActivityBean *)activityBean{
     self->currentActivity = activityBean;
-    [self.tableView headerBeginRefresh];
+//    [self.tableView headerBeginRefresh];
+    [self loadOrderData];
+    
     [self changeSubmitButtonStatus];
     
 //    if ([activityBean.activityDefinitionCode isEqualToString:ACTIVITY_CODE_DELIVERY_RECEIPT]) {//测试回单...

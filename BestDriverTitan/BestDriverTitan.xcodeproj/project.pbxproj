@@ -122,12 +122,24 @@
 		847290F81F3AF31000C2FC42 /* Default750x1334.png in Resources */ = {isa = PBXBuildFile; fileRef = 847290F21F3AF31000C2FC42 /* Default750x1334.png */; };
 		847290F91F3AF31000C2FC42 /* Default1242x2208.png in Resources */ = {isa = PBXBuildFile; fileRef = 847290F31F3AF31000C2FC42 /* Default1242x2208.png */; };
 		847290FA1F3AF31000C2FC42 /* Default2208x1242.png in Resources */ = {isa = PBXBuildFile; fileRef = 847290F41F3AF31000C2FC42 /* Default2208x1242.png */; };
+		847387351FAB20EA00BBF15D /* ScanResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 847387341FAB20EA00BBF15D /* ScanResultViewController.m */; };
 		84753E981F340CB20012024D /* AdminViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84753E971F340CB20012024D /* AdminViewController.m */; };
 		847609DD1F317915003C6359 /* UpdateVersionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 847609DC1F317915003C6359 /* UpdateVersionManager.m */; };
 		847609E01F31817E003C6359 /* VersionInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 847609DF1F31817E003C6359 /* VersionInfoController.m */; };
+		8477A0EA1FA70A4500312950 /* ScanHomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8477A0E91FA70A4500312950 /* ScanHomeController.m */; };
+		8477A0EE1FA70BA300312950 /* scanbackgroud.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8477A0ED1FA70BA300312950 /* scanbackgroud.jpg */; };
+		8477A0FE1FA73C0F00312950 /* HCCreateQRCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 8477A0F11FA73C0F00312950 /* HCCreateQRCode.m */; };
+		8477A0FF1FA73C0F00312950 /* HCScanQRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8477A0F41FA73C0F00312950 /* HCScanQRViewController.m */; };
+		8477A1001FA73C0F00312950 /* image.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8477A0F51FA73C0F00312950 /* image.bundle */; };
+		8477A1011FA73C0F00312950 /* SystemFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8477A0F81FA73C0F00312950 /* SystemFunctions.m */; };
+		8477A1021FA73C0F00312950 /* UIFont+MyFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 8477A0FB1FA73C0F00312950 /* UIFont+MyFont.m */; };
 		8478A2161E6407260076E8B4 /* TaskTripSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8478A2151E6407260076E8B4 /* TaskTripSection.m */; };
 		8478A2191E641F300076E8B4 /* TaskTripCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8478A2181E641F300076E8B4 /* TaskTripCell.m */; };
 		847A26F71F4146A900C228FB /* OrderReceiptCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 847A26F61F4146A900C228FB /* OrderReceiptCell.m */; };
+		847B85061FA84DFE001B25BF /* ScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 847B85051FA84DFE001B25BF /* ScanViewController.m */; };
+		847B850A1FA85534001B25BF /* ScanViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 847B85091FA85534001B25BF /* ScanViewModel.m */; };
+		847B850D1FA860B8001B25BF /* ScanTaskResultBean.m in Sources */ = {isa = PBXBuildFile; fileRef = 847B850C1FA860B8001B25BF /* ScanTaskResultBean.m */; };
+		847C93E11FB0574800133229 /* ScanOrderEditController.m in Sources */ = {isa = PBXBuildFile; fileRef = 847C93E01FB0574800133229 /* ScanOrderEditController.m */; };
 		847C9C421F219CEB00C22C36 /* UserDefaultsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 847C9C411F219CEB00C22C36 /* UserDefaultsUtils.m */; };
 		847C9C461F21D84900C22C36 /* OwnerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 847C9C451F21D84900C22C36 /* OwnerViewController.m */; };
 		847C9C4D1F21E6E200C22C36 /* UserHomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 847C9C4C1F21E6E200C22C36 /* UserHomeController.m */; };
@@ -144,6 +156,7 @@
 		847F3E5D1F1F79DB00C21C6A /* LoginViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 847F3E5C1F1F79DB00C21C6A /* LoginViewModel.m */; };
 		84812A3F1E4C84C500E382F1 /* UIColor+HexExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = 84812A3E1E4C84C500E382F1 /* UIColor+HexExchange.m */; };
 		8485AA841F298F76002D27A6 /* FlatButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8485AA831F298F76002D27A6 /* FlatButton.m */; };
+		84882D161FAC70B5005EFD2E /* ScanTaskOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84882D151FAC70B5005EFD2E /* ScanTaskOrderCell.m */; };
 		848A38061F3D4E1A00B15E4B /* QBImagePicker.strings in Resources */ = {isa = PBXBuildFile; fileRef = 848A37EA1F3D4E1A00B15E4B /* QBImagePicker.strings */; };
 		848A38071F3D4E1A00B15E4B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 848A37EE1F3D4E1A00B15E4B /* Info.plist */; };
 		848A38081F3D4E1A00B15E4B /* QBAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 848A37F21F3D4E1A00B15E4B /* QBAlbumCell.m */; };
@@ -439,18 +452,41 @@
 		847290F21F3AF31000C2FC42 /* Default750x1334.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default750x1334.png; sourceTree = "<group>"; };
 		847290F31F3AF31000C2FC42 /* Default1242x2208.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default1242x2208.png; sourceTree = "<group>"; };
 		847290F41F3AF31000C2FC42 /* Default2208x1242.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default2208x1242.png; sourceTree = "<group>"; };
+		847387331FAB20EA00BBF15D /* ScanResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanResultViewController.h; sourceTree = "<group>"; };
+		847387341FAB20EA00BBF15D /* ScanResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanResultViewController.m; sourceTree = "<group>"; };
 		84753E961F340CB20012024D /* AdminViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdminViewController.h; sourceTree = "<group>"; };
 		84753E971F340CB20012024D /* AdminViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdminViewController.m; sourceTree = "<group>"; };
 		847609DB1F317915003C6359 /* UpdateVersionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateVersionManager.h; sourceTree = "<group>"; };
 		847609DC1F317915003C6359 /* UpdateVersionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateVersionManager.m; sourceTree = "<group>"; };
 		847609DE1F31817E003C6359 /* VersionInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionInfoController.h; sourceTree = "<group>"; };
 		847609DF1F31817E003C6359 /* VersionInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionInfoController.m; sourceTree = "<group>"; };
+		8477A0E81FA70A4500312950 /* ScanHomeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanHomeController.h; sourceTree = "<group>"; };
+		8477A0E91FA70A4500312950 /* ScanHomeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanHomeController.m; sourceTree = "<group>"; };
+		8477A0ED1FA70BA300312950 /* scanbackgroud.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = scanbackgroud.jpg; sourceTree = "<group>"; };
+		8477A0F01FA73C0F00312950 /* HCCreateQRCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCCreateQRCode.h; sourceTree = "<group>"; };
+		8477A0F11FA73C0F00312950 /* HCCreateQRCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCCreateQRCode.m; sourceTree = "<group>"; };
+		8477A0F21FA73C0F00312950 /* HCHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCHeader.h; sourceTree = "<group>"; };
+		8477A0F31FA73C0F00312950 /* HCScanQRViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCScanQRViewController.h; sourceTree = "<group>"; };
+		8477A0F41FA73C0F00312950 /* HCScanQRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCScanQRViewController.m; sourceTree = "<group>"; };
+		8477A0F51FA73C0F00312950 /* image.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = image.bundle; sourceTree = "<group>"; };
+		8477A0F71FA73C0F00312950 /* SystemFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemFunctions.h; sourceTree = "<group>"; };
+		8477A0F81FA73C0F00312950 /* SystemFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemFunctions.m; sourceTree = "<group>"; };
+		8477A0FA1FA73C0F00312950 /* UIFont+MyFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+MyFont.h"; sourceTree = "<group>"; };
+		8477A0FB1FA73C0F00312950 /* UIFont+MyFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+MyFont.m"; sourceTree = "<group>"; };
 		8478A2141E6407260076E8B4 /* TaskTripSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskTripSection.h; sourceTree = "<group>"; };
 		8478A2151E6407260076E8B4 /* TaskTripSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskTripSection.m; sourceTree = "<group>"; };
 		8478A2171E641F300076E8B4 /* TaskTripCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskTripCell.h; sourceTree = "<group>"; };
 		8478A2181E641F300076E8B4 /* TaskTripCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskTripCell.m; sourceTree = "<group>"; };
 		847A26F51F4146A900C228FB /* OrderReceiptCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderReceiptCell.h; sourceTree = "<group>"; };
 		847A26F61F4146A900C228FB /* OrderReceiptCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderReceiptCell.m; sourceTree = "<group>"; };
+		847B85041FA84DFE001B25BF /* ScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanViewController.h; sourceTree = "<group>"; };
+		847B85051FA84DFE001B25BF /* ScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanViewController.m; sourceTree = "<group>"; };
+		847B85081FA85534001B25BF /* ScanViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanViewModel.h; sourceTree = "<group>"; };
+		847B85091FA85534001B25BF /* ScanViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanViewModel.m; sourceTree = "<group>"; };
+		847B850B1FA860B8001B25BF /* ScanTaskResultBean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanTaskResultBean.h; sourceTree = "<group>"; };
+		847B850C1FA860B8001B25BF /* ScanTaskResultBean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanTaskResultBean.m; sourceTree = "<group>"; };
+		847C93DF1FB0574800133229 /* ScanOrderEditController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanOrderEditController.h; sourceTree = "<group>"; };
+		847C93E01FB0574800133229 /* ScanOrderEditController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanOrderEditController.m; sourceTree = "<group>"; };
 		847C9C401F219CEB00C22C36 /* UserDefaultsUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDefaultsUtils.h; sourceTree = "<group>"; };
 		847C9C411F219CEB00C22C36 /* UserDefaultsUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDefaultsUtils.m; sourceTree = "<group>"; };
 		847C9C441F21D84900C22C36 /* OwnerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OwnerViewController.h; sourceTree = "<group>"; };
@@ -481,6 +517,8 @@
 		84812A3E1E4C84C500E382F1 /* UIColor+HexExchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexExchange.m"; sourceTree = "<group>"; };
 		8485AA821F298F76002D27A6 /* FlatButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlatButton.h; sourceTree = "<group>"; };
 		8485AA831F298F76002D27A6 /* FlatButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlatButton.m; sourceTree = "<group>"; };
+		84882D141FAC70B5005EFD2E /* ScanTaskOrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanTaskOrderCell.h; sourceTree = "<group>"; };
+		84882D151FAC70B5005EFD2E /* ScanTaskOrderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanTaskOrderCell.m; sourceTree = "<group>"; };
 		848A37EB1F3D4E1A00B15E4B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/QBImagePicker.strings; sourceTree = "<group>"; };
 		848A37EC1F3D4E1A00B15E4B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/QBImagePicker.strings; sourceTree = "<group>"; };
 		848A37ED1F3D4E1A00B15E4B /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/QBImagePicker.strings; sourceTree = "<group>"; };
@@ -1044,6 +1082,8 @@
 				849065351F66762A0041B829 /* ContactBean.m */,
 				842DC2BE1F8CB7B6002D1F90 /* AppPushMsg.h */,
 				842DC2BF1F8CB7B6002D1F90 /* AppPushMsg.m */,
+				847B850B1FA860B8001B25BF /* ScanTaskResultBean.h */,
+				847B850C1FA860B8001B25BF /* ScanTaskResultBean.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1051,6 +1091,7 @@
 		84495C931DF113D90017D2CA /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				8477A0ED1FA70BA300312950 /* scanbackgroud.jpg */,
 				841CBC671F443871006BCC5B /* map */,
 				847F3E4A1F1F02BC00C21C6A /* default */,
 				847F3E4E1F1F02BC00C21C6A /* splash */,
@@ -1063,6 +1104,7 @@
 		84495C951DF113D90017D2CA /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				8477A0EF1FA73C0F00312950 /* HCSystemicQRCode */,
 				A9D55E511F63911800866580 /* Unicode */,
 				841CBC5F1F442FF1006BCC5B /* Location */,
 				848A37E81F3D4E0100B15E4B /* ImagePicker */,
@@ -1085,6 +1127,7 @@
 		84495C961DF113D90017D2CA /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				8477A0E71FA70A2200312950 /* Scan */,
 				846689A21F72858B00A0C4CF /* Message */,
 				8423FBB81F46F73D007C2CB0 /* Location */,
 				841CBC631F443549006BCC5B /* Map */,
@@ -1101,6 +1144,7 @@
 		84495C971DF113D90017D2CA /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				847B85071FA85501001B25BF /* Scan */,
 				847EB6F01F6A206500BCA12B /* Order */,
 				8470A4C81F5E409300AF1830 /* Location */,
 				849CB3541F59318E00D77137 /* Task */,
@@ -1265,6 +1309,65 @@
 				847278B31DF1763A00C1BACB /* NetRequestClass.m */,
 			);
 			path = Request;
+			sourceTree = "<group>";
+		};
+		8477A0E71FA70A2200312950 /* Scan */ = {
+			isa = PBXGroup;
+			children = (
+				8477A0E81FA70A4500312950 /* ScanHomeController.h */,
+				8477A0E91FA70A4500312950 /* ScanHomeController.m */,
+				847B85041FA84DFE001B25BF /* ScanViewController.h */,
+				847B85051FA84DFE001B25BF /* ScanViewController.m */,
+				847387331FAB20EA00BBF15D /* ScanResultViewController.h */,
+				847387341FAB20EA00BBF15D /* ScanResultViewController.m */,
+				84882D141FAC70B5005EFD2E /* ScanTaskOrderCell.h */,
+				84882D151FAC70B5005EFD2E /* ScanTaskOrderCell.m */,
+				847C93DF1FB0574800133229 /* ScanOrderEditController.h */,
+				847C93E01FB0574800133229 /* ScanOrderEditController.m */,
+			);
+			path = Scan;
+			sourceTree = "<group>";
+		};
+		8477A0EF1FA73C0F00312950 /* HCSystemicQRCode */ = {
+			isa = PBXGroup;
+			children = (
+				8477A0F01FA73C0F00312950 /* HCCreateQRCode.h */,
+				8477A0F11FA73C0F00312950 /* HCCreateQRCode.m */,
+				8477A0F21FA73C0F00312950 /* HCHeader.h */,
+				8477A0F31FA73C0F00312950 /* HCScanQRViewController.h */,
+				8477A0F41FA73C0F00312950 /* HCScanQRViewController.m */,
+				8477A0F51FA73C0F00312950 /* image.bundle */,
+				8477A0F61FA73C0F00312950 /* model */,
+				8477A0F91FA73C0F00312950 /* Utils */,
+			);
+			path = HCSystemicQRCode;
+			sourceTree = "<group>";
+		};
+		8477A0F61FA73C0F00312950 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				8477A0F71FA73C0F00312950 /* SystemFunctions.h */,
+				8477A0F81FA73C0F00312950 /* SystemFunctions.m */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		8477A0F91FA73C0F00312950 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				8477A0FA1FA73C0F00312950 /* UIFont+MyFont.h */,
+				8477A0FB1FA73C0F00312950 /* UIFont+MyFont.m */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		847B85071FA85501001B25BF /* Scan */ = {
+			isa = PBXGroup;
+			children = (
+				847B85081FA85534001B25BF /* ScanViewModel.h */,
+				847B85091FA85534001B25BF /* ScanViewModel.m */,
+			);
+			path = Scan;
 			sourceTree = "<group>";
 		};
 		847C9C431F21D6EA00C22C36 /* Root */ = {
@@ -1547,7 +1650,6 @@
 				TargetAttributes = {
 					840DEF651DED6E3100963524 = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = XZATG76F8M;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -1597,6 +1699,7 @@
 				845C57751F4A8BA4004EC198 /* endPoint@2x.png in Resources */,
 				A96C2CA61F7601800019CA30 /* default_navi_route_waypoint@2x.png in Resources */,
 				84495CB01DF11F2D0017D2CA /* iconfont.ttf in Resources */,
+				8477A1001FA73C0F00312950 /* image.bundle in Resources */,
 				A9D2248B1F492148001B8135 /* userPosition.png in Resources */,
 				8407DF331DF1539300E47E73 /* application.png in Resources */,
 				A96C2CA11F7601800019CA30 /* default_navi_route_endpoint@3x.png in Resources */,
@@ -1609,6 +1712,7 @@
 				A96C2CA31F7601800019CA30 /* default_navi_route_startpoint@2x.png in Resources */,
 				84129A2A1E54579700151672 /* MJRefresh.bundle in Resources */,
 				A96C2CA21F7601800019CA30 /* default_navi_route_startpoint.png in Resources */,
+				8477A0EE1FA70BA300312950 /* scanbackgroud.jpg in Resources */,
 				845C57771F4A8BA4004EC198 /* startPoint@2x.png in Resources */,
 				847290F81F3AF31000C2FC42 /* Default750x1334.png in Resources */,
 				847290F71F3AF31000C2FC42 /* Default640x1136.png in Resources */,
@@ -1688,6 +1792,7 @@
 				A9D9F49E1F11F36C000536F0 /* UIButton+Style.m in Sources */,
 				847EB6F61F6A269400BCA12B /* ShipmentActivityShipUnitBean.m in Sources */,
 				843009C01F7B9E240097CB55 /* TaskPhoneListView.m in Sources */,
+				8477A0EA1FA70A4500312950 /* ScanHomeController.m in Sources */,
 				848A38101F3D4E1A00B15E4B /* QBVideoIconView.m in Sources */,
 				846689A51F7285A100A0C4CF /* MessageViewController.m in Sources */,
 				8470A4CB1F5E426F00AF1830 /* LocationViewModel.m in Sources */,
@@ -1712,6 +1817,7 @@
 				848A380C1F3D4E1A00B15E4B /* QBCheckmarkView.m in Sources */,
 				84129A1F1E54579700151672 /* MJRefreshFooter.m in Sources */,
 				841299DE1E542E4300151672 /* CircleNode.m in Sources */,
+				8477A1011FA73C0F00312950 /* SystemFunctions.m in Sources */,
 				8470A4CE1F5E43C400AF1830 /* HeartBeat.m in Sources */,
 				84495CA71DF117E40017D2CA /* GYTabBarView.m in Sources */,
 				84129A1C1E54579700151672 /* MJRefreshAutoFooter.m in Sources */,
@@ -1736,8 +1842,11 @@
 				84D1F8681E6567DF007C1307 /* ASControlNode+GY.m in Sources */,
 				840DEF711DED6E3100963524 /* ViewController.m in Sources */,
 				84963C8E1F14CF0F00AA4617 /* ShipmentStopBean.m in Sources */,
+				84882D161FAC70B5005EFD2E /* ScanTaskOrderCell.m in Sources */,
 				846D2B401F68D3F200A49A6D /* DateUtils.m in Sources */,
 				849CB35B1F59641500D77137 /* SpeechManager.m in Sources */,
+				847B850A1FA85534001B25BF /* ScanViewModel.m in Sources */,
+				847C93E11FB0574800133229 /* ScanOrderEditController.m in Sources */,
 				847609DD1F317915003C6359 /* UpdateVersionManager.m in Sources */,
 				84129A2D1E54579700151672 /* UIScrollView+MJExtension.m in Sources */,
 				84129A231E54579700151672 /* MJRefreshAutoStateFooter.m in Sources */,
@@ -1796,6 +1905,7 @@
 				84129A271E54579700151672 /* MJRefreshGifHeader.m in Sources */,
 				840DEF6B1DED6E3100963524 /* main.m in Sources */,
 				84129A221E54579700151672 /* MJRefreshAutoNormalFooter.m in Sources */,
+				8477A0FE1FA73C0F00312950 /* HCCreateQRCode.m in Sources */,
 				848A380B1F3D4E1A00B15E4B /* QBAssetsViewController.m in Sources */,
 				848A380A1F3D4E1A00B15E4B /* QBAssetCell.m in Sources */,
 				84129A241E54579700151672 /* MJRefreshBackGifFooter.m in Sources */,
@@ -1808,10 +1918,12 @@
 				849CB3611F59687500D77137 /* TTSDataSource.m in Sources */,
 				8402EC2A1DF94852002B78D9 /* TaskViewController.m in Sources */,
 				846217CC1F15CBDD00B2C46B /* CustomDismissingController.m in Sources */,
+				8477A0FF1FA73C0F00312950 /* HCScanQRViewController.m in Sources */,
 				8402EC7D1DF97D41002B78D9 /* TaskTripController.m in Sources */,
 				A9D2248F1F49523E001B8135 /* LocationInfoCell.m in Sources */,
 				848A380F1F3D4E1A00B15E4B /* QBSlomoIconView.m in Sources */,
 				84FF1A201DF7E3A2000AEBC0 /* UICreationUtils.m in Sources */,
+				847387351FAB20EA00BBF15D /* ScanResultViewController.m in Sources */,
 				A9D6D35D1F24676D001E9C5A /* NormalSelectItem.m in Sources */,
 				846217D71F1629C500B2C46B /* Config.m in Sources */,
 				847202D71F3C5F730097F386 /* OrderPhotoCell.m in Sources */,
@@ -1822,12 +1934,15 @@
 				84415F0A1F9455E400562C6E /* MathUtils.m in Sources */,
 				84129A311E54579700151672 /* MJTableViewCell.m in Sources */,
 				8470A4C71F5E3E6100AF1830 /* BackgroundTimer.m in Sources */,
+				847B850D1FA860B8001B25BF /* ScanTaskResultBean.m in Sources */,
 				849CB35E1F5965BD00D77137 /* AVSpeechDataSource.m in Sources */,
 				84495CA51DF117E40017D2CA /* GYTabBarController.m in Sources */,
 				A910B1971F4076F600CCAFCD /* OrderEditModelView.m in Sources */,
+				847B85061FA84DFE001B25BF /* ScanViewController.m in Sources */,
 				849740AA1F0A459A008D3030 /* YYWeakProxy.m in Sources */,
 				84129A2B1E54579700151672 /* MJRefreshConst.m in Sources */,
 				849161CF1E34B1C00063CD80 /* ShipmentBean.m in Sources */,
+				8477A1021FA73C0F00312950 /* UIFont+MyFont.m in Sources */,
 				84129A281E54579700151672 /* MJRefreshNormalHeader.m in Sources */,
 				849CB36F1F597CF400D77137 /* TTSConfig.m in Sources */,
 				84129A331E54579700151672 /* MJTableViewSection.m in Sources */,

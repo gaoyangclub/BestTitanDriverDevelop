@@ -42,6 +42,7 @@
         self.numberOfColumnsInLandscape = 7;
         
         _selectedAssets = [NSMutableOrderedSet orderedSet];
+        _selectedAllFetchAssets = [NSMutableIndexSet indexSet];
         
         // Get asset bundle
         self.assetBundle = [NSBundle bundleForClass:[self class]];

@@ -252,8 +252,14 @@ static OwnerViewController* instance;
 }
 
 -(void)registerGeTuiAppClient:(NSString*)clientId{
-    LoginViewModel* loginViewModel = [[LoginViewModel alloc]init];
     __weak __typeof(self) weakSelf = self;
+    if (![NetRequestClass netWorkReachability]) {//网络异常
+        [[[NSNotificationCenter defaultCenter] rac_addObserverForName:EVENT_APP_BECOME_ACTIVE object:nil] subscribeNext:^(id obj) {
+            [weakSelf registerGeTuiAppClient:clientId];//继续检查
+        }];
+        return;
+    }
+    LoginViewModel* loginViewModel = [[LoginViewModel alloc]init];
     [loginViewModel registerGeTuiAppClient:clientId returnBlock:^(id returnValue) {
         NSString *aString = [[NSString alloc] initWithData:returnValue encoding:NSUTF8StringEncoding];
         if ([@"true" isEqualToString:aString]) {
@@ -263,7 +269,7 @@ static OwnerViewController* instance;
         }
     } failureBlock:^(NSString *errorCode, NSString *errorMsg) {
         if (errorMsg) {
-            [HudManager showToast:errorMsg];
+            [HudManager showToast:ConcatStrings(@"注册个推clientId失败:", errorMsg)];
         }
         [weakSelf registerGeTuiAppClient:clientId];//继续注册
     }];

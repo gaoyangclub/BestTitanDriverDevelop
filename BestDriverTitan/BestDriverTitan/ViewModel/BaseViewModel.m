@@ -18,7 +18,7 @@
 //    netConnectBlock(netState);
 //}
 
-#pragma 接收穿过来的block
+#pragma 接收传过来的block
 //-(void) setBlockWithReturnBlock: (ReturnValueBlock) returnBlock
 //                 WithErrorBlock: (ErrorCodeBlock) errorBlock
 //               WithFailureBlock: (FailureBlock) failureBlock

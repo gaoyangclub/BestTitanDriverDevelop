@@ -10,7 +10,7 @@
 
 @interface ShipmentActivityShipUnitBean : NSObject<NSCopying>
 
-//@property(nonatomic,assign) BOOL isEdited;
+@property(nonatomic,assign,readonly) BOOL isEdited;
 
 @property(nonatomic,assign) long id;
 @property(nonatomic,copy) NSString* itemName;//货物名称
@@ -19,6 +19,8 @@
 @property(nonatomic,copy) NSString* actualReceivedWeight;//重量 精确6位小数
 @property(nonatomic,copy) NSString* actualReceivedVolume;//体积 精确6位小数
 @property(nonatomic,assign) NSInteger itemCount;//内件数量
+
+-(void)changeEditValue:(NSInteger)pacakageUnitCount actualReceivedWeight:(NSString*)actualReceivedWeight actualReceivedVolume:(NSString*)actualReceivedVolume itemCount:(NSInteger)itemCount;
 
 @property(nonatomic,assign) NSInteger orgPacakageUnitCount;//下单包装数量 ,
 @property(nonatomic,copy) NSString* orgWeight;//下单重量 ,

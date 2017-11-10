@@ -20,5 +20,7 @@
 @property(nonatomic,retain) UIColor* strokeColor;
 @property(nonatomic,assign) CGFloat strokeWidth;
 
+@property(nonatomic,assign) CGFloat angle;//旋转角度
+
 
 @end

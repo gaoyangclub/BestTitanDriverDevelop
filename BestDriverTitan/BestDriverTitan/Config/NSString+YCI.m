@@ -62,12 +62,14 @@
     if(!content)return nil;
     
     NSMutableAttributedString* attrString =
-    [[NSMutableAttributedString alloc]initWithString:content attributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                        [UIFont fontWithName:face size:size],NSFontAttributeName,
-                                                        color,NSForegroundColorAttributeName,
-                                                        [UIFont systemFontOfSize:size],NSFontAttributeName,
-//                                                        style,NSParagraphStyleAttributeName,
-                                                        nil]];
+    [[NSMutableAttributedString alloc]initWithString:content attributes:@{NSFontAttributeName:[UIFont fontWithName:face size:size],NSForegroundColorAttributeName:color}
+//     [NSDictionary dictionaryWithObjectsAndKeys:
+//                                                        [UIFont fontWithName:face size:size],NSFontAttributeName,
+//                                                        color,NSForegroundColorAttributeName,
+//                                                        [UIFont systemFontOfSize:size],NSFontAttributeName,
+////                                                        style,NSParagraphStyleAttributeName,
+//                                                        nil]
+     ];
 //    [[NSMutableAttributedString alloc]initWithString:context];
 //    [attrString addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(0, context.length)];
 ////    [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, context.length)];

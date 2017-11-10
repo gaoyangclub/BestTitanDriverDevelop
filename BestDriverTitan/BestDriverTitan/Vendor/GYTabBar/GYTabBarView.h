@@ -44,6 +44,6 @@
 @property(nonatomic,retain) NSObject *data;
 @property(nonatomic,assign) NSInteger badge;
 
--(void)setSelectedIndex:(NSInteger)selectedIndex;
+//-(void)setSelectedIndex:(NSInteger)selectedIndex;
 
 @end

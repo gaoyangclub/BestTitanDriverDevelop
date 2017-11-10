@@ -10,10 +10,12 @@
 
 @implementation NetConfig
 
-static NetModeType netMode;// = NetModeTypeRelease;//默认T8生产环境
+static NetModeType netMode;//默认T8生产环境
 +(void)load{
     if (DEBUG_MODE) {
         netMode = NetModeTypeTest;
+    }else if(T9_Environment){
+        netMode = NetModeTypeReleaseT9;//T9专用
     }else{
         netMode = NetModeTypeRelease;
     }
