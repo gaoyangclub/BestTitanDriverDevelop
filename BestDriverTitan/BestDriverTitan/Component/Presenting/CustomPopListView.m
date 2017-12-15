@@ -17,7 +17,7 @@
 
 -(void)showSubviews{
     //    self.backgroundColor = [UIColor magentaColor];
-    self.textLabel.textColor = COLOR_BLACK_ORIGINAL;
+    self.textLabel.textColor = [UIColor blackColor];//COLOR_BLACK_ORIGINAL;
     self.textLabel.text = (NSString*)self.data;
     self.textLabel.textAlignment = NSTextAlignmentCenter;
 }

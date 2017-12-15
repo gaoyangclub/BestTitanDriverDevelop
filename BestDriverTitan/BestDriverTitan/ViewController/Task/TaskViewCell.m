@@ -229,7 +229,7 @@ static TaskViewModel* viewModel;
         _circleArea = [[CircleNode alloc]init];
         _circleArea.layerBacked = YES;
         _circleArea.fillColor = [UIColor clearColor];
-        _circleArea.strokeWidth = 4;
+        _circleArea.strokeWidth = rpx(4);
         [self.backNode addSubnode:_circleArea];
     }
     return _circleArea;
@@ -279,10 +279,10 @@ static TaskViewModel* viewModel;
 
 -(UIArrowView *)rightArrow{
     if(!_rightArrow){
-        _rightArrow = [[UIArrowView alloc]initWithFrame:CGRectMake(0, 0, 8, 16)];
+        _rightArrow = [[UIArrowView alloc]initWithFrame:CGRectMake(0, 0, rpx(8), rpx(16))];
         _rightArrow.direction = ArrowDirectRight;
         _rightArrow.lineColor = COLOR_LINE;
-        _rightArrow.lineThinkness = 2;
+        _rightArrow.lineThinkness = rpx(2);
         [self.contentView addSubview:_rightArrow];
     }
     return _rightArrow;
@@ -324,10 +324,10 @@ static TaskViewModel* viewModel;
         _stateArea.userInteractionEnabled = NO;
         _stateArea.cornerRadius = 0;
         _stateArea.fillColor = [UIColor whiteColor];
-        _stateArea.strokeWidth = 2;
-        _stateArea.titleSize = 16;
+        _stateArea.strokeWidth = rpx(2);
+        _stateArea.titleSize = SIZE_TEXT_LARGE;
         _stateArea.angle = -10;
-        _stateArea.size = CGSizeMake(80, 30);
+        _stateArea.size = CGSizeMake(rpx(80), rpx(30));
         //        _stateArea.fillColor = COLOR_DAI_WAN_CHENG;
         [self.contentView addSubview:_stateArea];
     }
@@ -339,9 +339,9 @@ static TaskViewModel* viewModel;
         _hotArea = [[HotMarkView alloc]init];
         _hotArea.fillColor = FlatRed;
         _hotArea.title = @"新";//@"hot";
-        _hotArea.titleSize = 12;
+        _hotArea.titleSize = SIZE_TEXT_SECONDARY;
         _hotArea.titleColor = [UIColor whiteColor];
-        _hotArea.width = _hotArea.height = 30;
+        _hotArea.width = _hotArea.height = rpx(30);
         _hotArea.x = _hotArea.y = 0;//左上角
         [self.contentView addSubview:_hotArea];
     }
@@ -503,10 +503,10 @@ static TaskViewModel* viewModel;
     
     CGFloat areaX0 = marginLeft;
     
-    self.orderCountIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:16 content:ICON_DING_DAN];
+    self.orderCountIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:rpx(16) content:ICON_DING_DAN];
     self.orderCountIcon.size = [self.orderCountIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
-    self.orderCountNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange size:14 content:
+    self.orderCountNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange size:SIZE_TEXT_PRIMARY content:
                                             [NSString stringWithFormat:@"%ld个",(long)bean.ordermovementCt]];
     self.orderCountNode.size = [self.orderCountNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize orderCountSize =
     
@@ -516,12 +516,12 @@ static TaskViewModel* viewModel;
     
     CGFloat areaX1 = areaX0 + areaWith;
     
-    self.expenseLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:16 content:ICON_JIN_QIAN];
+    self.expenseLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:rpx(16) content:ICON_JIN_QIAN];
     CGSize expenseLabelSize = [self.expenseLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
     NSString* expenseContent = [bean canShowMoney] && bean.expense ? [NSString stringWithFormat:@"%ld元(参)",bean.expense] : @"--元";
     
-    self.expenseText.attributedString = [NSString simpleAttributedString:[UIColor flatOrangeColor] size:14 content:expenseContent];
+    self.expenseText.attributedString = [NSString simpleAttributedString:[UIColor flatOrangeColor] size:SIZE_TEXT_PRIMARY content:expenseContent];
     CGSize expenseTextSize = [self.expenseText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
     if ([bean canShowMoney] && !bean.expense) {//个体司机且无数据
@@ -553,10 +553,10 @@ static TaskViewModel* viewModel;
     };
     
     CGFloat areaX2 = areaX1 + areaWith;
-    self.distanceLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:16 content:ICON_JU_LI];
+    self.distanceLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:rpx(16) content:ICON_JU_LI];
     CGSize distanceLabelSize = [self.distanceLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     NSString* distanceContent = [bean canShowMoney] && bean.distance ? [NSString stringWithFormat:@"%.1f公里",bean.distance] : @"--公里";
-    self.distanceText.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content: distanceContent];
+    self.distanceText.attributedString = [NSString simpleAttributedString:COLOR_TEXT_PRIMARY size:SIZE_TEXT_PRIMARY content: distanceContent];
     CGSize distanceTextSize = [self.distanceText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
     CGFloat distanceX = areaX2 + (areaWith - distanceLabelSize.width - distanceTextSize.width) / 2;
@@ -569,10 +569,10 @@ static TaskViewModel* viewModel;
     };
     
     CGFloat areaX3 = areaX2 + areaWith;
-    self.costHourLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:16 content:ICON_SHI_JIAN];
+    self.costHourLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:rpx(16) content:ICON_SHI_JIAN];
     CGSize hourLabelSize = [self.costHourLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     NSString* hourContent = [bean canShowMoney] && bean.costHour ? [NSString stringWithFormat:@"%.1f小时",bean.costHour] : @"--小时";
-    self.costHourText.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:hourContent];
+    self.costHourText.attributedString = [NSString simpleAttributedString:COLOR_TEXT_PRIMARY size:SIZE_TEXT_PRIMARY content:hourContent];
     CGSize hourTextSize = [self.costHourText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
     CGFloat hourX = areaX3 + (areaWith - hourLabelSize.width - hourTextSize.width) / 2;
@@ -657,17 +657,17 @@ static TaskViewModel* viewModel;
     [attrString addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(0, context.length)];
     NSUInteger loc = 0;
     if (pickupCount) {
-        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(loc, 2)];
+        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:rpx(16)] range:NSMakeRange(loc, 2)];
         loc += 2;
         NSUInteger pickupLength = [NSString stringWithFormat:@"%i", pickupCount].length;
-        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:30] range:NSMakeRange(loc, pickupLength)];
+        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:rpx(30)] range:NSMakeRange(loc, pickupLength)];
         loc += pickupLength + 1;
     }
     if (deliverCount) {
-        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(loc, 2)];
+        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:rpx(16)] range:NSMakeRange(loc, 2)];
         loc += 2;
         NSUInteger deliverLength = [NSString stringWithFormat:@"%i", deliverCount].length;
-        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:30] range:NSMakeRange(loc, deliverLength)];
+        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:rpx(30)] range:NSMakeRange(loc, deliverLength)];
 //        loc += deliverLength;
     }
     return attrString;
@@ -715,10 +715,10 @@ static TaskViewModel* viewModel;
     CGFloat areaHeight = CGRectGetHeight(self.followButton.bounds);
     
     if (bean.isFollow) {
-        self.followIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange  size:24 content:ICON_STAR];
+        self.followIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange  size:rpx(24) content:ICON_STAR];
 //        self.followLabel.attributedString = [NSString simpleAttributedString:FlatOrange  size:12 content:@"收  藏"];
     }else{
-        self.followIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor]  size:24 content:ICON_STAR];
+        self.followIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor]  size:rpx(24) content:ICON_STAR];
 //        self.followLabel.attributedString = [NSString simpleAttri÷butedString:[UIColor flatGrayColor]  size:12 content:@"收  藏"];
     }
     
@@ -741,7 +741,7 @@ static TaskViewModel* viewModel;
 -(void)showPlanArea{
     CGFloat areaHeight = CGRectGetHeight(self.planButton.bounds);
     CGFloat areaWidth = CGRectGetWidth(self.planButton.bounds);
-    self.planIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_PRIMARY  size:36 content:ICON_DAO_HANG];
+    self.planIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_PRIMARY  size:rpx(36) content:ICON_DAO_HANG];
     CGSize iconSize = [self.planIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.planIcon.frame = (CGRect){CGPointMake((areaWidth - iconSize.width) / 2., (areaHeight - iconSize.height) / 2.),iconSize};
 }
@@ -749,7 +749,7 @@ static TaskViewModel* viewModel;
 
 -(void)initBottomArea:(CGFloat)bottomY bottomWidth:(CGFloat)bottomWidth bottomHeight:(CGFloat)bottomHeight{
     
-    CGFloat planButtonWidth = 10;//bottomHeight - ;
+    CGFloat planButtonWidth = rpx(10);//bottomHeight - ;
 //    self.planButton.frame = CGRectMake(bottomWidth - planButtonWidth, bottomY , planButtonWidth, bottomHeight);
 //    [self showPlanArea];
     
@@ -759,14 +759,14 @@ static TaskViewModel* viewModel;
     
     CGFloat baseX = self.orderCountIcon.x;
 //    CGFloat leftpadding = 10;
-    CGFloat iconGap = 5;
+    CGFloat iconGap = rpx(5);
     
-    self.iconStart.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatGreenDark size:16 content:ICON_NODE];
+    self.iconStart.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatGreenDark size:SIZE_TEXT_LARGE content:ICON_NODE];
     CGSize iconStartSize = [self.iconStart measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.iconStart.frame = (CGRect){ CGPointMake(baseX,0 + (bottomHeight / 2. - iconStartSize.height) / 2.),iconStartSize};
     
     NSString* address = bean.sourceLocationAddress;//@"大港镇松镇公路1339号宝湾物流112号库";
-    NSMutableAttributedString* textString = (NSMutableAttributedString*)[NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:address];
+    NSMutableAttributedString* textString = (NSMutableAttributedString*)[NSString simpleAttributedString:COLOR_TEXT_PRIMARY size:SIZE_TEXT_PRIMARY content:address];
     NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
     style.alignment = NSTextAlignmentLeft;
     [textString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, address.length)];
@@ -777,12 +777,12 @@ static TaskViewModel* viewModel;
     CGSize textStartSize = [self.textStart measure:CGSizeMake(maxStartWidth, FLT_MAX)];
     self.textStart.frame = (CGRect){ CGPointMake(self.iconStart.maxX + iconGap,0 + (bottomHeight / 2. - textStartSize.height) / 2.),textStartSize};
     
-    self.iconEnd.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange size:16 content:ICON_NODE];
+    self.iconEnd.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange size:rpx(16) content:ICON_NODE];
     CGSize iconEndSize = [self.iconEnd measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.iconEnd.frame = (CGRect){ CGPointMake(baseX,bottomHeight / 2. + (bottomHeight / 2. - iconStartSize.height) / 2.),iconEndSize};
     
     NSString* address2 = bean.destLocationAddress;//@"青浦工业园区新团路518号（二期）";
-    NSMutableAttributedString* textString2 = (NSMutableAttributedString*)[NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:address2];
+    NSMutableAttributedString* textString2 = (NSMutableAttributedString*)[NSString simpleAttributedString:COLOR_TEXT_PRIMARY size:SIZE_TEXT_PRIMARY content:address2];
 //    NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
 //    style.alignment = NSTextAlignmentLeft;
     [textString2 addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, address2.length)];
@@ -871,11 +871,11 @@ static TaskViewModel* viewModel;
 
 -(ASDisplayNode*)createStateNode:(NSString*)content color:(UIColor*)color offsetX:(CGFloat)offsetX bottomHeight:(CGFloat)bottomHeight{
     ASTextNode* textNode = [[ASTextNode alloc]init];
-    textNode.attributedString = [NSString simpleAttributedString:color size:12 content:content];
+    textNode.attributedString = [NSString simpleAttributedString:color size:SIZE_TEXT_SECONDARY content:content];
     textNode.layerBacked = YES;
     CGSize textSize = [textNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    CGFloat plateWidth = textSize.width + 10;
-    CGFloat plateHeight = textSize.height + 10;
+    CGFloat plateWidth = textSize.width + rpx(10);
+    CGFloat plateHeight = textSize.height + rpx(10);
     
     CGFloat offsetY = (bottomHeight - plateHeight) / 2.;
     
@@ -885,7 +885,7 @@ static TaskViewModel* viewModel;
     roundNode.strokeColor = color;
     roundNode.strokeWidth = 1;
     roundNode.fillColor = [UIColor whiteColor];
-    roundNode.cornerRadius = 5;
+    roundNode.cornerRadius = rpx(5);
     [roundNode addSubnode:textNode];
     
     textNode.frame = (CGRect){
@@ -921,10 +921,10 @@ static TaskViewModel* viewModel;
     
 //    CGFloat padding = 5;//内边距10
     
-    CGFloat topHeight = 40;
-    CGFloat bottomHeight = 60;
+    CGFloat topHeight = rpx(40);
+    CGFloat bottomHeight = rpx(60);
     
-    CGFloat topY = 25;
+    CGFloat topY = rpx(25);
     CGFloat centerY = topY + topHeight;
     
     CGFloat centerHeight = 0;//backHeight - topY - topHeight - bottomHeight;
@@ -933,8 +933,8 @@ static TaskViewModel* viewModel;
         self.stateArea.hidden = NO;
         //    self.stateArea.x = 0;//-self.stateArea.width / 2.;//self.codeText.maxX + padding;
         //    self.stateArea.y = 0;//-self.stateArea.height / 2.;//5;//self.codeText.centerY;
-        self.stateArea.maxX = self.contentView.width - 30;
-        self.stateArea.centerY = self.contentView.height / 2. + 5;
+        self.stateArea.maxX = self.contentView.width - rpx(30);
+        self.stateArea.centerY = self.contentView.height / 2. + rpx(5);
         self.stateArea.titleColor = self.stateArea.strokeColor = [bean isComplete] ? [COLOR_YI_WAN_CHENG colorWithAlphaComponent:0.5] : [COLOR_DAI_WAN_CHENG colorWithAlphaComponent:0.5];
         self.stateArea.title = [bean isComplete] ? @"已完成":@"未完成";
     }else if(self->_stateArea){
@@ -966,7 +966,7 @@ static TaskViewModel* viewModel;
     
     CGSize arrowSize = self.rightArrow.frame.size;
     CGRect arrowFrame = self.rightArrow.frame;
-    CGPoint arrowOrigin = CGPointMake(cellWidth - arrowSize.width - 10, (cellHeight - arrowSize.height) / 2.);
+    CGPoint arrowOrigin = CGPointMake(cellWidth - arrowSize.width - rpx(10), (cellHeight - arrowSize.height) / 2.);
     arrowFrame.origin = arrowOrigin;
     self.rightArrow.frame = arrowFrame;
 ////    NSLog(@"颜色 %@",[TaskViewCell hexFromUIColor:[UIColor greenColor]]);
@@ -1012,14 +1012,14 @@ static TaskViewModel* viewModel;
 -(void)initTitleArea:(CGFloat)cellWidth{//顶部上方标题栏部分
     ShipmentBean* bean = self.data;
     
-    CGFloat padding = 5;//内边距10
+    CGFloat padding = rpx(5);//内边距10
     
     NSString* context = bean.code;
     //    NSMutableAttributedString* attrString = [[NSMutableAttributedString alloc]initWithString:context];
     //    [attrString addAttribute:NSForegroundColorAttributeName value:COLOR_BLACK_ORIGINAL range:NSMakeRange(0, context.length)];
     //    [attrString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16] range:NSMakeRange(0, context.length)];
-    CGFloat codeFontSize = 16;//SCREEN_WIDTH > IPHONE_5S_WIDTH ? 16 : 14;
-    self.codeText.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:codeFontSize content:context];
+    CGFloat codeFontSize = SIZE_TEXT_LARGE;
+    self.codeText.attributedString = [NSString simpleAttributedString:COLOR_TEXT_PRIMARY size:codeFontSize content:context];
     //    [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:16 context:@"TO1251616161"];
     self.codeText.size = [self.codeText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.codeText.x = self.orderCountIcon.x;
@@ -1035,12 +1035,12 @@ static TaskViewModel* viewModel;
     
     if (bean.licencePlate) {
         self.licencePlateView.hidden = NO;
-        CGFloat const plateFontSize = 14;//SCREEN_WIDTH > IPHONE_5S_WIDTH ? 14 : 12;
-        self.licencePlateText.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:plateFontSize content:bean.licencePlate];
+        CGFloat const plateFontSize = SIZE_TEXT_PRIMARY;
+        self.licencePlateText.attributedString = [NSString simpleAttributedString:COLOR_TEXT_PRIMARY size:plateFontSize content:bean.licencePlate];
         CGSize const liceneSize = [self.licencePlateText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-        CGFloat const plateWidth = liceneSize.width + 10;
-        CGFloat const plateHeight = liceneSize.height + 10;
-        self.licencePlateView.frame = CGRectMake(cellWidth - plateWidth - padding, 3, plateWidth, plateHeight);
+        CGFloat const plateWidth = liceneSize.width + rpx(10);
+        CGFloat const plateHeight = liceneSize.height + rpx(10);
+        self.licencePlateView.frame = CGRectMake(cellWidth - plateWidth - padding, rpx(3), plateWidth, plateHeight);
         //    self.licencePlateView.cornerRadius = 30;
         
         self.licencePlateText.frame = (CGRect){

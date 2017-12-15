@@ -65,7 +65,7 @@
 //        _backNode.fillColor = [UIColor whiteColor];
         _backNode.strokeColor = COLOR_LINE;
         _backNode.strokeWidth = 1;
-        _backNode.cornerRadius = 5;
+        _backNode.cornerRadius = rpx(5);
         [self.layer addSublayer:_backNode.layer];
     }
     return _backNode;
@@ -78,7 +78,7 @@
         _circleNode.fillColor = COLOR_LINE;//FlatWhite
         _circleNode.strokeColor = [UIColor whiteColor];
         _circleNode.strokeWidth = 1;
-        _circleNode.cornerRadius = 5;
+        _circleNode.cornerRadius = rpx(5);
         [self.layer addSublayer:_circleNode.layer];
     }
     return _circleNode;
@@ -90,12 +90,12 @@
     
     self.backNode.frame = CGRectMake(backLeftMargin, backTopMargin, self.width - backLeftMargin * 2, self.height - backTopMargin * 2);
     
-    self.titleNode.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:self.title];
+    self.titleNode.attributedString = [NSString simpleAttributedString:COLOR_TEXT_PRIMARY size:SIZE_TEXT_PRIMARY content:self.title];
     self.titleNode.size = [self.titleNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.titleNode.centerY = self.centerY;
     
     if (self.circleColor) {
-        CGFloat circleGap = 5;
+        CGFloat circleGap = rpx(5);
         
         CGFloat circleWidth = self.circleNode.cornerRadius * 2;
         self.circleNode.fillColor = self.circleColor;
@@ -186,7 +186,7 @@ static NSArray<NSString*>* taskCodeArr;
 
 -(UILabel *)titleLabel{
     if (!_titleLabel) {
-        _titleLabel = [UICreationUtils createNavigationTitleLabel:20 color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_TASK_TRIP superView:nil];
+        _titleLabel = [UICreationUtils createNavigationTitleLabel:SIZE_NAVI_TITLE color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_TASK_TRIP superView:nil];
     }
     return _titleLabel;
 }
@@ -207,11 +207,11 @@ static NSArray<NSString*>* taskCodeArr;
 
 -(void)initTitleArea{
     self.navigationItem.leftBarButtonItem =
-    [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
+    [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:SIZE_LEFT_BACK_ICON] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
     
 //    [UICreationUtils createNavigationLeftButtonItem:[UIColor whiteColor] target:self action:@selector(leftClick)];
     
-    self.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_DI_TU target:self action:@selector(rightClick)];
+    self.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:SIZE_LEFT_BACK_ICON] text:ICON_DI_TU target:self action:@selector(rightClick)];
     
     self.titleLabel.text = self.shipmentCode;//@"TO12451516161";//标题显示TO号
     [self.titleLabel sizeToFit];
@@ -401,7 +401,7 @@ static NSArray<NSString*>* taskCodeArr;
         [button addTarget:self action:@selector(clickFilterButton:) forControlEvents:UIControlEventTouchUpInside];
         [self.filterView addSubview:button];
     }
-    [UICreationUtils autoEnsureViewsWidth:0 totolWidth:self.view.width views:self.filterView.subviews viewWidths:@[@"100%",@"100%",@"100%",@"100%"] padding:5];
+    [UICreationUtils autoEnsureViewsWidth:0 totolWidth:self.view.width views:self.filterView.subviews viewWidths:@[@"100%",@"100%",@"100%",@"100%"] padding:rpx(5)];
     
 //    self.selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -514,7 +514,7 @@ static NSArray<NSString*>* taskCodeArr;
     
     CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
     CGFloat viewHeight = CGRectGetHeight(self.view.bounds);
-    CGFloat padding = 5;
+    CGFloat padding = rpx(5);
     CGFloat tableHeight = viewHeight - SUBMIT_BUTTON_HEIGHT - padding * 2;
     CGFloat mWidth = MORE_BUTTON_RADIUS * 2;
     
@@ -541,7 +541,7 @@ static NSArray<NSString*>* taskCodeArr;
         [_submitButton setTitle:ConcatStrings(ICON_QIAN_SHOU,@"  ",@"签收") forState:UIControlStateNormal];
         [_submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
-        _submitButton.titleLabel.font = [UIFont fontWithName:ICON_FONT_NAME size:16];
+        _submitButton.titleLabel.font = [UIFont fontWithName:ICON_FONT_NAME size:SIZE_TEXT_LARGE];
 //        _submitButton.titleLabel.attributedText = 
         
         _submitButton.underlineNone = YES;

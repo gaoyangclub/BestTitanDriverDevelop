@@ -16,7 +16,7 @@
 #import "OwnerViewController.h"
 #import "TaskTripController.h"
 
-#define MESSAGE_CELL_GAP 10
+#define MESSAGE_CELL_GAP rpx(10)
 
 @interface MessageViewController ()
 
@@ -55,7 +55,7 @@
 
 -(UILabel *)titleLabel{
     if (!_titleLabel) {
-        _titleLabel = [UICreationUtils createNavigationTitleLabel:20 color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_MESSAGE superView:nil];
+        _titleLabel = [UICreationUtils createNavigationTitleLabel:SIZE_NAVI_TITLE color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_MESSAGE superView:nil];
     }
     return _titleLabel;
 }

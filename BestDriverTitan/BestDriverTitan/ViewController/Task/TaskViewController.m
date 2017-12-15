@@ -115,7 +115,7 @@
     if (!_titleView) {
         _titleView = [[UIView alloc]init];
         
-        [UICreationUtils createNavigationTitleLabel:20 color:[UIColor whiteColor] text:NAVIGATION_TITLE_TASK_HOME superView:_titleView];
+        [UICreationUtils createNavigationTitleLabel:SIZE_NAVI_TITLE color:[UIColor whiteColor] text:NAVIGATION_TITLE_TASK_HOME superView:_titleView];
     }
     return _titleView;
 }

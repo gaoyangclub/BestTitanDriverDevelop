@@ -55,9 +55,9 @@
         _phoneButton.fillColor = COLOR_ACCENT;
         _phoneButton.titleColor = [UIColor whiteColor];
         _phoneButton.titleFontName = ICON_FONT_NAME;
-        _phoneButton.titleSize = 18;
+        _phoneButton.titleSize = rpx(18);
         _phoneButton.title = ICON_DIAN_HUA;
-        CGFloat radius = 15;
+        CGFloat radius = rpx(15);
         _phoneButton.width = _phoneButton.height = radius * 2;
         _phoneButton.cornerRadius = radius;
         [_phoneButton addTarget:self action:@selector(clickPhoneButton) forControlEvents:UIControlEventTouchUpInside];
@@ -75,20 +75,20 @@
     
     ContactBean* bean = self.data;
     
-    CGFloat margin = 15;
+    CGFloat margin = rpx(15);
     
-    self.titleIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_ACCENT size:20 content:ICON_WO_DE];
+    self.titleIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_ACCENT size:rpx(20) content:ICON_WO_DE];
     self.titleIcon.size = [self.titleIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.titleIcon.x = margin;
     
-    self.titleLabel.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:bean.name];
+    self.titleLabel.attributedString = [NSString simpleAttributedString:COLOR_TEXT_PRIMARY size:SIZE_TEXT_PRIMARY content:bean.name];
     self.titleLabel.size = [self.titleLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.titleLabel.x = self.titleIcon.maxX;
     
 //    self.phoneButton.width = self.phoneButton.height = 30;
     self.phoneButton.maxX = self.contentView.width - margin;
     
-    self.phoneLabel.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:[bean getPhoneCall]];
+    self.phoneLabel.attributedString = [NSString simpleAttributedString:COLOR_TEXT_PRIMARY size:SIZE_TEXT_PRIMARY content:[bean getPhoneCall]];
     self.phoneLabel.size = [self.phoneLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.phoneLabel.maxX = self.phoneButton.x - margin;
     

@@ -127,8 +127,8 @@
         _rightArrow = [[UIArrowView alloc]init];
         _rightArrow.direction = ArrowDirectRight;
         _rightArrow.lineColor = COLOR_LINE;
-        _rightArrow.lineThinkness = 2;
-        _rightArrow.size = CGSizeMake(8 , 14);
+        _rightArrow.lineThinkness = rpx(2);
+        _rightArrow.size = CGSizeMake(rpx(8) , rpx(14));
         [self.contentView addSubview:_rightArrow];
     }
     return _rightArrow;
@@ -228,28 +228,28 @@
     CGFloat viewWidth = CGRectGetWidth(self.contentView.bounds);
     CGFloat viewHeight = CGRectGetHeight(self.contentView.bounds);
     
-    CGFloat leftpadding = 5;
+    CGFloat leftpadding = rpx(5);
     
-    self.orderIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_BLACK_ORIGINAL size:20 content:ICON_BIAO_QIAN_DOWN];
+    self.orderIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_TEXT_PRIMARY size:rpx(20) content:ICON_BIAO_QIAN_DOWN];
     CGSize iconSize = [self.orderIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.orderIcon.frame = (CGRect){
         CGPointMake(leftpadding, (viewHeight  - iconSize.height) / 2.),iconSize
     };
     
-    CGFloat labelLeftMargin = CGRectGetMaxX(self.orderIcon.frame) + 5;
+    CGFloat labelLeftMargin = CGRectGetMaxX(self.orderIcon.frame) + rpx(5);
     
-    self.titleLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_BLACK_ORIGINAL size:14 content:shipUnitBean.itemName];
+    self.titleLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_TEXT_PRIMARY size:SIZE_TEXT_PRIMARY content:shipUnitBean.itemName];
     CGSize titleSize = [self.titleLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.titleLabel.frame = (CGRect){
-        CGPointMake(labelLeftMargin, viewHeight / 2. - 15),titleSize
+        CGPointMake(labelLeftMargin, viewHeight / 2. - rpx(15)),titleSize
     };
     
-    CGFloat bottomY = viewHeight / 2. + 1;
+    CGFloat bottomY = viewHeight / 2. + rpx(1);
     
     __weak __typeof(self) weakSelf = self;
 //    [RACObserve(cell.textLabel, text) takeUntil:cell.rac_prepareForReuseSignal]
     
-    CGFloat const fontSize = 13;
+    CGFloat const fontSize = rpx(13);
 //    [shipUnitBean rac_valuesForKeyPath:@"pacakageUnitCount" observer:nil] takeUntil:deallocSignal]
     if (self.packageHandler) {
         [self.packageHandler dispose];

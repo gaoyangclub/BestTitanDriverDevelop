@@ -64,20 +64,29 @@
 
 @end
 
-static CGFloat topAreaHeight = 30;
+static CGFloat topAreaHeight;
 //static CGFloat shipWidth = 60;
-static CGFloat naviWidth = 40;
-static CGFloat bottomAreaHeight = 45;
-static CGFloat stateWidth = 20;
+static CGFloat naviWidth;
+static CGFloat bottomAreaHeight;
+static CGFloat stateWidth;
+static CGFloat marginLeft;
 
 @implementation TaskTripCell
 
-+(CGFloat)getMarginLeft{
-    if (SCREEN_WIDTH > IPHONE_5S_WIDTH) {
-        return 7 * SYSTEM_SCALE;
-    }
-    return 3;
++(void)load{
+    topAreaHeight = rpx(30);
+    naviWidth = rpx(40);
+    bottomAreaHeight = rpx(45);
+    stateWidth = rpx(20);
+    marginLeft = rpx(10);
 }
+
+//+(CGFloat)getMarginLeft{
+//    if (SCREEN_WIDTH > IPHONE_5S_WIDTH) {
+//        return 7 * SYSTEM_SCALE;
+//    }
+//    return 3;
+//}
 
 //-(ASTextNode *)carView{
 //    if (!_carView) {
@@ -93,9 +102,9 @@ static CGFloat stateWidth = 20;
     if (!_indicatorView) {
         _indicatorView = [[UIView alloc]init];
         
-        CGFloat backWidth = 12;
-        CGFloat backHeight = 12;
-        CGFloat arrowWidth = 6;
+        CGFloat backWidth = rpx(12);
+        CGFloat backHeight = rpx(12);
+        CGFloat arrowWidth = rpx(6);
         
         UIView* backNode = [[UIView alloc]init];
         [_indicatorView addSubview:backNode];
@@ -194,7 +203,7 @@ static CGFloat stateWidth = 20;
         _routeCircle.layerBacked = YES;
         _routeCircle.fillColor = COLOR_LINE;//FlatWhite
         _routeCircle.strokeColor = [UIColor whiteColor];
-        _routeCircle.strokeWidth = 2;
+        _routeCircle.strokeWidth = rpx(2);
         [self.contentView.layer addSublayer:_routeCircle.layer];
     }
     return _routeCircle;
@@ -242,7 +251,7 @@ static CGFloat stateWidth = 20;
         _naviButton.fillColor = [UIColor clearColor];
         _naviButton.titleColor = COLOR_ACCENT;
         _naviButton.titleFontName = ICON_FONT_NAME;
-        _naviButton.titleSize = 38;
+        _naviButton.titleSize = rpx(38);
         _naviButton.title = ICON_DAO_HANG;
         [_naviButton addTarget:self action:@selector(clickNaviButton) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:_naviButton];
@@ -265,9 +274,9 @@ static CGFloat stateWidth = 20;
         _phoneButton.fillColor = COLOR_ACCENT;
         _phoneButton.titleColor = [UIColor whiteColor];
         _phoneButton.titleFontName = ICON_FONT_NAME;
-        _phoneButton.titleSize = 18;
+        _phoneButton.titleSize = rpx(18);
         _phoneButton.title = ICON_DIAN_HUA;
-        CGFloat radius = 15;
+        CGFloat radius = rpx(15);
         _phoneButton.width = _phoneButton.height = radius * 2;
         _phoneButton.cornerRadius = radius;
         
@@ -380,15 +389,15 @@ static CGFloat stateWidth = 20;
 -(void)initTopArea:(CGFloat)cellWidth cellHeight:(CGFloat)cellHeight{
     ShipmentStopBean* stopBean = self.data;
     
-    CGFloat leftMargin = CGRectGetMaxX(self.routeLine.frame) + 16;
+    CGFloat leftMargin = CGRectGetMaxX(self.routeLine.frame) + rpx(16);
     
-    CGFloat padding = 5;
+    CGFloat padding = rpx(5);
     
     if (stopBean.ordermovementCt > 1) {//多于2个的展示
-        self.orderCountIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatGray size:18 content:ICON_DING_DAN];
+        self.orderCountIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatGray size:rpx(18) content:ICON_DING_DAN];
         self.orderCountIcon.size = [self.orderCountIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
         
-        self.orderCountNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange size:16 content:[NSString stringWithFormat:@"%ld个",(long)stopBean.ordermovementCt]];
+        self.orderCountNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange size:SIZE_TEXT_LARGE content:[NSString stringWithFormat:@"%ld个",(long)stopBean.ordermovementCt]];
         self.orderCountNode.size = [self.orderCountNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize orderCountSize =
         
         self.orderCountIcon.hidden = self.orderCountNode.hidden = NO;
@@ -402,16 +411,16 @@ static CGFloat stateWidth = 20;
         titleColor = FlatOrange;
         self.backgroundColor = FlatWhite;
     }else{
-        titleColor = COLOR_BLACK_ORIGINAL;
+        titleColor = COLOR_TEXT_PRIMARY;
         self.backgroundColor = [UIColor clearColor];
     }
     
-    NSMutableAttributedString* textString = (NSMutableAttributedString*)[NSString simpleAttributedString:titleColor size:16 content:stopName];
+    NSMutableAttributedString* textString = (NSMutableAttributedString*)[NSString simpleAttributedString:titleColor size:SIZE_TEXT_LARGE content:stopName];
     NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
     style.alignment = NSTextAlignmentLeft;
     [textString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, stopName.length)];
     self.titleNode.attributedString = textString;
-    CGFloat maxStartWidth = cellWidth - leftMargin - naviWidth - [TaskTripCell getMarginLeft] - (self.orderCountIcon.hidden ? 0 : self.orderCountIcon.width) - padding - (self.orderCountNode.hidden ? 0 : self.orderCountNode.width);
+    CGFloat maxStartWidth = cellWidth - leftMargin - naviWidth - marginLeft - (self.orderCountIcon.hidden ? 0 : self.orderCountIcon.width) - padding - (self.orderCountNode.hidden ? 0 : self.orderCountNode.width);
     self.titleNode.size = [self.titleNode measure:CGSizeMake(maxStartWidth, FLT_MAX)];//CGSize textStartSize =
     self.titleNode.x = leftMargin;
     self.titleNode.maxY = topAreaHeight;
@@ -442,7 +451,7 @@ static CGFloat stateWidth = 20;
         titleColor = FlatOrange;
         self.backgroundColor = FlatWhite;
     }else{
-        titleColor = COLOR_BLACK_ORIGINAL;
+        titleColor = COLOR_TEXT_PRIMARY;
         self.backgroundColor = [UIColor clearColor];
     }
     
@@ -453,7 +462,7 @@ static CGFloat stateWidth = 20;
     
     self.addressNode.attributedString = textString;
     
-    CGFloat maxStartWidth = cellWidth - leftMargin - naviWidth - [TaskTripCell getMarginLeft] * 2;
+    CGFloat maxStartWidth = cellWidth - leftMargin - naviWidth - marginLeft * 2;
     
     self.addressNode.size = [self.addressNode measure:CGSizeMake(maxStartWidth, FLT_MAX)];//CGSize textStartSize =
     self.addressNode.x = leftMargin;
@@ -468,18 +477,18 @@ static CGFloat stateWidth = 20;
 //    
 //    self.naviIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_PRIMARY size:26 content:ICON_DAO_HANG];
 //    CGSize naviIconSize = [self.naviIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.naviLabel.attributedString = [NSString simpleAttributedString:FlatGray  size:12 content:@"去这里"];
+    self.naviLabel.attributedString = [NSString simpleAttributedString:FlatGray  size:SIZE_TEXT_SECONDARY content:@"去这里"];
     self.naviLabel.size = [self.naviLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
 //    CGFloat naviIconY = (cellHeight - naviIconSize.height - naviLabelSize.height) / 2.;
-    CGFloat baseX = cellWidth - naviWidth - [TaskTripCell getMarginLeft];
-    CGFloat buttonHeight = naviHeight - 10;
+    CGFloat baseX = cellWidth - naviWidth - marginLeft;
+    CGFloat buttonHeight = naviHeight - rpx(10);
     CGFloat buttonWidth = naviWidth;
     self.naviButton.frame = CGRectMake(baseX + (naviWidth - buttonWidth) / 2., (naviHeight - buttonHeight) / 2., buttonWidth, buttonHeight);
 //    self.phoneButton.frame = CGRectMake(baseX + buttonWidth, (naviHeight - buttonHeight) / 2., buttonWidth, buttonHeight);
 //    self.naviButton.backgroundColor = FlatBrownDark;
     
-    self.naviLabel.centerX = self.naviButton.width / 2. - 5;
+    self.naviLabel.centerX = self.naviButton.width / 2. - rpx(5);
     self.naviLabel.maxY = self.naviButton.height;
     
 //    self.naviIcon.frame = (CGRect){ CGPointMake((naviWidth - naviIconSize.width) / 2.,(bottomAreaHeight - naviIconSize.height) / 2.),naviIconSize};
@@ -487,20 +496,20 @@ static CGFloat stateWidth = 20;
 }
 
 -(void)initBottomArea:(CGFloat)cellWidth cellHeight:(CGFloat)cellHeight{
-    CGFloat leftMargin = self.titleNode.x;//CGRectGetMinX(self.titleNode.frame);
+    CGFloat titleNodeX = self.titleNode.x;//CGRectGetMinX(self.titleNode.frame);
     CGFloat bottomY = cellHeight - bottomAreaHeight;
     
-    CGFloat bottomSize = 12;
-    if (SCREEN_WIDTH > IPHONE_5S_WIDTH) {
-        bottomSize = 14;
-    }
+    CGFloat bottomSize = SIZE_TEXT_PRIMARY;
+//    if (SCREEN_WIDTH > IPHONE_5S_WIDTH) {
+//        bottomSize = 14;
+//    }
     
     ShipmentStopBean* stopBean = self.data;
     
     self.timeLabel.attributedString = [NSString simpleAttributedString:FlatGray size:bottomSize content:
                                        ConcatStrings(@"到达:",stopBean.deliveryDate)];
     self.timeLabel.size = [self.timeLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize timeSize =
-    self.timeLabel.x = leftMargin;
+    self.timeLabel.x = titleNodeX;
     self.timeLabel.y = bottomY;
 //    self.timeLabel.frame = (CGRect){
 //        CGPointMake(leftMargin, bottomY),
@@ -512,8 +521,8 @@ static CGFloat stateWidth = 20;
     
     self.shipUintCountText.attributedString = [self generateShipUnitString:bottomSize color:FlatOrange pickupCount:pickupCount deliveryCount:deliveryCount];
     self.shipUintCountText.size = [self.shipUintCountText measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize shipUnitSize =
-    self.shipUintCountText.x = leftMargin;
-    self.shipUintCountText.y = self.timeLabel.maxY + 5;
+    self.shipUintCountText.x = titleNodeX;
+    self.shipUintCountText.y = self.timeLabel.maxY + rpx(5);
 //    self.shipUintCountText.frame = (CGRect){
 //        CGPointMake(leftMargin, CGRectGetMaxY(self.timeLabel.frame) + 5),
 //        shipUnitSize
@@ -525,7 +534,7 @@ static CGFloat stateWidth = 20;
 //    self.phoneButton.width = 30;
 //    self.phoneButton.height = 30;
 //    self.phoneButton.backgroundColor = FlatBrownDark;
-    self.phoneButton.maxX = self.activityButton.x - [TaskTripCell getMarginLeft];
+    self.phoneButton.maxX = self.activityButton.x - marginLeft;
     self.phoneButton.centerY = self.activityButton.centerY;
     
     if(stopBean.contactList && stopBean.contactList.count > 0){
@@ -536,19 +545,18 @@ static CGFloat stateWidth = 20;
 }
 
 -(void)initActivityArea:(CGFloat)bottomY cellWidth:(CGFloat)cellWidth cellHeight:(CGFloat)cellHeight{
-    CGFloat activityWidth = 85;
-    CGFloat activityHeight = 30;
+    CGFloat activityWidth = rpx(85);
+    CGFloat activityHeight = rpx(30);
     
     ShipmentStopBean* stopBean = self.data;
     
     self.activityButton.fillColor = [stopBean isComplete] ? COLOR_YI_WAN_CHENG : COLOR_DAI_WAN_CHENG;
     self.activityButton.title = [stopBean isComplete] ? @"已完成" : NAVIGATION_TITLE_ORDER_VIEW;
     
-    self.activityButton.frame = CGRectMake(cellWidth - activityWidth - [TaskTripCell getMarginLeft],bottomY + 5, activityWidth, activityHeight);
+    self.activityButton.frame = CGRectMake(cellWidth - activityWidth - marginLeft,bottomY + rpx(5), activityWidth, activityHeight);
 }
 
 -(void)initStateArea:(CGFloat)cellHeight{
-    CGFloat marginLeft = [TaskTripCell getMarginLeft];
     ShipmentStopBean* stopBean = self.data;
     if (stopBean.isComplete) {
         self.stateNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:20                         content:ICON_YI_SHANG_BAO];
@@ -583,7 +591,7 @@ static CGFloat stateWidth = 20;
     circleNode.fillColor = [Config getActivityColorByCode:code];
     circleNode.strokeColor = [UIColor whiteColor];
     circleNode.strokeWidth = 1;
-    circleNode.cornerRadius = 5;
+    circleNode.cornerRadius = rpx(5);
     
     CGFloat sizeWidth = circleNode.cornerRadius * 2;
     
@@ -595,53 +603,51 @@ static CGFloat stateWidth = 20;
     
     self.circleArea.width = circleNode.maxX;
     self.circleArea.height = sizeWidth;
-    self.circleArea.y = self.stateNode.maxY + 10;
+    self.circleArea.y = self.stateNode.maxY + rpx(10);
     self.circleArea.centerX = self.stateNode.centerX;
     
 //    self.stateNode.hidden = YES;
 }
 
 -(void)initRouteArea:(CGFloat)cellHeight{
-    CGFloat marginLeft = [TaskTripCell getMarginLeft];
-    
     UIColor* indexColor;
     if (self.selected) {
         indexColor = FlatOrange;
     }else{
         indexColor = FlatGrayDark;
     }
-    CGFloat indexWidth = 5;//20
+    CGFloat indexWidth = rpx(5);//20
 //    self.indexNode.attributedString = [NSString simpleAttributedString:indexColor size:14 content:[NSString stringWithFormat:@"%li",(long)self.indexPath.row + 1]];
 //    CGSize indexSize = [self.indexNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
 //    self.indexNode.frame = (CGRect){
 //        CGPointMake(marginLeft + stateWidth + (indexWidth - indexSize.width) / 2., (cellHeight - indexSize.height) / 2.),indexSize
 //    };
     
-    CGFloat routeW = 2;
+    CGFloat routeW = rpx(2);
     CGFloat routeH = cellHeight;
     CGFloat routeY = 0;
-    CGFloat routeBaseX = marginLeft + stateWidth + indexWidth + 3;
+    CGFloat routeBaseX = marginLeft + stateWidth + indexWidth + rpx(3);
     CGFloat radius;
     self.routeLine.hidden = NO;
     if(self.isSingle){
         routeH = 0;
         routeY = 0;
-        radius = routeW + self.routeCircle.strokeWidth + 2;
+        radius = routeW + self.routeCircle.strokeWidth + rpx(2);
     }else if (self.isFirst) {
-        routeH = cellHeight * 1 / 2;
+        routeH = cellHeight * 1 / 2.;
         routeY = cellHeight - routeH;
 //        self.routeLine.topLeftRadius = routeW / 2.;
 //        self.routeLine.topRightRadius = routeW / 2.;
 //        self.routeLine.bottomLeftRadius = 0;
 //        self.routeLine.bottomRightRadius = 0;
-        radius = routeW + self.routeCircle.strokeWidth + 2;
+        radius = routeW + self.routeCircle.strokeWidth + rpx(2);
     }else if(self.isLast){
-        routeH = cellHeight * 1 / 2;
+        routeH = cellHeight * 1 / 2.;
 //        self.routeLine.topLeftRadius = 0;
 //        self.routeLine.topRightRadius = 0;
 //        self.routeLine.bottomLeftRadius = routeW / 2.;
 //        self.routeLine.bottomRightRadius = routeW / 2.;
-        radius = routeW + self.routeCircle.strokeWidth + 2;
+        radius = routeW + self.routeCircle.strokeWidth + rpx(2);
     }else{
 //        self.routeLine.topLeftRadius = self.routeLine.topRightRadius = self.routeLine.bottomLeftRadius = self.routeLine.bottomRightRadius = 0;
         radius = routeW + self.routeCircle.strokeWidth + 1;//routeW / 2. - 0.5;

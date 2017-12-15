@@ -71,7 +71,7 @@
         _backNode.fillColor = [UIColor whiteColor];
         _backNode.strokeColor = COLOR_LINE;
         _backNode.strokeWidth = 1;
-        _backNode.cornerRadius = 5;
+        _backNode.cornerRadius = rpx(5);
         [self.layer addSublayer:_backNode.layer];
     }
     return _backNode;
@@ -120,14 +120,14 @@
     CGFloat viewWidth = CGRectGetWidth(self.bounds);
     CGFloat viewHeight = CGRectGetHeight(self.bounds);
     
-    CGFloat backLeftMargin = 5;
-    CGFloat backTopMargin = 5;
+    CGFloat backLeftMargin = rpx(5);
+    CGFloat backTopMargin = rpx(5);
     
     self.backNode.frame = CGRectMake(backLeftMargin, backTopMargin, viewWidth - backLeftMargin * 2, viewHeight - backTopMargin * 2);
     
     NSString* content = [Config getActivityLabelByCode:activityBean.activityDefinitionCode];
     
-    self.titleNode.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:content];
+    self.titleNode.attributedString = [NSString simpleAttributedString:COLOR_TEXT_PRIMARY size:SIZE_TEXT_PRIMARY content:content];
     CGSize titleSize = [self.titleNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
     __weak __typeof(self) weakSelf = self;
@@ -142,9 +142,9 @@
             statusColor = COLOR_DAI_WAN_CHENG;
             statusIcon = ICON_DAI_SHANG_BAO;
         }
-        strongSelf.statusNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:statusColor size:20 content:statusIcon];
+        strongSelf.statusNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:statusColor size:rpx(20) content:statusIcon];
         CGSize statusSize = [self.statusNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-        CGFloat gap = 5;
+        CGFloat gap = rpx(5);
         CGFloat baseX = (viewWidth - titleSize.width - statusSize.width - gap) / 2.;
         strongSelf.statusNode.frame = (CGRect){
             CGPointMake(baseX, (viewHeight - statusSize.height) / 2.),statusSize

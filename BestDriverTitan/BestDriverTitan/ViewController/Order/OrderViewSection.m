@@ -118,10 +118,10 @@
         _stateArea.userInteractionEnabled = NO;
         _stateArea.cornerRadius = 0;
         _stateArea.fillColor = [UIColor whiteColor];
-        _stateArea.strokeWidth = 2;
-        _stateArea.titleSize = 16;
+        _stateArea.strokeWidth = rpx(2);
+        _stateArea.titleSize = SIZE_TEXT_LARGE;
         _stateArea.angle = -10;
-        _stateArea.size = CGSizeMake(80, 30);
+        _stateArea.size = CGSizeMake(rpx(80), rpx(30));
         //        _stateArea.fillColor = COLOR_DAI_WAN_CHENG;
         [self.square addSubview:_stateArea];
     }
@@ -142,8 +142,8 @@
         _rightArrow = [[UIArrowView alloc]init];
         _rightArrow.direction = ArrowDirectRight;
         _rightArrow.lineColor = COLOR_LINE;
-        _rightArrow.lineThinkness = 2;
-        _rightArrow.size = CGSizeMake(8 , 14);
+        _rightArrow.lineThinkness = rpx(2);
+        _rightArrow.size = CGSizeMake(rpx(8) , rpx(14));
         [self.square addSubview:_rightArrow];
     }
     return _rightArrow;
@@ -155,7 +155,7 @@
 
 -(void)layoutSubviews{
     
-    CGFloat const leftpadding = 5;
+    CGFloat const leftpadding = rpx(5);
     
     CGFloat const sectionWidth = self.bounds.size.width;
     CGFloat const sectionHeight = self.bounds.size.height;
@@ -180,17 +180,19 @@
     NSString* content = taskBean.orderBaseCode;
     NSString* customer = ConcatStrings(@"客户单号",taskBean.customCode);
     
-    self.iconText.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:24 content:iconName];
-    CGSize iconSize = [self.iconText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.iconText.frame = (CGRect){ CGPointMake(leftpadding,(topHeight - iconSize.height) / 2. + 2),iconSize};
+    self.iconText.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:rpx(24) content:iconName];
+    self.iconText.size = [self.iconText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
+    self.iconText.x = leftpadding;
+    self.iconText.centerY = topHeight / 2.;
+//    self.iconText.frame = (CGRect){ CGPointMake(leftpadding,(topHeight - iconSize.height) / 2.),iconSize};
     
-    self.title.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:content];
+    self.title.attributedString = [NSString simpleAttributedString:COLOR_TEXT_PRIMARY size:SIZE_TEXT_PRIMARY content:content];
     CGSize titleSize = [self.title measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.title.frame = (CGRect){CGPointMake(self.iconText.frame.origin.x + self.iconText.frame.size.width + 3, topHeight / 2. - 15),titleSize};
+    self.title.frame = (CGRect){CGPointMake(self.iconText.maxX + rpx(3), topHeight / 2. - rpx(15)),titleSize};
     
-    self.desLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColor] size:12 content:customer];
+    self.desLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColor] size:SIZE_TEXT_SECONDARY content:customer];
     CGSize desSize = [self.desLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.desLabel.frame = (CGRect){CGPointMake(self.iconText.frame.origin.x + self.iconText.frame.size.width + 3, topHeight / 2.),desSize};
+    self.desLabel.frame = (CGRect){CGPointMake(self.iconText.maxX + rpx(3), topHeight / 2.),desSize};
     
     __weak __typeof(self) weakSelf = self;
     if (self.statusHandler) {
@@ -202,7 +204,7 @@
 //        strongSelf.stateArea.frame = CGRectMake(CGRectGetMaxX(self.title.frame) + leftpadding, 0, 50, 20);//
         if (isComplete) {
             strongSelf.stateArea.hidden = NO;
-            strongSelf.stateArea.maxX = self.square.width - 50;// - leftpadding;
+            strongSelf.stateArea.maxX = self.square.width - rpx(50);// - leftpadding;
             strongSelf.stateArea.centerY = self.square.height / 2.;
             strongSelf.stateArea.titleColor = strongSelf.stateArea.strokeColor = isComplete ? [COLOR_YI_WAN_CHENG colorWithAlphaComponent:0.5] : [COLOR_DAI_WAN_CHENG colorWithAlphaComponent:0.5];
             strongSelf.stateArea.title = isComplete ? @"已上报" : @"未上报";
@@ -210,7 +212,7 @@
             strongSelf.stateArea.hidden = YES;
         }
         
-        strongSelf.iconText.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:24 content:iconName];
+        strongSelf.iconText.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:rpx(24) content:iconName];
     }];
     
     
@@ -226,7 +228,7 @@
     __weak __typeof(self) weakSelf = self;
     [[taskBean rac_valuesForKeyPath:@"actualPackageCount" observer:nil] subscribeNext:^(id x) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        strongSelf.shipUintTotalLabel.attributedString = [strongSelf generateShipUnitString:12 color:FlatOrange activityTypeLabel:[Config getActivityTypeName:taskBean.activityDefinitionCode] expectedCount:[taskBean.expectedPackageCount integerValue] actualCount:taskBean.actualPackageCount];
+        strongSelf.shipUintTotalLabel.attributedString = [strongSelf generateShipUnitString:SIZE_TEXT_SECONDARY color:FlatOrange activityTypeLabel:[Config getActivityTypeName:taskBean.activityDefinitionCode] expectedCount:[taskBean.expectedPackageCount integerValue] actualCount:taskBean.actualPackageCount];
         strongSelf.shipUintTotalLabel.size = [strongSelf.shipUintTotalLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
         strongSelf.shipUintTotalLabel.y = bottomY;
         strongSelf.shipUintTotalLabel.x = leftpadding;
@@ -275,7 +277,7 @@
         self.rightArrow.centerY = self.square.centerY;
         self.rightArrow.hidden = NO;
         
-        self.detailLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange size:14 content:@"详情"];
+        self.detailLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatOrange size:SIZE_TEXT_PRIMARY content:@"详情"];
         self.detailLabel.size = [self.detailLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
         self.detailLabel.maxX = self.rightArrow.x - rightpadding;
         self.detailLabel.centerY = self.rightArrow.centerY;

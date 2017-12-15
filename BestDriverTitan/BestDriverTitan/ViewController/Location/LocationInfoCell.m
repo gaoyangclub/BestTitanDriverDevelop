@@ -56,10 +56,10 @@
     
     LocationInfo* info = self.data;
     
-    CGFloat leftMargin = 10;
+    CGFloat leftMargin = rpx(10);
     
     if (info.dateString) {
-        self.dateNode.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:info.dateString];
+        self.dateNode.attributedString = [NSString simpleAttributedString:COLOR_TEXT_PRIMARY size:SIZE_TEXT_PRIMARY content:info.dateString];
         self.dateNode.size = [self.dateNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize timeSize =
         self.dateNode.x = leftMargin;
         self.dateNode.maxY = self.contentView.centerY;
@@ -76,7 +76,7 @@
         color = FlatGrayDark;
     }else if(info.markType == LocationMarkTypeInfo){
         titleString = info.markInfo;
-        color = COLOR_BLACK_ORIGINAL;
+        color = COLOR_TEXT_PRIMARY;
     }else if(info.markType == LocationMarkTypeDebug){
         titleString = info.markInfo;
         color = FlatGreen;
@@ -87,7 +87,7 @@
         titleString = info.markInfo;
         color = FlatWatermelon;
     }
-    self.titleNode.attributedString = [NSString simpleAttributedString:color size:12 content:titleString];
+    self.titleNode.attributedString = [NSString simpleAttributedString:color size:SIZE_TEXT_SECONDARY content:titleString];
     self.titleNode.size = [self.titleNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];//CGSize timeSize =
     self.titleNode.x = leftMargin;
     self.titleNode.y = self.contentView.centerY;

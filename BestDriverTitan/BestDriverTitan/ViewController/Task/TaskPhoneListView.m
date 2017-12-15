@@ -23,7 +23,7 @@
     self = [super init];
     if (self) {
         //        self.opaque = false;//坑爹 一定要关闭掉才有透明绘制和圆角
-        self.minWidth = 300;
+        self.minWidth = rpx(300);
         self.cellClass = [TaskContactCell class];
         self.clickItemDismiss = NO;
     }
@@ -35,7 +35,7 @@
         _cancelButton = [[FlatButton alloc]init];
         [self.contentView addSubview:_cancelButton];
         _cancelButton.titleFontName = ICON_FONT_NAME;
-        _cancelButton.titleSize = 16;
+        _cancelButton.titleSize = rpx(16);
         _cancelButton.titleColor = [UIColor whiteColor];
 //        _cancelButton.strokeColor =
 //        _cancelButton.strokeWidth = 1;
@@ -49,7 +49,7 @@
 
 -(CGRect)getTableViewFrame{
     CGFloat const cancelWidth = MORE_BUTTON_RADIUS * 2;
-    CGFloat const bottomMargin = 20;
+    CGFloat const bottomMargin = rpx(20);
     
     self.cancelButton.frame = CGRectMake((self.contentView.width - cancelWidth) / 2., self.contentView.height - cancelWidth - bottomMargin, cancelWidth, cancelWidth);
     return CGRectMake(0, 0, self.contentView.width, self.cancelButton.y);

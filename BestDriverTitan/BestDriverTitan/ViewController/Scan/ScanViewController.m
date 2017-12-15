@@ -68,11 +68,11 @@
     if (!_submitButton) {
         _submitButton = [[FlatButton alloc]init];
         _submitButton.titleFontName = ICON_FONT_NAME;
-        _submitButton.titleColor = COLOR_BLACK_ORIGINAL;
+        _submitButton.titleColor = COLOR_TEXT_PRIMARY;
         _submitButton.fillColor = [UIColor whiteColor];;
-        _submitButton.titleSize = 18;
+        _submitButton.titleSize = SIZE_TEXT_LARGE;
         _submitButton.title = @"上报";
-        _submitButton.cornerRadius = 35;
+        _submitButton.cornerRadius = rpx(35);
         _submitButton.width = _submitButton.height = _submitButton.cornerRadius * 2;
         [_submitButton addTarget:self action:@selector(clickSubmitButton:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:_submitButton];
@@ -86,9 +86,9 @@
         _returnButton.titleFontName = ICON_FONT_NAME;
         _returnButton.titleColor = [UIColor whiteColor];
         _returnButton.fillColor = [[UIColor whiteColor] colorWithAlphaComponent:0.3];
-        _returnButton.titleSize = 18;
+        _returnButton.titleSize = SIZE_TEXT_LARGE;
         _returnButton.title = ICON_FAN_HUI;
-        _returnButton.cornerRadius = 25;
+        _returnButton.cornerRadius = rpx(25);
         _returnButton.width = _returnButton.height = _returnButton.cornerRadius * 2;
         [_returnButton addTarget:self action:@selector(leftClick) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:_returnButton];
@@ -102,9 +102,9 @@
         _photoButton.titleFontName = ICON_FONT_NAME;
         _photoButton.titleColor = [UIColor whiteColor];
         _photoButton.fillColor = [[UIColor whiteColor] colorWithAlphaComponent:0.3];
-        _photoButton.titleSize = 20;
+        _photoButton.titleSize = rpx(20);
         _photoButton.title = ICON_XIANG_CHE;
-        _photoButton.cornerRadius = 25;
+        _photoButton.cornerRadius = rpx(25);
         _photoButton.width = _photoButton.height = _photoButton.cornerRadius * 2;
         [_photoButton addTarget:self action:@selector(openPhoto) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:_photoButton];
@@ -118,9 +118,9 @@
         _lightButton.titleFontName = ICON_FONT_NAME;
         _lightButton.titleColor = [UIColor whiteColor];
         _lightButton.fillColor = [[UIColor whiteColor] colorWithAlphaComponent:0.3];
-        _lightButton.titleSize = 20;
+        _lightButton.titleSize = rpx(20);
         _lightButton.title = ICON_DIAN_SHI;
-        _lightButton.cornerRadius = 25;
+        _lightButton.cornerRadius = rpx(25);
         _lightButton.width = _lightButton.height = _lightButton.cornerRadius * 2;
         [_lightButton addTarget:self action:@selector(clickLamp:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:_lightButton];
@@ -132,9 +132,9 @@
     if (!_resultNode) {
         _resultNode = [[ASTextNode alloc]init];
         _resultNode.layerBacked = YES;
-        _resultNode.attributedString = [NSString simpleAttributedString:FlatYellow size:16 content:SCAN_RESULT_PLACEHOLDER];
+        _resultNode.attributedString = [NSString simpleAttributedString:FlatYellow size:SIZE_TEXT_LARGE content:SCAN_RESULT_PLACEHOLDER];
         _resultNode.size = [_resultNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-        _resultNode.y = kBgImgY - _resultNode.height - 20;
+        _resultNode.y = kBgImgY - _resultNode.height - rpx(20);
         [self.view.layer addSublayer:_resultNode.layer];
     }
     return _resultNode;
@@ -144,7 +144,7 @@
     if (!_resultIcon) {
         _resultIcon = [[ASTextNode alloc]init];
         _resultIcon.layerBacked = YES;
-        _resultIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatYellow size:30 content:ICON_TIAO_MA];
+        _resultIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:FlatYellow size:rpx(30) content:ICON_TIAO_MA];
         _resultIcon.size = [_resultIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
         _resultIcon.hidden = YES;
         [self.view.layer addSublayer:_resultIcon.layer];
@@ -159,7 +159,7 @@
         self.lightButton.fillColor = [[UIColor whiteColor] colorWithAlphaComponent:0.3];
     }else{
 //        self.lightButton.title = ICON_DIAN_SHI;
-        self.lightButton.titleColor = COLOR_BLACK_ORIGINAL;
+        self.lightButton.titleColor = COLOR_PRIMARY;
         self.lightButton.fillColor = [[UIColor whiteColor] colorWithAlphaComponent:0.7];
     }
     self.lightButton.selected = !self.lightButton.selected;
@@ -204,9 +204,9 @@
 -(void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
     
-    CGFloat const marginBottom = 20;
-    CGFloat const marginTop = 35;
-    CGFloat const marginLeft = 15;
+    CGFloat const marginBottom = rpx(20);
+    CGFloat const marginTop = rpx(35);
+    CGFloat const marginLeft = rpx(15);
     
     self.returnButton.x = marginLeft;
     self.returnButton.y = self.photoButton.y = self.lightButton.y = marginTop;
@@ -220,13 +220,13 @@
 }
 
 -(void)showQRCodeResult:(NSString*)qrCodeInfo{
-    self.resultNode.attributedString = [NSString simpleAttributedString:FlatYellow size:16 content:qrCodeInfo];;
+    self.resultNode.attributedString = [NSString simpleAttributedString:FlatYellow size:SIZE_TEXT_LARGE content:qrCodeInfo];
     self.resultNode.size = [self.resultNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
     self.resultIcon.hidden = NO;
     self.resultIcon.centerY = self.resultNode.centerY;
     
-    CGFloat const hGap = 10;
+    CGFloat const hGap = rpx(10);
     CGFloat const baseX = (self.view.width - self.resultIcon.width - self.resultNode.width - hGap) / 2.;
     
     self.resultIcon.x = baseX;
@@ -268,8 +268,8 @@
                 
                 ScanOrderEditController* scanOrderEditController = [[ScanOrderEditController alloc]init];
                 scanOrderEditController.scanCodeBean = itemBean;
-                scanOrderEditController.delegate = self;
-                [self.navigationController pushViewController:scanOrderEditController animated:YES];
+                scanOrderEditController.delegate = strongSelf;
+                [strongSelf.navigationController pushViewController:scanOrderEditController animated:YES];
                 
             }else{
                 [strongSelf scanStartRunning];//继续扫描 考虑延迟执行

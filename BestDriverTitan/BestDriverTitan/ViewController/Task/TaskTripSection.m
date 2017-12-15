@@ -219,7 +219,7 @@
     if (!_centerAreaBack) {
         _centerAreaBack = [[RoundRectNode alloc]init];
         _centerAreaBack.fillColor = [UIColor whiteColor];
-        _centerAreaBack.cornerRadius = 5;
+        _centerAreaBack.cornerRadius = rpx(5);
         _centerAreaBack.layerBacked = YES;
         [self.centerAreaView.layer addSublayer:_centerAreaBack.layer];
     }
@@ -267,7 +267,7 @@
         _circleArea = [[CircleNode alloc]init];
         _circleArea.layerBacked = YES;
         _circleArea.fillColor = [UIColor clearColor];
-        _circleArea.strokeWidth = 4;
+        _circleArea.strokeWidth = rpx(4);
         [self.centerAreaBack addSubnode:_circleArea];
     }
     return _circleArea;
@@ -362,7 +362,7 @@
     
 //    CGFloat leftpadding = 10;
     
-    CGFloat topHeight = TASK_TRIP_SECTION_TOP_HEIGHT - 5;
+    CGFloat topHeight = TASK_TRIP_SECTION_TOP_HEIGHT - rpx(5);
     
     self.topAreaBack.frame = CGRectMake(0, 0, sectionWidth, topHeight);
     
@@ -393,15 +393,15 @@
 
 -(void)initTopArea:(ShipmentStopBean*)bean topWidth:(CGFloat)topWidth topHeight:(CGFloat)topHeight{
     
-    CGFloat leftpadding = 10;
+    CGFloat leftpadding = rpx(10);
     
     CGFloat naviWidth = topHeight;
     
     self.naviButton.frame = CGRectMake(topWidth - naviWidth, 0, naviWidth, topHeight);
     
-    self.naviIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:26 content:ICON_DAO_HANG];
+    self.naviIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_YI_WAN_CHENG size:rpx(26) content:ICON_DAO_HANG];
     CGSize naviIconSize = [self.naviIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.naviLabel.attributedString = [NSString simpleAttributedString:FlatGray  size:12 content:@"去这里"];
+    self.naviLabel.attributedString = [NSString simpleAttributedString:FlatGray  size:SIZE_TEXT_SECONDARY content:@"去这里"];
     CGSize naviLabelSize = [self.naviLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
     CGFloat naviIconY = (topHeight - naviIconSize.height - naviLabelSize.height) / 2.;
@@ -411,7 +411,7 @@
     
     NSString* address = bean.stopName;
     
-    NSMutableAttributedString* textString = (NSMutableAttributedString*)[NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:address];
+    NSMutableAttributedString* textString = (NSMutableAttributedString*)[NSString simpleAttributedString:COLOR_TEXT_PRIMARY size:SIZE_TEXT_PRIMARY content:address];
     NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
     style.alignment = NSTextAlignmentLeft;
     [textString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, address.length)];
@@ -427,8 +427,8 @@
 -(void)initCenterArea:(ShipmentStopBean*)bean centerWidth:(CGFloat)centerWidth centerHeight:(CGFloat)centerHeight{
     CGFloat topCenterY = centerHeight / 2.;
     CGFloat areaWith = centerWidth / 2.;
-    CGFloat labelOffset = 10;
-    CGFloat textOffset = -30;
+    CGFloat labelOffset = rpx(10);
+    CGFloat textOffset = -rpx(30);
     
     CGFloat areaX1 = 0;
     
@@ -440,12 +440,12 @@
         iconColor = COLOR_DAI_WAN_CHENG;
     }
     
-    self.soCountText.attributedString = [NSString simpleAttributedString:iconColor size:30 content:[NSNumber numberWithInteger:bean.orderCount].stringValue];
+    self.soCountText.attributedString = [NSString simpleAttributedString:iconColor size:rpx(30) content:[NSNumber numberWithInteger:bean.orderCount].stringValue];
     CGSize soSize = [self.soCountText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.soCountText.frame = (CGRect){
         CGPointMake(areaX1 + (areaWith - soSize.width) / 2., topCenterY + textOffset),soSize
     };
-    self.soCountLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColorDark] size:12 content:@"订单个数"];
+    self.soCountLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColorDark] size:SIZE_TEXT_SECONDARY content:@"订单个数"];
     soSize = [self.soCountLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.soCountLabel.frame = (CGRect){
         CGPointMake(areaX1 + (areaWith - soSize.width) / 2., topCenterY + labelOffset),soSize
@@ -461,14 +461,14 @@
     self.shipUintCountText.frame = (CGRect){
         CGPointMake(areaX2 + (areaWith - shipSize.width) / 2., topCenterY + textOffset),shipSize
     };
-    self.shipUintCountLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColorDark] size:12 content:@"货量(箱)"];
+    self.shipUintCountLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColorDark] size:SIZE_TEXT_SECONDARY content:@"货量(箱)"];
     shipSize = [self.shipUintCountLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.shipUintCountLabel.frame = (CGRect){
         CGPointMake(areaX2 + (areaWith - shipSize.width) / 2., topCenterY + labelOffset),shipSize
     };
     
     self.circleArea.strokeColor = iconColor;
-    self.circleArea.frame = CGRectMake(0, 5, areaWith, centerHeight - 10);
+    self.circleArea.frame = CGRectMake(0, rpx(50), areaWith, centerHeight - rpx(10));
 }
 
 
@@ -486,17 +486,17 @@
     [attrString addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(0, context.length)];
     NSUInteger loc = 0;
     if (pickupCount) {
-        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(loc, 2)];
+        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:rpx(16)] range:NSMakeRange(loc, 2)];
         loc += 2;
         NSUInteger pickupLength = [NSString stringWithFormat:@"%i", pickupCount].length;
-        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:30] range:NSMakeRange(loc, pickupLength)];
+        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:rpx(30)] range:NSMakeRange(loc, pickupLength)];
         loc += pickupLength + 1;
     }
     if (deliveryCount) {
-        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(loc, 2)];
+        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:rpx(16)] range:NSMakeRange(loc, 2)];
         loc += 2;
         NSUInteger deliverLength = [NSString stringWithFormat:@"%i", deliveryCount].length;
-        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:30] range:NSMakeRange(loc, deliverLength)];
+        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:rpx(30)] range:NSMakeRange(loc, deliverLength)];
         //        loc += deliverLength;
     }
     return attrString;
@@ -504,9 +504,9 @@
 
 -(void)initBottomArea:(ShipmentStopBean*)bean bottomY:(CGFloat)bottomY bottomWidth:(CGFloat)bottomWidth bottomHeight:(CGFloat)bottomHeight{
     
-    CGFloat leftpadding = 10;
+    CGFloat leftpadding = rpx(10);
     
-    self.timeText.attributedString = [NSString simpleAttributedString:FlatGray size:14 content:@"预计到达:2017-07-13 12:00:00"];
+    self.timeText.attributedString = [NSString simpleAttributedString:FlatGray size:SIZE_TEXT_PRIMARY content:@"预计到达:2017-07-13 12:00:00"];
     CGSize timeSize = [self.timeText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
     self.timeText.frame = (CGRect){CGPointMake(leftpadding, bottomY + (bottomHeight - timeSize.height) / 2.),timeSize};
@@ -516,7 +516,7 @@
     self.linePhoneX.frame = CGRectMake(phoneX - LINE_WIDTH / 2., bottomY + leftpadding, LINE_WIDTH , bottomHeight - leftpadding * 2);
     
     self.phoneButton.frame = CGRectMake(phoneX, bottomY, bottomHeight, bottomHeight);
-    self.phoneIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_PRIMARY size:24 content:ICON_DIAN_HUA];
+    self.phoneIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_PRIMARY size:rpx(24) content:ICON_DIAN_HUA];
     CGSize phoneSize = [self.phoneIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.phoneIcon.frame = (CGRect){CGPointMake((bottomHeight - phoneSize.width) / 2, (bottomHeight - phoneSize.height) / 2),phoneSize};
     

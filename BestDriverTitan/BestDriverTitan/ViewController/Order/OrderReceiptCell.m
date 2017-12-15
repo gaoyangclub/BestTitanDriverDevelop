@@ -11,7 +11,7 @@
 #import "OwnerViewController.h"
 #import "ShipmentTaskBean.h"
 
-#define RECEIPT_PHOTO_GAP 5
+#define RECEIPT_PHOTO_GAP rpx(5)
 
 static CGFloat minOrderReceiptHeight;
 

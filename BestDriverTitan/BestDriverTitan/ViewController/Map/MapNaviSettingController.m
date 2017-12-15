@@ -37,7 +37,7 @@
 
 -(UILabel *)labelAvoidHighway{
     if (!_labelAvoidHighway) {
-        _labelAvoidHighway = [UICreationUtils createLabel:16 color:[UIColor whiteColor] text:@"不走高速" sizeToFit:YES superView:self.view];
+        _labelAvoidHighway = [UICreationUtils createLabel:SIZE_TEXT_LARGE color:[UIColor whiteColor] text:@"不走高速" sizeToFit:YES superView:self.view];
     }
     return _labelAvoidHighway;
 }
@@ -53,7 +53,7 @@
 
 -(UILabel *)labelAvoidCongestion{
     if (!_labelAvoidCongestion) {
-        _labelAvoidCongestion = [UICreationUtils createLabel:16 color:[UIColor whiteColor] text:@"躲避拥堵" sizeToFit:YES superView:self.view];
+        _labelAvoidCongestion = [UICreationUtils createLabel:SIZE_TEXT_LARGE color:[UIColor whiteColor] text:@"躲避拥堵" sizeToFit:YES superView:self.view];
     }
     return _labelAvoidCongestion;
 }
@@ -69,7 +69,7 @@
 
 -(UILabel *)labelAvoidCost{
     if (!_labelAvoidCost) {
-        _labelAvoidCost = [UICreationUtils createLabel:16 color:[UIColor whiteColor] text:@"避免收费" sizeToFit:YES superView:self.view];
+        _labelAvoidCost = [UICreationUtils createLabel:SIZE_TEXT_LARGE color:[UIColor whiteColor] text:@"避免收费" sizeToFit:YES superView:self.view];
     }
     return _labelAvoidCost;
 }
@@ -79,9 +79,9 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = COLOR_PRIMARY;
     
-    CGFloat const leftpadding = 30;
-    CGFloat const toppadding = 50;
-    CGFloat const gap = 20;
+    CGFloat const leftpadding = rpx(30);
+    CGFloat const toppadding = rpx(50);
+    CGFloat const gap = rpx(20);
     
     self.labelAvoidCongestion.x = leftpadding;
     self.labelAvoidCongestion.y = toppadding;

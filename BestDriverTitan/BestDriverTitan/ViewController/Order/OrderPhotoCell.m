@@ -51,7 +51,7 @@
     
     self.contentView.backgroundColor = [UIColor whiteColor];
     
-    CGFloat padding = 5;
+    CGFloat padding = rpx(5);
     CGFloat itemHeight = self.contentView.height - padding * 2;
     
     self.photoView.frame = CGRectMake(padding, padding, self.contentView.width - padding * 2, itemHeight);

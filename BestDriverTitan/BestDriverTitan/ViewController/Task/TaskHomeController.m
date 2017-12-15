@@ -36,7 +36,7 @@
     if (!_titleView) {
         _titleView = [[UIView alloc]init];
         
-        [UICreationUtils createNavigationTitleLabel:20 color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_TASK_HOME superView:_titleView];
+        [UICreationUtils createNavigationTitleLabel:SIZE_NAVI_TITLE color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_TASK_HOME superView:_titleView];
     }
     return _titleView;
 }
@@ -58,8 +58,8 @@
     
     if (DEBUG_MODE) {
         self.tabBarController.navigationItem.leftBarButtonItem =
-        [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SHE_ZHI target:self action:@selector(leftItemClick)];
-        self.tabBarController.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SAO_MIAO target:self action:@selector(rightItemClick)];
+        [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:SIZE_LEFT_BACK_ICON] text:ICON_SHE_ZHI target:self action:@selector(leftItemClick)];
+        self.tabBarController.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:SIZE_LEFT_BACK_ICON] text:ICON_SAO_MIAO target:self action:@selector(rightItemClick)];
     }else{
         self.tabBarController.navigationItem.leftBarButtonItem = self.tabBarController.navigationItem.rightBarButtonItem = nil;
     }
@@ -127,8 +127,8 @@
         [controllerArray addObject:controller];
     }
     
-    CGFloat itemWidth = (CGRectGetWidth(self.view.bounds) - 10.0) / titleList.count;
-    CGFloat minItemWidth = 90;
+    CGFloat itemWidth = (CGRectGetWidth(self.view.bounds) - rpx(10.0)) / titleList.count;
+    CGFloat minItemWidth = rpx(90);
     if (itemWidth < minItemWidth) {
         itemWidth = minItemWidth;
     }
@@ -139,10 +139,10 @@
                                  CAPSPageMenuOptionScrollMenuBackgroundColor:[UIColor whiteColor],
                                  CAPSPageMenuOptionViewBackgroundColor:[UIColor clearColor],
                                  CAPSPageMenuOptionSelectionIndicatorColor:COLOR_PRIMARY,
-                                 CAPSPageMenuOptionUnselectedMenuItemLabelColor:COLOR_BLACK_ORIGINAL,
+                                 CAPSPageMenuOptionUnselectedMenuItemLabelColor:COLOR_TEXT_PRIMARY,
                                  CAPSPageMenuOptionSelectedMenuItemLabelColor:COLOR_PRIMARY,
-                                 CAPSPageMenuOptionMenuItemFont:[UIFont systemFontOfSize:16],
-                                 CAPSPageMenuOptionSelectionIndicatorHeight:@(2),
+                                 CAPSPageMenuOptionMenuItemFont:[UIFont systemFontOfSize:SIZE_TEXT_LARGE],
+                                 CAPSPageMenuOptionSelectionIndicatorHeight:@(rpx(2)),
                                  CAPSPageMenuOptionCenterMenuItems:@(YES),
                                  CAPSPageMenuOptionAddBottomMenuHairline:@(NO)
                                  };

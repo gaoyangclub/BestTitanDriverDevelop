@@ -68,15 +68,15 @@ static NSArray<NSString*> *activityCodes;
     self.backgroundColor = [UIColor whiteColor];
     [self setShowTouch:YES];
     
-    self.iconNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:self.iconColor size:60 content:self.icon];
+    self.iconNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:self.iconColor size:rpx(60) content:self.icon];
     self.iconNode.size = [self.iconNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
-    self.titleNode.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:self.title];
+    self.titleNode.attributedString = [NSString simpleAttributedString:COLOR_TEXT_PRIMARY size:SIZE_TEXT_PRIMARY content:self.title];
     self.titleNode.size = [self.titleNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
     self.titleNode.centerY = self.iconNode.centerY = self.height / 2.;
     
-    CGFloat const iconGap = 20;
+    CGFloat const iconGap = rpx(20);
     CGFloat const baseX = (self.width - (self.iconNode.width + iconGap + self.titleNode.width)) / 2.;
     
     self.iconNode.x = baseX;
@@ -103,14 +103,14 @@ static NSArray<NSString*> *activityCodes;
 
 -(UILabel *)titleLabel{
     if (!_titleLabel) {
-        _titleLabel = [UICreationUtils createNavigationTitleLabel:20 color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_SCAN superView:nil];
+        _titleLabel = [UICreationUtils createNavigationTitleLabel:SIZE_NAVI_TITLE color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_SCAN superView:nil];
     }
     return _titleLabel;
 }
 
 -(void)initTitleArea{
     self.navigationItem.leftBarButtonItem =
-    [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
+    [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:SIZE_LEFT_BACK_ICON] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
     
 //    self.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_DI_TU target:self action:@selector(rightClick)];
     
@@ -148,9 +148,9 @@ static NSArray<NSString*> *activityCodes;
 
 -(void)initButtonAreas{
     NSInteger const column = 2;//2列排列
-    CGFloat const buttonGap = 5;
-    CGFloat const buttonLeftMargin = 5;
-    CGFloat const buttonTopMargin = 15 + self.backImageView.height;
+    CGFloat const buttonGap = rpx(5);
+    CGFloat const buttonLeftMargin = rpx(5);
+    CGFloat const buttonTopMargin = rpx(15) + self.backImageView.height;
     CGFloat const buttonWidth = (self.view.width - buttonLeftMargin - buttonLeftMargin * 2) / column;
     CGFloat const buttonHeight = buttonWidth * MATH_GOLDEN_SECTION;//黄金分割
     

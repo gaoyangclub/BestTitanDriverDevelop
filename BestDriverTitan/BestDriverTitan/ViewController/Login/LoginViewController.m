@@ -66,21 +66,21 @@
 
 -(UILabel *)logoLabel{
     if (!_logoLabel) {
-        _logoLabel = [UICreationUtils createLabel:24 color:COLOR_BLACK_ORIGINAL text:APPLICATION_NAME sizeToFit:YES superView:self.view];
+        _logoLabel = [UICreationUtils createLabel:rpx(24) color:COLOR_TEXT_PRIMARY text:APPLICATION_NAME sizeToFit:YES superView:self.view];
     }
     return _logoLabel;
 }
 
 -(UILabel *)logoDes{
     if (!_logoDes) {
-        _logoDes = [UICreationUtils createLabel:16 color:COLOR_BLACK_ORIGINAL text:APPLICATION_NAME_EN sizeToFit:YES superView:self.view];
+        _logoDes = [UICreationUtils createLabel:rpx(16) color:COLOR_TEXT_PRIMARY text:APPLICATION_NAME_EN sizeToFit:YES superView:self.view];
     }
     return _logoDes;
 }
 
 -(UILabel *)versionLabel{
     if (!_versionLabel) {
-        _versionLabel = [UICreationUtils createLabel:14 color:FlatGray];
+        _versionLabel = [UICreationUtils createLabel:SIZE_TEXT_PRIMARY color:FlatGray];
         [self.view addSubview:_versionLabel];
     }
     return _versionLabel;
@@ -88,7 +88,7 @@
 
 -(UILabel *)flyTagLabel{
     if (!_flyTagLabel) {
-        _flyTagLabel = [UICreationUtils createLabel:14 color:COLOR_BLACK_ORIGINAL text:@"语音技术由科大讯飞提供" sizeToFit:YES superView:self.view];
+        _flyTagLabel = [UICreationUtils createLabel:SIZE_TEXT_PRIMARY color:COLOR_TEXT_PRIMARY text:@"语音技术由科大讯飞提供" sizeToFit:YES superView:self.view];
     }
     return _flyTagLabel;
 }
@@ -106,7 +106,7 @@
 -(UILabel *)usernameIcon{
     if (!_usernameIcon) {
         _usernameIcon = [[UILabel alloc]init];
-        _usernameIcon.font = [UIFont fontWithName:ICON_FONT_NAME size:24];
+        _usernameIcon.font = [UIFont fontWithName:ICON_FONT_NAME size:rpx(24)];
         _usernameIcon.text = ICON_WO_DE;
         _usernameIcon.textColor = COLOR_PRIMARY;
         [_usernameIcon sizeToFit];
@@ -119,8 +119,8 @@
     if (!_usernameText) {
         _usernameText = [[UITextField alloc]init];
         _usernameText.clearButtonMode = UITextFieldViewModeWhileEditing;//输入的时候显示close按钮
-        _usernameText.font = [UIFont systemFontOfSize:16];
-        _usernameText.textColor = COLOR_BLACK_ORIGINAL;
+        _usernameText.font = [UIFont systemFontOfSize:SIZE_TEXT_LARGE];
+        _usernameText.textColor = COLOR_TEXT_PRIMARY;
 //        _usernameText.delegate = self; //文本交互代理
         _usernameText.placeholder = @"请输入手机号";
         _usernameText.keyboardType = UIKeyboardTypePhonePad;
@@ -141,7 +141,7 @@
 
 -(UILabel *)authcodeIcon{
     if (!_authcodeIcon) {
-        _authcodeIcon = [UICreationUtils createLabel:ICON_FONT_NAME size:24 color:COLOR_PRIMARY text:ICON_YAN_ZHENG_MA sizeToFit:YES superView:self.inputArea];
+        _authcodeIcon = [UICreationUtils createLabel:ICON_FONT_NAME size:rpx(24) color:COLOR_PRIMARY text:ICON_YAN_ZHENG_MA sizeToFit:YES superView:self.inputArea];
     }
     return _authcodeIcon;
 }
@@ -150,8 +150,8 @@
     if (!_authcodeText) {
         _authcodeText = [[UITextField alloc]init];
         _authcodeText.clearButtonMode = UITextFieldViewModeWhileEditing;//输入的时候显示close按钮
-        _authcodeText.font = [UIFont systemFontOfSize:16];
-        _authcodeText.textColor = COLOR_BLACK_ORIGINAL;
+        _authcodeText.font = [UIFont systemFontOfSize:SIZE_TEXT_LARGE];
+        _authcodeText.textColor = COLOR_TEXT_PRIMARY;
         //        _authcodeText.delegate = self; //文本交互代理
         _authcodeText.placeholder = @"请输入验证码";
         _authcodeText.keyboardType = UIKeyboardTypeNumberPad;
@@ -169,13 +169,13 @@
         [_authcodeButton setTitle:@"验证码" forState:UIControlStateNormal];
         [_authcodeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
-        _authcodeButton.titleLabel.font = [UIFont systemFontOfSize:12];
+        _authcodeButton.titleLabel.font = [UIFont systemFontOfSize:SIZE_TEXT_SECONDARY];
         
         _authcodeButton.underlineNone = YES;
         [self.inputArea addSubview:_authcodeButton];
         [_authcodeButton setShowTouch:YES];
         
-        _authcodeButton.layer.cornerRadius = 3;
+        _authcodeButton.layer.cornerRadius = rpx(3);
         _authcodeButton.layer.masksToBounds = YES;
         [_authcodeButton addTarget:self action:@selector(clickAuthcodeButton:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -188,12 +188,12 @@
         _submitButton.backgroundColor = COLOR_PRIMARY;
         [_submitButton setTitle:@"登   录" forState:UIControlStateNormal];
         [_submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _submitButton.titleLabel.font = [UIFont systemFontOfSize:20];
+        _submitButton.titleLabel.font = [UIFont systemFontOfSize:SIZE_TEXT_LARGE];
         
         _submitButton.underlineNone = YES;
         [self.view addSubview:_submitButton];
         
-        _submitButton.layer.cornerRadius = 5;
+        _submitButton.layer.cornerRadius = rpx(5);
         _submitButton.layer.masksToBounds = YES;
         
         [_submitButton setShowTouch:YES];
@@ -204,7 +204,7 @@
 
 -(UILabel *)operateLabeL{
     if (!_operateLabeL) {
-        _operateLabeL = [UICreationUtils createLabel:14 color:FlatGray text:@"切换线路" sizeToFit:YES superView:self.view];
+        _operateLabeL = [UICreationUtils createLabel:SIZE_TEXT_PRIMARY color:FlatGray text:@"切换线路" sizeToFit:YES superView:self.view];
     }
     return _operateLabeL;
 }
@@ -214,7 +214,7 @@
         _operateButton = [[FlatButton alloc]init];
         _operateButton.strokeWidth = 1;
         _operateButton.strokeColor = COLOR_PRIMARY;
-        _operateButton.titleSize = 14;
+        _operateButton.titleSize = SIZE_TEXT_PRIMARY;
         _operateButton.titleColor = COLOR_PRIMARY;
         _operateButton.fillColor = [UIColor whiteColor];
         [_operateButton addTarget:self action:@selector(clickOperateButton) forControlEvents:UIControlEventTouchUpInside];
@@ -228,7 +228,7 @@
     self.view.backgroundColor = FlatWhite;
 
     [self initLogoArea];
-    [self initInputArea:100];
+    [self initInputArea:rpx(100)];
     
     if (DEBUG_MODE) {
         [self initOperateArea];
@@ -246,10 +246,10 @@
         [self showVersionLabel];
     }
     
-    CGFloat const gap = 20;
+    CGFloat const gap = rpx(20);
     self.operateLabeL.x = self.submitButton.x;
     CGFloat labelY = self.submitButton.maxY + gap;
-    if (labelY + self.operateLabeL.height > self.view.height - 10) {
+    if (labelY + self.operateLabeL.height > self.view.height - rpx(10)) {
         self.operateLabeL.maxY = self.view.height - gap;
         self.submitButton.maxY = self.operateLabeL.y - gap;
     }else{
@@ -258,8 +258,8 @@
     
     self.operateButton.title = [Config getNetModelName:NET_MODE];
     
-    self.operateButton.size = CGSizeMake(100, 25);
-    self.operateButton.x = self.operateLabeL.maxX + 10;
+    self.operateButton.size = CGSizeMake(rpx(100), rpx(25));
+    self.operateButton.x = self.operateLabeL.maxX + rpx(10);
     self.operateButton.centerY = self.operateLabeL.centerY;
 }
 
@@ -314,7 +314,7 @@
 //    CGFloat logoMarginTop = 50;
 //    CGFloat logoMarginBottom = 95;
     
-    CGFloat logoHeight = SYSTEM_SCALE_FACTOR * 120;//self.view.center.y - logoMarginTop - logoMarginBottom;
+    CGFloat logoHeight = rpx(120);//self.view.center.y - logoMarginTop - logoMarginBottom;
     
     CGFloat logoMarginTop = (self.view.centerY - logoHeight - self.logoLabel.height - self.logoDes.height) / 2.;
     
@@ -323,7 +323,7 @@
 //    CGFloat logoLabelHeight = CGRectGetHeight(self.logoLabel.bounds);
 //    CGFloat logoLabelWidth = CGRectGetWidth(self.logoLabel.bounds);
     
-    CGFloat logoLabelY = CGRectGetMaxY(self.logoImg.frame) + 10;
+    CGFloat logoLabelY = CGRectGetMaxY(self.logoImg.frame) + rpx(10);
     
 //    self.logoLabel.frame = CGRectMake((viewWidth - logoLabelWidth) / 2., logoLabelY, logoLabelWidth, logoLabelHeight);
     self.logoLabel.centerX = self.logoDes.centerX = self.view.centerX;
@@ -352,10 +352,10 @@
 }
 
 -(void)initInputArea:(CGFloat)areaHeight{
-    CGFloat padding = 10;
+    CGFloat padding = rpx(10);
     
     CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
-    CGFloat iconWidth = 50;
+    CGFloat iconWidth = rpx(50);
     CGFloat inputHeight = areaHeight / 2.;
     
     self.inputArea.frame = CGRectMake(0, self.view.center.y, viewWidth, areaHeight);

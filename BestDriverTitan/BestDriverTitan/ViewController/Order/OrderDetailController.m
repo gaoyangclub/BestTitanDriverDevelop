@@ -92,14 +92,14 @@
 
 -(UILabel *)titleLabel{
     if (!_titleLabel) {
-        _titleLabel = [UICreationUtils createNavigationTitleLabel:20 color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_TASK_TRIP superView:nil];
+        _titleLabel = [UICreationUtils createNavigationTitleLabel:SIZE_NAVI_TITLE color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_TASK_TRIP superView:nil];
     }
     return _titleLabel;
 }
 
 -(void)initTitleArea{
     self.navigationItem.leftBarButtonItem =
-    [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
+    [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:SIZE_LEFT_BACK_ICON] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
     
     self.titleLabel.text = NAVIGATION_TITLE_ORDER_DETAIL;//self.taskBean.orderBaseCode;//标题显示SO号
     [self.titleLabel sizeToFit];
@@ -107,7 +107,7 @@
 }
 
 -(CGRect)getTableViewFrame{
-    CGFloat margin = 4;
+    CGFloat margin = rpx(4);
     CGFloat squareHeight = ORDER_VIEW_SECTION_HEIGHT;
     
     CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
@@ -136,22 +136,20 @@
         iconColor = COLOR_DAI_WAN_CHENG;
     }
     CGFloat sectionWidth = self.view.width;
-    CGFloat leftpadding = 10;
+    CGFloat leftpadding = rpx(10);
     CGFloat topHeight = ORDER_VIEW_SECTION_HEIGHT * 2 / 3;
-    self.orderIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:24 content:ICON_DING_DAN];
+    self.orderIcon.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:rpx(24) content:ICON_DING_DAN];
     CGSize iconSize = [self.orderIcon measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.orderIcon.frame = (CGRect){ CGPointMake(leftpadding,(topHeight - iconSize.height) / 2.),iconSize};
     
-    self.orderCodeLabel.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:self.taskBean.orderBaseCode];
+    self.orderCodeLabel.attributedString = [NSString simpleAttributedString:COLOR_TEXT_PRIMARY size:SIZE_TEXT_PRIMARY content:self.taskBean.orderBaseCode];
     CGSize orderCodeSize = [self.orderCodeLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.orderCodeLabel.frame = (CGRect){CGPointMake(self.orderIcon.frame.origin.x + self.orderIcon.frame.size.width + 3, topHeight / 2. - 15),orderCodeSize};
+    self.orderCodeLabel.frame = (CGRect){CGPointMake(self.orderIcon.frame.origin.x + self.orderIcon.frame.size.width + rpx(3), topHeight / 2. - rpx(15)),orderCodeSize};
     
     NSString* customer = ConcatStrings(@"客户单号",self.taskBean.customCode);
-    self.customCodeLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColor] size:12 content:customer];
+    self.customCodeLabel.attributedString = [NSString simpleAttributedString:[UIColor flatGrayColor] size:SIZE_TEXT_SECONDARY content:customer];
     CGSize customCodeSize = [self.customCodeLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
-    self.customCodeLabel.frame = (CGRect){CGPointMake(self.orderIcon.frame.origin.x + self.orderIcon.frame.size.width + 3, topHeight / 2.),customCodeSize};
-    
-    
+    self.customCodeLabel.frame = (CGRect){CGPointMake(self.orderIcon.frame.origin.x + self.orderIcon.frame.size.width + rpx(3), topHeight / 2.),customCodeSize};
     
     
     CGFloat bottomY = topHeight;
@@ -159,7 +157,7 @@
     __weak __typeof(self) weakSelf = self;
     [[self.taskBean rac_valuesForKeyPath:@"actualPackageCount" observer:nil] subscribeNext:^(id x) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            strongSelf.shipUintTotalLabel.attributedString = [strongSelf generateShipUnitString:12 color:FlatOrange activityTypeLabel:[Config getActivityTypeName:strongSelf.taskBean.activityDefinitionCode] expectedCount:[strongSelf.taskBean.expectedPackageCount integerValue] actualCount:strongSelf.taskBean.actualPackageCount];
+            strongSelf.shipUintTotalLabel.attributedString = [strongSelf generateShipUnitString:SIZE_TEXT_SECONDARY color:FlatOrange activityTypeLabel:[Config getActivityTypeName:strongSelf.taskBean.activityDefinitionCode] expectedCount:[strongSelf.taskBean.expectedPackageCount integerValue] actualCount:strongSelf.taskBean.actualPackageCount];
             strongSelf.shipUintTotalLabel.size = [strongSelf.shipUintTotalLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
             strongSelf.shipUintTotalLabel.y = bottomY;
             strongSelf.shipUintTotalLabel.x = leftpadding;

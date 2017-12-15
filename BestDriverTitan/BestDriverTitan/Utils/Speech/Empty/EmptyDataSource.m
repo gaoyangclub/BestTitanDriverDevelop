@@ -30,9 +30,9 @@
     //                                 };
     //    return [[NSAttributedString alloc] initWithString:title attributes:attributes];
     if (self.netError){
-        return [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_BLACK_ORIGINAL size:100 content:ICON_EMPTY_WANG_LUO];
+        return [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_TEXT_PRIMARY size:rpx(100) content:ICON_EMPTY_WANG_LUO];
     }
-    return self.noDataDescription ? [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_BLACK_ORIGINAL size:100 content:self.noDataIconName] : nil;
+    return self.noDataDescription ? [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_TEXT_PRIMARY size:rpx(100) content:self.noDataIconName] : nil;
 }
 
 #pragma DZNEmptyDataSetSource

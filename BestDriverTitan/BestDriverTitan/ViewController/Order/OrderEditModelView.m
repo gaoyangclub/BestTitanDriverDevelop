@@ -44,8 +44,8 @@
     self = [super init];
     if (self) {
 //        self.opaque = false;//坑爹 一定要关闭掉才有透明绘制和圆角
-        self.leftMargin = 20;
-        self.minHeight = 320;
+        self.leftMargin = rpx(20);
+        self.minHeight = rpx(320);
     }
     return self;
 }
@@ -72,7 +72,7 @@
     if (!_packageNumberView) {
         _packageNumberView = [[DiyNumberAddView alloc]init];
         [self.contentView addSubview:_packageNumberView];
-        _packageNumberView.cornerRadius = 5;
+        _packageNumberView.cornerRadius = rpx(5);
         _packageNumberView.fillColor = [UIColor whiteColor];
         _packageNumberView.strokeWidth = 1;
         _packageNumberView.strokeColor = COLOR_LINE;
@@ -94,7 +94,7 @@
     if (!_pieceNumberView) {
         _pieceNumberView = [[DiyNumberAddView alloc]init];
         [self.contentView addSubview:_pieceNumberView];
-        _pieceNumberView.cornerRadius = 5;
+        _pieceNumberView.cornerRadius = rpx(5);
         _pieceNumberView.fillColor = [UIColor whiteColor];
         _pieceNumberView.strokeWidth = 1;
         _pieceNumberView.strokeColor = COLOR_LINE;
@@ -125,8 +125,8 @@
     if (!_weightText) {
         _weightText = [[UITextField alloc]init];
 //        _weightText.clearButtonMode = UITextFieldViewModeWhileEditing;//输入的时候显示close按钮
-        _weightText.font = [UIFont systemFontOfSize:16];
-        _weightText.textColor = COLOR_BLACK_ORIGINAL;
+        _weightText.font = [UIFont systemFontOfSize:SIZE_TEXT_LARGE];
+        _weightText.textColor = COLOR_TEXT_PRIMARY;
         //        _weightText.delegate = self; //文本交互代理
         _weightText.placeholder = @"请输入重量";
         _weightText.keyboardType = UIKeyboardTypeDecimalPad;
@@ -144,8 +144,8 @@
     if (!_volumeText) {
         _volumeText = [[UITextField alloc]init];
         //        _volumeText.clearButtonMode = UITextFieldViewModeWhileEditing;//输入的时候显示close按钮
-        _volumeText.font = [UIFont systemFontOfSize:16];
-        _volumeText.textColor = COLOR_BLACK_ORIGINAL;
+        _volumeText.font = [UIFont systemFontOfSize:SIZE_TEXT_LARGE];
+        _volumeText.textColor = COLOR_TEXT_PRIMARY;
         //        _volumeText.delegate = self; //文本交互代理
         _volumeText.placeholder = @"请输入体积";
         _volumeText.keyboardType = UIKeyboardTypeDecimalPad;
@@ -182,7 +182,7 @@
         _submitButton = [[FlatButton alloc]init];
         _submitButton.fillColor = COLOR_PRIMARY;
         _submitButton.title = @"确定修改";
-        _submitButton.titleSize = 20;
+        _submitButton.titleSize = SIZE_TEXT_LARGE;
         //        _loginButton.cornerRadius = 0;
         [self.contentView addSubview:_submitButton];
         [_submitButton addTarget:self action:@selector(clickSubmitButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -197,7 +197,7 @@
         _returnButton.titleColor = _returnButton.strokeColor = COLOR_PRIMARY;
         _returnButton.strokeWidth = 1;
         _returnButton.title = @"取消";
-        _returnButton.titleSize = 20;
+        _returnButton.titleSize = SIZE_TEXT_LARGE;
         //        _returnButton.cornerRadius = 0;
         [self.contentView addSubview:_returnButton];
         
@@ -268,23 +268,23 @@
     CGFloat viewWidth = self.contentView.width;// CGRectGetWidth(self.contentView.bounds);
     CGFloat viewHeight = self.contentView.height;//CGRectGetHeight(self.contentView.bounds);
     
-    CGFloat lefftpadding = 10;
-    CGFloat titleHeight = 30;
+    CGFloat lefftpadding = rpx(10);
+    CGFloat titleHeight = rpx(30);
     
     CGFloat gapWidth = viewWidth / 2.;
 //    CGFloat gapHeight = (viewHeight - titleHeight) / 2.;
-    CGFloat numberWidth = 120;
-    CGFloat numberHeight = 40;
+    CGFloat numberWidth = rpx(120);
+    CGFloat numberHeight = rpx(40);
     
     CGFloat viewCenterY = self.contentView.centerY;
-    CGFloat offsetY = 50 * SYSTEM_SCALE;
+    CGFloat offsetY = rpx(80);
     
-    self.titleLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_BLACK_ORIGINAL size:18 content:self.shipUnitBean.itemName];
+    self.titleLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_TEXT_PRIMARY size:SIZE_NAVI_TITLE content:self.shipUnitBean.itemName];
     self.titleLabel.size = [self.titleLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.titleLabel.x = lefftpadding;
     self.titleLabel.centerY = titleHeight / 2.;
     
-    self.packageLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:12 content:@"包装数(箱)"];
+    self.packageLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:SIZE_TEXT_SECONDARY content:@"包装数(箱)"];
     self.packageLabel.size = [self.packageLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.packageLabel.centerX = gapWidth / 2.;
     self.packageLabel.y = viewCenterY - offsetY;
@@ -292,14 +292,14 @@
     self.packageNumberView.frame = CGRectMake(self.packageLabel.centerX - numberWidth / 2., self.packageLabel.maxY, numberWidth, numberHeight);
     self.packageNumberView.totalCount = self.shipUnitBean.pacakageUnitCount;
     
-    self.pieceLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:12 content:@"内件数量"];
+    self.pieceLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:SIZE_TEXT_SECONDARY content:@"内件数量"];
     self.pieceLabel.size = [self.pieceLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.pieceLabel.centerX = gapWidth + gapWidth / 2.;
     self.pieceLabel.y = viewCenterY - offsetY;
     self.pieceNumberView.frame = CGRectMake(self.pieceLabel.centerX - numberWidth / 2., self.pieceLabel.maxY, numberWidth, numberHeight);
     self.pieceNumberView.totalCount = self.shipUnitBean.itemCount;
     
-    self.weightLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:12 content:@"重量(kg)"];
+    self.weightLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:SIZE_TEXT_SECONDARY content:@"重量(kg)"];
     self.weightLabel.size = [self.weightLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.weightLabel.centerX = gapWidth / 2.;
     self.weightLabel.y = viewCenterY;// + offsetY / 2.;
@@ -308,7 +308,7 @@
     self.weightText.text = self.shipUnitBean.actualReceivedWeight;
     //        self.packageNumberView.y = self.weightLabel.maxY;//临时添加...
     
-    self.volumeLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:12 content:@"体积(m³)"];
+    self.volumeLabel.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor flatGrayColor] size:SIZE_TEXT_SECONDARY content:@"体积(m³)"];
     self.volumeLabel.size = [self.volumeLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.volumeLabel.centerX = gapWidth + gapWidth / 2.;
     self.volumeLabel.centerY = self.weightLabel.centerY;
@@ -320,13 +320,12 @@
 //        if (!self.isFirst) {
 //            self.bottomLine.frame = CGRectMake(lefftpadding, 0, viewWidth - lefftpadding * 2, LINE_WIDTH);
 //        }
-    CGFloat padding = 20;
+    CGFloat padding = rpx(20);
     
     self.submitButton.height = self.returnButton.height = numberHeight;
     self.submitButton.maxY = self.returnButton.maxY = viewHeight - padding;
     
-    
-    [UICreationUtils autoEnsureViewsWidth:0 totolWidth:viewWidth views:@[self.submitButton,self.returnButton] viewWidths:@[@"60%",@"40%"] padding:20];
+    [UICreationUtils autoEnsureViewsWidth:0 totolWidth:viewWidth views:@[self.submitButton,self.returnButton] viewWidths:@[@"60%",@"40%"] padding:padding];
 }
 
 -(UIView*)getParentView{

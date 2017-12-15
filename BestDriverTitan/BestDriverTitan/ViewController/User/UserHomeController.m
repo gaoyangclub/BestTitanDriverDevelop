@@ -64,7 +64,7 @@ typedef NS_ENUM(NSInteger,ItemPostion){
     if (!_titleView) {
         _titleView = [[UIView alloc]init];
         
-        [UICreationUtils createNavigationTitleLabel:20 color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_USER superView:_titleView];
+        [UICreationUtils createNavigationTitleLabel:SIZE_NAVI_TITLE color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_USER superView:_titleView];
     }
     return _titleView;
 }
@@ -84,7 +84,7 @@ typedef NS_ENUM(NSInteger,ItemPostion){
         _userBack.strokeColor = COLOR_LINE;
 //        _userBack.arrowSize = CGSizeMake(10, 22);
         _userBack.iconName = ICON_WO_DE_SELECTED;
-        _userBack.iconSize = 36;
+        _userBack.iconSize = rpx(36);
         _userBack.iconBackColor = COLOR_PRIMARY;
         
         _userBack.showLabel = NO;
@@ -97,7 +97,7 @@ typedef NS_ENUM(NSInteger,ItemPostion){
 
 -(UILabel *)userLabel{
     if (!_userLabel) {
-        _userLabel = [UICreationUtils createLabel:ICON_FONT_NAME size:16 color:COLOR_BLACK_ORIGINAL];
+        _userLabel = [UICreationUtils createLabel:ICON_FONT_NAME size:SIZE_TEXT_LARGE color:COLOR_TEXT_PRIMARY];
         [self.userBack addSubview:_userLabel];
     }
     return _userLabel;
@@ -105,7 +105,7 @@ typedef NS_ENUM(NSInteger,ItemPostion){
 
 -(UILabel *)userPhone{
     if (!_userPhone) {
-        _userPhone = [UICreationUtils createLabel:ICON_FONT_NAME size:16 color:FlatGray];
+        _userPhone = [UICreationUtils createLabel:ICON_FONT_NAME size:SIZE_TEXT_LARGE color:FlatGray];
         [self.userBack addSubview:_userPhone];
     }
     return _userPhone;
@@ -147,12 +147,12 @@ typedef NS_ENUM(NSInteger,ItemPostion){
         _logoutButton.backgroundColor = COLOR_DAI_WAN_CHENG;
         [_logoutButton setTitle:@"退   出" forState:UIControlStateNormal];
         [_logoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _logoutButton.titleLabel.font = [UIFont systemFontOfSize:20];
+        _logoutButton.titleLabel.font = [UIFont systemFontOfSize:SIZE_TEXT_LARGE];
         
         _logoutButton.underlineNone = YES;
         [self.scrollView addSubview:_logoutButton];
         
-        _logoutButton.layer.cornerRadius = 5;
+        _logoutButton.layer.cornerRadius = rpx(5);
         _logoutButton.layer.masksToBounds = YES;
         
         [_logoutButton setShowTouch:YES];
@@ -193,7 +193,7 @@ typedef NS_ENUM(NSInteger,ItemPostion){
 //    self.scrollView.frame = CGRectMake(0, 0, 100, 300);
 //    self.scrollView.backgroundColor = [UIColor brownColor];
 
-    CGFloat gap = 10;
+    CGFloat gap = rpx(10);
     
     CGFloat bottomY = gap;
     bottomY = [self initUserItem:bottomY];
@@ -227,10 +227,10 @@ typedef NS_ENUM(NSInteger,ItemPostion){
 }
 
 -(CGFloat)initLogoutButton:(CGFloat)bottomY{
-    CGFloat buttonHeight = 40;
+    CGFloat buttonHeight = rpx(40);
     
     CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
-    CGFloat padding = 5;
+    CGFloat padding = rpx(5);
     
     self.logoutButton.frame = CGRectMake(padding, bottomY, viewWidth - padding * 2, buttonHeight);
     
@@ -238,7 +238,7 @@ typedef NS_ENUM(NSInteger,ItemPostion){
 }
 
 -(CGFloat)initUserItem:(CGFloat)bottomY{//用户数据条目
-    CGFloat backHeight = 80;
+    CGFloat backHeight = rpx(80);
     self.userBack.frame = CGRectMake(0, bottomY, CGRectGetWidth(self.view.bounds), backHeight);
     
     return bottomY + backHeight;
@@ -271,7 +271,7 @@ typedef NS_ENUM(NSInteger,ItemPostion){
             UILabel* starIcon = [[UILabel alloc]init];
             [self.userStarBack addSubview:starIcon];
             
-            starIcon.font = [UIFont fontWithName:ICON_FONT_NAME size:14];
+            starIcon.font = [UIFont fontWithName:ICON_FONT_NAME size:SIZE_TEXT_PRIMARY];
             starIcon.text = ICON_STAR;
             starIcon.textColor = user.stars > i ? selectColor : normalColor;
             
@@ -288,7 +288,7 @@ typedef NS_ENUM(NSInteger,ItemPostion){
         CGSize userSize = self.userLabel.bounds.size;
         CGSize phoneSize = self.userPhone.bounds.size;
         
-        CGFloat gap = 5;
+        CGFloat gap = rpx(5);
         
         CGFloat totalStarWidth = starWidth * starCount;
         
@@ -313,21 +313,21 @@ typedef NS_ENUM(NSInteger,ItemPostion){
 
 
 -(CGFloat)initNormalItem:(CGFloat)bottomY icon:(NSString*)icon labal:(NSString*)label iconBackColor:(UIColor*)iconBackColor handler:(SEL)handler itemPostion:(ItemPostion)itemPostion{//用户数据条目
-    CGFloat normalHeight = 45;
+    CGFloat normalHeight = rpx(45);
     
     NormalSelectItem* normalItem = [[NormalSelectItem alloc]init];
     normalItem.backgroundColor = [UIColor whiteColor];
     normalItem.strokeColor = COLOR_LINE;
     //        _userBack.arrowSize = CGSizeMake(10, 22);
     normalItem.iconName = icon;
-    normalItem.iconSize = 20;
+    normalItem.iconSize = rpx(20);
     normalItem.iconColor = handler ? iconBackColor : FlatGray;
     normalItem.iconBackColor = [UIColor clearColor];
     normalItem.showIconLine = NO;
     
     normalItem.labelName = label;
-    normalItem.labelSize = 14;
-    normalItem.labelColor = handler ? COLOR_BLACK_ORIGINAL : COLOR_LINE;
+    normalItem.labelSize = SIZE_TEXT_PRIMARY;
+    normalItem.labelColor = handler ? COLOR_TEXT_PRIMARY : COLOR_LINE;
 //    normalItem.lineLeftMargin = 50;
     if (itemPostion == ItemPostionTop) {
         normalItem.showTopLine = YES;

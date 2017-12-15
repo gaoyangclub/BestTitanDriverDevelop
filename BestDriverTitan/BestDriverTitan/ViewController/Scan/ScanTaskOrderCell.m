@@ -56,7 +56,7 @@
     if (!_scanCodeLabel) {
         _scanCodeLabel = [[ASTextNode alloc]init];
         _scanCodeLabel.layerBacked = YES;
-        _scanCodeLabel.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:16 content:@"已扫描"];
+        _scanCodeLabel.attributedString = [NSString simpleAttributedString:COLOR_TEXT_PRIMARY size:SIZE_TEXT_LARGE content:@"已扫描"];
         _scanCodeLabel.size = [_scanCodeLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
         [self.contentView.layer addSublayer:_scanCodeLabel.layer];
     }
@@ -67,7 +67,7 @@
     if (!_notScanCodeLabel) {
         _notScanCodeLabel = [[ASTextNode alloc]init];
         _notScanCodeLabel.layerBacked = YES;
-        _notScanCodeLabel.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:16 content:@"未扫描"];
+        _notScanCodeLabel.attributedString = [NSString simpleAttributedString:COLOR_TEXT_PRIMARY size:SIZE_TEXT_LARGE content:@"未扫描"];
         _notScanCodeLabel.size = [_notScanCodeLabel measure:CGSizeMake(FLT_MAX, FLT_MAX)];
         [self.contentView.layer addSublayer:_notScanCodeLabel.layer];
     }
@@ -104,9 +104,9 @@
     
     self.contentView.backgroundColor = [UIColor whiteColor];
     
-    CGFloat const leftMargin = 10;
-    CGFloat const topMargin = 16;
-    CGFloat const topHeight = 50;
+    CGFloat const leftMargin = rpx(10);
+    CGFloat const topMargin = rpx(16);
+    CGFloat const topHeight = rpx(50);
     
     [self initTopArea:leftMargin topHeight:topHeight topWidth:cellWidth];
     [self initCenterArea:leftMargin topMargin:topMargin centerY:topHeight centerWidth:cellWidth];
@@ -117,11 +117,11 @@
 -(void)initTopArea:(CGFloat)leftMargin topHeight:(CGFloat)topHeight topWidth:(CGFloat)topWidth{
     ScanTaskOrderBean* orderBean = self.data;
     
-    self.iconText.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_BLACK_ORIGINAL size:24 content:ICON_DING_DAN];
+    self.iconText.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_TEXT_PRIMARY size:rpx(24) content:ICON_DING_DAN];
     self.iconText.size = [self.iconText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.iconText.x = leftMargin;
     
-    self.titleNode.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:16 content:orderBean.orderbaseCode];
+    self.titleNode.attributedString = [NSString simpleAttributedString:COLOR_TEXT_PRIMARY size:SIZE_TEXT_LARGE content:orderBean.orderbaseCode];
     self.titleNode.size = [self.titleNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
     self.titleNode.x = self.iconText.maxX + leftMargin;
@@ -134,7 +134,7 @@
 -(void)initCenterArea:(CGFloat)leftMargin topMargin:(CGFloat)topMargin centerY:(CGFloat)centerY centerWidth:(CGFloat)centerWidth{
     ScanTaskOrderBean* orderBean = self.data;
     
-    CGFloat const gap = 10;
+    CGFloat const gap = rpx(10);
     
     self.scanCodeLabel.x = leftMargin;
     self.scanCodeLabel.y = centerY + gap;
@@ -142,7 +142,7 @@
     CGFloat maxTextWidth = centerWidth - leftMargin * 2;
     
     NSString* scanCodeContent = [orderBean.reportedPickupCodes componentsJoinedByString:@","];
-    NSMutableAttributedString* scanCodeString = (NSMutableAttributedString*)[NSString simpleAttributedString:FlatGray size:14 content:scanCodeContent];
+    NSMutableAttributedString* scanCodeString = (NSMutableAttributedString*)[NSString simpleAttributedString:FlatGray size:SIZE_TEXT_PRIMARY content:scanCodeContent];
     NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
     style.alignment = NSTextAlignmentLeft;
     [scanCodeString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, scanCodeContent.length)];
@@ -155,7 +155,7 @@
     self.notScanCodeLabel.y = self.scanCodeText.maxY + gap;
     
     NSString* notScanCodeContent = orderBean.penddingReportPickupCodes.count > 0 ? [orderBean.penddingReportPickupCodes componentsJoinedByString:@","] : @"无";
-    NSMutableAttributedString* notScanCodeString = (NSMutableAttributedString*)[NSString simpleAttributedString:FlatOrange size:14 content:notScanCodeContent];
+    NSMutableAttributedString* notScanCodeString = (NSMutableAttributedString*)[NSString simpleAttributedString:FlatOrange size:SIZE_TEXT_PRIMARY content:notScanCodeContent];
     [notScanCodeString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, notScanCodeContent.length)];
     self.notScanCodeText.attributedString = notScanCodeString;
     self.notScanCodeText.size = [self.notScanCodeText measure:CGSizeMake(maxTextWidth, FLT_MAX)];

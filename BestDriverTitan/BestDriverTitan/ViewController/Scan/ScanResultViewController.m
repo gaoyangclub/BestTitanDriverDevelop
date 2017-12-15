@@ -14,7 +14,7 @@
 #import "ScanHomeController.h"
 #import "EmptyDataSource.h"
 
-#define VIEW_MARGIN 4
+#define VIEW_MARGIN rpx(4)
 
 @interface ScanResultViewController (){
     BOOL isAllDone;
@@ -33,7 +33,7 @@
 
 -(UILabel *)titleLabel{
     if (!_titleLabel) {
-        _titleLabel = [UICreationUtils createNavigationTitleLabel:20 color:COLOR_NAVI_TITLE text:@"" superView:nil];
+        _titleLabel = [UICreationUtils createNavigationTitleLabel:SIZE_NAVI_TITLE color:COLOR_NAVI_TITLE text:@"" superView:nil];
     }
     return _titleLabel;
 }
@@ -44,7 +44,7 @@
         _submitButton.titleFontName = ICON_FONT_NAME;
         _submitButton.fillColor = COLOR_PRIMARY;
         _submitButton.title = @"完   成";
-        _submitButton.titleSize = 20;
+        _submitButton.titleSize = SIZE_TEXT_LARGE;
 //        _submitButton.hidden = YES;
         [_submitButton addTarget:self action:@selector(clickSubmitButton:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:_submitButton];
@@ -88,7 +88,7 @@
 //        return self.view.bounds;
 //    }
     CGFloat const margin = VIEW_MARGIN;
-    CGFloat const buttonHeight = 55;
+    CGFloat const buttonHeight = rpx(55);
     self.submitButton.frame = CGRectMake(margin, self.view.height - buttonHeight + margin, self.view.width - margin * 2, buttonHeight - margin * 2);
     return CGRectMake(margin, margin, self.view.width - margin * 2, self.submitButton.y - margin * 2);
 }
@@ -104,7 +104,7 @@
     self.titleLabel.text = ConcatStrings([Config getActivityLabelByCode:self.activityCode],@"结果");
     [self.titleLabel sizeToFit];
     self.navigationItem.titleView = self.titleLabel;
-    self.navigationItem.leftBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
+    self.navigationItem.leftBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:SIZE_NAVI_TITLE] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
 
 }
 
@@ -191,9 +191,14 @@
         handler(NO);
     };
     if ([ACTIVITY_CODE_PICKUP_HANDOVER isEqual:self.activityCode]) {
-        
-        [self.viewModel getScanTaskPickUpResult:self.taskPickUpBean returnBlock:returnBlock failureBlock:failureBlock];
-        
+        if (self.taskPickUpBean) {
+            [self.viewModel getScanTaskPickUpResult:self.taskPickUpBean returnBlock:returnBlock failureBlock:failureBlock];
+        }else{
+            [HudManager showToast:@"暂无揽收数据!"];
+            self->isError = YES;
+            [self.tableView clearSource];
+            handler(NO);
+        }
     }else if([ACTIVITY_CODE_SIGN_FOR_RECEIPT isEqual:self.activityCode]){
         NSMutableArray<ScanCodeSignBean*>* scanActivityTaskBeans = [NSMutableArray<ScanCodeSignBean*> array];
         for (NSString* sourceCode in self.sourceCodeList) {

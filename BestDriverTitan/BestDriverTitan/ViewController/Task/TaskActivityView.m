@@ -62,12 +62,12 @@
 //    self.backNode.cornerRadius = viewWidth / 2;
     self.backNode.frame = CGRectMake(0, 0, viewWidth, viewWidth);
     
-    self.iconNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor whiteColor] size:30 content:[Config getActivityIconByCode:self.data.activityDefinitionCode]];
+    self.iconNode.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:[UIColor whiteColor] size:rpx(30) content:[Config getActivityIconByCode:self.data.activityDefinitionCode]];
     CGSize iconSize = [self.iconNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     
     self.iconNode.frame = (CGRect){CGPointMake((viewWidth - iconSize.width) / 2., (viewWidth - iconSize.height) / 2.),iconSize};
     
-    self.labelNode.attributedString = [NSString simpleAttributedString:FlatGray size:14 content:[Config getActivityLabelByCode:self.data.activityDefinitionCode]];
+    self.labelNode.attributedString = [NSString simpleAttributedString:FlatGray size:SIZE_TEXT_PRIMARY content:[Config getActivityLabelByCode:self.data.activityDefinitionCode]];
     CGSize labelSize = [self.labelNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.labelNode.frame = (CGRect){CGPointMake((viewWidth - labelSize.width) / 2., viewHeight - labelSize.height),labelSize};
 }
@@ -88,7 +88,7 @@
         _cancelCircle = [[CircleNode alloc]init];
         _cancelCircle.layerBacked = YES;
         _cancelCircle.strokeColor = COLOR_PRIMARY;
-        _cancelCircle.strokeWidth = 1.5;
+        _cancelCircle.strokeWidth = rpx(1.5);
         _cancelCircle.fillColor = [UIColor clearColor];
         [self.cancelButton.layer addSublayer:_cancelCircle.layer];
     }
@@ -108,7 +108,7 @@
 //        _cancelButton.layer.borderColor = COLOR_PRIMARY.CGColor;
 //        _cancelButton.layer.borderWidth = 1;
         
-        _cancelButton.titleLabel.font = [UIFont fontWithName:ICON_FONT_NAME size:16];
+        _cancelButton.titleLabel.font = [UIFont fontWithName:ICON_FONT_NAME size:SIZE_TEXT_LARGE];
         
         [self.contentView addSubview:_cancelButton];
         
@@ -123,7 +123,7 @@
     self.popToDirection = CustomPopDirectionBottom;
     self.cancelOnTouchOutside = NO;
     
-    CGFloat bottomMargin = 20;
+    CGFloat bottomMargin = rpx(20);
     
     CGFloat viewWidth = CGRectGetWidth(self.contentView.bounds);
     CGFloat viewHeight = CGRectGetHeight(self.contentView.bounds);
@@ -139,12 +139,12 @@
 }
 
 -(void)mearsureActivityButtons{
-    CGFloat bottomMargin = 20;
+    CGFloat bottomMargin = rpx(20);
     
-    CGFloat itemWidth = 50;
-    CGFloat itemHeight = 65;
+    CGFloat itemWidth = rpx(50);
+    CGFloat itemHeight = rpx(65);
     
-    CGFloat vGap = 10;
+    CGFloat vGap = rpx(10);
     
     CGFloat viewWidth = CGRectGetWidth(self.contentView.bounds);
     CGFloat viewHeight = CGRectGetHeight(self.contentView.bounds) - MORE_BUTTON_RADIUS * 2 - bottomMargin;

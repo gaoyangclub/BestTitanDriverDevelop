@@ -21,8 +21,8 @@
 #import "PhotoSelectionView.h"
 #import "OwnerViewController.h"
 
-#define VIEW_MARGIN 4
-#define BUTTON_AREA_HEIGHT 55
+#define VIEW_MARGIN rpx(4)
+#define BUTTON_AREA_HEIGHT rpx(55)
 
 @interface TestTableViewCell3 : MJTableViewCell
 
@@ -161,14 +161,14 @@
 
 -(UILabel *)titleLabel{
     if (!_titleLabel) {
-        _titleLabel = [UICreationUtils createNavigationTitleLabel:20 color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_ORDER_VIEW superView:nil];
+        _titleLabel = [UICreationUtils createNavigationTitleLabel:SIZE_NAVI_TITLE color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_ORDER_VIEW superView:nil];
     }
     return _titleLabel;
 }
 
 -(void)initTitleArea{
     self.navigationItem.leftBarButtonItem =
-    [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
+    [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:SIZE_LEFT_BACK_ICON] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
 //    [UICreationUtils createNavigationLeftButtonItem:[UIColor whiteColor] target:self action:@selector(leftClick)];
     
     //    self.navigationItem.rightBarButtonItem = [UICreationUtils createNavigationNormalButtonItem:[UIColor whiteColor] font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_SHE_ZHI target:self action:@selector(rightItemClick)];
@@ -230,7 +230,7 @@
     
     self.photoContainer.frame = CGRectMake(0, self.view.height - BUTTON_AREA_HEIGHT - ORDER_PHOTO_CELL_HEIGHT, self.view.width, ORDER_PHOTO_CELL_HEIGHT);
     
-    CGFloat padding = 5;
+    CGFloat padding = rpx(5);
     CGFloat itemHeight = self.photoContainer.height - padding * 2;
     
     self.photoView.frame = CGRectMake(padding, padding, self.photoContainer.width - padding * 2, itemHeight);
@@ -292,7 +292,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.tableView.sectionGap = 5;
+    self.tableView.sectionGap = rpx(5);
     self.tabView.tabDelegate = self;
     
     [self.tabView setActivityBeans:self.activityBeans];
@@ -300,16 +300,16 @@
     [self.tabView setSelectedIndex:[self getPendingReportActivityIndex:self.activityBeans isNext:NO]];
     
     CGFloat sectionWidth = self.view.bounds.size.width;
-    CGFloat leftpadding = 10;
+    CGFloat leftpadding = rpx(10);
     CGFloat squareHeight = TASK_TRIP_SECTION_TOP_HEIGHT;
-    self.iconAddress.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_PRIMARY size:24 content:ICON_DIAN_PU];
+    self.iconAddress.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:COLOR_PRIMARY size:rpx(24) content:ICON_DIAN_PU];
     CGSize iconStartSize = [self.iconAddress measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.iconAddress.frame = (CGRect){ CGPointMake(leftpadding,(squareHeight - iconStartSize.height) / 2.),iconStartSize};
     
 //    self.addressLine.frame = CGRectMake(0, squareHeight - LINE_WIDTH * 4, sectionWidth, LINE_WIDTH * 4);
     
     NSString* address = self.stopBean.stopName;
-    NSMutableAttributedString* textString = (NSMutableAttributedString*)[NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:address];
+    NSMutableAttributedString* textString = (NSMutableAttributedString*)[NSString simpleAttributedString:COLOR_TEXT_PRIMARY size:SIZE_TEXT_PRIMARY content:address];
     NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
     style.alignment = NSTextAlignmentLeft;
     [textString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, address.length)];

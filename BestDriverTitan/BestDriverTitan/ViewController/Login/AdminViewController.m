@@ -65,21 +65,21 @@
 
 -(UILabel *)logoIcon{
     if (!_logoIcon) {
-        _logoIcon = [UICreationUtils createLabel:ICON_FONT_NAME size:SYSTEM_SCALE_FACTOR * 100 color:COLOR_USER_PROXY text:ICON_JIAN_KONG sizeToFit:YES superView:self.view];
+        _logoIcon = [UICreationUtils createLabel:ICON_FONT_NAME size:rpx(100) color:COLOR_USER_PROXY text:ICON_JIAN_KONG sizeToFit:YES superView:self.view];
     }
     return _logoIcon;
 }
 
 -(UILabel *)logoLabel{
     if (!_logoLabel) {
-        _logoLabel = [UICreationUtils createLabel:24 color:COLOR_BLACK_ORIGINAL text:@"管理员大帝" sizeToFit:YES superView:self.view];
+        _logoLabel = [UICreationUtils createLabel:rpx(24) color:COLOR_TEXT_PRIMARY text:@"管理员大帝" sizeToFit:YES superView:self.view];
     }
     return _logoLabel;
 }
 
 -(UILabel *)logoDes{
     if (!_logoDes) {
-        _logoDes = [UICreationUtils createLabel:16 color:COLOR_BLACK_ORIGINAL text:@"监控模式" sizeToFit:YES superView:self.view];
+        _logoDes = [UICreationUtils createLabel:SIZE_TEXT_LARGE color:COLOR_TEXT_PRIMARY text:@"监控模式" sizeToFit:YES superView:self.view];
     }
     return _logoDes;
 }
@@ -104,21 +104,21 @@
 
 -(UILabel *)usernameIcon{
     if (!_usernameIcon) {
-        _usernameIcon = [UICreationUtils createLabel:ICON_FONT_NAME size:24 color:COLOR_USER_PROXY text:ICON_WO_DE sizeToFit:YES superView:self.inputArea];
+        _usernameIcon = [UICreationUtils createLabel:ICON_FONT_NAME size:rpx(24) color:COLOR_USER_PROXY text:ICON_WO_DE sizeToFit:YES superView:self.inputArea];
     }
     return _usernameIcon;
 }
 
 -(UILabel *)writableIcon{
     if (!_writableIcon) {
-        _writableIcon = [UICreationUtils createLabel:ICON_FONT_NAME size:24 color:COLOR_USER_PROXY text:ICON_XIE_RU sizeToFit:YES superView:self.inputArea];
+        _writableIcon = [UICreationUtils createLabel:ICON_FONT_NAME size:rpx(24) color:COLOR_USER_PROXY text:ICON_XIE_RU sizeToFit:YES superView:self.inputArea];
     }
     return _writableIcon;
 }
 
 -(UILabel *)writableLabel{
     if (!_writableLabel) {
-        _writableLabel = [UICreationUtils createLabel:14 color:FlatGray text:@"可提交数据" sizeToFit:YES superView:self.inputArea];
+        _writableLabel = [UICreationUtils createLabel:SIZE_TEXT_PRIMARY color:FlatGray text:@"可提交数据" sizeToFit:YES superView:self.inputArea];
     }
     return _writableLabel;
 }
@@ -136,8 +136,8 @@
     if (!_usernameText) {
         _usernameText = [[UITextField alloc]init];
         _usernameText.clearButtonMode = UITextFieldViewModeWhileEditing;//输入的时候显示close按钮
-        _usernameText.font = [UIFont systemFontOfSize:16];
-        _usernameText.textColor = COLOR_BLACK_ORIGINAL;
+        _usernameText.font = [UIFont systemFontOfSize:SIZE_TEXT_LARGE];
+        _usernameText.textColor = COLOR_TEXT_PRIMARY;
         //        _usernameText.delegate = self; //文本交互代理
         _usernameText.placeholder = @"请输入手机号";
         _usernameText.keyboardType = UIKeyboardTypePhonePad;
@@ -161,7 +161,7 @@
         _submitButton = [[FlatButton alloc]init];
         _submitButton.fillColor = COLOR_USER_PROXY;
         _submitButton.title = @"监控用户";
-        _submitButton.titleSize = 20;
+        _submitButton.titleSize = SIZE_TEXT_LARGE;
         [self.view addSubview:_submitButton];
  
         [_submitButton addTarget:self action:@selector(clickSubmitButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -174,7 +174,7 @@
         _loginButton = [[FlatButton alloc]init];
         _loginButton.fillColor = COLOR_PRIMARY;
         _loginButton.title = @"直接登录";
-        _loginButton.titleSize = 20;
+        _loginButton.titleSize = SIZE_TEXT_LARGE;
 //        _loginButton.cornerRadius = 0;
         [self.view addSubview:_loginButton];
         
@@ -190,7 +190,7 @@
         _returnButton.titleColor = _returnButton.strokeColor = COLOR_PRIMARY;
         _returnButton.strokeWidth = 1;
         _returnButton.title = @"退出监控";
-        _returnButton.titleSize = 20;
+        _returnButton.titleSize = SIZE_TEXT_LARGE;
 //        _returnButton.cornerRadius = 0;
         [self.view addSubview:_returnButton];
         
@@ -222,7 +222,7 @@
     self.view.backgroundColor = COLOR_BACKGROUND;
     
     [self initLogoArea];
-    [self initInputArea:100];
+    [self initInputArea:rpx(100)];
     
     [self initData];
 }
@@ -254,7 +254,7 @@
     CGFloat logoLabelHeight = CGRectGetHeight(self.logoLabel.bounds);
     CGFloat logoLabelWidth = CGRectGetWidth(self.logoLabel.bounds);
     
-    CGFloat logoLabelY = CGRectGetMaxY(self.logoIcon.frame) + 10;
+    CGFloat logoLabelY = CGRectGetMaxY(self.logoIcon.frame) + rpx(10);
     
     self.logoLabel.frame = CGRectMake((viewWidth - logoLabelWidth) / 2., logoLabelY, logoLabelWidth, logoLabelHeight);
     
@@ -267,11 +267,11 @@
 }
 
 -(void)initInputArea:(CGFloat)areaHeight{
-    CGFloat padding = 10;
+    CGFloat padding = rpx(10);
     
     CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
     CGFloat viewHeight = CGRectGetHeight(self.view.bounds);
-    CGFloat iconWidth = 50;
+    CGFloat iconWidth = rpx(50);
     CGFloat inputHeight = areaHeight / 2.;
     
     self.inputArea.frame = CGRectMake(0, self.view.centerY, viewWidth, areaHeight);
@@ -295,7 +295,7 @@
         CGPointMake(iconWidth + padding, inputHeight + (inputHeight - writableLabelSize.height) / 2.),writableLabelSize
     };
     
-    self.writableSwitch.frame = CGRectMake(CGRectGetMaxX(self.writableLabel.frame) + padding, 0, 100, 10);
+    self.writableSwitch.frame = CGRectMake(CGRectGetMaxX(self.writableLabel.frame) + padding, 0, rpx(100), rpx(10));
     CGPoint switchCenter = self.writableSwitch.center;
     switchCenter.y = self.writableLabel.center.y;
     self.writableSwitch.center = switchCenter;

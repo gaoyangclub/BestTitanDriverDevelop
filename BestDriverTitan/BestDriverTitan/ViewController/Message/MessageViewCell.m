@@ -31,7 +31,7 @@
         _readStatusNode = [[CircleNode alloc]init];
         _readStatusNode.layerBacked = YES;
         _readStatusNode.fillColor = FlatRed;
-        _readStatusNode.cornerRadius = 5;
+        _readStatusNode.cornerRadius = rpx(5);
         _readStatusNode.width = _readStatusNode.height = _readStatusNode.cornerRadius * 2;
         [self.backNode addSubnode:_readStatusNode];
     }
@@ -77,7 +77,7 @@
     if (!_normalBackView) {
         _normalBackView = [[RoundBackView alloc]init];
         _normalBackView.fillColor = [UIColor whiteColor];
-        _normalBackView.cornerRadius = 5;
+        _normalBackView.cornerRadius = rpx(5);
 //                [self.contentView addSubview:_normalBackView];
     }
     return _normalBackView;
@@ -103,8 +103,8 @@
     
     AppPushMsg* pushMsg = self.data;
     
-    CGFloat const leftMargin = 10;
-    CGFloat const topMargin = 16;
+    CGFloat const leftMargin = rpx(10);
+    CGFloat const topMargin = rpx(16);
     CGFloat const backWidth = cellWidth - leftMargin * 2;
     
     self.normalBackView.paddingLeft = self.normalBackView.paddingRight = leftMargin;
@@ -116,13 +116,13 @@
 //    style.alignment = NSTextAlignmentLeft;
 //    [textString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, titleContent)];
 
-    self.titleNode.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:16 content:titleContent];;
+    self.titleNode.attributedString = [NSString simpleAttributedString:COLOR_TEXT_PRIMARY size:SIZE_TEXT_LARGE content:titleContent];;
     self.titleNode.size = [self.titleNode measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.titleNode.x = leftMargin;
     self.titleNode.y = topMargin;
     
     NSString* msgContent = pushMsg.msg;
-    NSMutableAttributedString* msgString = (NSMutableAttributedString*)[NSString simpleAttributedString:FlatGray size:14 content:msgContent];
+    NSMutableAttributedString* msgString = (NSMutableAttributedString*)[NSString simpleAttributedString:FlatGray size:SIZE_TEXT_PRIMARY content:msgContent];
     NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc]init];
     style.alignment = NSTextAlignmentLeft;
     [msgString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, msgContent.length)];

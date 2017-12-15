@@ -74,12 +74,19 @@
 
 static VersionDetailInfo* currentVersionInfo;//当前版本相关信息
 
-static const CGFloat MARGIN_GAP = 15;
-static const CGFloat MARGIN_TOP = 20;
-static const CGFloat MARGIN_LEFT = 20;
-static const CGFloat IMAGE_HEIGHT = 120;
+static CGFloat MARGIN_GAP;
+static CGFloat MARGIN_TOP;
+static CGFloat MARGIN_LEFT;
+static CGFloat IMAGE_HEIGHT;
 
 @implementation VersionInfoController
+
++(void)load{
+    MARGIN_GAP = rpx(15);
+    MARGIN_TOP = rpx(20);
+    MARGIN_LEFT = rpx(20);
+    IMAGE_HEIGHT = rpx(120);
+}
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -106,7 +113,7 @@ static const CGFloat IMAGE_HEIGHT = 120;
 
 -(UILabel *)infoLabel{
     if (!_infoLabel) {
-        _infoLabel = [UICreationUtils createLabel:18 color:COLOR_BLACK_ORIGINAL text:@"当前版本说明" sizeToFit:YES superView:self.infoBack];
+        _infoLabel = [UICreationUtils createLabel:SIZE_NAVI_TITLE color:COLOR_TEXT_PRIMARY text:@"当前版本说明" sizeToFit:YES superView:self.infoBack];
         [self.infoBack addSubview:_infoLabel];
     }
     return _infoLabel;
@@ -114,7 +121,7 @@ static const CGFloat IMAGE_HEIGHT = 120;
 
 -(UILabel *)infoText{
     if (!_infoText) {
-        _infoText = [UICreationUtils createLabel:14 color:COLOR_BLACK_ORIGINAL];
+        _infoText = [UICreationUtils createLabel:SIZE_TEXT_PRIMARY color:COLOR_TEXT_PRIMARY];
         _infoText.numberOfLines = 0;
         [self.infoBack addSubview:_infoText];
     }
@@ -123,7 +130,7 @@ static const CGFloat IMAGE_HEIGHT = 120;
 
 -(UILabel *)titleLabel{
     if (!_titleLabel) {
-        _titleLabel = [UICreationUtils createNavigationTitleLabel:20 color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_VERSION superView:nil];
+        _titleLabel = [UICreationUtils createNavigationTitleLabel:SIZE_NAVI_TITLE color:COLOR_NAVI_TITLE text:NAVIGATION_TITLE_VERSION superView:nil];
     }
     return _titleLabel;
 }
@@ -154,7 +161,7 @@ static const CGFloat IMAGE_HEIGHT = 120;
 
 -(UILabel *)versionLabel{
     if (!_versionLabel) {
-        _versionLabel = [UICreationUtils createLabel:14 color:COLOR_BLACK_ORIGINAL];
+        _versionLabel = [UICreationUtils createLabel:SIZE_TEXT_PRIMARY color:COLOR_TEXT_PRIMARY];
         [self.infoBack addSubview:_versionLabel];
     }
     return _versionLabel;
@@ -171,7 +178,7 @@ static const CGFloat IMAGE_HEIGHT = 120;
 
 -(UILabel *)qrcodeLabel{
     if (!_qrcodeLabel) {
-        _qrcodeLabel = [UICreationUtils createLabel:14 color:COLOR_BLACK_ORIGINAL text:@"扫描二维码安装" sizeToFit:YES superView:self.scrollView];
+        _qrcodeLabel = [UICreationUtils createLabel:SIZE_TEXT_PRIMARY color:COLOR_TEXT_PRIMARY text:@"扫描二维码安装" sizeToFit:YES superView:self.scrollView];
     }
     return _qrcodeLabel;
 }
@@ -181,7 +188,7 @@ static const CGFloat IMAGE_HEIGHT = 120;
         _submitButton = [[FlatButton alloc]init];
 //        _submitButton.titleFontName = ICON_FONT_NAME;
         _submitButton.fillColor = COLOR_PRIMARY;
-        _submitButton.titleSize = 18;
+        _submitButton.titleSize = SIZE_TEXT_LARGE;
         _submitButton.title = @"版本检查";
         [self.view addSubview:_submitButton];
         [_submitButton addTarget:self action:@selector(clickSubmitButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -200,7 +207,7 @@ static const CGFloat IMAGE_HEIGHT = 120;
 
 -(void)initTitleArea{
     self.navigationItem.leftBarButtonItem =
-    [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:25] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
+    [UICreationUtils createNavigationNormalButtonItem:COLOR_NAVI_TITLE font:[UIFont fontWithName:ICON_FONT_NAME size:SIZE_LEFT_BACK_ICON] text:ICON_FAN_HUI target:self action:@selector(leftClick)];
     
     self.navigationItem.titleView = self.titleLabel;
 }
@@ -211,8 +218,8 @@ static const CGFloat IMAGE_HEIGHT = 120;
 }
 
 -(void)viewDidLayoutSubviews{
-    CGFloat margin = 4;
-    CGFloat buttonAreaHeight = 55;
+    CGFloat margin = rpx(4);
+    CGFloat buttonAreaHeight = rpx(55);
     CGFloat viewWidth = self.view.bounds.size.width;
     CGFloat viewHeight = self.view.bounds.size.height;
     self.submitButton.frame = CGRectMake(margin, viewHeight - buttonAreaHeight + margin, viewWidth - margin * 2, buttonAreaHeight - margin * 2);
@@ -250,7 +257,7 @@ static const CGFloat IMAGE_HEIGHT = 120;
     
     CGSize qrcodeSize = self.qrcodeLabel.frame.size;
     
-    self.qrcodeLabel.frame = (CGRect){CGPointMake((viewWidth - qrcodeSize.width) / 2., CGRectGetMaxY(self.qrcodeImage.frame) + 5),qrcodeSize};
+    self.qrcodeLabel.frame = (CGRect){CGPointMake((viewWidth - qrcodeSize.width) / 2., CGRectGetMaxY(self.qrcodeImage.frame) + rpx(5)),qrcodeSize};
     
     CGSize labelSize = self.infoLabel.frame.size;
     

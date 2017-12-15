@@ -54,8 +54,8 @@
     if (_nameLab == NULL) {
         _nameLab = [[UILabel alloc]init];
         _nameLab.text = APPLICATION_NAME;
-        _nameLab.font = [UIFont systemFontOfSize:20];
-        _nameLab.textColor = COLOR_BLACK_ORIGINAL;//[UIColor whiteColor];//[[UIColor alloc]initWithRed:58.0/255 green:139.0/255 blue:253.0/255 alpha:1];
+        _nameLab.font = [UIFont systemFontOfSize:rpx(20)];
+        _nameLab.textColor = COLOR_TEXT_PRIMARY;//[UIColor whiteColor];//[[UIColor alloc]initWithRed:58.0/255 green:139.0/255 blue:253.0/255 alpha:1];
         [_nameLab sizeToFit];
         [self addSubview:_nameLab];
     }
@@ -65,7 +65,7 @@
 -(UILabel *)desLab{
     if (!_desLab) {
         _desLab = [[UILabel alloc]init];
-        _desLab.font = [UIFont systemFontOfSize:16];
+        _desLab.font = [UIFont systemFontOfSize:SIZE_TEXT_LARGE];
         _desLab.textColor = self.nameLab.textColor;//[UIColor colorWithRed:58.0/255 green:139.0/255 blue:253.0/255 alpha:1];
         _desLab.text = APPLICATION_NAME_EN;
         [_desLab sizeToFit];
@@ -76,7 +76,7 @@
 
 -(UILabel *)versionLabel{
     if (!_versionLabel) {
-        _versionLabel = [UICreationUtils createLabel:14 color:FlatGray text:
+        _versionLabel = [UICreationUtils createLabel:SIZE_TEXT_PRIMARY color:FlatGray text:
                          ConcatStrings([Config getVersionDescription],DEBUG_MODE ? @"调试版" : @"")
                           sizeToFit:YES superView:self];
     }
@@ -90,9 +90,9 @@
     CGFloat screenWidth = self.frame.size.width;
     CGFloat screenHeight = self.frame.size.height;
     
-    CGFloat blankHeight = 90;
+    CGFloat blankHeight = rpx(90);
     
-    CGFloat offset = 5;
+    CGFloat offset = rpx(5);
     
     CGFloat nameWidth = self.nameLab.frame.size.width;
     CGFloat nameHeight = self.nameLab.frame.size.height;
@@ -106,7 +106,7 @@
     
     self.backImg.frame = CGRectMake(0,0, screenWidth, backHeight);
     
-    CGFloat logoWidth = blankHeight - 50;
+    CGFloat logoWidth = blankHeight - rpx(50);
     CGFloat logoX = (screenWidth - logoWidth - offset - desWidth) / 2.;
     
     self.logoImg.frame = CGRectMake(logoX, backHeight + (blankHeight - logoWidth) / 2., logoWidth, logoWidth);

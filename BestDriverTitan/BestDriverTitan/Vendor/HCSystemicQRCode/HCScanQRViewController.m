@@ -18,27 +18,27 @@
 /**
  *输入输出中间桥梁(会话)
  */
-@property (strong, nonatomic) AVCaptureSession *session;
+@property (retain, nonatomic) AVCaptureSession *session;
 
 /**
  *计时器
  */
-@property (strong, nonatomic) CADisplayLink *link;
+@property (retain, nonatomic) CADisplayLink *link;
 
 /**
  *实际有效扫描区域的背景图(亦或者自己设置一个边框)
  */
-@property (strong, nonatomic) UIImageView *bgImg;
+@property (retain, nonatomic) UIImageView *bgImg;
 
 /**
  *有效扫描区域循环往返的一条线（这里用的是一个背景图）
  */
-@property (strong, nonatomic) UIImageView *scrollLine;
+@property (retain, nonatomic) UIImageView *scrollLine;
 
 /**
  *扫码有效区域外自加的文字提示
  */
-@property (strong, nonatomic) UILabel *tip;
+@property (retain, nonatomic) UILabel *tip;
 
 /**
  *用于控制照明灯的开启
@@ -88,11 +88,22 @@
                                              selector:@selector(eventAppBecomeActive:)
                                                  name:EVENT_APP_BECOME_ACTIVE
                                                object:nil];
+    //
+//    __weak __typeof(self) weakSelf = self;
+//    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:EVENT_APP_BECOME_ACTIVE object:nil]subscribeNext:^(id obj) {
+//        [weakSelf scanStartRunning];
+//    }];
 }
 
--(void)dealloc{//移除简体
+-(void)dealloc{//移除监听
     [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_APP_BECOME_ACTIVE object:nil];
 }
+//
+//-(void)viewDidDisappear:(BOOL)animated{
+//    if (animated) {
+//        [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_APP_BECOME_ACTIVE object:nil];
+//    }
+//}
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -117,7 +128,15 @@
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self.session stopRunning];
+    if (_session) {
+        [self.session stopRunning];
+    }
+    //        // 2.停止冲击波
+    if (_link) {
+        [self.link removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+    }
+    _session = nil;//强制释放
+    _link = nil;//强制释放
 }
 
 - (void)didReceiveMemoryWarning {

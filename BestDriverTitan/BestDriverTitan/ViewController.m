@@ -71,8 +71,8 @@
 //    mapButton.strokeWidth = 1;
 //    mapButton.strokeColor = FlatYellowDark;
 //    mapButton.centerX = self.view.centerX;
-    mapButton.titleSize = 14;
-    mapButton.titleColor = COLOR_BLACK_ORIGINAL;
+    mapButton.titleSize = SIZE_TEXT_PRIMARY;
+    mapButton.titleColor = COLOR_TEXT_PRIMARY;
     mapButton.fillColor = [UIColor whiteColor];
     
     [mapButton addTarget:self action:@selector(clickMapButton) forControlEvents:UIControlEventTouchUpInside];

@@ -103,7 +103,7 @@
 //    CGFloat topMargin = 5;
 //    CGFloat squareHeight = sectionHeight - topMargin;
     
-    CGFloat leftpadding = 10;
+//    CGFloat leftpadding = rpx(10);
     
     UIColor* iconColor;
     NSString* iconName;
@@ -126,13 +126,13 @@
         timeContent = ConcatStrings(timeUTCName,@"(",timeContent,@")");
     }
     
-    CGFloat squareHeight = sectionHeight - 8;
-    self.square.frame = CGRectMake(0,(sectionHeight - squareHeight) / 2., 2, squareHeight);
+    CGFloat squareHeight = sectionHeight - rpx(8);
+    self.square.frame = CGRectMake(0,(sectionHeight - squareHeight) / 2., rpx(2), squareHeight);
 //    self.iconText.attributedString = [NSString simpleAttributedString:ICON_FONT_NAME color:iconColor size:24 content:iconName];
 //    CGSize iconSize = [self.iconText measure:CGSizeMake(FLT_MAX, FLT_MAX)];
 //    self.iconText.frame = (CGRect){ CGPointMake(leftpadding,(squareHeight - iconSize.height) / 2. + 2),iconSize};
     
-    self.title.attributedString = [NSString simpleAttributedString:COLOR_BLACK_ORIGINAL size:14 content:timeContent];
+    self.title.attributedString = [NSString simpleAttributedString:COLOR_TEXT_PRIMARY size:SIZE_TEXT_PRIMARY content:timeContent];
     CGSize titleSize = [self.title measure:CGSizeMake(FLT_MAX, FLT_MAX)];
     self.title.frame = (CGRect){CGPointMake(10, (sectionHeight - titleSize.height) / 2.),titleSize};
     
